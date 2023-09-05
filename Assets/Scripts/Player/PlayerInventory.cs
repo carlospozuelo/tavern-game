@@ -5,28 +5,43 @@ using UnityEngine;
 public class PlayerInventory : MonoBehaviour
 {
 
-    public Item[] hotBar;
-    public Item[] inventory;
+    public GameObject[] hotBar;
+    public GameObject[] inventory;
 
     public int currentItem = 0;
 
-    InventoryUI inventoryUI;
+    public static PlayerInventory instance;
+
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+        }
+
+        instance = this;
+    }
+
+    private void Start()
+    {
+        for (int i = 0; i < hotBar.Length; i++)
+        {
+            GameObject g = hotBar[i];
+            if (g != null)
+            {
+                InventoryUI.instance.UpdateSpriteHotbar(g.GetComponent<Item>(), i);
+            }
+        }
+    }
 
     // Start is called before the first frame update
-    void Start()
-    {
-        hotBar = new Item[10];
-        inventory = new Item[30];
-
-        inventoryUI = InventoryUI.instance;
-    }
 
     public void NextItem()
     {
         currentItem++;
         currentItem = currentItem % 10;
 
-        inventoryUI.UpdateUI(currentItem);
+        InventoryUI.instance.UpdateUI(currentItem);
     }
 
     public void PreviousItem()
@@ -38,14 +53,24 @@ public class PlayerInventory : MonoBehaviour
             currentItem = 9;
         }
 
-        inventoryUI.UpdateUI(currentItem);
+        InventoryUI.instance.UpdateUI(currentItem);
+    }
+
+    public void SetHotBar(int slot, GameObject item)
+    {
+        hotBar[slot] = item;
+    }
+
+    public void SetInventory(int slot, GameObject item)
+    {
+        inventory[slot] = item;
     }
 
     public void SelectItem(int item)
     {
         currentItem = item;
 
-        inventoryUI.UpdateUI(currentItem);
+        InventoryUI.instance.UpdateUI(currentItem);
     }
 
     private KeyCode[] keyCodes = {
@@ -76,5 +101,21 @@ public class PlayerInventory : MonoBehaviour
                 SelectItem(i);
             }
         }
+
+        if (Input.GetMouseButtonDown(0)) { UseItem(); }
+    }
+
+    public void UseItem()
+    {
+        if (hotBar[currentItem] != null)
+        {
+            hotBar[currentItem].GetComponent<Item>().UseItem();
+        }
+    }
+
+    public void ConsumeItem()
+    {
+        hotBar[currentItem] = null;
+        InventoryUI.instance.UpdateSpriteHotbar(null, currentItem);
     }
 }

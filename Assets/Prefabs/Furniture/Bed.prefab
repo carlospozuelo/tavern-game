@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7095797780511728410}
   - component: {fileID: 7095797780511728411}
   - component: {fileID: 7095797780511728404}
+  - component: {fileID: 4300351203634306632}
   m_Layer: 0
   m_Name: Bed
   m_TagString: Untagged
@@ -26,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7095797780511728409}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.84, y: 11.81, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -98,10 +99,10 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.003153503, y: -0.32011855}
+  m_Offset: {x: 0.99665594, y: -1.1113505}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 1}
     oldSize: {x: 2, y: 2}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
@@ -109,5 +110,26 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.9484156, y: 1.4369657}
+  m_Size: {x: 1.8534961, y: 1.7770944}
   m_EdgeRadius: 0
+--- !u!114 &4300351203634306632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7095797780511728409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6e84e047f0018e4596a3ee2407e4a84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprites: []
+  canBePlacedInside: 1
+  canBePlacedOutside: 1
+  canBeRotated: 0
+  canBePlacedOnFloor: 1
+  canBePlacedOnWalls: 0
+  canBePlacedOverItems: 0
+  canHaveItemsPlacedOver: 0
+  canBePlacedBelowItems: 0

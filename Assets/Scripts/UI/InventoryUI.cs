@@ -30,6 +30,20 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
+    public void UpdateSpriteHotbar(Item item, int slot)
+    {
+        Image image = slots[slot].transform.GetChild(1).GetComponent<Image>();
+
+        if (item != null)
+        {
+            image.enabled = true;
+            image.sprite = item.GetSprite();
+        } else
+        {
+            image.enabled = false;
+        }
+    }
+
     public void UpdateUI(int itemHeld)
     {
         slots[currentHeld].GetComponent<RectTransform>().sizeDelta = new Vector2(sizeDef, sizeDef);
