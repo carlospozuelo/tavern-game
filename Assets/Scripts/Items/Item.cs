@@ -9,4 +9,7 @@ public interface Item
 
     public void UseItem();
 
+    public void SelectItem();
+    public void CancelSelectItem();
+
 }

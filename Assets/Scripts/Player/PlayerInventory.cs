@@ -32,28 +32,30 @@ public class PlayerInventory : MonoBehaviour
                 InventoryUI.instance.UpdateSpriteHotbar(g.GetComponent<Item>(), i);
             }
         }
+
+        SelectItem(1);
     }
 
     // Start is called before the first frame update
 
     public void NextItem()
     {
-        currentItem++;
+        int currentItem = this.currentItem + 1;
         currentItem = currentItem % 10;
 
-        InventoryUI.instance.UpdateUI(currentItem);
+        SelectItem(currentItem);
     }
 
     public void PreviousItem()
     {
-        currentItem--;
+        int currentItem = this.currentItem - 1;
 
         if (currentItem == -1)
         {
             currentItem = 9;
         }
 
-        InventoryUI.instance.UpdateUI(currentItem);
+        SelectItem(currentItem);
     }
 
     public void SetHotBar(int slot, GameObject item)
@@ -68,9 +70,18 @@ public class PlayerInventory : MonoBehaviour
 
     public void SelectItem(int item)
     {
+        if (hotBar[currentItem] != null)
+        {
+            hotBar[currentItem].GetComponent<Item>().CancelSelectItem();
+        }
+
         currentItem = item;
 
         InventoryUI.instance.UpdateUI(currentItem);
+        if (hotBar[currentItem] != null)
+        {
+            hotBar[currentItem].GetComponent<Item>().SelectItem();
+        }
     }
 
     private KeyCode[] keyCodes = {

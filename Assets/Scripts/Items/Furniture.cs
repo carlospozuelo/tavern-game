@@ -27,13 +27,27 @@ public class Furniture : MonoBehaviour, Item
     public bool canHaveItemsPlacedOver = false;
     public bool canBePlacedBelowItems = false;
 
-    // Instantiate if prefab, otherwise activate the gameobject and change its position.
+    // Instantiate if prefab, otherwise activate the gameobject and change its position ??
     public void UseItem()
     {
         // Place the item on the grid, using the mouse position.
         // Placeholder
-        Instantiate(gameObject, GridManager.instance.SnapPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition)), Quaternion.identity, null);
+        Instantiate(gameObject, GridManager.instance.SnapPosition(GameController.instance.mainCamera.ScreenToWorldPoint(Input.mousePosition)), Quaternion.identity, null);
         // Consume item from the inventory
         PlayerInventory.instance.ConsumeItem();
+        CancelSelectItem();
+    }
+
+    private Coroutine previewCoroutine;
+
+    public void SelectItem()
+    {
+        FurniturePreview.instance.EnablePreview(this, transform.localScale);
+    }
+
+
+    public void CancelSelectItem()
+    {
+        FurniturePreview.instance.DisablePreview();
     }
 }
