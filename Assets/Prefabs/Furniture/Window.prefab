@@ -99,11 +99,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites: []
-  size: 1
+  size: {x: 1, y: 1}
   canBePlacedInside: 1
   canBePlacedOutside: 1
   canBeRotated: 0
-  canBePlacedOnFloor: 0
   placedOnWalls: 1
   canBePlacedOverItems: 0
   canHaveItemsPlacedOver: 0

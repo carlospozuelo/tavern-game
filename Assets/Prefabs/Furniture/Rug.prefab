@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites: []
-  size: 4
+  size: {x: 4, y: 4}
   canBePlacedInside: 1
   canBePlacedOutside: 1
   canBeRotated: 0

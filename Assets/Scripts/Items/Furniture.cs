@@ -6,7 +6,7 @@ public class Furniture : MonoBehaviour, Item
 {
     [Tooltip("Optonally include all the sprites for the object. First element faces front, second element faces right, third element faces back and fourth element faces left.")]
     public Sprite[] sprites;
-    public int size = 1;
+    public Vector2Int size = new Vector2Int(1,1);
 
     private void Start()
     {
@@ -37,10 +37,14 @@ public class Furniture : MonoBehaviour, Item
     {
         // Place the item on the grid, using the mouse position.
         // Placeholder
-        Instantiate(gameObject, GridManager.instance.SnapPosition(GameController.instance.WorldPosition(Input.mousePosition)), Quaternion.identity, null);
-        // Consume item from the inventory
-        PlayerInventory.instance.ConsumeItem();
-        CancelSelectItem();
+        Vector3 worldPosition = GameController.instance.WorldPosition(Input.mousePosition);
+        if (CanBePlaced(GridManager.instance.GridPosition(worldPosition)))
+        {
+            Instantiate(gameObject, GridManager.instance.SnapPosition(worldPosition), Quaternion.identity, null);
+            // Consume item from the inventory
+            PlayerInventory.instance.ConsumeItem();
+            CancelSelectItem();
+        }
     }
 
     private Coroutine previewCoroutine;

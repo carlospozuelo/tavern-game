@@ -32,18 +32,11 @@ public class GridManager : MonoBehaviour
 
     private Dictionary<TileMaps, Tilemap> dictionary;
 
-    private void Update()
+    public bool IsEntirelyInATilemap(Vector3Int position, Vector2Int size, TileMaps option)
     {
-        if (Input.GetMouseButtonDown(0))
+        for (int i = 0; i < size.x; i++)
         {
-            ClickOnGrid();
-        }
-    }
-    public bool IsEntirelyInATilemap(Vector3Int position, int size, TileMaps option)
-    {
-        for (int i = 0; i < size; i++)
-        {
-            for (int j = 0; j < size; j++)
+            for (int j = 0; j < size.y; j++)
             {
                 if (!dictionary[option].HasTile(position + new Vector3Int(i,-j)))
                 {
@@ -63,11 +56,6 @@ public class GridManager : MonoBehaviour
     public Vector3Int GridPosition(Vector3 worldPosition)
     {
         return grid.WorldToCell(worldPosition);
-    }
-
-    public void ClickOnGrid()
-    {
-        Debug.Log(grid.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition)));
     }
 
     /*
