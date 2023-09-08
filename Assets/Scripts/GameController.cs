@@ -18,5 +18,11 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public Camera mainCamera;
+    [SerializeField]
+    private Camera mainCamera;
+
+    public Vector3 WorldPosition(Vector3 p)
+    {
+        return mainCamera.ScreenToWorldPoint(p);
+    }
 }

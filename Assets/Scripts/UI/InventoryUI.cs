@@ -32,7 +32,7 @@ public class InventoryUI : MonoBehaviour
 
     public void UpdateSpriteHotbar(Item item, int slot)
     {
-        Image image = slots[slot].transform.GetChild(1).GetComponent<Image>();
+        Image image = slots[slot].transform.GetChild(0).GetComponent<Image>();
 
         if (item != null)
         {

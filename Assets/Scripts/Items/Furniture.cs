@@ -6,6 +6,12 @@ public class Furniture : MonoBehaviour, Item
 {
     [Tooltip("Optonally include all the sprites for the object. First element faces front, second element faces right, third element faces back and fourth element faces left.")]
     public Sprite[] sprites;
+    public int size = 1;
+
+    private void Start()
+    {
+        //size = (int) (size * transform.localScale.x);
+    }
 
     public Sprite GetSprite()
     {
@@ -19,8 +25,7 @@ public class Furniture : MonoBehaviour, Item
     public bool canBePlacedInside = true;
     public bool canBePlacedOutside = true;
     public bool canBeRotated = false;
-    public bool canBePlacedOnFloor = true;
-    public bool canBePlacedOnWalls = false;
+    public bool placedOnWalls = false;
 
 
     public bool canBePlacedOverItems = false;
@@ -32,7 +37,7 @@ public class Furniture : MonoBehaviour, Item
     {
         // Place the item on the grid, using the mouse position.
         // Placeholder
-        Instantiate(gameObject, GridManager.instance.SnapPosition(GameController.instance.mainCamera.ScreenToWorldPoint(Input.mousePosition)), Quaternion.identity, null);
+        Instantiate(gameObject, GridManager.instance.SnapPosition(GameController.instance.WorldPosition(Input.mousePosition)), Quaternion.identity, null);
         // Consume item from the inventory
         PlayerInventory.instance.ConsumeItem();
         CancelSelectItem();
@@ -50,4 +55,19 @@ public class Furniture : MonoBehaviour, Item
     {
         FurniturePreview.instance.DisablePreview();
     }
+
+    public bool CanBePlaced(Vector3Int topLeftTile)
+    {
+        // Check if the item is completely within a wall
+        if (placedOnWalls)
+        {
+            if (!GridManager.instance.IsEntirelyInATilemap(topLeftTile, size, GridManager.TileMaps.FurnishableWall)) { return false; }
+        } else
+        {
+            if (!GridManager.instance.IsEntirelyInATilemap(topLeftTile, size, GridManager.TileMaps.Floor)) { return false; }
+        }
+
+        return true;
+    }
+
 }

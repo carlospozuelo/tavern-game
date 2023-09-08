@@ -25,7 +25,7 @@ public class FurniturePreview : MonoBehaviour
         transform.position = position;
     }
 
-    public void EnablePreview(Item item, Vector3 scale) {
+    public void EnablePreview(Furniture item, Vector3 scale) {
         spriteRenderer.enabled = true;
         transform.localScale = scale;
         previewCoroutine = StartCoroutine(PreviewItem(item));
@@ -38,12 +38,25 @@ public class FurniturePreview : MonoBehaviour
         if (previewCoroutine != null) { StopCoroutine(previewCoroutine); }
     }
 
-    private IEnumerator PreviewItem(Item item)
+    public Color defColor;
+    public Color wrongColor;
+
+    private IEnumerator PreviewItem(Furniture item)
     {
         spriteRenderer.sprite = item.GetSprite();
         while (true)
         {
-            MovePreview(GridManager.instance.SnapPosition(GameController.instance.mainCamera.ScreenToWorldPoint(Input.mousePosition)));
+            Vector3 worldPosition = GameController.instance.WorldPosition(Input.mousePosition);
+            
+            MovePreview(GridManager.instance.SnapPosition(worldPosition));
+            
+            if (item.CanBePlaced(GridManager.instance.GridPosition(worldPosition))) 
+            {
+                spriteRenderer.color = defColor;
+            } else {
+                spriteRenderer.color = wrongColor;
+            }
+
             yield return new WaitForEndOfFrame();
         }
     }

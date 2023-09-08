@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 708207897021222901}
   - component: {fileID: 708207897021222900}
+  - component: {fileID: 4078301945326811117}
   m_Layer: 0
   m_Name: Rug
   m_TagString: Untagged
@@ -84,3 +85,24 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4078301945326811117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 708207897021222902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6e84e047f0018e4596a3ee2407e4a84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprites: []
+  size: 4
+  canBePlacedInside: 1
+  canBePlacedOutside: 1
+  canBeRotated: 0
+  placedOnWalls: 0
+  canBePlacedOverItems: 0
+  canHaveItemsPlacedOver: 0
+  canBePlacedBelowItems: 0

@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface Item 
+public interface Item
 {
+
 
     public Sprite GetSprite();
 
