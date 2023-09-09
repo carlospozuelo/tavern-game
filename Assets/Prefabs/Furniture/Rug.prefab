@@ -103,6 +103,5 @@ MonoBehaviour:
   canBePlacedOutside: 1
   canBeRotated: 0
   placedOnWalls: 0
-  canBePlacedOverItems: 0
-  canHaveItemsPlacedOver: 0
+  rugLike: 1
   canBePlacedBelowItems: 0
