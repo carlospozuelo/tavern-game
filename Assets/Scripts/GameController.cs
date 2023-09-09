@@ -25,4 +25,14 @@ public class GameController : MonoBehaviour
     {
         return mainCamera.ScreenToWorldPoint(p);
     }
+
+    [SerializeField]
+    private GameObject player;
+
+    public float DistanceToPlayer(Vector3 p)
+    {
+        return Vector3.Distance(p, player.transform.position);
+    }
+
+    public float maxDistanceToPlaceItems = 5;
 }
