@@ -100,12 +100,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprites: []
   size: {x: 1, y: 1}
+  originalPrefab: {fileID: 7757420893425116376}
   canBePlacedInside: 1
   canBePlacedOutside: 1
   canBeRotated: 0
   placedOnWalls: 1
-  canBePlacedOverItems: 0
-  canHaveItemsPlacedOver: 0
+  rugLike: 0
   canBePlacedBelowItems: 0
 --- !u!1 &7757420893640767478
 GameObject:

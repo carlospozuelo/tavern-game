@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Burst.CompilerServices;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Furniture : MonoBehaviour, Item
@@ -10,10 +11,7 @@ public class Furniture : MonoBehaviour, Item
     public Sprite[] sprites;
     public Vector2Int size = new Vector2Int(1,1);
 
-    private void Start()
-    {
-        //size = (int) (size * transform.localScale.x);
-    }
+    public GameObject originalPrefab;
 
     public Sprite GetSprite()
     {
@@ -32,7 +30,6 @@ public class Furniture : MonoBehaviour, Item
     public bool rugLike = false;
     public bool canBePlacedBelowItems = false;
 
-    // Instantiate if prefab, otherwise activate the gameobject and change its position ??
     public void UseItem()
     {
         // Place the item on the grid, using the mouse position.
@@ -40,11 +37,15 @@ public class Furniture : MonoBehaviour, Item
         Vector3 worldPosition = GameController.instance.WorldPosition(Input.mousePosition);
         if (CanBePlaced(GridManager.instance.GridPosition(worldPosition)))
         {
-            Instantiate(gameObject, GridManager.instance.SnapPosition(worldPosition), Quaternion.identity, null);
+            GameObject instance = Instantiate(gameObject, GridManager.instance.SnapPosition(worldPosition), Quaternion.identity, null);
+            instance.GetComponent<Furniture>().originalPrefab = gameObject;
+            GameController.instance.placedFurnitures.Add(instance);
+
             // Consume item from the inventory
             PlayerInventory.instance.ConsumeItem();
             CancelSelectItem();
         }
+       
     }
 
     public void SelectItem()
@@ -79,7 +80,6 @@ public class Furniture : MonoBehaviour, Item
     }
 
 
-
     public bool CanBePlaced(Vector3Int topLeftTile)
     {
         Boxcast(topLeftTile);
@@ -98,6 +98,30 @@ public class Furniture : MonoBehaviour, Item
 
 
         return true;
+    }
+
+    public bool IsInsideObject(Vector3 worldPosition)
+    {
+        worldPosition = GridManager.instance.GridPosition(worldPosition);
+
+        float maxX = transform.position.x + size.x;
+        float maxY = transform.position.y - size.y;
+
+        return worldPosition.x >= transform.position.x && worldPosition.x <= maxX
+            && worldPosition.y <= transform.position.y && worldPosition.y >= maxY;
+    }
+
+    public void PickUp()
+    {
+        if (PlayerInventory.instance.GetCurrentItem() == null)
+        {
+            if (GameController.instance.DistanceToPlayer(transform.position) < GameController.instance.maxDistanceToPlaceItems) {
+                PlayerInventory.instance.SetCurrentItem(originalPrefab);
+                GameController.instance.placedFurnitures.Remove(gameObject);
+                Debug.Log("Destroying " + name + "!");
+                Destroy(gameObject);
+            } else { Debug.Log("Too far to pick up! ");  }
+        }
     }
 
 }

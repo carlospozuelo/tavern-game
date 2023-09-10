@@ -12,6 +12,25 @@ public class PlayerInventory : MonoBehaviour
 
     public static PlayerInventory instance;
 
+    public GameObject GetCurrentItem()
+    {
+        return hotBar[currentItem];
+    }
+
+    public void SetCurrentItem(GameObject g)
+    {
+        if (g != null || hotBar[currentItem] != null)
+        {
+            hotBar[currentItem] = g;
+
+            SelectItem(currentItem);
+            
+        } else
+        {
+            Debug.LogWarning("Tried to override item (" + currentItem + ")!");
+        }
+    }
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -113,14 +132,29 @@ public class PlayerInventory : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonDown(0)) { UseItem(); }
+        if (Input.GetMouseButtonDown(0)) { 
+            if (!UseItem()) { 
+                foreach (GameObject furniture in GameController.instance.placedFurnitures)
+                {
+                    Furniture f = furniture.GetComponent<Furniture>();
+                    if (f.IsInsideObject(GameController.instance.WorldMousePosition())) {
+                        f.PickUp();
+                        break;
+                    }
+                }
+            }
+        }
     }
 
-    public void UseItem()
+    public bool UseItem()
     {
         if (hotBar[currentItem] != null)
         {
             hotBar[currentItem].GetComponent<Item>().UseItem();
+            return true;
+        } else
+        {
+            return false;
         }
     }
 

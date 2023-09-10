@@ -15,8 +15,11 @@ public class GameController : MonoBehaviour
         else
         {
             instance = this;
+            placedFurnitures = new List<GameObject>();
         }
     }
+
+    public List<GameObject> placedFurnitures;
 
     [SerializeField]
     private Camera mainCamera;
@@ -24,6 +27,11 @@ public class GameController : MonoBehaviour
     public Vector3 WorldPosition(Vector3 p)
     {
         return mainCamera.ScreenToWorldPoint(p);
+    }
+
+    public Vector3 WorldMousePosition()
+    {
+        return WorldPosition(Input.mousePosition);
     }
 
     [SerializeField]

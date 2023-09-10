@@ -99,6 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprites: []
   size: {x: 4, y: 4}
+  originalPrefab: {fileID: 708207897021222902}
   canBePlacedInside: 1
   canBePlacedOutside: 1
   canBeRotated: 0
