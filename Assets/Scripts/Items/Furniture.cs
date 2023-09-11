@@ -83,7 +83,7 @@ public class Furniture : MonoBehaviour, Item
     public bool CanBePlaced(Vector3Int topLeftTile)
     {
         Boxcast(topLeftTile);
-        if (GameController.instance.DistanceToPlayer(topLeftTile) >= GameController.instance.maxDistanceToPlaceItems) { return false;  }
+        if (GameController.instance.DistanceToPlayer(topLeftTile + new Vector3(size.x, -size.y) / 2) >= GameController.instance.maxDistanceToPlaceItems) { return false;  }
 
         if (placedOnWalls)
         {
@@ -115,7 +115,7 @@ public class Furniture : MonoBehaviour, Item
     {
         if (PlayerInventory.instance.GetCurrentItem() == null)
         {
-            if (GameController.instance.DistanceToPlayer(transform.position) < GameController.instance.maxDistanceToPlaceItems) {
+            if (GameController.instance.DistanceToPlayer(transform.position + new Vector3(size.x, -size.y) / 2) < GameController.instance.maxDistanceToPlaceItems) {
                 PlayerInventory.instance.SetCurrentItem(originalPrefab);
                 GameController.instance.placedFurnitures.Remove(gameObject);
                 Debug.Log("Destroying " + name + "!");
