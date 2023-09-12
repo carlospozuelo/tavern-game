@@ -144,6 +144,19 @@ public class PlayerInventory : MonoBehaviour
                 }
             }
         }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            GameObject item = GetCurrentItem();
+            if (item != null && item.TryGetComponent(out Furniture f))
+            {
+                if (f.rotateGameObject != null)
+                {
+                    SetCurrentItem(f.rotateGameObject);
+                    InventoryUI.instance.UpdateSpriteHotbar(f.rotateGameObject.GetComponent<Item>(), currentItem);
+                }
+            }
+        }
     }
 
     public bool UseItem()

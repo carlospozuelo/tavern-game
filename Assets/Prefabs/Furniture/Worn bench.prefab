@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7095797780511728411}
   - component: {fileID: 7095797780511728404}
   - component: {fileID: 4300351203634306632}
-  - component: {fileID: 597382733558665992}
   m_Layer: 0
   m_Name: Worn bench
   m_TagString: Untagged
@@ -100,7 +99,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.33833706, y: -1.1817534}
+  m_Offset: {x: 0.3328061, y: -1.1779536}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 1}
@@ -111,7 +110,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6642761, y: 1.6375012}
+  m_Size: {x: 0.6421522, y: 1.6299016}
   m_EdgeRadius: 0
 --- !u!114 &4300351203634306632
 MonoBehaviour:
@@ -125,7 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6e84e047f0018e4596a3ee2407e4a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprites: []
+  rotateGameObject: {fileID: 7095797780511728409, guid: 0aac92a48873d324d8bb988ba2b1eb29, type: 3}
   size: {x: 1, y: 3}
   originalPrefab: {fileID: 7095797780511728409}
   canBePlacedInside: 1
@@ -134,30 +133,3 @@ MonoBehaviour:
   placedOnWalls: 0
   rugLike: 0
   canBePlacedBelowItems: 0
---- !u!114 &597382733558665992
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7095797780511728409}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
-  m_ComponentVersion: 1
-  m_HasRenderer: 1
-  m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
-  m_SelfShadows: 0
-  m_ApplyToSortingLayers: 61ae9d8f
-  m_ShapePath:
-  - {x: 0.045170717, y: -1.7670276, z: 0}
-  - {x: 0.044855803, y: -1.6723957, z: 0}
-  - {x: 0.64616644, y: -1.6747673, z: 0}
-  - {x: 0.64572734, y: -1.7669542, z: 0}
-  m_ShapePathHash: 115322810
-  m_Mesh: {fileID: 0}
-  m_InstanceId: 50370

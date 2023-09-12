@@ -12,9 +12,8 @@ GameObject:
   - component: {fileID: 7095797780511728411}
   - component: {fileID: 7095797780511728404}
   - component: {fileID: 4300351203634306632}
-  - component: {fileID: 597382733558665992}
   m_Layer: 0
-  m_Name: Worn table
+  m_Name: Worn bench - down
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1689685490, guid: cedad7e4bfabb9e459fe96f5cb706b44, type: 3}
+  m_Sprite: {fileID: -534509844, guid: cedad7e4bfabb9e459fe96f5cb706b44, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -100,7 +99,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1.0067348, y: -1.1709714}
+  m_Offset: {x: 0.99999976, y: -0.32604128}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 1}
@@ -111,7 +110,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.7899988, y: 1.6159371}
+  m_Size: {x: 1.979526, y: 0.6112263}
   m_EdgeRadius: 0
 --- !u!114 &4300351203634306632
 MonoBehaviour:
@@ -125,8 +124,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6e84e047f0018e4596a3ee2407e4a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotateGameObject: {fileID: 0}
-  size: {x: 3, y: 3}
+  rotateGameObject: {fileID: 7095797780511728409, guid: 27343682f5b4e964cb357971b4548936, type: 3}
+  size: {x: 3, y: 1}
   originalPrefab: {fileID: 7095797780511728409}
   canBePlacedInside: 1
   canBePlacedOutside: 1
@@ -134,30 +133,3 @@ MonoBehaviour:
   placedOnWalls: 0
   rugLike: 0
   canBePlacedBelowItems: 0
---- !u!114 &597382733558665992
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7095797780511728409}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
-  m_ComponentVersion: 1
-  m_HasRenderer: 1
-  m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
-  m_SelfShadows: 0
-  m_ApplyToSortingLayers: 61ae9d8f
-  m_ShapePath:
-  - {x: 0.13679466, y: -1.6399035, z: 0}
-  - {x: 0.14151415, y: -1.5438926, z: 0}
-  - {x: 1.8618438, y: -1.5451783, z: 0}
-  - {x: 1.861844, y: -1.6435207, z: 0}
-  m_ShapePathHash: 756579188
-  m_Mesh: {fileID: 0}
-  m_InstanceId: 36502

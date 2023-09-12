@@ -7,19 +7,17 @@ using UnityEngine;
 
 public class Furniture : MonoBehaviour, Item
 {
-    [Tooltip("Optonally include all the sprites for the object. First element faces front, second element faces right, third element faces back and fourth element faces left.")]
-    public Sprite[] sprites;
+    [Tooltip("Optional field. If not empty, the furniture can be rotated before placing, and it will be transformed to the referenced gameobject instead")]
+    public GameObject rotateGameObject;
+
+
     public Vector2Int size = new Vector2Int(1,1);
 
     public GameObject originalPrefab;
 
     public Sprite GetSprite()
     {
-
-        if (sprites == null || sprites.Length < 1)
-            return GetComponent<SpriteRenderer>().sprite;
-
-        return sprites[0];
+        return GetComponent<SpriteRenderer>().sprite;
     }
 
     public bool canBePlacedInside = true;
