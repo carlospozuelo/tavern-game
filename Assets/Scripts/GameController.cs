@@ -15,11 +15,11 @@ public class GameController : MonoBehaviour
         else
         {
             instance = this;
-            placedFurnitures = new List<GameObject>();
+            
         }
     }
 
-    public List<GameObject> placedFurnitures;
+    
 
     [SerializeField]
     private Camera mainCamera;

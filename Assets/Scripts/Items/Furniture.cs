@@ -15,6 +15,11 @@ public class Furniture : MonoBehaviour, Item
 
     public GameObject originalPrefab;
 
+    public FurnitureData GetFurnitureData()
+    {
+        return new FurnitureData(transform.position - new Vector3(0, 1), originalPrefab.name);
+    }
+
     public Sprite GetSprite()
     {
         return GetComponent<SpriteRenderer>().sprite;
@@ -22,7 +27,6 @@ public class Furniture : MonoBehaviour, Item
 
     public bool canBePlacedInside = true;
     public bool canBePlacedOutside = true;
-    public bool canBeRotated = false;
     public bool placedOnWalls = false;
     [Tooltip("Used for rugs or flooring in general. If set to true, the furniture can be placed below items and below the player as well.")]
     public bool rugLike = false;
@@ -35,9 +39,8 @@ public class Furniture : MonoBehaviour, Item
         Vector3 worldPosition = GameController.instance.WorldPosition(Input.mousePosition);
         if (CanBePlaced(GridManager.instance.GridPosition(worldPosition)))
         {
-            GameObject instance = Instantiate(gameObject, GridManager.instance.SnapPosition(worldPosition), Quaternion.identity, null);
-            instance.GetComponent<Furniture>().originalPrefab = gameObject;
-            GameController.instance.placedFurnitures.Add(instance);
+            TavernController.InstantiateFurniture(gameObject, worldPosition);
+            
 
             // Consume item from the inventory
             PlayerInventory.instance.ConsumeItem();
@@ -115,10 +118,9 @@ public class Furniture : MonoBehaviour, Item
         {
             if (GameController.instance.DistanceToPlayer(transform.position + new Vector3(size.x, -size.y) / 2) < GameController.instance.maxDistanceToPlaceItems) {
                 PlayerInventory.instance.SetCurrentItem(originalPrefab);
-                GameController.instance.placedFurnitures.Remove(gameObject);
-                Debug.Log("Destroying " + name + "!");
+                TavernController.RemoveFurniture(gameObject);
                 Destroy(gameObject);
-            } else { Debug.Log("Too far to pick up! ");  }
+            }
         }
     }
 

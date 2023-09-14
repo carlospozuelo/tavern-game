@@ -134,7 +134,7 @@ public class PlayerInventory : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0)) { 
             if (!UseItem()) { 
-                foreach (GameObject furniture in GameController.instance.placedFurnitures)
+                foreach (GameObject furniture in TavernController.GetPlacedFurnitures())
                 {
                     Furniture f = furniture.GetComponent<Furniture>();
                     if (f.IsInsideObject(GameController.instance.WorldMousePosition())) {

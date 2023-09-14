@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 708207897021222900}
   - component: {fileID: 4078301945326811117}
   m_Layer: 0
-  m_Name: Rug
+  m_Name: Black dot rug
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
