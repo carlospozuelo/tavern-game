@@ -30,9 +30,11 @@ public class TavernController : MonoBehaviour
     }
 
     [SerializeField]
-    private GameObject[] allFurniture;
+    private GameObject[] allFurniture, allTaverns, allHouses;
 
     private Dictionary<string, GameObject> dictionary;
+    private Dictionary<string, GameObject> tavernDictionary;
+    private Dictionary<string, GameObject> housesDictionary;
 
     private static TavernController instance;
 
@@ -43,18 +45,31 @@ public class TavernController : MonoBehaviour
         if (instance != null && instance != this)
         {
             Destroy(gameObject);
-        } else
+        }
+        else
         {
             instance = this;
         }
 
-        dictionary = new Dictionary<string, GameObject>();
+        dictionary = InitializeDictionary(allFurniture);
+        tavernDictionary = InitializeDictionary(allTaverns);
+        housesDictionary = InitializeDictionary(allHouses);
 
-        foreach(GameObject g in allFurniture)
-        {
-            dictionary.Add(g.name, g);
-        }
+
         placedFurnitures = new List<GameObject>();
+    }
+
+    private Dictionary<string, GameObject> InitializeDictionary(GameObject[] list)
+    {
+        Dictionary<string, GameObject> d = new Dictionary<string, GameObject>();
+        if (list != null)
+        {
+            foreach (GameObject g in list)
+            {
+                d.Add(g.name, g);
+            }
+        }
+        return d;
     }
 
     private void Start()

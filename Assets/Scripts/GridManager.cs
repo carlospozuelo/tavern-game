@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
@@ -7,10 +8,6 @@ using UnityEngine.Tilemaps;
 
 public class GridManager : MonoBehaviour
 {
-    public enum TileMaps { Floor, Wall, FurnishableWall }
-
-    public Tilemap floor, wall, furnishableWall;
-
     public Grid grid;
 
     public static GridManager instance;
@@ -23,28 +20,65 @@ public class GridManager : MonoBehaviour
         } else
         {
             instance = this;
-            dictionary = new Dictionary<TileMaps, Tilemap>();
-            dictionary[TileMaps.Floor] = floor;
-            dictionary[TileMaps.Wall] = wall;
-            dictionary[TileMaps.FurnishableWall] = furnishableWall;
+            dictionary = new Dictionary<string, List<Tilemap>>();
+
+            
         }
     }
 
-    private Dictionary<TileMaps, Tilemap> dictionary;
+    private void Start()
+    {
+        foreach (Transform child in transform) { 
+            foreach (Transform granchild in child.transform)
+            {
+                // Tilemaps
+                List<Tilemap> tilemaps;
+                if (dictionary.ContainsKey(granchild.name))
+                {
+                    tilemaps = dictionary[granchild.name];
+                } else
+                {
+                    tilemaps = new List<Tilemap>();
+                    dictionary.Add(granchild.name, tilemaps);
+                }
+                tilemaps.Add(granchild.gameObject.GetComponent<Tilemap>());
+            }
+        }
 
-    public bool IsEntirelyInATilemap(Vector3Int position, Vector2Int size, TileMaps option)
+        foreach (var keyValuePair in dictionary)
+        {
+            Debug.Log("Items in: " + keyValuePair.Key);
+            foreach (var tilemap in keyValuePair.Value)
+            {
+                Debug.Log(tilemap);
+            }
+        }
+    }
+
+    private Dictionary<string, List<Tilemap>> dictionary;
+
+    public bool IsEntirelyInATilemap(Vector3Int position, Vector2Int size, string option)
     {
         for (int i = 0; i < size.x; i++)
         {
             for (int j = 0; j < size.y; j++)
             {
-                if (!dictionary[option].HasTile(position + new Vector3Int(i,-j)))
+                // Tilemaps with the same tag
+                List<Tilemap> tilemaps = dictionary[option];
+                bool found = false;
+                foreach (Tilemap t in tilemaps) {
+                    if (t.HasTile(position + new Vector3Int(i, -j)))
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found)
                 {
                     return false;
-                } 
+                }
             }
         }
-
         return true;
     }
 
@@ -57,17 +91,5 @@ public class GridManager : MonoBehaviour
     {
         return grid.WorldToCell(worldPosition);
     }
-
-    /*
-    private void DebugInfo()
-    {
-        var worldPos = GameController.instance.WorldPosition(Input.mousePosition);
-        var gridPos = GridPosition(worldPos);
-        DebugPanelUI.instance.Debug("Mouse world position: " + worldPos
-            + "\nGrid position mouse: " + gridPos
-            + "\nWall tile on that position? " + IsEntirelyInATilemap(gridPos, 1, TileMaps.FurnishableWall)
-            + "\nFloor tile on that position? " + IsEntirelyInATilemap(gridPos, 1, TileMaps.Floor)
-            + "\nFloor tile on that postion x4? " + IsEntirelyInATilemap(gridPos, 4, TileMaps.Floor));
-    }
-    */
+    
 }
