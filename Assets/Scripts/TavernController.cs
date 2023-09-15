@@ -39,6 +39,8 @@ public class TavernController : MonoBehaviour
     private static TavernController instance;
 
     public List<GameObject> placedFurnitures;
+    public List<GameObject> currentTaverns;
+    public List<GameObject> currentHouses;
 
     private void Awake()
     {
@@ -57,6 +59,34 @@ public class TavernController : MonoBehaviour
 
 
         placedFurnitures = new List<GameObject>();
+    }
+
+    public static void UpgradeTavern(GameObject newTavern, bool deleteAll = true)
+    {
+        instance.currentTaverns = Upgrade(newTavern, deleteAll, instance.currentTaverns);
+    }
+
+    private static List<GameObject> Upgrade(GameObject newTavern, bool deleteAll, List<GameObject> list)
+    {
+        if (deleteAll)
+        {
+            GridManager.InitializeTilemap();
+            foreach (GameObject g in list)
+            {
+                Destroy(g);
+            }
+            list = new List<GameObject>();
+        }
+        GameObject tavern = Instantiate(newTavern, GridManager.instance.gameObject.transform);
+        list.Add(tavern);
+        GridManager.InitializeTilemap(false);
+
+        return list;
+    }
+
+    public static void UpgradeHouse(GameObject newHouse, bool deleteAll = true)
+    {
+        instance.currentHouses = Upgrade(newHouse, deleteAll, instance.currentHouses);
     }
 
     private Dictionary<string, GameObject> InitializeDictionary(GameObject[] list)
@@ -109,6 +139,7 @@ public class TavernController : MonoBehaviour
 
     public void DeSerializeTavern()
     {
+        
         foreach (GameObject g in placedFurnitures)
         {
             Destroy(g);
@@ -122,6 +153,14 @@ public class TavernController : MonoBehaviour
             {
                 InstantiateFurniture(dictionary[furniture.GetFurnitureName()], furniture.GetPosition());
             }
+        }
+    }
+
+    public void DeleteData()
+    {
+        if (File.Exists(GetPath()))
+        {
+            File.Delete(GetPath());
         }
     }
 

@@ -20,37 +20,40 @@ public class GridManager : MonoBehaviour
         } else
         {
             instance = this;
-            dictionary = new Dictionary<string, List<Tilemap>>();
-
-            
         }
     }
 
     private void Start()
     {
-        foreach (Transform child in transform) { 
+        InitializeTilemap();
+    }
+
+    public static void InitializeTilemap(bool createDic = true)
+    {
+        if (createDic)
+        {
+            instance.dictionary = new Dictionary<string, List<Tilemap>>();
+        }
+        foreach (Transform child in instance.transform)
+        {
             foreach (Transform granchild in child.transform)
             {
                 // Tilemaps
                 List<Tilemap> tilemaps;
-                if (dictionary.ContainsKey(granchild.name))
+                if (instance.dictionary.ContainsKey(granchild.name))
                 {
-                    tilemaps = dictionary[granchild.name];
-                } else
+                    tilemaps = instance.dictionary[granchild.name];
+                }
+                else
                 {
                     tilemaps = new List<Tilemap>();
-                    dictionary.Add(granchild.name, tilemaps);
+                    instance.dictionary.Add(granchild.name, tilemaps);
                 }
-                tilemaps.Add(granchild.gameObject.GetComponent<Tilemap>());
-            }
-        }
-
-        foreach (var keyValuePair in dictionary)
-        {
-            Debug.Log("Items in: " + keyValuePair.Key);
-            foreach (var tilemap in keyValuePair.Value)
-            {
-                Debug.Log(tilemap);
+                Tilemap tilemap = granchild.gameObject.GetComponent<Tilemap>();
+                if (!tilemaps.Contains(tilemap))
+                {
+                    tilemaps.Add(tilemap);
+                }
             }
         }
     }
