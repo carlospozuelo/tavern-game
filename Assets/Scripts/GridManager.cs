@@ -11,6 +11,7 @@ public class GridManager : MonoBehaviour
     public Grid grid;
 
     public static GridManager instance;
+    private Dictionary<string, List<Tilemap>> dictionary;
 
     private void Awake()
     {
@@ -28,6 +29,19 @@ public class GridManager : MonoBehaviour
         InitializeTilemap();
     }
 
+    public static void Clear()
+    {
+        if (instance.dictionary != null && instance.dictionary.ContainsKey("Floor"))
+        {
+            foreach (Tilemap t in instance.dictionary["Floor"])
+            {
+                t.transform.parent.gameObject.SetActive(false);//Destroy(t.transform.parent.gameObject);
+            }
+        }
+
+        instance.dictionary = new Dictionary<string, List<Tilemap>>();
+    }
+
     public static void InitializeTilemap(bool createDic = true)
     {
         if (createDic)
@@ -36,29 +50,32 @@ public class GridManager : MonoBehaviour
         }
         foreach (Transform child in instance.transform)
         {
-            foreach (Transform granchild in child.transform)
+            if (child.gameObject.activeSelf)
             {
-                // Tilemaps
-                List<Tilemap> tilemaps;
-                if (instance.dictionary.ContainsKey(granchild.name))
+                foreach (Transform granchild in child.transform)
                 {
-                    tilemaps = instance.dictionary[granchild.name];
-                }
-                else
-                {
-                    tilemaps = new List<Tilemap>();
-                    instance.dictionary.Add(granchild.name, tilemaps);
-                }
-                Tilemap tilemap = granchild.gameObject.GetComponent<Tilemap>();
-                if (!tilemaps.Contains(tilemap))
-                {
-                    tilemaps.Add(tilemap);
+                    // Tilemaps
+                    List<Tilemap> tilemaps;
+                    if (instance.dictionary.ContainsKey(granchild.name))
+                    {
+                        tilemaps = instance.dictionary[granchild.name];
+                    }
+                    else
+                    {
+                        tilemaps = new List<Tilemap>();
+                        instance.dictionary.Add(granchild.name, tilemaps);
+                    }
+                    Tilemap tilemap = granchild.gameObject.GetComponent<Tilemap>();
+                    if (!tilemaps.Contains(tilemap))
+                    {
+                        tilemaps.Add(tilemap);
+                    }
                 }
             }
         }
     }
 
-    private Dictionary<string, List<Tilemap>> dictionary;
+
 
     public bool IsEntirelyInATilemap(Vector3Int position, Vector2Int size, string option)
     {

@@ -1,12 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class UpgradeTavernTemp : MonoBehaviour
 {
+    [Serializable]
+    public class GameObjectList
+    {
+        public List<GameObject> list = new List<GameObject>();
+    }
+
     public int currentUpgrade;
-    public GameObject[] tavernUpgrades;
-    public GameObject[] houseUpgrades;
+    public List<GameObjectList> tavernUpgrades;
 
     private static UpgradeTavernTemp instance;
 
@@ -22,14 +28,9 @@ public class UpgradeTavernTemp : MonoBehaviour
     }
     public static void Upgrade()
     {
-        
-        if (instance.currentUpgrade < instance.tavernUpgrades.Length)
+        if (instance.currentUpgrade < instance.tavernUpgrades.Count)
         {
-            TavernController.UpgradeTavern(instance.tavernUpgrades[instance.currentUpgrade]);
-        }
-        if (instance.currentUpgrade < instance.houseUpgrades.Length)
-        {
-            TavernController.UpgradeHouse(instance.houseUpgrades[instance.currentUpgrade]);
+            TavernController.UpgradeTavern(instance.tavernUpgrades[instance.currentUpgrade].list);
         }
         instance.currentUpgrade++;
     }

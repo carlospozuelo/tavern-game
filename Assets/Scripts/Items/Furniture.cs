@@ -80,8 +80,32 @@ public class Furniture : MonoBehaviour, Item
         return true;
     }
 
+    // This method will be called if the current position of the furniture is invalid
+    public void ReplaceWallFurniture()
+    {
+        if (placedOnWalls)
+        {
+            if (!GridManager.instance.IsEntirelyInATilemap(GridManager.instance.GridPosition(transform.position + new Vector3(0, -1)), size, "FurnishableWall")) {
+                int attemps = 0;
+                Vector3 offset = Vector2.zero;
+                Debug.Log("Moving " + gameObject.name);
+                while (attemps < 10 && !GridManager.instance.IsEntirelyInATilemap(GridManager.instance.GridPosition(transform.position + offset + new Vector3(0,-1)), size, "FurnishableWall"))
+                {
+                    offset.y = offset.y + 1;
+                    attemps++;
+                }
+                if (GridManager.instance.IsEntirelyInATilemap(GridManager.instance.GridPosition(transform.position + offset + new Vector3(0, -1)), size, "FurnishableWall")) {
+                    transform.position = GridManager.instance.GridPosition(transform.position + offset);
+                } else
+                {
+                    Debug.LogWarning("Item has to be picked up!");
+                }
+            }
 
-    public bool CanBePlaced(Vector3Int topLeftTile)
+        }
+    }
+
+        public bool CanBePlaced(Vector3Int topLeftTile, bool checkCollisions = true)
     {
         if (GameController.instance.DistanceToPlayer(topLeftTile + new Vector3(size.x, -size.y) / 2) >= GameController.instance.maxDistanceToPlaceItems) { return false;  }
 
@@ -94,7 +118,7 @@ public class Furniture : MonoBehaviour, Item
         }
 
         // Check if it would collide with another non-wall object
-        if (!rugLike && TryGetComponent(out Collider2D c) && !Boxcast(topLeftTile)) { return false; } 
+        if (!rugLike && checkCollisions && TryGetComponent(out Collider2D c) && !Boxcast(topLeftTile)) { return false; } 
 
 
         return true;

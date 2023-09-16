@@ -12,10 +12,12 @@ public class TavernController : MonoBehaviour
     public class TavernData
     {
         private List<FurnitureData> furnitures;
+        private List<string> taverns;
 
         public TavernData()
         {
             furnitures = new List<FurnitureData>();
+            taverns = new List<string>();
         }
 
         public void AddFurniture(FurnitureData furniture)
@@ -27,6 +29,17 @@ public class TavernController : MonoBehaviour
         {
             return furnitures;
         }
+
+        public void AddTavern(string tavern)
+        {
+            taverns.Add(tavern);
+        }
+
+        public List<string> GetTaverns()
+        {
+            return taverns;
+        }
+
     }
 
     [SerializeField]
@@ -34,13 +47,11 @@ public class TavernController : MonoBehaviour
 
     private Dictionary<string, GameObject> dictionary;
     private Dictionary<string, GameObject> tavernDictionary;
-    private Dictionary<string, GameObject> housesDictionary;
 
     private static TavernController instance;
 
     public List<GameObject> placedFurnitures;
     public List<GameObject> currentTaverns;
-    public List<GameObject> currentHouses;
 
     private void Awake()
     {
@@ -55,38 +66,41 @@ public class TavernController : MonoBehaviour
 
         dictionary = InitializeDictionary(allFurniture);
         tavernDictionary = InitializeDictionary(allTaverns);
-        housesDictionary = InitializeDictionary(allHouses);
 
 
         placedFurnitures = new List<GameObject>();
     }
 
-    public static void UpgradeTavern(GameObject newTavern, bool deleteAll = true)
+    public static void UpgradeTavern(List<GameObject> newTaverns, bool deleteAll = true)
     {
-        instance.currentTaverns = Upgrade(newTavern, deleteAll, instance.currentTaverns);
+        instance.currentTaverns = Upgrade(newTaverns, deleteAll, instance.currentTaverns);
+
+        foreach (GameObject g in instance.placedFurnitures)
+        {
+            Furniture f = g.GetComponent<Furniture>();
+            if (f != null)
+            {
+                f.ReplaceWallFurniture();
+            }
+        }
+
     }
 
-    private static List<GameObject> Upgrade(GameObject newTavern, bool deleteAll, List<GameObject> list)
+    private static List<GameObject> Upgrade(List<GameObject> newTaverns, bool deleteAll, List<GameObject> list)
     {
         if (deleteAll)
         {
-            GridManager.InitializeTilemap();
-            foreach (GameObject g in list)
-            {
-                Destroy(g);
-            }
+            GridManager.Clear();
             list = new List<GameObject>();
         }
-        GameObject tavern = Instantiate(newTavern, GridManager.instance.gameObject.transform);
-        list.Add(tavern);
-        GridManager.InitializeTilemap(false);
+        foreach (GameObject tav in newTaverns) { 
+            GameObject tavern = Instantiate(tav, GridManager.instance.gameObject.transform);
+            list.Add(tavern);
+        }
+
+        GridManager.InitializeTilemap();
 
         return list;
-    }
-
-    public static void UpgradeHouse(GameObject newHouse, bool deleteAll = true)
-    {
-        instance.currentHouses = Upgrade(newHouse, deleteAll, instance.currentHouses);
     }
 
     private Dictionary<string, GameObject> InitializeDictionary(GameObject[] list)
@@ -99,6 +113,13 @@ public class TavernController : MonoBehaviour
                 d.Add(g.name, g);
             }
         }
+
+        Debug.Log("Initilized dictionary:");
+        foreach (var g in d)
+        {
+            Debug.Log(g);
+        } 
+
         return d;
     }
 
@@ -128,6 +149,11 @@ public class TavernController : MonoBehaviour
             data.AddFurniture(furniture);
         }
 
+        foreach (GameObject g in currentTaverns)
+        {
+            data.AddTavern(g.name.Replace("(Clone)", ""));
+        }
+
         BinaryFormatter formatter = new BinaryFormatter();
         string path = GetPath();
         FileStream stream = new FileStream(path, FileMode.Create);
@@ -152,6 +178,23 @@ public class TavernController : MonoBehaviour
             foreach (FurnitureData furniture in tavern.GetFurniture())
             {
                 InstantiateFurniture(dictionary[furniture.GetFurnitureName()], furniture.GetPosition());
+            }
+
+            List<string> taverns = tavern.GetTaverns();
+            if (taverns.Count > 0)
+            {
+                GridManager.Clear();
+                currentTaverns = new List<GameObject>();
+                foreach (Transform t in GridManager.instance.transform)
+                {
+                    t.gameObject.SetActive(false);
+                }
+                foreach (string s in taverns)
+                {
+                    GameObject tav = Instantiate(instance.tavernDictionary[s], GridManager.instance.gameObject.transform);
+                    currentTaverns.Add(tav);
+                }
+                GridManager.InitializeTilemap();
             }
         }
     }
