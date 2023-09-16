@@ -114,12 +114,6 @@ public class TavernController : MonoBehaviour
             }
         }
 
-        Debug.Log("Initilized dictionary:");
-        foreach (var g in d)
-        {
-            Debug.Log(g);
-        } 
-
         return d;
     }
 

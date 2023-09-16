@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6356623964881960271}
   - component: {fileID: 4701606922368522660}
   - component: {fileID: 469170887556095123}
+  - component: {fileID: 4509104137704893299}
   m_Layer: 0
   m_Name: Stairs
   m_TagString: Untagged
@@ -165,3 +166,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.0114777, y: 2.4729977}
   m_EdgeRadius: 0
+--- !u!114 &4509104137704893299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 301493093759708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 628a3530272bb2b4fa2bbfd277dfe6d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Tavern stairs
+  destination: Home
+  tags:
+  - Player
+  offset: {x: 3, y: 0, z: 0}

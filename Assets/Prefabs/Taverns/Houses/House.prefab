@@ -46,8 +46,8 @@ Tilemap:
   - first: {x: 2, y: 71, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 0
-      m_TileSpriteIndex: 0
+      m_TileIndex: 1
+      m_TileSpriteIndex: 1
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -56,8 +56,8 @@ Tilemap:
   - first: {x: 3, y: 71, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 0
-      m_TileSpriteIndex: 0
+      m_TileIndex: 1
+      m_TileSpriteIndex: 1
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -66,8 +66,8 @@ Tilemap:
   - first: {x: 2, y: 72, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 0
-      m_TileSpriteIndex: 0
+      m_TileIndex: 1
+      m_TileSpriteIndex: 1
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -76,8 +76,8 @@ Tilemap:
   - first: {x: 3, y: 72, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 0
-      m_TileSpriteIndex: 0
+      m_TileIndex: 1
+      m_TileSpriteIndex: 1
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -85,11 +85,15 @@ Tilemap:
       m_AllTileFlags: 1073741825
   m_AnimatedTiles: {}
   m_TileAssetArray:
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 4
-    m_Data: {fileID: 11400000, guid: fdf6813b533674447874f05bf53abe6f, type: 2}
+    m_Data: {fileID: 11400000, guid: b7d0ed821e9f17743b8744d20074333c, type: 2}
   m_TileSpriteArray:
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 4
-    m_Data: {fileID: 1879742091, guid: de97dcc9a17af0f4591ecb0abf207df8, type: 3}
+    m_Data: {fileID: -1630960940, guid: de97dcc9a17af0f4591ecb0abf207df8, type: 3}
   m_TileMatrixArray:
   - m_RefCount: 4
     m_Data:
@@ -1951,6 +1955,22 @@ PrefabInstance:
     - target: {fileID: 1322216404795118020, guid: c4c2803d32bcdc744b0ee23b1935df9b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4509104137704893299, guid: c4c2803d32bcdc744b0ee23b1935df9b, type: 3}
+      propertyPath: key
+      value: Home
+      objectReference: {fileID: 0}
+    - target: {fileID: 4509104137704893299, guid: c4c2803d32bcdc744b0ee23b1935df9b, type: 3}
+      propertyPath: offset.x
+      value: -3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4509104137704893299, guid: c4c2803d32bcdc744b0ee23b1935df9b, type: 3}
+      propertyPath: offset.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4509104137704893299, guid: c4c2803d32bcdc744b0ee23b1935df9b, type: 3}
+      propertyPath: destination
+      value: Tavern stairs
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4c2803d32bcdc744b0ee23b1935df9b, type: 3}
