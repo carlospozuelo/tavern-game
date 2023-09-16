@@ -70,7 +70,7 @@ public class Furniture : MonoBehaviour, Item
         RaycastHit2D[] rays = Physics2D.BoxCastAll(origin, size, 0f, direction, 0f);
 
         foreach (var ray in rays) { 
-            if (!ray.collider.name.Equals("Walls"))
+            if (!ray.collider.name.Equals("Wall"))
             {
                 return false;
             }
@@ -80,22 +80,45 @@ public class Furniture : MonoBehaviour, Item
         return true;
     }
 
-
-    public bool CanBePlaced(Vector3Int topLeftTile)
+    // This method will be called if the current position of the furniture is invalid
+    public void ReplaceWallFurniture()
     {
-        Boxcast(topLeftTile);
+        if (placedOnWalls)
+        {
+            if (!GridManager.instance.IsEntirelyInATilemap(GridManager.instance.GridPosition(transform.position + new Vector3(0, -1)), size, "FurnishableWall")) {
+                int attemps = 0;
+                Vector3 offset = Vector2.zero;
+                Debug.Log("Moving " + gameObject.name);
+                while (attemps < 10 && !GridManager.instance.IsEntirelyInATilemap(GridManager.instance.GridPosition(transform.position + offset + new Vector3(0,-1)), size, "FurnishableWall"))
+                {
+                    offset.y = offset.y + 1;
+                    attemps++;
+                }
+                if (GridManager.instance.IsEntirelyInATilemap(GridManager.instance.GridPosition(transform.position + offset + new Vector3(0, -1)), size, "FurnishableWall")) {
+                    transform.position = GridManager.instance.GridPosition(transform.position + offset);
+                } else
+                {
+                    Debug.LogWarning("Item has to be picked up!");
+                }
+            }
+
+        }
+    }
+
+        public bool CanBePlaced(Vector3Int topLeftTile, bool checkCollisions = true)
+    {
         if (GameController.instance.DistanceToPlayer(topLeftTile + new Vector3(size.x, -size.y) / 2) >= GameController.instance.maxDistanceToPlaceItems) { return false;  }
 
         if (placedOnWalls)
         {
-            if (!GridManager.instance.IsEntirelyInATilemap(topLeftTile, size, GridManager.TileMaps.FurnishableWall)) { return false; }
+            if (!GridManager.instance.IsEntirelyInATilemap(topLeftTile, size, "FurnishableWall")) { return false; }
         } else
         {
-            if (!GridManager.instance.IsEntirelyInATilemap(topLeftTile, size, GridManager.TileMaps.Floor)) { return false; }
+            if (!GridManager.instance.IsEntirelyInATilemap(topLeftTile, size, "Floor")) { return false; }
         }
 
-        // Check if it would collide with another object
-        if (!rugLike && !Boxcast(topLeftTile)) { return false; } 
+        // Check if it would collide with another non-wall object
+        if (!rugLike && checkCollisions && TryGetComponent(out Collider2D c) && !Boxcast(topLeftTile)) { return false; } 
 
 
         return true;
@@ -119,6 +142,7 @@ public class Furniture : MonoBehaviour, Item
             if (GameController.instance.DistanceToPlayer(transform.position + new Vector3(size.x, -size.y) / 2) < GameController.instance.maxDistanceToPlaceItems) {
                 PlayerInventory.instance.SetCurrentItem(originalPrefab);
                 TavernController.RemoveFurniture(gameObject);
+                InventoryUI.instance.UpdateSpriteHotbar(this, PlayerInventory.instance.currentItem);
                 Destroy(gameObject);
             }
         }

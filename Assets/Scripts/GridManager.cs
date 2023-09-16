@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
@@ -7,13 +8,10 @@ using UnityEngine.Tilemaps;
 
 public class GridManager : MonoBehaviour
 {
-    public enum TileMaps { Floor, Wall, FurnishableWall }
-
-    public Tilemap floor, wall, furnishableWall;
-
     public Grid grid;
 
     public static GridManager instance;
+    private Dictionary<string, List<Tilemap>> dictionary;
 
     private void Awake()
     {
@@ -23,28 +21,84 @@ public class GridManager : MonoBehaviour
         } else
         {
             instance = this;
-            dictionary = new Dictionary<TileMaps, Tilemap>();
-            dictionary[TileMaps.Floor] = floor;
-            dictionary[TileMaps.Wall] = wall;
-            dictionary[TileMaps.FurnishableWall] = furnishableWall;
         }
     }
 
-    private Dictionary<TileMaps, Tilemap> dictionary;
+    private void Start()
+    {
+        InitializeTilemap();
+    }
 
-    public bool IsEntirelyInATilemap(Vector3Int position, Vector2Int size, TileMaps option)
+    public static void Clear()
+    {
+        if (instance.dictionary != null && instance.dictionary.ContainsKey("Floor"))
+        {
+            foreach (Tilemap t in instance.dictionary["Floor"])
+            {
+                t.transform.parent.gameObject.SetActive(false);//Destroy(t.transform.parent.gameObject);
+            }
+        }
+
+        instance.dictionary = new Dictionary<string, List<Tilemap>>();
+    }
+
+    public static void InitializeTilemap(bool createDic = true)
+    {
+        if (createDic)
+        {
+            instance.dictionary = new Dictionary<string, List<Tilemap>>();
+        }
+        foreach (Transform child in instance.transform)
+        {
+            if (child.gameObject.activeSelf)
+            {
+                foreach (Transform granchild in child.transform)
+                {
+                    // Tilemaps
+                    List<Tilemap> tilemaps;
+                    if (instance.dictionary.ContainsKey(granchild.name))
+                    {
+                        tilemaps = instance.dictionary[granchild.name];
+                    }
+                    else
+                    {
+                        tilemaps = new List<Tilemap>();
+                        instance.dictionary.Add(granchild.name, tilemaps);
+                    }
+                    Tilemap tilemap = granchild.gameObject.GetComponent<Tilemap>();
+                    if (!tilemaps.Contains(tilemap))
+                    {
+                        tilemaps.Add(tilemap);
+                    }
+                }
+            }
+        }
+    }
+
+
+
+    public bool IsEntirelyInATilemap(Vector3Int position, Vector2Int size, string option)
     {
         for (int i = 0; i < size.x; i++)
         {
             for (int j = 0; j < size.y; j++)
             {
-                if (!dictionary[option].HasTile(position + new Vector3Int(i,-j)))
+                // Tilemaps with the same tag
+                List<Tilemap> tilemaps = dictionary[option];
+                bool found = false;
+                foreach (Tilemap t in tilemaps) {
+                    if (t.HasTile(position + new Vector3Int(i, -j)))
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found)
                 {
                     return false;
-                } 
+                }
             }
         }
-
         return true;
     }
 
@@ -57,17 +111,5 @@ public class GridManager : MonoBehaviour
     {
         return grid.WorldToCell(worldPosition);
     }
-
-    /*
-    private void DebugInfo()
-    {
-        var worldPos = GameController.instance.WorldPosition(Input.mousePosition);
-        var gridPos = GridPosition(worldPos);
-        DebugPanelUI.instance.Debug("Mouse world position: " + worldPos
-            + "\nGrid position mouse: " + gridPos
-            + "\nWall tile on that position? " + IsEntirelyInATilemap(gridPos, 1, TileMaps.FurnishableWall)
-            + "\nFloor tile on that position? " + IsEntirelyInATilemap(gridPos, 1, TileMaps.Floor)
-            + "\nFloor tile on that postion x4? " + IsEntirelyInATilemap(gridPos, 4, TileMaps.Floor));
-    }
-    */
+    
 }
