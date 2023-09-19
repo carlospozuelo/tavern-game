@@ -146,9 +146,13 @@ public class PlayerInventory : MonoBehaviour
                 Furniture toBePickedUp = null;
                 foreach (Furniture f in list)
                 {
-                    if (toBePickedUp == null) { toBePickedUp = f; }
-                    else if (!f.canBePlacedOnTable) { toBePickedUp = f; break; }
-                    else if (!f.rugLike) { toBePickedUp = f; }
+                    if (f.itemsOnTop.Count == 0) {
+                        toBePickedUp = f;
+                        if (!f.rugLike) {
+                            break;
+                        }
+                    }
+                    
                 }
                 if (toBePickedUp != null)
                 {

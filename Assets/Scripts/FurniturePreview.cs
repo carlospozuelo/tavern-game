@@ -22,7 +22,7 @@ public class FurniturePreview : MonoBehaviour
 
     private void MovePreview(Vector2 position)
     {
-        transform.position = position;
+        transform.position = new Vector3(position.x, position.y, transform.position.z);
     }
 
     public void EnablePreview(Furniture item, Vector3 scale) {
@@ -44,6 +44,7 @@ public class FurniturePreview : MonoBehaviour
     private IEnumerator PreviewItem(Furniture item)
     {
         spriteRenderer.sprite = item.GetSprite();
+        transform.position = new Vector3(transform.position.x, transform.position.y, item.gameObject.transform.position.z);
         while (true)
         {
             Vector3 worldPosition = GameController.instance.WorldPosition(Input.mousePosition);

@@ -203,10 +203,20 @@ public class TavernController : MonoBehaviour
 
     public static void InstantiateFurniture(GameObject g, Vector3 worldPosition)
     {
-        GameObject instance = Instantiate(g, GridManager.instance.SnapPosition(worldPosition), Quaternion.identity, null);
-        instance.GetComponent<Furniture>().originalPrefab = g;
-        AddFurniture(instance);
+        Vector2 pos = GridManager.instance.SnapPosition(worldPosition);
+        GameObject instance = Instantiate(g, new Vector3(pos.x, pos.y, g.transform.position.z), Quaternion.identity, null);
+        Furniture f = instance.GetComponent<Furniture>();
+        f.originalPrefab = g;
+        /*
+        if (!f.rugLike) {
+            foreach (GameObject furniture in placedFurnitures) {
+                if (furniture.IsInsideObject(pos)) {
 
+                }
+            }
+        }
+        */
+        AddFurniture(instance);
     }
 
     private TavernData ReadTavernData()

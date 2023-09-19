@@ -36,6 +36,9 @@ public class Furniture : MonoBehaviour, Item
     [Tooltip("Used for furniture that can be placed on top of a tablelike furniture")]
     public bool canBePlacedOnTable = false;
 
+    public List<GameObject> itemsOnTop = new List<GameObject>();
+    public Furniture onTopOf = null;
+
     public void UseItem()
     {
         // Place the item on the grid, using the mouse position.
@@ -93,11 +96,10 @@ public class Furniture : MonoBehaviour, Item
 
         foreach (var ray in rays)
         {
-            if (ray.collider.TryGetComponent(out Furniture f))
-            {
-                if (f.tableLike)
-                { return true; }
+            if (ray.collider.gameObject.name.Equals("Table surface")) {
+                return true;
             }
+            
         }
 
 
@@ -129,7 +131,7 @@ public class Furniture : MonoBehaviour, Item
         }
     }
 
-        public bool CanBePlaced(Vector3Int topLeftTile, bool checkCollisions = true)
+    public bool CanBePlaced(Vector3Int topLeftTile, bool checkCollisions = true)
     {
         if (GameController.instance.DistanceToPlayer(topLeftTile + new Vector3(size.x, -size.y) / 2) >= GameController.instance.maxDistanceToPlaceItems) { return false;  }
 
@@ -157,7 +159,7 @@ public class Furniture : MonoBehaviour, Item
         float maxX = transform.position.x + size.x;
         float maxY = transform.position.y - size.y;
 
-        return worldPosition.x >= transform.position.x && worldPosition.x <= maxX
+        return worldPosition.x >= transform.position.x && worldPosition.x < maxX
             && worldPosition.y < transform.position.y && worldPosition.y >= maxY;
     }
 
@@ -169,6 +171,11 @@ public class Furniture : MonoBehaviour, Item
                 PlayerInventory.instance.SetCurrentItem(originalPrefab);
                 TavernController.RemoveFurniture(gameObject);
                 InventoryUI.instance.UpdateSpriteHotbar(this, PlayerInventory.instance.currentItem);
+
+                if (onTopOf != null) {
+                    onTopOf.itemsOnTop.Remove(gameObject);
+                }
+
                 Destroy(gameObject);
             }
         }
