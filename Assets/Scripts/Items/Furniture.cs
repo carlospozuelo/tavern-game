@@ -4,6 +4,7 @@ using Unity.Burst.CompilerServices;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using static Unity.Burst.Intrinsics.Arm;
 
 public class Furniture : MonoBehaviour, Item
 {
@@ -30,7 +31,13 @@ public class Furniture : MonoBehaviour, Item
     public bool placedOnWalls = false;
     [Tooltip("Used for rugs or flooring in general. If set to true, the furniture can be placed below items and below the player as well.")]
     public bool rugLike = false;
-    public bool canBePlacedBelowItems = false;
+    [Tooltip("Used for furniture that can have accessories on top")]
+    public bool tableLike = false;
+    [Tooltip("Used for furniture that can be placed on top of a tablelike furniture")]
+    public bool canBePlacedOnTable = false;
+
+    public List<GameObject> itemsOnTop = new List<GameObject>();
+    public Furniture onTopOf = null;
 
     public void UseItem()
     {
@@ -80,6 +87,25 @@ public class Furniture : MonoBehaviour, Item
         return true;
     }
 
+    private bool BoxcastOnTableLike(Vector3Int topLeftTile)
+    {
+        Vector2 direction = Vector2.up;
+        Vector2 origin = new Vector2(topLeftTile.x, topLeftTile.y + 1) + new Vector2(size.x, -size.y) / 2;
+
+        RaycastHit2D[] rays = Physics2D.BoxCastAll(origin, size, 0f, direction, 0f);
+
+        foreach (var ray in rays)
+        {
+            if (ray.collider.gameObject.name.Equals("Table surface")) {
+                return true;
+            }
+            
+        }
+
+
+        return false;
+    }
+
     // This method will be called if the current position of the furniture is invalid
     public void ReplaceWallFurniture()
     {
@@ -105,7 +131,7 @@ public class Furniture : MonoBehaviour, Item
         }
     }
 
-        public bool CanBePlaced(Vector3Int topLeftTile, bool checkCollisions = true)
+    public bool CanBePlaced(Vector3Int topLeftTile, bool checkCollisions = true)
     {
         if (GameController.instance.DistanceToPlayer(topLeftTile + new Vector3(size.x, -size.y) / 2) >= GameController.instance.maxDistanceToPlaceItems) { return false;  }
 
@@ -116,9 +142,11 @@ public class Furniture : MonoBehaviour, Item
         {
             if (!GridManager.instance.IsEntirelyInATilemap(topLeftTile, size, "Floor")) { return false; }
         }
-
-        // Check if it would collide with another non-wall object
-        if (!rugLike && checkCollisions && TryGetComponent(out Collider2D c) && !Boxcast(topLeftTile)) { return false; } 
+        
+        if (canBePlacedOnTable)
+        {
+            if (!BoxcastOnTableLike(topLeftTile)) { return false;  }   
+        } else if (!rugLike && checkCollisions && TryGetComponent(out Collider2D c) && !Boxcast(topLeftTile)) { return false; } 
 
 
         return true;
@@ -131,8 +159,23 @@ public class Furniture : MonoBehaviour, Item
         float maxX = transform.position.x + size.x;
         float maxY = transform.position.y - size.y;
 
-        return worldPosition.x >= transform.position.x && worldPosition.x <= maxX
+        return worldPosition.x >= transform.position.x && worldPosition.x < maxX
+            && worldPosition.y < transform.position.y && worldPosition.y >= maxY;
+    }
+
+    public bool IsPartiallyInsideObject(Vector3 worldPosition)
+    {
+        worldPosition = GridManager.instance.GridPosition(worldPosition);
+
+        float maxX = transform.position.x + size.x;
+        float maxY = transform.position.y - size.y + 1;
+
+        bool resul = worldPosition.x >= transform.position.x && worldPosition.x <= maxX
             && worldPosition.y <= transform.position.y && worldPosition.y >= maxY;
+
+        // Debug.Log(resul + ", " + worldPosition + " " + transform.position);
+
+        return resul;
     }
 
     public void PickUp()
@@ -143,6 +186,11 @@ public class Furniture : MonoBehaviour, Item
                 PlayerInventory.instance.SetCurrentItem(originalPrefab);
                 TavernController.RemoveFurniture(gameObject);
                 InventoryUI.instance.UpdateSpriteHotbar(this, PlayerInventory.instance.currentItem);
+
+                if (onTopOf != null) {
+                    onTopOf.itemsOnTop.Remove(gameObject);
+                }
+
                 Destroy(gameObject);
             }
         }

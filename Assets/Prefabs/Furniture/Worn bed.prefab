@@ -126,14 +126,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateGameObject: {fileID: 0}
-  size: {x: 3, y: 3}
+  size: {x: 3, y: 2}
   originalPrefab: {fileID: 7095797780511728409}
   canBePlacedInside: 1
   canBePlacedOutside: 1
-  canBeRotated: 0
   placedOnWalls: 0
   rugLike: 0
-  canBePlacedBelowItems: 0
+  tableLike: 0
+  canBePlacedOnTable: 0
+  itemsOnTop: []
+  onTopOf: {fileID: 0}
 --- !u!114 &4423483373379594654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,4 +162,4 @@ MonoBehaviour:
   - {x: 1.8694445, y: -1.4574791, z: 0}
   m_ShapePathHash: 1595654161
   m_Mesh: {fileID: 0}
-  m_InstanceId: 39762
+  m_InstanceId: 57282

@@ -134,13 +134,29 @@ public class PlayerInventory : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0)) { 
             if (!UseItem()) { 
+                List<Furniture> list = new List<Furniture>();
                 foreach (GameObject furniture in TavernController.GetPlacedFurnitures())
                 {
                     Furniture f = furniture.GetComponent<Furniture>();
                     if (f.IsInsideObject(GameController.instance.WorldMousePosition())) {
-                        f.PickUp();
-                        break;
+                        list.Add(f);
                     }
+                }
+
+                Furniture toBePickedUp = null;
+                foreach (Furniture f in list)
+                {
+                    if (f.itemsOnTop.Count == 0) {
+                        toBePickedUp = f;
+                        if (!f.rugLike) {
+                            break;
+                        }
+                    }
+                    
+                }
+                if (toBePickedUp != null)
+                {
+                    toBePickedUp.PickUp();
                 }
             }
         }

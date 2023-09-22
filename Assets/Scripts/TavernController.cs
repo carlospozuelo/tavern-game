@@ -174,6 +174,11 @@ public class TavernController : MonoBehaviour
                 InstantiateFurniture(dictionary[furniture.GetFurnitureName()], furniture.GetPosition());
             }
 
+            foreach (GameObject furniture in placedFurnitures)
+            {
+                UpdateItemsOnTop(furniture.transform.position, furniture, furniture.GetComponent<Furniture>());
+            }
+
             List<string> taverns = tavern.GetTaverns();
             if (taverns.Count > 0)
             {
@@ -203,10 +208,36 @@ public class TavernController : MonoBehaviour
 
     public static void InstantiateFurniture(GameObject g, Vector3 worldPosition)
     {
-        GameObject instance = Instantiate(g, GridManager.instance.SnapPosition(worldPosition), Quaternion.identity, null);
-        instance.GetComponent<Furniture>().originalPrefab = g;
-        AddFurniture(instance);
+        Vector2 pos = GridManager.instance.SnapPosition(worldPosition);
+        GameObject newInstance = Instantiate(g, new Vector3(pos.x, pos.y, g.transform.position.z), Quaternion.identity, null);
+        Furniture f = newInstance.GetComponent<Furniture>();
+        f.originalPrefab = g;
 
+        UpdateItemsOnTop(pos, newInstance, f);
+
+        AddFurniture(newInstance);
+    }
+
+    private static void UpdateItemsOnTop(Vector2 pos, GameObject gO, Furniture f)
+    {
+        if (f.canBePlacedOnTable)
+        {
+            foreach (GameObject gf in instance.placedFurnitures)
+            {
+                if (!gf.Equals(gO))
+                {
+                    Furniture furniture = gf.GetComponent<Furniture>();
+                    if (furniture.IsPartiallyInsideObject(pos) && !furniture.rugLike)
+                    {
+                        if (!furniture.itemsOnTop.Contains(gO))
+                        {
+                            furniture.itemsOnTop.Add(gO);
+                            f.onTopOf = furniture;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private TavernData ReadTavernData()
