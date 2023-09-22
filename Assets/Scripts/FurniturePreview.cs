@@ -7,7 +7,7 @@ public class FurniturePreview : MonoBehaviour
 
     public static FurniturePreview instance;
     public SpriteRenderer spriteRenderer;
-
+    
     private void Awake()
     {
         if (instance != null && instance != this)

@@ -163,6 +163,21 @@ public class Furniture : MonoBehaviour, Item
             && worldPosition.y < transform.position.y && worldPosition.y >= maxY;
     }
 
+    public bool IsPartiallyInsideObject(Vector3 worldPosition)
+    {
+        worldPosition = GridManager.instance.GridPosition(worldPosition);
+
+        float maxX = transform.position.x + size.x;
+        float maxY = transform.position.y - size.y + 1;
+
+        bool resul = worldPosition.x >= transform.position.x && worldPosition.x <= maxX
+            && worldPosition.y <= transform.position.y && worldPosition.y >= maxY;
+
+        // Debug.Log(resul + ", " + worldPosition + " " + transform.position);
+
+        return resul;
+    }
+
     public void PickUp()
     {
         if (PlayerInventory.instance.GetCurrentItem() == null)
