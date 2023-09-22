@@ -174,6 +174,11 @@ public class TavernController : MonoBehaviour
                 InstantiateFurniture(dictionary[furniture.GetFurnitureName()], furniture.GetPosition());
             }
 
+            foreach (GameObject furniture in placedFurnitures)
+            {
+                UpdateItemsOnTop(furniture.transform.position, furniture, furniture.GetComponent<Furniture>());
+            }
+
             List<string> taverns = tavern.GetTaverns();
             if (taverns.Count > 0)
             {
@@ -208,19 +213,31 @@ public class TavernController : MonoBehaviour
         Furniture f = newInstance.GetComponent<Furniture>();
         f.originalPrefab = g;
 
-        // TODO: EXTRACT METHOD
-        if (f.canBePlacedOnTable) {
-            foreach (GameObject gf in instance.placedFurnitures) {
-                Furniture furniture = gf.GetComponent<Furniture>();
-                if (furniture.IsPartiallyInsideObject(pos) && !furniture.rugLike) {
-                    // Debug.Log(f + " is inside of " + furniture);
-                    furniture.itemsOnTop.Add(newInstance);
-                    f.onTopOf = furniture;
+        UpdateItemsOnTop(pos, newInstance, f);
+
+        AddFurniture(newInstance);
+    }
+
+    private static void UpdateItemsOnTop(Vector2 pos, GameObject gO, Furniture f)
+    {
+        if (f.canBePlacedOnTable)
+        {
+            foreach (GameObject gf in instance.placedFurnitures)
+            {
+                if (!gf.Equals(gO))
+                {
+                    Furniture furniture = gf.GetComponent<Furniture>();
+                    if (furniture.IsPartiallyInsideObject(pos) && !furniture.rugLike)
+                    {
+                        if (!furniture.itemsOnTop.Contains(gO))
+                        {
+                            furniture.itemsOnTop.Add(gO);
+                            f.onTopOf = furniture;
+                        }
+                    }
                 }
             }
         }
-        
-        AddFurniture(newInstance);
     }
 
     private TavernData ReadTavernData()
