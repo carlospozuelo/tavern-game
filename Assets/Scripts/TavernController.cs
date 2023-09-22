@@ -12,10 +12,12 @@ public class TavernController : MonoBehaviour
     public class TavernData
     {
         private List<FurnitureData> furnitures;
+        private List<string> taverns;
 
         public TavernData()
         {
             furnitures = new List<FurnitureData>();
+            taverns = new List<string>();
         }
 
         public void AddFurniture(FurnitureData furniture)
@@ -27,34 +29,92 @@ public class TavernController : MonoBehaviour
         {
             return furnitures;
         }
+
+        public void AddTavern(string tavern)
+        {
+            taverns.Add(tavern);
+        }
+
+        public List<string> GetTaverns()
+        {
+            return taverns;
+        }
+
     }
 
     [SerializeField]
-    private GameObject[] allFurniture;
+    private GameObject[] allFurniture, allTaverns, allHouses;
 
     private Dictionary<string, GameObject> dictionary;
+    private Dictionary<string, GameObject> tavernDictionary;
 
     private static TavernController instance;
 
     public List<GameObject> placedFurnitures;
+    public List<GameObject> currentTaverns;
 
     private void Awake()
     {
         if (instance != null && instance != this)
         {
             Destroy(gameObject);
-        } else
+        }
+        else
         {
             instance = this;
         }
 
-        dictionary = new Dictionary<string, GameObject>();
+        dictionary = InitializeDictionary(allFurniture);
+        tavernDictionary = InitializeDictionary(allTaverns);
 
-        foreach(GameObject g in allFurniture)
-        {
-            dictionary.Add(g.name, g);
-        }
+
         placedFurnitures = new List<GameObject>();
+    }
+
+    public static void UpgradeTavern(List<GameObject> newTaverns, bool deleteAll = true)
+    {
+        instance.currentTaverns = Upgrade(newTaverns, deleteAll, instance.currentTaverns);
+
+        foreach (GameObject g in instance.placedFurnitures)
+        {
+            Furniture f = g.GetComponent<Furniture>();
+            if (f != null)
+            {
+                f.ReplaceWallFurniture();
+            }
+        }
+
+    }
+
+    private static List<GameObject> Upgrade(List<GameObject> newTaverns, bool deleteAll, List<GameObject> list)
+    {
+        if (deleteAll)
+        {
+            GridManager.Clear();
+            list = new List<GameObject>();
+        }
+        foreach (GameObject tav in newTaverns) { 
+            GameObject tavern = Instantiate(tav, GridManager.instance.gameObject.transform);
+            list.Add(tavern);
+        }
+
+        GridManager.InitializeTilemap();
+
+        return list;
+    }
+
+    private Dictionary<string, GameObject> InitializeDictionary(GameObject[] list)
+    {
+        Dictionary<string, GameObject> d = new Dictionary<string, GameObject>();
+        if (list != null)
+        {
+            foreach (GameObject g in list)
+            {
+                d.Add(g.name, g);
+            }
+        }
+
+        return d;
     }
 
     private void Start()
@@ -83,6 +143,11 @@ public class TavernController : MonoBehaviour
             data.AddFurniture(furniture);
         }
 
+        foreach (GameObject g in currentTaverns)
+        {
+            data.AddTavern(g.name.Replace("(Clone)", ""));
+        }
+
         BinaryFormatter formatter = new BinaryFormatter();
         string path = GetPath();
         FileStream stream = new FileStream(path, FileMode.Create);
@@ -94,6 +159,7 @@ public class TavernController : MonoBehaviour
 
     public void DeSerializeTavern()
     {
+        
         foreach (GameObject g in placedFurnitures)
         {
             Destroy(g);
@@ -107,15 +173,71 @@ public class TavernController : MonoBehaviour
             {
                 InstantiateFurniture(dictionary[furniture.GetFurnitureName()], furniture.GetPosition());
             }
+
+            foreach (GameObject furniture in placedFurnitures)
+            {
+                UpdateItemsOnTop(furniture.transform.position, furniture, furniture.GetComponent<Furniture>());
+            }
+
+            List<string> taverns = tavern.GetTaverns();
+            if (taverns.Count > 0)
+            {
+                GridManager.Clear();
+                currentTaverns = new List<GameObject>();
+                foreach (Transform t in GridManager.instance.transform)
+                {
+                    t.gameObject.SetActive(false);
+                }
+                foreach (string s in taverns)
+                {
+                    GameObject tav = Instantiate(instance.tavernDictionary[s], GridManager.instance.gameObject.transform);
+                    currentTaverns.Add(tav);
+                }
+                GridManager.InitializeTilemap();
+            }
+        }
+    }
+
+    public void DeleteData()
+    {
+        if (File.Exists(GetPath()))
+        {
+            File.Delete(GetPath());
         }
     }
 
     public static void InstantiateFurniture(GameObject g, Vector3 worldPosition)
     {
-        GameObject instance = Instantiate(g, GridManager.instance.SnapPosition(worldPosition), Quaternion.identity, null);
-        instance.GetComponent<Furniture>().originalPrefab = g;
-        AddFurniture(instance);
+        Vector2 pos = GridManager.instance.SnapPosition(worldPosition);
+        GameObject newInstance = Instantiate(g, new Vector3(pos.x, pos.y, g.transform.position.z), Quaternion.identity, null);
+        Furniture f = newInstance.GetComponent<Furniture>();
+        f.originalPrefab = g;
 
+        UpdateItemsOnTop(pos, newInstance, f);
+
+        AddFurniture(newInstance);
+    }
+
+    private static void UpdateItemsOnTop(Vector2 pos, GameObject gO, Furniture f)
+    {
+        if (f.canBePlacedOnTable)
+        {
+            foreach (GameObject gf in instance.placedFurnitures)
+            {
+                if (!gf.Equals(gO))
+                {
+                    Furniture furniture = gf.GetComponent<Furniture>();
+                    if (furniture.IsPartiallyInsideObject(pos) && !furniture.rugLike)
+                    {
+                        if (!furniture.itemsOnTop.Contains(gO))
+                        {
+                            furniture.itemsOnTop.Add(gO);
+                            f.onTopOf = furniture;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private TavernData ReadTavernData()
