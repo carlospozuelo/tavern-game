@@ -53,6 +53,11 @@ public class TavernController : MonoBehaviour
     public List<GameObject> placedFurnitures;
     public List<GameObject> currentTaverns;
 
+    [SerializeField]
+    private List<GameObject> currentInteractuables;
+
+    public static List<GameObject> GetCurrentInteractuables() { return instance.currentInteractuables;  }
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -129,6 +134,10 @@ public class TavernController : MonoBehaviour
 
     public static void RemoveFurniture(GameObject f) {
         instance.placedFurnitures.Remove(f);
+        if (f.TryGetComponent(out Interactuable i))
+        {
+            instance.currentInteractuables.Remove(f);
+        }
     }
 
     public static List<GameObject> GetPlacedFurnitures() { return instance.placedFurnitures; }
@@ -216,6 +225,10 @@ public class TavernController : MonoBehaviour
         UpdateItemsOnTop(pos, newInstance, f);
 
         AddFurniture(newInstance);
+        if (newInstance.TryGetComponent(out Interactuable i))
+        {
+            instance.currentInteractuables.Add(newInstance);
+        }
     }
 
     private static void UpdateItemsOnTop(Vector2 pos, GameObject gO, Furniture f)

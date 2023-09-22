@@ -6,13 +6,13 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using static Unity.Burst.Intrinsics.Arm;
 
-public class Furniture : MonoBehaviour, Item
+public class Furniture : MonoBehaviour, Item, IFurniture
 {
     [Tooltip("Optional field. If not empty, the furniture can be rotated before placing, and it will be transformed to the referenced gameobject instead")]
     public GameObject rotateGameObject;
 
-
-    public Vector2Int size = new Vector2Int(1,1);
+    [SerializeField]
+    private Vector2Int size = new Vector2Int(1,1);
 
     public GameObject originalPrefab;
 

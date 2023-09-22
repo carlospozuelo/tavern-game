@@ -164,13 +164,33 @@ public class PlayerInventory : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             GameObject item = GetCurrentItem();
-            if (item != null && item.TryGetComponent(out Furniture f))
+
+            Interactuable i = null;
+            foreach (GameObject interactuable in TavernController.GetCurrentInteractuables())
             {
-                if (f.rotateGameObject != null)
+                Interactuable aux = interactuable.GetComponent<Interactuable>();
+
+                if (aux.IsInsideObject(GameController.instance.WorldMousePosition()))
                 {
-                    SetCurrentItem(f.rotateGameObject);
-                    InventoryUI.instance.UpdateSpriteHotbar(f.rotateGameObject.GetComponent<Item>(), currentItem);
+                    i = aux;
+                    break;
                 }
+                
+            }
+
+            if (i == null)
+            {
+                if (item != null && item.TryGetComponent(out Furniture f))
+                {
+                    if (f.rotateGameObject != null)
+                    {
+                        SetCurrentItem(f.rotateGameObject);
+                        InventoryUI.instance.UpdateSpriteHotbar(f.rotateGameObject.GetComponent<Item>(), currentItem);
+                    }
+                }
+            } else
+            {
+                i.Interact();
             }
         }
     }
