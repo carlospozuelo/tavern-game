@@ -190,7 +190,10 @@ public class PlayerInventory : MonoBehaviour
                 }
             } else
             {
-                i.Interact();
+                if (Vector2.Distance(gameObject.transform.position, i.GetPosition()) <= i.GetMaxDistance())
+                {
+                    i.Interact();
+                }
             }
         }
     }

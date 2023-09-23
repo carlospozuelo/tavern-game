@@ -134,9 +134,12 @@ public class TavernController : MonoBehaviour
 
     public static void RemoveFurniture(GameObject f) {
         instance.placedFurnitures.Remove(f);
-        if (f.TryGetComponent(out Interactuable i))
+        foreach (Transform t in f.transform)
         {
-            instance.currentInteractuables.Remove(f);
+            if (t.gameObject.TryGetComponent(out Interactuable i))
+            {
+                instance.currentInteractuables.Remove(t.gameObject);
+            }
         }
     }
 
@@ -225,9 +228,13 @@ public class TavernController : MonoBehaviour
         UpdateItemsOnTop(pos, newInstance, f);
 
         AddFurniture(newInstance);
-        if (newInstance.TryGetComponent(out Interactuable i))
+
+        foreach (Transform t in newInstance.transform)
         {
-            instance.currentInteractuables.Add(newInstance);
+            if (t.TryGetComponent(out Interactuable i))
+            {
+                instance.currentInteractuables.Add(t.gameObject);
+            }
         }
     }
 
