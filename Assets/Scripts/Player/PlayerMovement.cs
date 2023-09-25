@@ -11,7 +11,34 @@ public class PlayerMovement : MonoBehaviour
 
     public Animator animator;
 
+    [SerializeField]
+    private bool sitting = false;
 
+    private static PlayerMovement instance;
+
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+        } else
+        {
+            instance = this;
+        }
+    }
+
+    public static void Sit(Vector2 position)
+    {
+        instance.transform.position = new Vector3(position.x, position.y, instance.transform.position.z);
+        instance.animator.SetBool("Sitting", true);
+        instance.sitting = true;
+        instance.Stop();
+    }
+
+    public static void GetUp()
+    {
+
+    }
     // Update is called once per frame
     void Update()
     {
@@ -20,19 +47,26 @@ public class PlayerMovement : MonoBehaviour
 
         if (h != 0 || v != 0)
         {
-            
+            if (!sitting)
+            {
 
-            Vector2 normalized = new Vector2(h, v).normalized;
+                Vector2 normalized = new Vector2(h, v).normalized;
 
-            animator.SetFloat("MovementMagnitude", normalized.magnitude);
-            animator.SetFloat("AnimMoveX", h);
-            animator.SetFloat("AnimMoveY", v);
+                animator.SetFloat("MovementMagnitude", normalized.magnitude);
+                animator.SetFloat("AnimMoveX", h);
+                animator.SetFloat("AnimMoveY", v);
 
-            rb.velocity = normalized * speed;
+                rb.velocity = normalized * speed;
+            }
         } else
         {
-            rb.velocity = Vector2.zero;
-            animator.SetFloat("MovementMagnitude", 0);
+            Stop();
         }
+    }
+
+    private void Stop()
+    {
+        rb.velocity = Vector2.zero;
+        animator.SetFloat("MovementMagnitude", 0);
     }
 }

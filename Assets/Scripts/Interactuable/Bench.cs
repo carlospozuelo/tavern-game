@@ -33,7 +33,8 @@ public class Bench : MonoBehaviour, Interactuable
 
     public void Interact()
     {
-        Debug.Log("Interacting with " + gameObject.name);
+        PlayerMovement.Sit(transform.position);
+        //Debug.Log("Interacting with " + gameObject.name);
     }
 
     public bool IsInsideObject(Vector3 worldPosition)
