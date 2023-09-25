@@ -142,6 +142,7 @@ public class PlayerInventory : MonoBehaviour
                         list.Add(f);
                     }
                 }
+                
 
                 Furniture toBePickedUp = null;
                 foreach (Furniture f in list)
@@ -154,6 +155,7 @@ public class PlayerInventory : MonoBehaviour
                     }
                     
                 }
+
                 if (toBePickedUp != null)
                 {
                     toBePickedUp.PickUp();
