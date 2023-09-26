@@ -39,7 +39,7 @@ public class GameController : MonoBehaviour
 
     public float DistanceToPlayer(Vector3 p)
     {
-        return Vector3.Distance(p, player.transform.position);
+        return Vector2.Distance(p, player.transform.position);
     }
 
     public float maxDistanceToPlaceItems = 5;

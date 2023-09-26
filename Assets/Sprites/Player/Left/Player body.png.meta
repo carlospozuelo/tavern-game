@@ -263,6 +263,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Player body_7
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 64
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2dd72f2f7f514261b9f05935dc0bc77
+      internalID: -803686851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player body_8
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ee4b86e31b1a4558ab8a3f9d36bca95
+      internalID: -802545180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -279,7 +321,9 @@ TextureImporter:
       Player body_1: -375104281
       Player body_3: -1005499595
       Player body_4: -212425793
+      Player body_8: -802545180
       Player body_6: -362390418
+      Player body_7: -803686851
       Player body_5: 1559823275
   spritePackingTag: 
   pSDRemoveMatte: 0

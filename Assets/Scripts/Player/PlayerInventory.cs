@@ -142,11 +142,12 @@ public class PlayerInventory : MonoBehaviour
                         list.Add(f);
                     }
                 }
+                
 
                 Furniture toBePickedUp = null;
                 foreach (Furniture f in list)
                 {
-                    if (f.itemsOnTop.Count == 0) {
+                    if (f.itemsOnTop.Count == 0 && !f.IsBlocked()) {
                         toBePickedUp = f;
                         if (!f.rugLike) {
                             break;
@@ -154,6 +155,7 @@ public class PlayerInventory : MonoBehaviour
                     }
                     
                 }
+
                 if (toBePickedUp != null)
                 {
                     toBePickedUp.PickUp();
@@ -164,12 +166,35 @@ public class PlayerInventory : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             GameObject item = GetCurrentItem();
-            if (item != null && item.TryGetComponent(out Furniture f))
+
+            Interactuable i = null;
+            foreach (GameObject interactuable in TavernController.GetCurrentInteractuables())
             {
-                if (f.rotateGameObject != null)
+                Interactuable aux = interactuable.GetComponent<Interactuable>();
+
+                if (aux.IsInsideObject(GameController.instance.WorldMousePosition()))
                 {
-                    SetCurrentItem(f.rotateGameObject);
-                    InventoryUI.instance.UpdateSpriteHotbar(f.rotateGameObject.GetComponent<Item>(), currentItem);
+                    i = aux;
+                    break;
+                }
+                
+            }
+
+            if (i == null)
+            {
+                if (item != null && item.TryGetComponent(out Furniture f))
+                {
+                    if (f.rotateGameObject != null)
+                    {
+                        SetCurrentItem(f.rotateGameObject);
+                        InventoryUI.instance.UpdateSpriteHotbar(f.rotateGameObject.GetComponent<Item>(), currentItem);
+                    }
+                }
+            } else
+            {
+                if (Vector2.Distance(gameObject.transform.position, i.GetPosition()) <= i.GetMaxDistance())
+                {
+                    i.Interact();
                 }
             }
         }
