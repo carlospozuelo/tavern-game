@@ -204,8 +204,8 @@ TextureImporter:
       name: Torso_4
       rect:
         serializedVersion: 2
-        x: 0
-        y: 128
+        x: 128
+        y: 192
         width: 32
         height: 64
       alignment: 0
@@ -225,7 +225,7 @@ TextureImporter:
       name: Torso_5
       rect:
         serializedVersion: 2
-        x: 32
+        x: 0
         y: 128
         width: 32
         height: 64
@@ -246,7 +246,7 @@ TextureImporter:
       name: Torso_6
       rect:
         serializedVersion: 2
-        x: 64
+        x: 32
         y: 128
         width: 32
         height: 64
@@ -267,7 +267,7 @@ TextureImporter:
       name: Torso_7
       rect:
         serializedVersion: 2
-        x: 96
+        x: 64
         y: 128
         width: 32
         height: 64
@@ -288,8 +288,8 @@ TextureImporter:
       name: Torso_8
       rect:
         serializedVersion: 2
-        x: 0
-        y: 64
+        x: 96
+        y: 128
         width: 32
         height: 64
       alignment: 0
@@ -309,8 +309,8 @@ TextureImporter:
       name: Torso_9
       rect:
         serializedVersion: 2
-        x: 32
-        y: 64
+        x: 128
+        y: 128
         width: 32
         height: 64
       alignment: 0
@@ -330,7 +330,7 @@ TextureImporter:
       name: Torso_10
       rect:
         serializedVersion: 2
-        x: 64
+        x: 0
         y: 64
         width: 32
         height: 64
@@ -351,7 +351,7 @@ TextureImporter:
       name: Torso_11
       rect:
         serializedVersion: 2
-        x: 96
+        x: 32
         y: 64
         width: 32
         height: 64
@@ -372,8 +372,8 @@ TextureImporter:
       name: Torso_12
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
+        x: 64
+        y: 64
         width: 32
         height: 64
       alignment: 0
@@ -393,8 +393,8 @@ TextureImporter:
       name: Torso_13
       rect:
         serializedVersion: 2
-        x: 32
-        y: 0
+        x: 96
+        y: 64
         width: 32
         height: 64
       alignment: 0
@@ -414,8 +414,8 @@ TextureImporter:
       name: Torso_14
       rect:
         serializedVersion: 2
-        x: 64
-        y: 0
+        x: 128
+        y: 64
         width: 32
         height: 64
       alignment: 0
@@ -435,7 +435,7 @@ TextureImporter:
       name: Torso_15
       rect:
         serializedVersion: 2
-        x: 96
+        x: 0
         y: 0
         width: 32
         height: 64
@@ -448,6 +448,90 @@ TextureImporter:
       bones: []
       spriteID: d4c247f971e0192499965b5194db6a88
       internalID: 99320122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torso_16
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e462e1d98410d4ff79d9047b4d57732d
+      internalID: -407117271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torso_17
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 259639650a1734d09a2ba66892839f9c
+      internalID: -707169786
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torso_18
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc93a81a97c364d76a520ab1919abe18
+      internalID: 1499147933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torso_19
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f59ce270688654777b17b96644926bdf
+      internalID: 1232464618
       vertices: []
       indices: 
       edges: []
@@ -474,10 +558,14 @@ TextureImporter:
       Torso_2: 1105161385
       Torso_3: 2091818422
       Torso_9: 1757747144
+      Torso_16: -407117271
+      Torso_19: 1232464618
       Torso_12: 198090336
       Torso_10: 2097824630
+      Torso_18: 1499147933
       Torso_1: 1768571964
       Torso_4: -1807710637
+      Torso_17: -707169786
       Torso_13: -1342633244
   spritePackingTag: 
   pSDRemoveMatte: 0
