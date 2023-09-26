@@ -15,6 +15,12 @@ public class PlayerMovement : MonoBehaviour
     private bool sitting = false;
 
     private static PlayerMovement instance;
+    private Bench bench;
+
+    public static bool IsSitting()
+    {
+        return instance.sitting;
+    }
 
     private void Awake()
     {
@@ -27,17 +33,25 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public static void Sit(Vector2 position)
+    public static void Sit(Vector2 position, Bench bench)
     {
         instance.transform.position = new Vector3(position.x, position.y, instance.transform.position.z);
         instance.animator.SetBool("Sitting", true);
+        instance.animator.SetFloat("AnimMoveX", bench.direction.x);
+        instance.animator.SetFloat("AnimMoveY", bench.direction.y);
         instance.sitting = true;
+        instance.bench = bench;
         instance.Stop();
     }
 
-    public static void GetUp()
+    private void GetUp(float h, float v)
     {
-
+        if (bench.GetUp(gameObject, h, v))
+        {
+            bench = null;
+            sitting = false;
+            animator.SetBool("Sitting", false);
+        }
     }
     // Update is called once per frame
     void Update()
@@ -57,6 +71,9 @@ public class PlayerMovement : MonoBehaviour
                 animator.SetFloat("AnimMoveY", v);
 
                 rb.velocity = normalized * speed;
+            } else
+            {
+                GetUp(h, v);
             }
         } else
         {

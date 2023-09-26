@@ -13,6 +13,10 @@ public class Bench : MonoBehaviour, Interactuable
     [SerializeField]
     private Furniture furniture;
 
+    public Transform getUpN, getUpS, getUpE, getUpW;
+
+    public Vector2 direction;
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
@@ -33,8 +37,58 @@ public class Bench : MonoBehaviour, Interactuable
 
     public void Interact()
     {
-        PlayerMovement.Sit(transform.position);
-        //Debug.Log("Interacting with " + gameObject.name);
+        if (!PlayerMovement.IsSitting())
+        {
+            furniture.Block(gameObject);
+            PlayerMovement.Sit(transform.position, this);
+        }
+        
+    }
+
+    public bool GetUp(GameObject g, float h, float v)
+    {
+        if (GetUpPrv(g, h, v))
+        {
+            furniture.Unblock(gameObject);
+            return true;
+        }
+
+        return false;
+    }
+
+    private bool GetUpPrv(GameObject g, float h, float v)
+    {
+        float absH = Mathf.Abs(h);
+        float absV = Mathf.Abs(v);
+
+        if (absH > absV)
+        {
+            if (h > 0 && getUpW != null)
+            {
+                g.transform.position = new Vector3(getUpW.position.x, getUpW.position.y, g.transform.position.z);
+                return true;
+            }
+
+            if (h < 0 && getUpE != null)
+            {
+                g.transform.position = new Vector3(getUpE.position.x, getUpE.position.y, g.transform.position.z);
+                return true;
+            }
+        }
+
+        if (v < 0 && getUpS != null)
+        {
+            g.transform.position = new Vector3(getUpS.position.x, getUpS.position.y, g.transform.position.z);
+            return true;
+        }
+
+        if (v > 0 && getUpN != null)
+        {
+            g.transform.position = new Vector3(getUpN.position.x, getUpN.position.y, g.transform.position.z);
+            return true;
+        }
+
+        return false;
     }
 
     public bool IsInsideObject(Vector3 worldPosition)

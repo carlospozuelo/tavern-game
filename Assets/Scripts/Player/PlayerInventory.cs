@@ -147,7 +147,7 @@ public class PlayerInventory : MonoBehaviour
                 Furniture toBePickedUp = null;
                 foreach (Furniture f in list)
                 {
-                    if (f.itemsOnTop.Count == 0) {
+                    if (f.itemsOnTop.Count == 0 && !f.IsBlocked()) {
                         toBePickedUp = f;
                         if (!f.rugLike) {
                             break;

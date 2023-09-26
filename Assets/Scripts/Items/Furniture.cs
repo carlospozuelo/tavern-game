@@ -39,6 +39,24 @@ public class Furniture : MonoBehaviour, Item, IFurniture
     public List<GameObject> itemsOnTop = new List<GameObject>();
     public Furniture onTopOf = null;
 
+    [SerializeField]
+    private List<GameObject> blocks = new List<GameObject>();
+
+    public void Block(GameObject g)
+    {
+        blocks.Add(g);
+    }
+
+    public void Unblock(GameObject g)
+    {
+        blocks.Remove(g);
+    }
+
+    public bool IsBlocked()
+    {
+        return blocks.Count > 0;
+    }
+
     public void UseItem()
     {
         // Place the item on the grid, using the mouse position.
