@@ -144,23 +144,75 @@ public class GenerateAnimations : MonoBehaviour
         Debug.Log("Generating animation for " + name + "... ");
         if (name.Contains("Torso"))
         {
-            AnimationClip idle = new AnimationClip();
+            GenerateIdleAnimation(meta, name, index, "Torso");
+            GenerateRunAnimationTorso(meta, name, index);
 
-            EditorCurveBinding spriteBinding = new EditorCurveBinding();
-            spriteBinding.type = typeof(SpriteRenderer);
-            spriteBinding.path = "Torso";
-            spriteBinding.propertyName = "m_Sprite";
-            ObjectReferenceKeyframe[] spriteKeyFrames = new ObjectReferenceKeyframe[2];
-            spriteKeyFrames[0] = new ObjectReferenceKeyframe();
-            spriteKeyFrames[0].time = 0;
-            spriteKeyFrames[0].value = meta[0];
+        }
 
-            idle.name = name + "_" + index;
-            AnimationUtility.SetObjectReferenceCurve(idle, spriteBinding, spriteKeyFrames);
-            AssetDatabase.CreateAsset(idle, "Assets/Debug/" + idle.name + ".anim");
+        if (name.Contains("Legs"))
+        {
+            GenerateIdleAnimation(meta, name, index, "Legs");
         }
     }
-    
+
+    private static void GenerateGenericAnimation(string name, int index, string path, string anim, ObjectReferenceKeyframe[] spriteKeyFrames)
+    {
+        AnimationClip clip = new AnimationClip();
+        EditorCurveBinding spriteBinding = new EditorCurveBinding();
+        spriteBinding.type = typeof(SpriteRenderer);
+        spriteBinding.path = path;
+        spriteBinding.propertyName = "m_Sprite";
+
+        var split = name.Split(" ");
+
+        clip.name = split[0] + " " + index + " " + split[1] + " " + anim;
+        var settings = AnimationUtility.GetAnimationClipSettings(clip);
+        settings.loopTime = true;
+
+        AnimationUtility.SetAnimationClipSettings(clip, settings);
+        AnimationUtility.SetObjectReferenceCurve(clip, spriteBinding, spriteKeyFrames);
+        AssetDatabase.CreateAsset(clip, "Assets/Debug/" + clip.name + ".anim");
+    }
+
+    private static void GenerateRunAnimationTorso(List<Sprite> meta, string name, int index)
+    {
+        ObjectReferenceKeyframe[] spriteKeyFrames = new ObjectReferenceKeyframe[5];
+        spriteKeyFrames[0] = new ObjectReferenceKeyframe();
+        spriteKeyFrames[0].time = 0;
+        spriteKeyFrames[0].value = meta[1];
+
+        spriteKeyFrames[1] = new ObjectReferenceKeyframe();
+        spriteKeyFrames[1].time = .25f;
+        spriteKeyFrames[1].value = meta[2];
+
+        spriteKeyFrames[2] = new ObjectReferenceKeyframe();
+        spriteKeyFrames[2].time = .5f;
+        spriteKeyFrames[2].value = meta[1];
+
+        spriteKeyFrames[3] = new ObjectReferenceKeyframe();
+        spriteKeyFrames[3].time = .75f;
+        spriteKeyFrames[3].value = meta[2];
+
+        spriteKeyFrames[4] = new ObjectReferenceKeyframe();
+        spriteKeyFrames[4].time = 1;
+        spriteKeyFrames[4].value = meta[1];
+
+        GenerateGenericAnimation(name, index, "Torso", "run", spriteKeyFrames);
+    }
+
+    private static void GenerateIdleAnimation(List<Sprite> meta, string name, int index, string path)
+    {
+        ObjectReferenceKeyframe[] spriteKeyFrames = new ObjectReferenceKeyframe[2];
+        spriteKeyFrames[0] = new ObjectReferenceKeyframe();
+        spriteKeyFrames[0].time = 0;
+        spriteKeyFrames[0].value = meta[0];
+
+        spriteKeyFrames[1] = new ObjectReferenceKeyframe();
+        spriteKeyFrames[1].time = 1;
+        spriteKeyFrames[1].value = meta[0];
+
+        GenerateGenericAnimation(name, index, path, "idle", spriteKeyFrames);
+    }
 
 }
 
