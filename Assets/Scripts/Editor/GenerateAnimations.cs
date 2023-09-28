@@ -141,19 +141,32 @@ public class GenerateAnimations : MonoBehaviour
     
     private static void GenerateAnimation(List<Sprite> meta, string name, int index)
     {
-        Debug.Log("Generating animation for " + name + "... ");
-        if (name.Contains("Torso"))
-        {
-            GenerateIdleAnimation(meta, name, index, "Torso");
-            GenerateRunAnimationTorso(meta, name, index);
 
+        const string IDLE = "idle";
+        const string RUN = "run";
+        const string HOLD = "hold";
+        const string SIT = "sit";
+
+        const string TORSO = "Torso";
+        const string LEGS = "Legs";
+
+        Debug.Log("Generating animation for " + name + "... ");
+        if (name.Contains(TORSO))
+        {
+            GenerateIdleAnimation(meta[0], name, index, TORSO, IDLE);
+            GenerateRunAnimation(meta, name, index, TORSO);
+            GenerateIdleAnimation(meta[4], name, index, TORSO, SIT);
+            GenerateIdleAnimation(meta[3], name, index, TORSO, HOLD);
         }
 
-        if (name.Contains("Legs"))
+        if (name.Contains(LEGS))
         {
-            GenerateIdleAnimation(meta, name, index, "Legs");
+            GenerateIdleAnimation(meta[0], name, index, LEGS, IDLE);
+            GenerateRunAnimation(meta, name, index, LEGS);
+            GenerateIdleAnimation(meta[3], name, index, LEGS, SIT);
         }
     }
+
 
     private static void GenerateGenericAnimation(string name, int index, string path, string anim, ObjectReferenceKeyframe[] spriteKeyFrames)
     {
@@ -174,7 +187,7 @@ public class GenerateAnimations : MonoBehaviour
         AssetDatabase.CreateAsset(clip, "Assets/Debug/" + clip.name + ".anim");
     }
 
-    private static void GenerateRunAnimationTorso(List<Sprite> meta, string name, int index)
+    private static void GenerateRunAnimation(List<Sprite> meta, string name, int index, string path)
     {
         ObjectReferenceKeyframe[] spriteKeyFrames = new ObjectReferenceKeyframe[5];
         spriteKeyFrames[0] = new ObjectReferenceKeyframe();
@@ -197,21 +210,21 @@ public class GenerateAnimations : MonoBehaviour
         spriteKeyFrames[4].time = 1;
         spriteKeyFrames[4].value = meta[1];
 
-        GenerateGenericAnimation(name, index, "Torso", "run", spriteKeyFrames);
+        GenerateGenericAnimation(name, index, path, "run", spriteKeyFrames);
     }
 
-    private static void GenerateIdleAnimation(List<Sprite> meta, string name, int index, string path)
+    private static void GenerateIdleAnimation(Sprite sprite, string name, int index, string path, string anim)
     {
         ObjectReferenceKeyframe[] spriteKeyFrames = new ObjectReferenceKeyframe[2];
         spriteKeyFrames[0] = new ObjectReferenceKeyframe();
         spriteKeyFrames[0].time = 0;
-        spriteKeyFrames[0].value = meta[0];
+        spriteKeyFrames[0].value = sprite;
 
         spriteKeyFrames[1] = new ObjectReferenceKeyframe();
         spriteKeyFrames[1].time = 1;
-        spriteKeyFrames[1].value = meta[0];
+        spriteKeyFrames[1].value = sprite;
 
-        GenerateGenericAnimation(name, index, path, "idle", spriteKeyFrames);
+        GenerateGenericAnimation(name, index, path, anim, spriteKeyFrames);
     }
 
 }
