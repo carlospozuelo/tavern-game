@@ -1,10 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.Burst.CompilerServices;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using static Unity.Burst.Intrinsics.Arm;
 
 public class Furniture : MonoBehaviour, Item, IFurniture
 {

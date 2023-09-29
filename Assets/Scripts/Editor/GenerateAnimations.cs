@@ -143,12 +143,13 @@ public class GenerateAnimations : MonoBehaviour
     {
 
         const string IDLE = "idle";
-        const string RUN = "run";
+        // const string RUN = "run";
         const string HOLD = "hold";
         const string SIT = "sit";
 
         const string TORSO = "Torso";
         const string LEGS = "Legs";
+        const string HAIR = "Hair";
 
         Debug.Log("Generating animation for " + name + "... ");
         if (name.Contains(TORSO))
@@ -164,6 +165,12 @@ public class GenerateAnimations : MonoBehaviour
             GenerateIdleAnimation(meta[0], name, index, LEGS, IDLE);
             GenerateRunAnimation(meta, name, index, LEGS);
             GenerateIdleAnimation(meta[3], name, index, LEGS, SIT);
+        }
+
+        if (name.Contains(HAIR))
+        {
+            GenerateIdleAnimation(meta[0], name, index, HAIR, IDLE);
+            GenerateIdleAnimation(meta[1], name, index, HAIR, SIT);
         }
     }
 
