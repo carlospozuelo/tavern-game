@@ -150,6 +150,7 @@ public class GenerateAnimations : MonoBehaviour
         const string TORSO = "Torso";
         const string LEGS = "Legs";
         const string HAIR = "Hair";
+        const string FACES = "Faces";
 
         Debug.Log("Generating animation for " + name + "... ");
         if (name.Contains(TORSO))
@@ -172,6 +173,12 @@ public class GenerateAnimations : MonoBehaviour
             GenerateIdleAnimation(meta[0], name, index, HAIR, IDLE);
             GenerateIdleAnimation(meta[1], name, index, HAIR, SIT);
         }
+
+        if(name.Contains(FACES))
+        {
+            GenerateBlinkAnimation(meta[0], meta[1], name, index, FACES, IDLE);
+            GenerateBlinkAnimation(meta[2], meta[3], name, index, FACES, SIT);
+        }
     }
 
 
@@ -192,6 +199,24 @@ public class GenerateAnimations : MonoBehaviour
         AnimationUtility.SetAnimationClipSettings(clip, settings);
         AnimationUtility.SetObjectReferenceCurve(clip, spriteBinding, spriteKeyFrames);
         AssetDatabase.CreateAsset(clip, "Assets/Debug/" + clip.name + ".anim");
+    }
+
+    private static void GenerateBlinkAnimation(Sprite sprite, Sprite blink, string name, int index, string path, string anim)
+    {
+        ObjectReferenceKeyframe[] spriteKeyFrames = new ObjectReferenceKeyframe[3];
+        spriteKeyFrames[0] = new ObjectReferenceKeyframe();
+        spriteKeyFrames[0].time = 0;
+        spriteKeyFrames[0].value = sprite;
+
+        spriteKeyFrames[1] = new ObjectReferenceKeyframe();
+        spriteKeyFrames[1].time = 4;
+        spriteKeyFrames[1].value = blink;
+
+        spriteKeyFrames[2] = new ObjectReferenceKeyframe();
+        spriteKeyFrames[2].time = 4f + (1f/30f);
+        spriteKeyFrames[2].value = sprite;
+
+        GenerateGenericAnimation(name, index, path, anim, spriteKeyFrames);
     }
 
     private static void GenerateRunAnimation(List<Sprite> meta, string name, int index, string path)

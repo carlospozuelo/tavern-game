@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Hair_0_idle_front
+  m_Name: Hair 4 Left sit
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,9 +20,9 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: -1006893216258130250, guid: 039d2ac5f7f0f4bba8270544968a4993, type: 3}
+      value: {fileID: 917165417331546055, guid: 56c5d9bf845ba419c8f1c0fc24288b25, type: 3}
     - time: 1
-      value: {fileID: -1006893216258130250, guid: 039d2ac5f7f0f4bba8270544968a4993, type: 3}
+      value: {fileID: 917165417331546055, guid: 56c5d9bf845ba419c8f1c0fc24288b25, type: 3}
     attribute: m_Sprite
     path: Hair
     classID: 212
@@ -42,8 +42,8 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: -1006893216258130250, guid: 039d2ac5f7f0f4bba8270544968a4993, type: 3}
-    - {fileID: -1006893216258130250, guid: 039d2ac5f7f0f4bba8270544968a4993, type: 3}
+    - {fileID: 917165417331546055, guid: 56c5d9bf845ba419c8f1c0fc24288b25, type: 3}
+    - {fileID: 917165417331546055, guid: 56c5d9bf845ba419c8f1c0fc24288b25, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

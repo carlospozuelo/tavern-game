@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Hair_0_sit_back
+  m_Name: Faces 0 Left sit
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,11 +20,13 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: -389793006987336086, guid: ceea0860764c9463e8d09c38b86474a9, type: 3}
-    - time: 1
-      value: {fileID: -389793006987336086, guid: ceea0860764c9463e8d09c38b86474a9, type: 3}
+      value: {fileID: -4645290227456880837, guid: e477bd2dd7f2b483bbc373096148d3e9, type: 3}
+    - time: 4
+      value: {fileID: -8365898279524139079, guid: e477bd2dd7f2b483bbc373096148d3e9, type: 3}
+    - time: 4.0333333
+      value: {fileID: -4645290227456880837, guid: e477bd2dd7f2b483bbc373096148d3e9, type: 3}
     attribute: m_Sprite
-    path: Hair
+    path: Faces
     classID: 212
     script: {fileID: 0}
   m_SampleRate: 60
@@ -35,21 +37,22 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 1019596327
+      path: 152830095
       attribute: 0
       script: {fileID: 0}
       typeID: 212
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: -389793006987336086, guid: ceea0860764c9463e8d09c38b86474a9, type: 3}
-    - {fileID: -389793006987336086, guid: ceea0860764c9463e8d09c38b86474a9, type: 3}
+    - {fileID: -4645290227456880837, guid: e477bd2dd7f2b483bbc373096148d3e9, type: 3}
+    - {fileID: -8365898279524139079, guid: e477bd2dd7f2b483bbc373096148d3e9, type: 3}
+    - {fileID: -4645290227456880837, guid: e477bd2dd7f2b483bbc373096148d3e9, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.0166667
+    m_StopTime: 4.05
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
