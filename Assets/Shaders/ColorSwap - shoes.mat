@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ColorSwap
+  m_Name: ColorSwap - shoes
   m_Shader: {fileID: -6465566751694194690, guid: 4202b0462cbd949bfb00c7821b9a13e9, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords:
@@ -56,9 +56,9 @@ Material:
     - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
-    - _Color1: {r: 0.7960785, g: 0.69803923, b: 0.5176471, a: 1}
-    - _Color2: {r: 0.45541123, g: 0.5989915, b: 0.8113208, a: 0}
-    - _Color3: {r: 0.77254903, g: 0.48235294, b: 0.30980393, a: 1}
+    - _Color1: {r: 1, g: 0.9410101, b: 0.41960788, a: 1}
+    - _Color2: {r: 1, g: 1, b: 1, a: 0}
+    - _Color3: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &761048400983061962
 MonoBehaviour:
