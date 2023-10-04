@@ -143,7 +143,7 @@ public class GenerateAnimations : MonoBehaviour
     {
 
         const string IDLE = "idle";
-        // const string RUN = "run";
+        // const string RUN = "walk";
         const string HOLD = "hold";
         const string SIT = "sit";
 
@@ -207,7 +207,7 @@ public class GenerateAnimations : MonoBehaviour
 
         AnimationUtility.SetAnimationClipSettings(clip, settings);
         AnimationUtility.SetObjectReferenceCurve(clip, spriteBinding, spriteKeyFrames);
-        AssetDatabase.CreateAsset(clip, "Assets/Debug/" + clip.name + ".anim");
+        AssetDatabase.CreateAsset(clip, "Assets/Resources/Clothes/Animations/" + clip.name + ".anim");
     }
 
     private static void GenerateBlinkAnimation(Sprite sprite, Sprite blink, string name, int index, string path, string anim)
@@ -251,7 +251,7 @@ public class GenerateAnimations : MonoBehaviour
         spriteKeyFrames[4].time = 1;
         spriteKeyFrames[4].value = meta[1];
 
-        GenerateGenericAnimation(name, index, path, "run", spriteKeyFrames);
+        GenerateGenericAnimation(name, index, path, "walk", spriteKeyFrames);
     }
 
     private static void GenerateIdleAnimation(Sprite sprite, string name, int index, string path, string anim)
