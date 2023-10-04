@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c24c2c73d41485ab7442b693a2c0a9, type: 3}
+  m_Name: Torso 2
+  m_EditorClassIdentifier: 
+  type: 0
+  idle:
+    front: {fileID: 7400000, guid: da1521ba51b14400192854ad27a36da9, type: 2}
+    back: {fileID: 0}
+    left: {fileID: 7400000, guid: 69ac5d8fbbde04c8bb3fbf3b2422e37f, type: 2}
+    right: {fileID: 7400000, guid: bdc8aba6a9cb9430ebe71ee0544ec92a, type: 2}
+  hold:
+    front: {fileID: 7400000, guid: f17f6a095ff734b2fb97ad1c668a3c51, type: 2}
+    back: {fileID: 0}
+    left: {fileID: 7400000, guid: e0901271e665547eaabae2292fec8ae2, type: 2}
+    right: {fileID: 7400000, guid: 051fb09c12b434854bfe38d17173b716, type: 2}
+  walk:
+    front: {fileID: 0}
+    back: {fileID: 0}
+    left: {fileID: 0}
+    right: {fileID: 0}
+  sit:
+    front: {fileID: 7400000, guid: 8306434b8d64843d38759cb65de40798, type: 2}
+    back: {fileID: 0}
+    left: {fileID: 7400000, guid: e4646c335c91d41a99b8f584e8b44bda, type: 2}
+    right: {fileID: 7400000, guid: 0b875d79a80934b2c8fe6176a76ed577, type: 2}
+  primary: {r: 0, g: 0, b: 0, a: 0}
+  secondary: {r: 0, g: 0, b: 0, a: 0}
+  tertiary: {r: 0, g: 0, b: 0, a: 0}

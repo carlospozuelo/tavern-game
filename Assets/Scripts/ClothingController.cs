@@ -11,7 +11,11 @@ public class ClothingController : MonoBehaviour
 
     private Dictionary<ClothingItem.ClothingType, ClothingItem> current;
 
-    private AnimatorOverrideController aoc;
+    public ClothingItem[] testArray;
+
+    private ClothingItem[] all;
+
+    public AnimatorOverrideController aoc;
     public Animator animator;
 
     private Dictionary<ClothingItem.ClothingType, string> clothing_type_to_body_parts;
@@ -84,6 +88,11 @@ public class ClothingController : MonoBehaviour
             }
         }
 
+        // TODO: Read data from file;
+        instance.current = new Dictionary<ClothingItem.ClothingType, ClothingItem>();
+
+        this.all = Resources.LoadAll("Clothes/ScriptableObjects", typeof(ClothingItem)).Cast<ClothingItem>().ToArray();
+
         clothing_type_to_body_parts = new Dictionary<ClothingItem.ClothingType, string>();
 
         clothing_type_to_body_parts[ClothingItem.ClothingType.Legs] = "Legs";
@@ -100,12 +109,25 @@ public class ClothingController : MonoBehaviour
         instance.aoc = new AnimatorOverrideController(instance.animator.runtimeAnimatorController);
         List<KeyValuePair<AnimationClip, AnimationClip>> overrides = new List<KeyValuePair<AnimationClip, AnimationClip>>();
 
-        foreach (var kv in instance.current)
+        foreach (var kv in instance.testArray)//instance.current)
         {
-            overrides = kv.Value.GetAnimations(overrides);
+            Debug.Log("Including animations: " + kv);
+
+            overrides = kv.GetAnimations(overrides);
         }
 
+        /*
+        foreach (var anim in overrides)
+        {
+            //instance.aoc[anim.Key.name] = anim.Value;
+
+            //Debug.Log("aoc[" + anim.Key.name + "] = " + anim.Value);
+        }
+        */
+
+        Debug.Log("ApplyingOverrides");
         instance.aoc.ApplyOverrides(overrides);
+        instance.animator.runtimeAnimatorController = instance.aoc;
     }
 
     public static AnimationClip GetDefaultClip(ClothingItem.ClothingType type, string orientation, string animation)

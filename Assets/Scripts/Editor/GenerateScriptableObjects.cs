@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using static ClothingItem;
 
 public class GenerateScriptableObjects : MonoBehaviour
 {
 
     public class AnimationWrapper
     {
-        // Animations for left, right, front and back
+        // Animations for (idle, sit, hold, walk) each -> left, right, front and back
         public Dictionary<string, ClothingItem.AnimationContainer> container;
 
         public AnimationWrapper()
@@ -58,6 +59,7 @@ public class GenerateScriptableObjects : MonoBehaviour
             }
         }
 
+        /*
         string str = "{\n";
         foreach(var kv in dictionary)
         {
@@ -77,6 +79,23 @@ public class GenerateScriptableObjects : MonoBehaviour
         }
         str += "}";
         Debug.Log(str);
+        */
+        //List<ClothingItem> items = new List<ClothingItem>();
+        foreach (var kv in dictionary)
+        {
+            foreach (var kv2 in kv.Value)
+            {
+                ClothingItem item = ClothingItem.CreateInstance(kv.Key, kv.Key + " " + kv2.Key);
+
+                foreach (var kv3 in kv2.Value.container)
+                {
+                    item.SetAnimationContainer(kv3.Value, kv3.Key.ToLower());
+
+                }
+                //Debug.Log(item);
+                AssetDatabase.CreateAsset(item, "Assets/Resources/Clothes/ScriptableObjects/" + item.name + ".asset");
+            }
+        }
 
     }
 }
