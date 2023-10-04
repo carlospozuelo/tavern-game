@@ -24,10 +24,10 @@ MonoBehaviour:
     left: {fileID: 0}
     right: {fileID: 0}
   walk:
-    front: {fileID: 0}
-    back: {fileID: 0}
-    left: {fileID: 0}
-    right: {fileID: 0}
+    front: {fileID: 7400000, guid: 4387204928ef24fc9bbce8c2138220b8, type: 2}
+    back: {fileID: 7400000, guid: a48ffccf5629d46b6a8c284d9c243ef5, type: 2}
+    left: {fileID: 7400000, guid: 5f47fa6f4b95d44dc9ef0e9e13a6f3fd, type: 2}
+    right: {fileID: 7400000, guid: 82d477ab3e4d04cb597fe064e80a5d9b, type: 2}
   sit:
     front: {fileID: 7400000, guid: ee77173df07db49e4b3244ff69d77a1c, type: 2}
     back: {fileID: 7400000, guid: 917be8f580853477f8ddd1c5a91c55a5, type: 2}

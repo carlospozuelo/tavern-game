@@ -207,7 +207,7 @@ public class GenerateAnimations : MonoBehaviour
 
         AnimationUtility.SetAnimationClipSettings(clip, settings);
         AnimationUtility.SetObjectReferenceCurve(clip, spriteBinding, spriteKeyFrames);
-        AssetDatabase.CreateAsset(clip, "Assets/Debug/" + clip.name + ".anim");
+        AssetDatabase.CreateAsset(clip, "Assets/Resources/Clothes/Animations/" + clip.name + ".anim");
     }
 
     private static void GenerateBlinkAnimation(Sprite sprite, Sprite blink, string name, int index, string path, string anim)

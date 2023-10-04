@@ -111,21 +111,9 @@ public class ClothingController : MonoBehaviour
 
         foreach (var kv in instance.testArray)//instance.current)
         {
-            Debug.Log("Including animations: " + kv);
-
             overrides = kv.GetAnimations(overrides);
         }
 
-        /*
-        foreach (var anim in overrides)
-        {
-            //instance.aoc[anim.Key.name] = anim.Value;
-
-            //Debug.Log("aoc[" + anim.Key.name + "] = " + anim.Value);
-        }
-        */
-
-        Debug.Log("ApplyingOverrides");
         instance.aoc.ApplyOverrides(overrides);
         instance.animator.runtimeAnimatorController = instance.aoc;
     }
