@@ -547,7 +547,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Torso Left_2x4: 0
+      Torso Left_0x4: 0
       Torso Left_2x3: 0
       Torso Left_3x0: 0
       Torso_11: 183839179
@@ -581,9 +581,9 @@ TextureImporter:
       Torso Left_1x4: 0
       Torso Left_2x1: 0
       Torso_1: 218712887
-      Torso Left_0x4: 0
-      Torso_4: 1633237920
+      Torso Left_2x4: 0
       Torso_17: -303322457
+      Torso_4: 1633237920
       Torso Left_0x0: 0
       Torso Left_3x2: 0
       Torso_13: 1371205475

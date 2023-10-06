@@ -15,7 +15,7 @@ public class ClothingController : MonoBehaviour
 
     private ClothingItem[] all;
 
-    public AnimatorOverrideController aoc;
+    private AnimatorOverrideController aoc;
     public Animator animator;
 
     private Dictionary<ClothingItem.ClothingType, string> clothing_type_to_body_parts;
@@ -32,7 +32,13 @@ public class ClothingController : MonoBehaviour
         } else
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
+    }
+
+    public static void SetAnimator(Animator a)
+    {
+        instance.animator = a;
     }
 
     public static string GetBodyPart(string name)
