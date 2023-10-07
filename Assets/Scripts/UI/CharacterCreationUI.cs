@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class CharacterCreationUI : MonoBehaviour
@@ -9,6 +10,8 @@ public class CharacterCreationUI : MonoBehaviour
     private static CharacterCreationUI instance;
 
     public Animator animator;
+
+    public Button doneButton;
 
     private void Awake()
     {
@@ -22,6 +25,8 @@ public class CharacterCreationUI : MonoBehaviour
     }
 
     public Button[] genderButtons;
+    public OptionPanelCharacterCreateUI[] panels;
+
     public void SelectGender(string gender)
     {
         foreach (Button b in genderButtons)
@@ -34,6 +39,30 @@ public class CharacterCreationUI : MonoBehaviour
                 b.interactable = true;
             }
         }
+
+        pronouns = gender;
+        CheckButton();
+    }
+
+    private string pronouns;
+    private string playerName;
+
+    public void Finish()
+    {
+        ClothingController.UpdateColors();
+
+        SceneManager.LoadSceneAsync("Game");
+    }
+
+    public void SelectName(string name)
+    {
+        playerName = name;
+        CheckButton();
+    }
+
+    public void CheckButton()
+    {
+        doneButton.interactable = !string.IsNullOrWhiteSpace(pronouns) && !string.IsNullOrWhiteSpace(playerName);
     }
 
     public void Turn(bool left)

@@ -7,7 +7,7 @@ public class OptionPanelCharacterCreateUI : MonoBehaviour
 {
     public List<ClothingItem> items;
 
-    public Button[] colorButtons;
+    public Transform colorParent, secondColorParent;
 
     public ClothingItem.ClothingType type;
     public TMPro.TextMeshProUGUI text;
@@ -34,7 +34,7 @@ public class OptionPanelCharacterCreateUI : MonoBehaviour
     public void Previous()
     {
         selected--;
-        if (selected <= 0) { selected = items.Count - 1; }
+        if (selected < 0) { selected = items.Count - 1; }
 
         Select();
     }
@@ -52,5 +52,19 @@ public class OptionPanelCharacterCreateUI : MonoBehaviour
         if (type == ClothingItem.ClothingType.Faces) return "Face";
 
         return type.ToString();
+    }
+
+    public void SelectColorFirst(int i)
+    {
+        Color selectedColor = colorParent.GetChild(i).GetComponent<Image>().color;
+
+        ClothingController.SelectFirstColor(selectedColor, type);
+    }
+
+    public void SelectColorSecond(int i)
+    {
+        Color selectedColor = secondColorParent.GetChild(i).GetComponent<Image>().color;
+
+        ClothingController.SelectSecondColor(selectedColor, type);
     }
 }

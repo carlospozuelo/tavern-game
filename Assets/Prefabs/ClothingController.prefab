@@ -46,3 +46,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   testArray: []
   animator: {fileID: 0}
+  body: {fileID: 0}
+  arms: {fileID: 0}
+  face: {fileID: 0}
+  torso: {fileID: 0}
+  hair: {fileID: 0}
+  legs: {fileID: 0}
+  shoes: {fileID: 0}
+  greyTint: {r: 0.79607844, g: 0.79607844, b: 0.79607844, a: 1}

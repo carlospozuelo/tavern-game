@@ -18,6 +18,9 @@ public class ClothingController : MonoBehaviour
     private AnimatorOverrideController aoc;
     public Animator animator;
 
+    public SpriteRenderer body, arms, face, torso, hair, legs, shoes;
+    public Color greyTint;
+
     private Dictionary<ClothingItem.ClothingType, string> clothing_type_to_body_parts;
 
     public static readonly string[] BODY_PARTS = { "Legs", "Torso", "Faces", "Shoes", "Hair" };
@@ -25,10 +28,52 @@ public class ClothingController : MonoBehaviour
     public static readonly string[] ANIMATIONS = { "idle", "sit", "hold", "walk" };
 
 
+    private Color bodyColor, torsoColor, hairColor, legsColor;
+    private Material faceMaterial, shoeMaterial;
+
+    public static void UpdateColors()
+    {
+        instance.bodyColor = instance.body.color;
+        instance.hairColor = instance.hair.color;
+        instance.torsoColor = instance.torso.color;
+        instance.legsColor = instance.legs.color;
+
+        instance.faceMaterial = instance.face.material;
+        instance.shoeMaterial = instance.shoes.material;
+    }
+
+    public static void UpdateColorsReverse()
+    {
+        instance.body.color = instance.bodyColor;
+        instance.arms.color = instance.bodyColor;
+        instance.torso.color = instance.torsoColor;
+        instance.hair.color = instance.hairColor;
+        instance.legs.color = instance.legsColor;
+
+        instance.face.material = instance.faceMaterial;
+        instance.shoes.material = instance.shoeMaterial;
+    }
+
     private void Awake()
     {
         if (instance != this && instance != null)
         {
+            // Update sprite renderers and animator
+            instance.animator = animator;
+            instance.body = body;
+            instance.arms = arms;
+            instance.face = face;
+            instance.torso = torso;
+            instance.hair = hair;
+            instance.legs = legs;
+            instance.shoes = shoes;
+
+            // Update colors
+            UpdateColorsReverse();
+
+            GenerateAOC();
+
+            // Destroy new component
             Destroy(gameObject);
         }
         else
@@ -131,6 +176,49 @@ public class ClothingController : MonoBehaviour
         clothing_type_to_body_parts[ClothingItem.ClothingType.Hair] = "Hair";
 
         GenerateAOC();
+    }
+
+    public static void SelectFirstColor(Color color, ClothingItem.ClothingType type)
+    {
+        if (type == ClothingItem.ClothingType.Torso)
+        {
+            // Update if multiple-colored clothings are developed.
+            instance.torso.color = color;
+        }
+        if (type == ClothingItem.ClothingType.Legs)
+        {
+            instance.legs.color = color;
+        }
+        if (type == ClothingItem.ClothingType.Hair)
+        {
+            // Change hair color AND facial hair color
+            instance.hair.color = color;
+            instance.face.material.SetColor("_Color3", color);
+        }
+        if (type == ClothingItem.ClothingType.Shoes)
+        {
+            instance.shoes.material.SetColor("_Color1", color);
+        }
+        if (type == ClothingItem.ClothingType.Faces)
+        {
+            instance.arms.color = color;
+            instance.body.color = color;
+            // Facial details (nose, etc)
+            instance.face.material.SetColor("_Color1", instance.greyTint * color);
+        }
+    }
+
+    public static void SelectSecondColor(Color color, ClothingItem.ClothingType type)
+    {
+        if (type == ClothingItem.ClothingType.Shoes)
+        {
+            instance.shoes.material.SetColor("_Color2", color);
+        }
+        if (type == ClothingItem.ClothingType.Faces)
+        {
+            // Eyes 
+            instance.face.material.SetColor("_Color2", color);
+        }
     }
 
     public static void GenerateAOC()
