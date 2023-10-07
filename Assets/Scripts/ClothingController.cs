@@ -11,7 +11,7 @@ public class ClothingController : MonoBehaviour
 
     private Dictionary<ClothingItem.ClothingType, ClothingItem> current;
 
-    public ClothingItem[] testArray;
+    public List<ClothingItem> testArray;
 
     private ClothingItem[] all;
 
@@ -24,16 +24,39 @@ public class ClothingController : MonoBehaviour
     public static readonly string[] ORIENTATION = { "front", "back", "left", "right" };
     public static readonly string[] ANIMATIONS = { "idle", "sit", "hold", "walk" };
 
+
     private void Awake()
     {
         if (instance != this && instance != null)
         {
             Destroy(gameObject);
-        } else
+        }
+        else
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
+            Initialize();
         }
+    }
+
+
+    public static ClothingItem[] GetAll()
+    {
+        return instance.all;
+    }
+
+    public static List<ClothingItem> GetAll(ClothingItem.ClothingType type)
+    {
+        List<ClothingItem> list = new List<ClothingItem>();
+        foreach (ClothingItem i in instance.all)
+        {
+            if (i.type.Equals(type))
+            {
+                list.Add(i);
+            }
+        }
+
+        return list;
     }
 
     public static void SetAnimator(Animator a)
@@ -71,7 +94,7 @@ public class ClothingController : MonoBehaviour
         return animation;
     }
 
-    private void Start()
+    private void Initialize()
     {
         AnimationClip[] list = Resources.LoadAll("Clothes/Animations/Default", typeof(AnimationClip)).Cast<AnimationClip>().ToArray();
 
@@ -115,6 +138,7 @@ public class ClothingController : MonoBehaviour
         instance.aoc = new AnimatorOverrideController(instance.animator.runtimeAnimatorController);
         List<KeyValuePair<AnimationClip, AnimationClip>> overrides = new List<KeyValuePair<AnimationClip, AnimationClip>>();
 
+        // TODO: Change test array and use current instead
         foreach (var kv in instance.testArray)//instance.current)
         {
             overrides = kv.GetAnimations(overrides);
@@ -122,6 +146,26 @@ public class ClothingController : MonoBehaviour
 
         instance.aoc.ApplyOverrides(overrides);
         instance.animator.runtimeAnimatorController = instance.aoc;
+    }
+
+    public static void Wear(ClothingItem item)
+    {
+        instance.current[item.type] = item;
+
+        // TODO: Remove this (once AOC uses current instead of testArray)
+        List<ClothingItem> newTestArray = new List<ClothingItem>();
+        foreach (ClothingItem i in instance.testArray)
+        {
+            if (!i.type.Equals(item.type))
+            {
+                newTestArray.Add(i);
+            }
+        }
+
+        newTestArray.Add(item);
+
+        instance.testArray = newTestArray;
+        GenerateAOC();
     }
 
     public static AnimationClip GetDefaultClip(ClothingItem.ClothingType type, string orientation, string animation)
