@@ -11,12 +11,15 @@ public class ClothingController : MonoBehaviour
 
     private Dictionary<ClothingItem.ClothingType, ClothingItem> current;
 
-    public ClothingItem[] testArray;
+    public List<ClothingItem> testArray;
 
     private ClothingItem[] all;
 
-    public AnimatorOverrideController aoc;
+    private AnimatorOverrideController aoc;
     public Animator animator;
+
+    public SpriteRenderer body, arms, face, torso, hair, legs, shoes;
+    public Color greyTint;
 
     private Dictionary<ClothingItem.ClothingType, string> clothing_type_to_body_parts;
 
@@ -24,15 +27,86 @@ public class ClothingController : MonoBehaviour
     public static readonly string[] ORIENTATION = { "front", "back", "left", "right" };
     public static readonly string[] ANIMATIONS = { "idle", "sit", "hold", "walk" };
 
+
+    private Color bodyColor, torsoColor, hairColor, legsColor;
+    private Material faceMaterial, shoeMaterial;
+
+    public static void UpdateColors()
+    {
+        instance.bodyColor = instance.body.color;
+        instance.hairColor = instance.hair.color;
+        instance.torsoColor = instance.torso.color;
+        instance.legsColor = instance.legs.color;
+
+        instance.faceMaterial = instance.face.material;
+        instance.shoeMaterial = instance.shoes.material;
+    }
+
+    public static void UpdateColorsReverse()
+    {
+        instance.body.color = instance.bodyColor;
+        instance.arms.color = instance.bodyColor;
+        instance.torso.color = instance.torsoColor;
+        instance.hair.color = instance.hairColor;
+        instance.legs.color = instance.legsColor;
+
+        instance.face.material = instance.faceMaterial;
+        instance.shoes.material = instance.shoeMaterial;
+    }
+
     private void Awake()
     {
         if (instance != this && instance != null)
         {
+            // Update sprite renderers and animator
+            instance.animator = animator;
+            instance.body = body;
+            instance.arms = arms;
+            instance.face = face;
+            instance.torso = torso;
+            instance.hair = hair;
+            instance.legs = legs;
+            instance.shoes = shoes;
+
+            // Update colors
+            UpdateColorsReverse();
+
+            GenerateAOC();
+
+            // Destroy new component
             Destroy(gameObject);
-        } else
+        }
+        else
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
+            Initialize();
         }
+    }
+
+
+    public static ClothingItem[] GetAll()
+    {
+        return instance.all;
+    }
+
+    public static List<ClothingItem> GetAll(ClothingItem.ClothingType type)
+    {
+        List<ClothingItem> list = new List<ClothingItem>();
+        foreach (ClothingItem i in instance.all)
+        {
+            if (i.type.Equals(type))
+            {
+                list.Add(i);
+            }
+        }
+
+        return list;
+    }
+
+    public static void SetAnimator(Animator a)
+    {
+        instance.animator = a;
     }
 
     public static string GetBodyPart(string name)
@@ -65,7 +139,7 @@ public class ClothingController : MonoBehaviour
         return animation;
     }
 
-    private void Start()
+    private void Initialize()
     {
         AnimationClip[] list = Resources.LoadAll("Clothes/Animations/Default", typeof(AnimationClip)).Cast<AnimationClip>().ToArray();
 
@@ -104,11 +178,55 @@ public class ClothingController : MonoBehaviour
         GenerateAOC();
     }
 
+    public static void SelectFirstColor(Color color, ClothingItem.ClothingType type)
+    {
+        if (type == ClothingItem.ClothingType.Torso)
+        {
+            // Update if multiple-colored clothings are developed.
+            instance.torso.color = color;
+        }
+        if (type == ClothingItem.ClothingType.Legs)
+        {
+            instance.legs.color = color;
+        }
+        if (type == ClothingItem.ClothingType.Hair)
+        {
+            // Change hair color AND facial hair color
+            instance.hair.color = color;
+            instance.face.material.SetColor("_Color3", color);
+        }
+        if (type == ClothingItem.ClothingType.Shoes)
+        {
+            instance.shoes.material.SetColor("_Color1", color);
+        }
+        if (type == ClothingItem.ClothingType.Faces)
+        {
+            instance.arms.color = color;
+            instance.body.color = color;
+            // Facial details (nose, etc)
+            instance.face.material.SetColor("_Color1", instance.greyTint * color);
+        }
+    }
+
+    public static void SelectSecondColor(Color color, ClothingItem.ClothingType type)
+    {
+        if (type == ClothingItem.ClothingType.Shoes)
+        {
+            instance.shoes.material.SetColor("_Color2", color);
+        }
+        if (type == ClothingItem.ClothingType.Faces)
+        {
+            // Eyes 
+            instance.face.material.SetColor("_Color2", color);
+        }
+    }
+
     public static void GenerateAOC()
     {
         instance.aoc = new AnimatorOverrideController(instance.animator.runtimeAnimatorController);
         List<KeyValuePair<AnimationClip, AnimationClip>> overrides = new List<KeyValuePair<AnimationClip, AnimationClip>>();
 
+        // TODO: Change test array and use current instead
         foreach (var kv in instance.testArray)//instance.current)
         {
             overrides = kv.GetAnimations(overrides);
@@ -116,6 +234,26 @@ public class ClothingController : MonoBehaviour
 
         instance.aoc.ApplyOverrides(overrides);
         instance.animator.runtimeAnimatorController = instance.aoc;
+    }
+
+    public static void Wear(ClothingItem item)
+    {
+        instance.current[item.type] = item;
+
+        // TODO: Remove this (once AOC uses current instead of testArray)
+        List<ClothingItem> newTestArray = new List<ClothingItem>();
+        foreach (ClothingItem i in instance.testArray)
+        {
+            if (!i.type.Equals(item.type))
+            {
+                newTestArray.Add(i);
+            }
+        }
+
+        newTestArray.Add(item);
+
+        instance.testArray = newTestArray;
+        GenerateAOC();
     }
 
     public static AnimationClip GetDefaultClip(ClothingItem.ClothingType type, string orientation, string animation)

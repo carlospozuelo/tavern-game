@@ -33,6 +33,12 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        ClothingController.SetAnimator(animator);
+        ClothingController.UpdateColorsReverse();
+    }
+
     public static void Sit(Vector2 position, Bench bench)
     {
         instance.transform.position = new Vector3(position.x, position.y, instance.transform.position.z);
