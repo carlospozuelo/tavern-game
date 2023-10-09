@@ -28,15 +28,15 @@ public class ClothingController : MonoBehaviour
     public static readonly string[] ANIMATIONS = { "idle", "sit", "hold", "walk" };
 
 
-    private Color bodyColor, torsoColor, hairColor, legsColor;
-    private Material faceMaterial, shoeMaterial;
+    private Color bodyColor;
+    private Material torsoMaterial, hairMaterial, legsMaterial, faceMaterial, shoeMaterial;
 
     public static void UpdateColors()
     {
         instance.bodyColor = instance.body.color;
-        instance.hairColor = instance.hair.color;
-        instance.torsoColor = instance.torso.color;
-        instance.legsColor = instance.legs.color;
+        instance.hairMaterial = instance.hair.material;
+        instance.torsoMaterial = instance.torso.material;
+        instance.legsMaterial = instance.legs.material;
 
         instance.faceMaterial = instance.face.material;
         instance.shoeMaterial = instance.shoes.material;
@@ -44,14 +44,16 @@ public class ClothingController : MonoBehaviour
 
     public static void UpdateColorsReverse()
     {
+        
         instance.body.color = instance.bodyColor;
         instance.arms.color = instance.bodyColor;
-        instance.torso.color = instance.torsoColor;
-        instance.hair.color = instance.hairColor;
-        instance.legs.color = instance.legsColor;
+        instance.torso.material = instance.torsoMaterial;
+        instance.hair.material = instance.hairMaterial;
+        instance.legs.material = instance.legsMaterial;
 
         instance.face.material = instance.faceMaterial;
         instance.shoes.material = instance.shoeMaterial;
+        
     }
 
     private void Awake()
@@ -182,17 +184,16 @@ public class ClothingController : MonoBehaviour
     {
         if (type == ClothingItem.ClothingType.Torso)
         {
-            // Update if multiple-colored clothings are developed.
-            instance.torso.color = color;
+            instance.torso.material.SetColor("_Color1", color);
         }
         if (type == ClothingItem.ClothingType.Legs)
         {
-            instance.legs.color = color;
+            instance.legs.material.SetColor("_Color1", color);
         }
         if (type == ClothingItem.ClothingType.Hair)
         {
             // Change hair color AND facial hair color
-            instance.hair.color = color;
+            instance.hair.material.SetColor("_Color1", color);
             instance.face.material.SetColor("_Color3", color);
         }
         if (type == ClothingItem.ClothingType.Shoes)
@@ -218,6 +219,19 @@ public class ClothingController : MonoBehaviour
         {
             // Eyes 
             instance.face.material.SetColor("_Color2", color);
+        }
+        if (type == ClothingItem.ClothingType.Torso)
+        {
+            instance.torso.material.SetColor("_Color2", color);
+        }
+        if (type == ClothingItem.ClothingType.Legs)
+        {
+            instance.legs.material.SetColor("_Color2", color);
+        }
+        if (type == ClothingItem.ClothingType.Hair)
+        {
+            // Change hair color AND facial hair color
+            instance.hair.material.SetColor("_Color2", color);
         }
     }
 
