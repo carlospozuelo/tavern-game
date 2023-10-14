@@ -36,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         ClothingController.SetAnimator(animator);
-        ClothingController.UpdateColorsReverse();
+        ClothingController.UpdateColorsReverse(); 
     }
 
     public static void Sit(Vector2 position, Bench bench)
