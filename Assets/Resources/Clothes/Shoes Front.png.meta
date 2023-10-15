@@ -101,11 +101,23 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Shoes Front_0x0
+      name: Shoes Front_00x00
       rect:
         serializedVersion: 2
         x: 0
@@ -119,14 +131,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 50ede0d259cc82430800000000000000
-      internalID: 3758478830118821381
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Shoes Front_0x1
+      name: Shoes Front_00x01
       rect:
         serializedVersion: 2
         x: 32
@@ -140,14 +152,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 555a3eb98fd0772a0800000000000000
-      internalID: -6739902955918219947
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Shoes Front_0x2
+      name: Shoes Front_00x02
       rect:
         serializedVersion: 2
         x: 64
@@ -161,14 +173,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fd91f7ebc25f38980800000000000000
-      internalID: -8537710896040961569
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Shoes Front_0x3
+      name: Shoes Front_00x03
       rect:
         serializedVersion: 2
         x: 96
@@ -182,8 +194,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 330ce512518ed1c40800000000000000
-      internalID: 5484795098658947123
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
       vertices: []
       indices: 
       edges: []
@@ -199,10 +211,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      Shoes Front_00x00: 0
       Shoes Front_0x1: -6739902955918219947
       Shoes Front_0x0: 3758478830118821381
+      Shoes Front_00x03: 0
+      Shoes Front_00x01: 0
       Shoes Front_0x3: 5484795098658947123
       Shoes Front_0x2: -8537710896040961569
+      Shoes Front_00x02: 0
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

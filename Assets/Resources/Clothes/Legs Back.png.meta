@@ -117,7 +117,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Legs Back_0x0
+      name: Legs Back_00x00
       rect:
         serializedVersion: 2
         x: 0
@@ -138,7 +138,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Legs Back_0x1
+      name: Legs Back_00x01
       rect:
         serializedVersion: 2
         x: 32
@@ -159,7 +159,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Legs Back_0x2
+      name: Legs Back_00x02
       rect:
         serializedVersion: 2
         x: 64
@@ -180,7 +180,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Legs Back_0x3
+      name: Legs Back_00x03
       rect:
         serializedVersion: 2
         x: 96
@@ -214,10 +214,14 @@ TextureImporter:
       Legs_3: -663199987
       Legs Back_0x1: 0
       Legs_1: 2015026479
+      Legs Back_00x00: 0
       Legs_2: -1005739759
+      Legs Back_00x03: 0
       Legs Back_0x0: 0
+      Legs Back_00x02: 0
       Legs Back_0x2: 0
       Legs_0: -890023417
+      Legs Back_00x01: 0
       Legs Back_0x3: 0
   spritePackingTag: 
   pSDRemoveMatte: 0

@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c24c2c73d41485ab7442b693a2c0a9, type: 3}
+  m_Name: Faces 01
+  m_EditorClassIdentifier: 
+  type: 3
+  idle:
+    front: {fileID: 7400000, guid: eb59fe4735541402ca8dda6dad929b8b, type: 2}
+    back: {fileID: 0}
+    left: {fileID: 7400000, guid: ba39065591f354c919900904f0e816f0, type: 2}
+    right: {fileID: 7400000, guid: f2267ba45e6534463bde3a7961951b37, type: 2}
+  hold:
+    front: {fileID: 0}
+    back: {fileID: 0}
+    left: {fileID: 0}
+    right: {fileID: 0}
+  walk:
+    front: {fileID: 0}
+    back: {fileID: 0}
+    left: {fileID: 0}
+    right: {fileID: 0}
+  sit:
+    front: {fileID: 7400000, guid: d792c7eae8627422dab4ab1eb560e322, type: 2}
+    back: {fileID: 0}
+    left: {fileID: 7400000, guid: 0aa8685886f3f422784511c4fb3d83ea, type: 2}
+    right: {fileID: 7400000, guid: 38beaf7decf4e41808d65e814ca5f714, type: 2}
+  primary: {r: 0, g: 0, b: 0, a: 0}
+  secondary: {r: 0, g: 0, b: 0, a: 0}
+  tertiary: {r: 0, g: 0, b: 0, a: 0}
+  Name: Faces 01

@@ -101,11 +101,23 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Shoes Left_0x0
+      name: Shoes Left_00x00
       rect:
         serializedVersion: 2
         x: 0
@@ -119,14 +131,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ac80dc3a28a06ec50800000000000000
-      internalID: 6694049452342970570
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Shoes Left_0x1
+      name: Shoes Left_00x01
       rect:
         serializedVersion: 2
         x: 32
@@ -140,14 +152,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: de96baf267046a800800000000000000
-      internalID: 623256474787473901
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Shoes Left_0x2
+      name: Shoes Left_00x02
       rect:
         serializedVersion: 2
         x: 64
@@ -161,14 +173,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6b8f032cdcad246b0800000000000000
-      internalID: -5313444033082623818
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Shoes Left_0x3
+      name: Shoes Left_00x03
       rect:
         serializedVersion: 2
         x: 96
@@ -182,8 +194,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 17afe53e912220ad0800000000000000
-      internalID: -2737588128903660943
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
       vertices: []
       indices: 
       edges: []
@@ -200,9 +212,13 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Shoes Left_0x2: -5313444033082623818
+      Shoes Left_00x03: 0
       Shoes Left_0x1: 623256474787473901
       Shoes Left_0x3: -2737588128903660943
       Shoes Left_0x0: 6694049452342970570
+      Shoes Left_00x01: 0
+      Shoes Left_00x00: 0
+      Shoes Left_00x02: 0
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
