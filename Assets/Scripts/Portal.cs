@@ -55,6 +55,9 @@ public class Portal : MonoBehaviour
         }
         if (!validTag) { return; }
 
-        collision.transform.position = portals[destination].gameObject.transform.position + portals[destination].offset;
+        Vector3 vector = portals[destination].gameObject.transform.position;
+        vector.z = collision.transform.position.z;
+
+        collision.transform.position = vector + portals[destination].offset;
     }
 }

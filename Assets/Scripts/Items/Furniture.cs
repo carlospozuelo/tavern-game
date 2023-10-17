@@ -1,18 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.Burst.CompilerServices;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using static Unity.Burst.Intrinsics.Arm;
 
-public class Furniture : MonoBehaviour, Item
+public class Furniture : MonoBehaviour, Item, IFurniture
 {
     [Tooltip("Optional field. If not empty, the furniture can be rotated before placing, and it will be transformed to the referenced gameobject instead")]
     public GameObject rotateGameObject;
 
-
-    public Vector2Int size = new Vector2Int(1,1);
+    [SerializeField]
+    private Vector2Int size = new Vector2Int(1,1);
 
     public GameObject originalPrefab;
 
@@ -38,6 +33,24 @@ public class Furniture : MonoBehaviour, Item
 
     public List<GameObject> itemsOnTop = new List<GameObject>();
     public Furniture onTopOf = null;
+
+    [SerializeField]
+    private List<GameObject> blocks = new List<GameObject>();
+
+    public void Block(GameObject g)
+    {
+        blocks.Add(g);
+    }
+
+    public void Unblock(GameObject g)
+    {
+        blocks.Remove(g);
+    }
+
+    public bool IsBlocked()
+    {
+        return blocks.Count > 0;
+    }
 
     public void UseItem()
     {
