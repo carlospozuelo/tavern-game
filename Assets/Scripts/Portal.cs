@@ -14,6 +14,8 @@ public class Portal : MonoBehaviour
 
     public Vector3 offset;
 
+    public bool toOutside;
+
     // Start is called before the first frame update
     void Start()
     {

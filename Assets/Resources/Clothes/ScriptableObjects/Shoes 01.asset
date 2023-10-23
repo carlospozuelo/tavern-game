@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c24c2c73d41485ab7442b693a2c0a9, type: 3}
+  m_Name: Shoes 01
+  m_EditorClassIdentifier: 
+  type: 4
+  idle:
+    front: {fileID: 7400000, guid: 3b21f40c58c6eae44ad97bd74919e99a, type: 2}
+    back: {fileID: 7400000, guid: 6c7e0bae5a425514b889577a07ce98bb, type: 2}
+    left: {fileID: 7400000, guid: d1418a36a589c494984e08c294ae8fbe, type: 2}
+    right: {fileID: 7400000, guid: 8c00aa734bb2f3d4eb5a6e172fb68728, type: 2}
+  hold:
+    front: {fileID: 0}
+    back: {fileID: 0}
+    left: {fileID: 0}
+    right: {fileID: 0}
+  walk:
+    front: {fileID: 7400000, guid: 29d2a125d870d674d8a19222eda686e0, type: 2}
+    back: {fileID: 7400000, guid: 3b6b5ea7fd0981e4589e7e7b23f7b366, type: 2}
+    left: {fileID: 7400000, guid: f919cab68e251fd46a4bc2ed1bc82578, type: 2}
+    right: {fileID: 7400000, guid: 3d33b2600fe7ac84db090cc54718e201, type: 2}
+  sit:
+    front: {fileID: 7400000, guid: 3e7d2b40baa9c0f4ba95d7ec2492af86, type: 2}
+    back: {fileID: 7400000, guid: 8aef81feb3591494c983749bc6dcbb16, type: 2}
+    left: {fileID: 7400000, guid: fad3c0fde2de06a4b827d7be10cc649a, type: 2}
+    right: {fileID: 7400000, guid: 2c3270b093305664b8f2572f95793bfd, type: 2}
+  primary: {r: 0, g: 0, b: 0, a: 0}
+  secondary: {r: 0, g: 0, b: 0, a: 0}
+  tertiary: {r: 0, g: 0, b: 0, a: 0}
+  Name: Shoes 01

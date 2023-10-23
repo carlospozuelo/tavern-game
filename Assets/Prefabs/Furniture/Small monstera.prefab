@@ -106,3 +106,6 @@ MonoBehaviour:
   rugLike: 0
   tableLike: 0
   canBePlacedOnTable: 1
+  itemsOnTop: []
+  onTopOf: {fileID: 0}
+  blocks: []

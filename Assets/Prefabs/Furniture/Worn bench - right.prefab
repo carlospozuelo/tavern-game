@@ -419,7 +419,7 @@ MonoBehaviour:
   size: {x: 1, y: 3}
   originalPrefab: {fileID: 7095797780511728409}
   canBePlacedInside: 1
-  canBePlacedOutside: 1
+  canBePlacedOutside: 0
   placedOnWalls: 0
   rugLike: 0
   tableLike: 0

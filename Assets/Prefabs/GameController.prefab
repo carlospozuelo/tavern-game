@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6687085659471477749}
   - component: {fileID: 6687085659471477747}
   - component: {fileID: 6687085659471477744}
+  - component: {fileID: 4520201122372231313}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -95,3 +96,17 @@ MonoBehaviour:
   currentTaverns:
   - {fileID: 0}
   currentInteractuables: []
+  furnitureParent: {fileID: 0}
+--- !u!114 &4520201122372231313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6687085659471477748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55924366bf77bdb488e7c9a8c4c8235c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  locations: []

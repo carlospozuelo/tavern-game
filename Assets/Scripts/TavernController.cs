@@ -87,6 +87,9 @@ public class TavernController : MonoBehaviour
     [SerializeField]
     private List<GameObject> currentInteractuables;
 
+    [SerializeField]
+    private Transform furnitureParent;
+
     public static List<GameObject> GetCurrentInteractuables() { return instance.currentInteractuables;  }
 
     private void Awake()
@@ -130,7 +133,7 @@ public class TavernController : MonoBehaviour
             list = new List<GameObject>();
         }
         foreach (GameObject tav in newTaverns) { 
-            GameObject tavern = Instantiate(tav, GridManager.instance.gameObject.transform);
+            GameObject tavern = Instantiate(tav, GridManager.instance.taverns);
             list.Add(tavern);
         }
 
@@ -174,7 +177,7 @@ public class TavernController : MonoBehaviour
         }
     }
 
-    public static List<GameObject> GetPlacedFurnitures() { return instance.placedFurnitures; }
+    public static List<GameObject> GetPlacedFurnitures() { if (IsActive()) return instance.placedFurnitures; return new List<GameObject>(); }
 
     [Obsolete]
     public void SerializeTavern()
@@ -237,13 +240,13 @@ public class TavernController : MonoBehaviour
             {
                 GridManager.Clear();
                 currentTaverns = new List<GameObject>();
-                foreach (Transform t in GridManager.instance.transform)
+                foreach (Transform t in GridManager.instance.taverns)
                 {
                     t.gameObject.SetActive(false);
                 }
                 foreach (string s in taverns)
                 {
-                    GameObject tav = Instantiate(instance.tavernDictionary[s], GridManager.instance.gameObject.transform);
+                    GameObject tav = Instantiate(instance.tavernDictionary[s], GridManager.instance.taverns);
                     currentTaverns.Add(tav);
                 }
                 GridManager.InitializeTilemap();
@@ -262,10 +265,12 @@ public class TavernController : MonoBehaviour
         }
     }
 
+    public static bool IsActive() { return instance.isActiveAndEnabled; }
+
     public static void InstantiateFurniture(GameObject g, Vector3 worldPosition)
     {
         Vector2 pos = GridManager.instance.SnapPosition(worldPosition);
-        GameObject newInstance = Instantiate(g, new Vector3(pos.x, pos.y, g.transform.position.z), Quaternion.identity, null);
+        GameObject newInstance = Instantiate(g, new Vector3(pos.x, pos.y, g.transform.position.z), Quaternion.identity, instance.furnitureParent);
         Furniture f = newInstance.GetComponent<Furniture>();
         f.originalPrefab = g;
 

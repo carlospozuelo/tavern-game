@@ -13,6 +13,8 @@ public class GridManager : MonoBehaviour
     public static GridManager instance;
     private Dictionary<string, List<Tilemap>> dictionary;
 
+    public Transform taverns;
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -48,7 +50,7 @@ public class GridManager : MonoBehaviour
         {
             instance.dictionary = new Dictionary<string, List<Tilemap>>();
         }
-        foreach (Transform child in instance.transform)
+        foreach (Transform child in instance.taverns)
         {
             if (child.gameObject.activeSelf)
             {
