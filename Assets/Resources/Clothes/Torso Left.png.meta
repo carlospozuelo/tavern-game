@@ -1072,7 +1072,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Torso Left_0x4: 0
+      Torso Left_07x04: 0
       Torso Left_2x3: 0
       Torso Left_3x0: 0
       Torso Left_02x01: 0
@@ -1101,6 +1101,7 @@ TextureImporter:
       Torso Left_06x02: 0
       Torso Left_05x01: 0
       Torso Left_0x1: 0
+      Torso Left_00x01: 0
       Torso Left_03x03: 0
       Torso Left_2x2: 0
       Torso Left_03x01: 0
@@ -1137,7 +1138,6 @@ TextureImporter:
       Torso Left_08x04: 0
       Torso_3: -2081601908
       Torso Left_07x02: 0
-      Torso_4: 1633237920
       Torso_9: -587837506
       Torso_16: 480876062
       Torso Left_04x03: 0
@@ -1151,12 +1151,12 @@ TextureImporter:
       Torso Left_00x00: 0
       Torso Left_00x04: 0
       Torso Left_01x04: 0
-      Torso Left_07x04: 0
       Torso Left_2x4: 0
+      Torso_4: 1633237920
       Torso Left_04x02: 0
-      Torso Left_03x04: 0
+      Torso Left_0x4: 0
       Torso Left_07x00: 0
-      Torso Left_00x01: 0
+      Torso Left_03x04: 0
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

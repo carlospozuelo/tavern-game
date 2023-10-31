@@ -179,22 +179,6 @@ public class TavernController : MonoBehaviour
 
     public static List<GameObject> GetPlacedFurnitures() { if (IsActive()) return instance.placedFurnitures; return new List<GameObject>(); }
 
-    [Obsolete]
-    public void SerializeTavern()
-    {
-        TavernData data = GetCurrentTavernData();
-
-        BinaryFormatter formatter = new BinaryFormatter();
-        string path = GetPath();
-        FileStream stream = new FileStream(path, FileMode.Create);
-
-        formatter.Serialize(stream, data);
-        stream.Close();
-
-        MasterData.WriteData();
-
-    }
-
     public static TavernData GetCurrentTavernData()
     {
         TavernData data = new TavernData();

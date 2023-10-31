@@ -12,6 +12,9 @@ public class LocationController : MonoBehaviour
 
     private static LocationController instance;
 
+    // Could be changed via savefile in the future
+    public string currentLocation = "Tavern";
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -24,6 +27,24 @@ public class LocationController : MonoBehaviour
         }
     }
 
+    public static void ChangeLocation(string name)
+    {
+        if (!instance.dictionary.ContainsKey(name))
+        {
+            Debug.LogWarning("The location " + name + " does not exist.");
+            return;
+        }
+
+        foreach (var keypair in instance.dictionary)
+        {
+            keypair.Value.SetActive(false);
+        }
+
+        instance.dictionary[name].SetActive(true);
+        instance.currentLocation = name;
+        
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +54,8 @@ public class LocationController : MonoBehaviour
         {
             dictionary[item.name] = item;
         }
+
+        ChangeLocation(currentLocation);
     }
 
     // Update is called once per frame
