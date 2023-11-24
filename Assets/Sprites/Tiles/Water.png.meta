@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2243f6a68acebe0478fc53e9e01eb781
+guid: da811f5e3040e294796923de8c25b1e8
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -117,64 +117,127 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Trees_0
+      name: Water_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 128
-        height: 128
-      alignment: 9
-      pivot: {x: 0.50123185, y: 0.1268786}
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d3726c299ff70914ead960618851f975
-      internalID: -1501684098
+      spriteID: ff12d12257fd234449cd9be44fe724d0
+      internalID: -76024602
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Trees_1
+      name: Water_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3b37301a510de244ae6398de9344e6b
+      internalID: -1543754721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Water_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4dade84117a3a504ab5e63e5e2fce9df
+      internalID: -666778335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Water_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f9661c6a19af9ea4a93f479bff4eb35c
+      internalID: 168942719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Water_4
       rect:
         serializedVersion: 2
         x: 128
         y: 0
-        width: 128
-        height: 128
-      alignment: 9
-      pivot: {x: 0.62066376, y: 0.15837105}
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 55e841d8eac863f409eebb649bce3af8
-      internalID: 1260033086
+      spriteID: 97571970054986349a48efcbd9b56017
+      internalID: -1891096347
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Trees_2
+      name: Water_5
       rect:
         serializedVersion: 2
-        x: 256
+        x: 160
         y: 0
-        width: 128
-        height: 128
-      alignment: 9
-      pivot: {x: 0.50350165, y: 0.120098025}
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b19fe3fd7aae28649a8b6e93e01859f6
-      internalID: 153342323
+      spriteID: 90f7dd6b5e91d59488d14b182aefb256
+      internalID: 1032107738
       vertices: []
       indices: 
       edges: []
@@ -190,9 +253,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Trees_2: 153342323
-      Trees_1: 1260033086
-      Trees_0: -1501684098
+      Water_2: -666778335
+      Water_4: -1891096347
+      Water_1: -1543754721
+      Water_5: 1032107738
+      Water_0: -76024602
+      Water_3: 168942719
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
