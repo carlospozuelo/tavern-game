@@ -51,6 +51,7 @@ public class ClothingItem : ScriptableObject
 
         data.type = ToClothingType(type);
         data.name = name;
+        data.Name = name;
 
         data.idle = new AnimationContainer();
         data.hold = new AnimationContainer();
@@ -83,6 +84,10 @@ public class ClothingItem : ScriptableObject
     public AnimationContainer idle, hold, walk, sit;
     public Color primary, secondary, tertiary;
 
+    public string Name;
+
+
+
     public AnimationContainer GetAnimationContainer(string name)
     {
         if (name.Equals("idle")) return idle;
@@ -114,7 +119,7 @@ public class ClothingItem : ScriptableObject
 
     public override string ToString()
     {
-        string str = type + ", " + name + ": {\n" +
+        string str = type + ", " + Name + ": {\n" +
             "idle: {\n" + idle + "},\n" +
             "hold: {\n" + hold + "},\n" +
             "walk: {\n" + walk + "},\n" +

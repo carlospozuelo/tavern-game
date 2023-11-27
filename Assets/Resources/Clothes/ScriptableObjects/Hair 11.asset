@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c24c2c73d41485ab7442b693a2c0a9, type: 3}
+  m_Name: Hair 11
+  m_EditorClassIdentifier: 
+  type: 2
+  idle:
+    front: {fileID: 7400000, guid: 6b85d5e13aef3b149afbdc944d008a1f, type: 2}
+    back: {fileID: 7400000, guid: 7990fc9108e27a44d87f3bd9da8f1544, type: 2}
+    left: {fileID: 7400000, guid: 4dd0a830808a14f47867d2d2fd5dca76, type: 2}
+    right: {fileID: 7400000, guid: 53fe6034d9a0b6641acb0435b0f3ea67, type: 2}
+  hold:
+    front: {fileID: 0}
+    back: {fileID: 0}
+    left: {fileID: 0}
+    right: {fileID: 0}
+  walk:
+    front: {fileID: 0}
+    back: {fileID: 0}
+    left: {fileID: 0}
+    right: {fileID: 0}
+  sit:
+    front: {fileID: 7400000, guid: 37b1ea750e180fa4f9c8b120f87fede2, type: 2}
+    back: {fileID: 7400000, guid: abe795aff9cc77d449cfc74b9a869253, type: 2}
+    left: {fileID: 7400000, guid: bc35ee7ef9fa1f349bad17b44029842f, type: 2}
+    right: {fileID: 7400000, guid: e75ba2274dcad3640859cfab1174be97, type: 2}
+  primary: {r: 0, g: 0, b: 0, a: 0}
+  secondary: {r: 0, g: 0, b: 0, a: 0}
+  tertiary: {r: 0, g: 0, b: 0, a: 0}
+  Name: Hair 11

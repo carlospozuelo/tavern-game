@@ -188,13 +188,14 @@ MonoBehaviour:
   size: {x: 3, y: 3}
   originalPrefab: {fileID: 7095797780511728409}
   canBePlacedInside: 1
-  canBePlacedOutside: 1
+  canBePlacedOutside: 0
   placedOnWalls: 0
   rugLike: 0
   tableLike: 1
   canBePlacedOnTable: 0
   itemsOnTop: []
   onTopOf: {fileID: 0}
+  blocks: []
 --- !u!114 &597382733558665992
 MonoBehaviour:
   m_ObjectHideFlags: 0

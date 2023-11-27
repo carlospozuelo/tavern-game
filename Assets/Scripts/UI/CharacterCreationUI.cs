@@ -51,12 +51,14 @@ public class CharacterCreationUI : MonoBehaviour
     {
         ClothingController.UpdateColors();
 
+        ClothingController.UpdateNameAndPronouns(playerName, pronouns);
+
         SceneManager.LoadSceneAsync("Game");
     }
 
-    public void SelectName(string name)
+    public void SelectName(string n)
     {
-        playerName = name;
+        playerName = n;
         CheckButton();
     }
 

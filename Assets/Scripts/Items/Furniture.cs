@@ -146,6 +146,8 @@ public class Furniture : MonoBehaviour, Item, IFurniture
 
     public bool CanBePlaced(Vector3Int topLeftTile, bool checkCollisions = true)
     {
+
+        if (!canBePlacedOutside && !TavernController.IsActive()) { return false; }
         if (GameController.instance.DistanceToPlayer(topLeftTile + new Vector3(size.x, -size.y) / 2) >= GameController.instance.maxDistanceToPlaceItems) { return false;  }
 
         if (placedOnWalls)

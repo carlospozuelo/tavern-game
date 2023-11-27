@@ -122,7 +122,7 @@ public class GenerateAnimations : MonoBehaviour
 
                     int colNum = j / width;
 
-                    smd.name = texture.name + "_" + rowNum + "x" + colNum;
+                    smd.name = texture.name + "_" + rowNum.ToString("00") + "x" + colNum.ToString("00");
                     smd.rect = new Rect(j, i - height, width, height);
 
                     meta.Add(smd);

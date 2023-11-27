@@ -101,11 +101,275 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Hair Right_0x0
+      name: Hair Right_00x00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 704
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hair Right_00x01
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 704
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hair Right_01x00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 640
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hair Right_01x01
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 640
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hair Right_02x00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 576
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hair Right_02x01
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 576
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hair Right_03x00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 512
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hair Right_03x01
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 512
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hair Right_04x00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 448
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hair Right_04x01
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 448
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hair Right_05x00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 384
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hair Right_05x01
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 384
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hair Right_06x00
       rect:
         serializedVersion: 2
         x: 0
@@ -119,14 +383,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 186e2446a4555f4e0800000000000000
-      internalID: -1948557485769824639
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hair Right_0x1
+      name: Hair Right_06x01
       rect:
         serializedVersion: 2
         x: 32
@@ -140,14 +404,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1653bccf00a7bf620800000000000000
-      internalID: 2808972937255400801
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hair Right_1x0
+      name: Hair Right_07x00
       rect:
         serializedVersion: 2
         x: 0
@@ -168,7 +432,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hair Right_1x1
+      name: Hair Right_07x01
       rect:
         serializedVersion: 2
         x: 32
@@ -189,7 +453,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hair Right_2x0
+      name: Hair Right_08x00
       rect:
         serializedVersion: 2
         x: 0
@@ -210,7 +474,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hair Right_2x1
+      name: Hair Right_08x01
       rect:
         serializedVersion: 2
         x: 32
@@ -231,7 +495,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hair Right_3x0
+      name: Hair Right_09x00
       rect:
         serializedVersion: 2
         x: 0
@@ -252,7 +516,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hair Right_3x1
+      name: Hair Right_09x01
       rect:
         serializedVersion: 2
         x: 32
@@ -273,7 +537,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hair Right_4x0
+      name: Hair Right_10x00
       rect:
         serializedVersion: 2
         x: 0
@@ -294,7 +558,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hair Right_4x1
+      name: Hair Right_10x01
       rect:
         serializedVersion: 2
         x: 32
@@ -315,7 +579,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hair Right_5x0
+      name: Hair Right_11x00
       rect:
         serializedVersion: 2
         x: 0
@@ -336,7 +600,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hair Right_5x1
+      name: Hair Right_11x01
       rect:
         serializedVersion: 2
         x: 32
@@ -367,27 +631,63 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      Hair Right_01x01: 0
       Hair Right_0x1: 2808972937255400801
-      Hair Right_0x6: 5888326158683363635
-      Hair Right_0x8: 8618267896286390046
+      Hair Right_6x1: 0
+      Hair Right_07x01: 0
+      Hair Right_09x00: 0
       Hair Right_0x11: -4494600537165999433
+      Hair Right_8x0: 0
+      Hair Right_02x01: 0
+      Hair Right_0x7: 7898071430061157515
+      Hair Right_4x1: 0
+      Hair Right_03x01: 0
+      Hair Right_01x00: 0
+      Hair Right_2x0: 0
+      Hair Right_10x00: 0
+      Hair Right_02x00: 0
+      Hair Right_3x1: 0
+      Hair Right_7x1: 0
+      Hair Right_0x10: -1979800242854909534
+      Hair Right_0x3: -2931076160214205012
+      Hair Right_11x0: 0
+      Hair Right_08x01: 0
+      Hair Right_03x00: 0
+      Hair Right_08x00: 0
+      Hair Right_0x6: 5888326158683363635
+      Hair Right_09x01: 0
+      Hair Right_0x8: 8618267896286390046
+      Hair Right_00x01: 0
+      Hair Right_8x1: 0
+      Hair Right_04x01: 0
+      Hair Right_7x0: 0
+      Hair Right_11x1: 0
       Hair Right_2x1: 0
       Hair Right_0x9: -5691236287392087864
+      Hair Right_05x01: 0
+      Hair Right_06x01: 0
+      Hair Right_11x01: 0
       Hair Right_0x5: 9163586352105537910
-      Hair Right_0x7: 7898071430061157515
       Hair Right_5x1: 0
-      Hair Right_4x1: 0
       Hair Right_5x0: 0
-      Hair Right_2x0: 0
+      Hair Right_06x00: 0
+      Hair Right_07x00: 0
       Hair Right_4x0: 0
-      Hair Right_3x1: 0
-      Hair Right_0x10: -1979800242854909534
+      Hair Right_6x0: 0
+      Hair Right_10x0: 0
+      Hair Right_00x00: 0
       Hair Right_0x2: -2066427010521768960
-      Hair Right_0x3: -2931076160214205012
+      Hair Right_10x1: 0
       Hair Right_1x1: 0
       Hair Right_3x0: 0
+      Hair Right_10x01: 0
+      Hair Right_11x00: 0
       Hair Right_1x0: 0
       Hair Right_0x4: 8710414248614750129
+      Hair Right_9x1: 0
+      Hair Right_04x00: 0
+      Hair Right_05x00: 0
+      Hair Right_9x0: 0
       Hair Right_0x0: -1948557485769824639
   spritePackingTag: 
   pSDRemoveMatte: 0

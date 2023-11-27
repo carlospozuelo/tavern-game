@@ -3,45 +3,76 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using Newtonsoft.Json;
 using UnityEngine;
+
+[Serializable]
+public class TavernData
+{
+    [JsonProperty]
+    private List<FurnitureData> furnitures;
+    [JsonProperty]
+    private List<string> taverns;
+
+    public TavernData()
+    {
+        furnitures = new List<FurnitureData>();
+        taverns = new List<string>();
+    }
+
+    public void AddFurniture(FurnitureData furniture)
+    {
+        furnitures.Add(furniture);
+    }
+
+    public List<FurnitureData> GetFurniture()
+    {
+        return furnitures;
+    }
+
+    public void AddTavern(string tavern)
+    {
+        taverns.Add(tavern);
+    }
+
+    public List<string> GetTaverns()
+    {
+        return taverns;
+    }
+
+    public override string ToString()
+    {
+        string s = "{\nfurnitures:\n[";
+
+        for (int i = 0; i < furnitures.Count; i++) 
+        {
+            s += "\n";
+            FurnitureData f = furnitures[i];
+            s += f;
+            if (i + 1 < furnitures.Count) { s += ","; }
+            s += "\n";
+        }
+
+        s += "],\ntaverns:\n[";
+
+        for (int i = 0; i < taverns.Count; i++)
+        {
+            s += "\n{\n" + taverns[i] + "\n}";
+            if (i+1  < taverns.Count) { s += ","; }
+            s += "\n";
+        }
+
+        s += "]\n}";
+
+        return s;
+    }
+
+}
 
 public class TavernController : MonoBehaviour
 {
 
-    [Serializable]
-    public class TavernData
-    {
-        private List<FurnitureData> furnitures;
-        private List<string> taverns;
-
-        public TavernData()
-        {
-            furnitures = new List<FurnitureData>();
-            taverns = new List<string>();
-        }
-
-        public void AddFurniture(FurnitureData furniture)
-        {
-            furnitures.Add(furniture);
-        }
-
-        public List<FurnitureData> GetFurniture()
-        {
-            return furnitures;
-        }
-
-        public void AddTavern(string tavern)
-        {
-            taverns.Add(tavern);
-        }
-
-        public List<string> GetTaverns()
-        {
-            return taverns;
-        }
-
-    }
-
+    
     [SerializeField]
     private GameObject[] allFurniture, allTaverns, allHouses;
 
@@ -55,6 +86,9 @@ public class TavernController : MonoBehaviour
 
     [SerializeField]
     private List<GameObject> currentInteractuables;
+
+    [SerializeField]
+    private Transform furnitureParent;
 
     public static List<GameObject> GetCurrentInteractuables() { return instance.currentInteractuables;  }
 
@@ -99,7 +133,7 @@ public class TavernController : MonoBehaviour
             list = new List<GameObject>();
         }
         foreach (GameObject tav in newTaverns) { 
-            GameObject tavern = Instantiate(tav, GridManager.instance.gameObject.transform);
+            GameObject tavern = Instantiate(tav, GridManager.instance.taverns);
             list.Add(tavern);
         }
 
@@ -143,35 +177,29 @@ public class TavernController : MonoBehaviour
         }
     }
 
-    public static List<GameObject> GetPlacedFurnitures() { return instance.placedFurnitures; }
+    public static List<GameObject> GetPlacedFurnitures() { if (IsActive()) return instance.placedFurnitures; return new List<GameObject>(); }
 
-    public void SerializeTavern()
+    public static TavernData GetCurrentTavernData()
     {
         TavernData data = new TavernData();
 
-        foreach (GameObject g in placedFurnitures)
+        foreach (GameObject g in instance.placedFurnitures)
         {
             FurnitureData furniture = g.GetComponent<Furniture>().GetFurnitureData();
             data.AddFurniture(furniture);
         }
 
-        foreach (GameObject g in currentTaverns)
+        foreach (GameObject g in instance.currentTaverns)
         {
             data.AddTavern(g.name.Replace("(Clone)", ""));
         }
 
-        BinaryFormatter formatter = new BinaryFormatter();
-        string path = GetPath();
-        FileStream stream = new FileStream(path, FileMode.Create);
-
-        formatter.Serialize(stream, data);
-        stream.Close();
-
+        return data;
     }
+
 
     public void DeSerializeTavern()
     {
-        
         foreach (GameObject g in placedFurnitures)
         {
             Destroy(g);
@@ -196,17 +224,20 @@ public class TavernController : MonoBehaviour
             {
                 GridManager.Clear();
                 currentTaverns = new List<GameObject>();
-                foreach (Transform t in GridManager.instance.transform)
+                foreach (Transform t in GridManager.instance.taverns)
                 {
                     t.gameObject.SetActive(false);
                 }
                 foreach (string s in taverns)
                 {
-                    GameObject tav = Instantiate(instance.tavernDictionary[s], GridManager.instance.gameObject.transform);
+                    GameObject tav = Instantiate(instance.tavernDictionary[s], GridManager.instance.taverns);
                     currentTaverns.Add(tav);
                 }
                 GridManager.InitializeTilemap();
             }
+        } else
+        {
+            Debug.LogWarning("No tavern data found");
         }
     }
 
@@ -218,10 +249,12 @@ public class TavernController : MonoBehaviour
         }
     }
 
+    public static bool IsActive() { return instance.isActiveAndEnabled; }
+
     public static void InstantiateFurniture(GameObject g, Vector3 worldPosition)
     {
         Vector2 pos = GridManager.instance.SnapPosition(worldPosition);
-        GameObject newInstance = Instantiate(g, new Vector3(pos.x, pos.y, g.transform.position.z), Quaternion.identity, null);
+        GameObject newInstance = Instantiate(g, new Vector3(pos.x, pos.y, g.transform.position.z), Quaternion.identity, instance.furnitureParent);
         Furniture f = newInstance.GetComponent<Furniture>();
         f.originalPrefab = g;
 
@@ -262,22 +295,13 @@ public class TavernController : MonoBehaviour
 
     private TavernData ReadTavernData()
     {
-        string path = GetPath();
-        if (File.Exists(path))
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(path, FileMode.Open);
-
-            TavernData data = formatter.Deserialize(stream) as TavernData;
-
-            stream.Close();
-            return data;
-        }
-        Debug.Log("No file found on " + GetPath());
+        Master data = MasterData.Read();
+        if (data != null) { return data.tavernData;  }
         return null;
         
     }
 
+ 
     private string GetPath()
     {
         return Application.persistentDataPath + "/tavern.tav";
