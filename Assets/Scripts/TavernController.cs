@@ -103,8 +103,8 @@ public class TavernController : MonoBehaviour
             instance = this;
         }
 
-        dictionary = InitializeDictionary(allFurniture);
-        tavernDictionary = InitializeDictionary(allTaverns);
+        dictionary = Utils.InitializeDictionary(allFurniture);
+        tavernDictionary = Utils.InitializeDictionary(allTaverns);
 
 
         placedFurnitures = new List<GameObject>();
@@ -140,20 +140,6 @@ public class TavernController : MonoBehaviour
         GridManager.InitializeTilemap();
 
         return list;
-    }
-
-    private Dictionary<string, GameObject> InitializeDictionary(GameObject[] list)
-    {
-        Dictionary<string, GameObject> d = new Dictionary<string, GameObject>();
-        if (list != null)
-        {
-            foreach (GameObject g in list)
-            {
-                d.Add(g.name, g);
-            }
-        }
-
-        return d;
     }
 
     private void Start()
