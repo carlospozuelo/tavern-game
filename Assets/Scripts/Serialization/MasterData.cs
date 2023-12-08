@@ -8,9 +8,13 @@ using UnityEngine.SceneManagement;
 [System.Serializable]
 public class Master
 {
+    public string version = "v1";
+
     public TavernData tavernData;
 
     public PlayerClothingData clothingData;
+
+    public TownData townData;
 
     public override string ToString()
     {
@@ -78,6 +82,8 @@ public class MasterData : MonoBehaviour
         instance.data = new Master();
 
         instance.data.tavernData = TavernController.GetCurrentTavernData();
+        instance.data.townData = TownController.GetCurrentTownData();
+
         instance.data.clothingData = ClothingController.Serialize();
 
         //string json = JsonUtility.ToJson(this);
