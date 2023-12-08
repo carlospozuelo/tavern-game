@@ -32,13 +32,15 @@ public class TownData
 public class TownController : MonoBehaviour
 {
     [SerializeField]
-    private GameObject[] allBuildings, allTownItems; 
+    private GameObject[] allBuildings, allTownItems;
 
     private Dictionary<string, GameObject> buildings;
     private Dictionary<string, GameObject> townItems;
 
     [SerializeField]
     private Transform buildingParent, townItemsParent;
+
+    public GameObject tavern;
 
     private static TownController instance;
     private void Awake()
@@ -53,6 +55,15 @@ public class TownController : MonoBehaviour
 
         buildings = Utils.InitializeDictionary(allBuildings);
         townItems = Utils.InitializeDictionary(allTownItems);
+    }
+
+    public static void UpgradeTavern(GameObject newTavernPrefab)
+    {
+        GameObject g = Instantiate(newTavernPrefab, instance.tavern.transform.position, Quaternion.identity, instance.buildingParent);
+
+        Destroy(instance.tavern);
+
+        instance.tavern = g;
     }
 
     private void Start()
@@ -105,7 +116,13 @@ public class TownController : MonoBehaviour
                 if (instance.buildings.ContainsKey(p.name))
                 {
                     GameObject prefab = instance.buildings[p.name];
-                    Instantiate(prefab, p.GetPosition(), Quaternion.identity, buildingParent);
+                    GameObject g = Instantiate(prefab, p.GetPosition(), Quaternion.identity, buildingParent);
+
+                    if (p.name.Contains("Tavern"))
+                    {
+                        instance.tavern = g;
+                    }
+
                 }
                 else
                 {
