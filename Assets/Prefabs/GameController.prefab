@@ -77,3 +77,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   locations:
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  currentLocation: Tavern

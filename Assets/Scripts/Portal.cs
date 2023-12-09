@@ -51,6 +51,11 @@ public class Portal : MonoBehaviour
         Start();
     }
 
+    public Vector3 GetPosition()
+    {
+        return transform.position;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         bool validTag = false;
@@ -65,7 +70,7 @@ public class Portal : MonoBehaviour
 
         LocationController.ChangeLocation(location);
 
-        Vector3 vector = portals[destination].gameObject.transform.position;
+        Vector3 vector = portals[destination].GetPosition();
         vector.z = collision.transform.position.z;
 
         collision.transform.position = vector + portals[destination].offset;

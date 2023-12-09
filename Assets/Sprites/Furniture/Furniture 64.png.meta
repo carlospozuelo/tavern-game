@@ -221,6 +221,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Furniture 64_5
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 63
+        height: 64
+      alignment: 9
+      pivot: {x: 0, y: 0.6}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 008cd1a9647bea747a10d17118c9b831
+      internalID: 345749780
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -236,6 +257,7 @@ TextureImporter:
       Furniture 64_0: -1623787370
       Furniture 64_1: -1446717914
       Furniture 64_2: -1689685490
+      Furniture 64_5: 345749780
       Furniture 64_3: -1190959779
   spritePackingTag: 
   pSDRemoveMatte: 0

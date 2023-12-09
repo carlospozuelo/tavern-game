@@ -31,12 +31,14 @@ public class UpgradeTavernTemp : MonoBehaviour
     }
     public static void Upgrade()
     {
-        if (instance.currentUpgrade < instance.tavernUpgrades.Count)
+        if (instance.currentUpgrade < instance.tavernUpgrades.Count -1)
         {
-            TavernController.UpgradeTavern(instance.tavernUpgrades[instance.currentUpgrade].list);
-
-            TownController.UpgradeTavern(instance.tavernUpgrades[instance.currentUpgrade].tavernExterior);
+            instance.currentUpgrade++;
         }
-        instance.currentUpgrade++;
+        else { instance.currentUpgrade = 0; }
+
+        TavernController.UpgradeTavern(instance.tavernUpgrades[instance.currentUpgrade].list);
+
+        TownController.UpgradeTavern(instance.tavernUpgrades[instance.currentUpgrade].tavernExterior);
     }
 }
