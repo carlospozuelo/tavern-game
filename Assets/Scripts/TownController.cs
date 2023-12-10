@@ -60,6 +60,7 @@ public class TownController : MonoBehaviour
         DeserializeTown();
     }
 
+
     public static void UpgradeTavern(GameObject newTavernPrefab)
     {
         GameObject g = Instantiate(newTavernPrefab, instance.tavern.transform.position, Quaternion.identity, instance.buildingParent);
@@ -103,8 +104,6 @@ public class TownController : MonoBehaviour
     private void DeserializeTown()
     {
         TownData data = ReadData();
-
-        Debug.Log("Deserializing...");
 
         if (data != null)
         {
