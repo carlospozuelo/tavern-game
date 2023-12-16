@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TownData
@@ -40,7 +41,7 @@ public class TownController : MonoBehaviour
     [SerializeField]
     private Transform buildingParent, townItemsParent;
 
-    public GameObject tavern;
+    public GameObject tavern, townhall;
 
     private static TownController instance;
     private void Awake()
@@ -55,7 +56,10 @@ public class TownController : MonoBehaviour
 
         buildings = Utils.InitializeDictionary(allBuildings);
         townItems = Utils.InitializeDictionary(allTownItems);
+
+        DeserializeTown();
     }
+
 
     public static void UpgradeTavern(GameObject newTavernPrefab)
     {
@@ -66,9 +70,18 @@ public class TownController : MonoBehaviour
         instance.tavern = g;
     }
 
+    public static void UpgradeTH(GameObject newTHPrefab)
+    {
+        GameObject g = Instantiate(newTHPrefab, instance.townhall.transform.position, Quaternion.identity, instance.buildingParent);
+
+        Destroy(instance.townhall);
+
+        instance.townhall = g;
+    }
+
     private void Start()
     {
-        DeserializeTown();
+        
     }
 
     public static TownData GetCurrentTownData()
@@ -121,6 +134,11 @@ public class TownController : MonoBehaviour
                     if (p.name.Contains("Tavern"))
                     {
                         instance.tavern = g;
+                    }
+
+                    else if (p.name.Contains("Townhall"))
+                    {
+                        instance.townhall = g;
                     }
 
                 }
