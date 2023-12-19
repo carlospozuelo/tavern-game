@@ -87,6 +87,11 @@ public class PlayerInventory : MonoBehaviour
         inventory[slot] = item;
     }
 
+    public static void SelectItem()
+    {
+        instance.SelectItem(instance.currentItem);
+    }
+
     public void SelectItem(int item)
     {
         if (hotBar[currentItem] != null)
@@ -197,6 +202,11 @@ public class PlayerInventory : MonoBehaviour
                     i.Interact();
                 }
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E))
+        {
+            BookMenuUI.OpenOrCloseMenu();
         }
     }
 
