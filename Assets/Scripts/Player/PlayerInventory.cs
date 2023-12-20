@@ -1,12 +1,102 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
+
+[Serializable]
+public class InventoryData
+{
+    [JsonProperty]
+    private string[] inventory, hotbar;
+
+    public InventoryData()
+    {
+        inventory = new string[20];
+        hotbar = new string[10];
+    }
+
+    public InventoryData(GameObject[] inventory, GameObject[] hotbar)
+    {
+        this.inventory = new string[inventory.Length];
+        this.hotbar = new string[hotbar.Length];
+
+        for (int i = 0; i < inventory.Length; i++)
+        {
+            if (inventory[i] != null)
+            {
+                GameObject g = inventory[i];
+                if (g.TryGetComponent(out Item item))
+                {
+                    this.inventory[i] = item.GetName();
+                }
+                else
+                {
+                    Debug.LogError("Trying to read an item out of " + g + ", but it was not found. Inventory should only contain Items.");
+                }
+            }
+        }
+
+        for(int i = 0; i < hotbar.Length; i++)
+        {
+            if (hotbar[i] != null)
+            {
+                GameObject g = hotbar[i];
+                if (g.TryGetComponent(out Item item))
+                {
+                    this.hotbar[i] = item.GetName();
+                }
+                else
+                {
+                    Debug.LogError("Trying to read an item out of " + g + ", but it was not found. Hotbar should only contain Items.");
+                }
+            }
+        }
+    }
+
+    public GameObject[] GetInventory()
+    {
+        GameObject[] inventory = new GameObject[this.inventory.Length];
+
+        for (int i = 0; i < inventory.Length; i++)
+        {
+            if (!string.IsNullOrEmpty(this.inventory[i])) {
+                inventory[i] = PlayerInventory.instance.GetItem(this.inventory[i]);
+            }
+        }
+
+        return inventory;
+    }
+
+    public GameObject[] GetHotbar()
+    {
+        GameObject[] hb = new GameObject[this.hotbar.Length];
+
+        for (int i = 0; i < hotbar.Length; i++)
+        {
+            if (!string.IsNullOrEmpty(this.hotbar[i]))
+            {
+                hb[i] = PlayerInventory.instance.GetItem(this.hotbar[i]);
+            }
+        }
+
+        return hb;
+    }
+}
+
 
 public class PlayerInventory : MonoBehaviour
 {
 
     public GameObject[] hotBar;
     public GameObject[] inventory;
+
+    [SerializeField]
+    // This does NOT include furniture. Furniture are pulled from the Furniture controller.
+    private GameObject[] allItems;
+
+    // This includes both Items and Furniture.
+    private Dictionary<string, GameObject> allItemsDictionary;
 
     public int currentItem = 0;
 
@@ -16,6 +106,22 @@ public class PlayerInventory : MonoBehaviour
     {
         return hotBar[currentItem];
     }
+
+    public GameObject GetItem(string name)
+    {
+        if (allItemsDictionary.ContainsKey(name))
+        {
+            return allItemsDictionary[name];
+        }
+
+        Debug.LogError("Error: " + name + " not found in the dictionary.");
+
+        return null;
+    }
+
+    private bool listening = true;
+    public void Enable() { listening = true; }
+    public void Disable() { listening = false; }
 
     public void SetCurrentItem(GameObject g)
     {
@@ -41,8 +147,26 @@ public class PlayerInventory : MonoBehaviour
         instance = this;
     }
 
+    private void InitializeDictionary()
+    {
+        allItemsDictionary = new Dictionary<string, GameObject>();
+
+        foreach (GameObject g in allItems)
+        {
+            allItemsDictionary.Add(g.name, g);
+        }
+
+        // Also add furniture
+        foreach (GameObject g in TavernController.GetAllFurnitureRaw())
+        {
+            allItemsDictionary.Add(g.name, g);
+        }
+    }
+
     private void Start()
     {
+        InitializeDictionary();
+        Deserialize();
         for (int i = 0; i < hotBar.Length; i++)
         {
             GameObject g = hotBar[i];
@@ -80,11 +204,17 @@ public class PlayerInventory : MonoBehaviour
     public void SetHotBar(int slot, GameObject item)
     {
         hotBar[slot] = item;
+        InventoryUI.instance.UpdateUI(slot);
     }
 
     public void SetInventory(int slot, GameObject item)
     {
         inventory[slot] = item;
+    }
+
+    public static void SelectItem()
+    {
+        instance.SelectItem(instance.currentItem);
     }
 
     public void SelectItem(int item)
@@ -117,86 +247,99 @@ public class PlayerInventory : MonoBehaviour
     };
     public void Update()
     {
-        // TODO: Should be on a separate script
-        float wheel = Input.GetAxis("Mouse ScrollWheel");
-        if (wheel != 0)
+        if (listening)
         {
-            if (wheel > 0) { PreviousItem(); } else { NextItem(); }
-        }
-
-        for (int i = 0; i < keyCodes.Length; i++)
-        {
-            if (Input.GetKeyDown(keyCodes[i]))
+            float wheel = Input.GetAxis("Mouse ScrollWheel");
+            if (wheel != 0)
             {
-                SelectItem(i);
+                if (wheel > 0) { PreviousItem(); } else { NextItem(); }
             }
-        }
 
-        if (Input.GetMouseButtonDown(0)) { 
-            if (!UseItem()) { 
-                List<Furniture> list = new List<Furniture>();
-                foreach (GameObject furniture in TavernController.GetPlacedFurnitures())
+            for (int i = 0; i < keyCodes.Length; i++)
+            {
+                if (Input.GetKeyDown(keyCodes[i]))
                 {
-                    Furniture f = furniture.GetComponent<Furniture>();
-                    if (f.IsInsideObject(GameController.instance.WorldMousePosition())) {
-                        list.Add(f);
-                    }
+                    SelectItem(i);
                 }
-                
+            }
 
-                Furniture toBePickedUp = null;
-                foreach (Furniture f in list)
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (!UseItem())
                 {
-                    if (f.itemsOnTop.Count == 0 && !f.IsBlocked()) {
-                        toBePickedUp = f;
-                        if (!f.rugLike) {
-                            break;
+                    List<Furniture> list = new List<Furniture>();
+                    foreach (GameObject furniture in TavernController.GetPlacedFurnitures())
+                    {
+                        Furniture f = furniture.GetComponent<Furniture>();
+                        if (f.IsInsideObject(GameController.instance.WorldMousePosition()))
+                        {
+                            list.Add(f);
                         }
                     }
-                    
+
+
+                    Furniture toBePickedUp = null;
+                    foreach (Furniture f in list)
+                    {
+                        if (f.itemsOnTop.Count == 0 && !f.IsBlocked())
+                        {
+                            toBePickedUp = f;
+                            if (!f.rugLike)
+                            {
+                                break;
+                            }
+                        }
+
+                    }
+
+                    if (toBePickedUp != null)
+                    {
+                        toBePickedUp.PickUp();
+                    }
+                }
+            }
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                GameObject item = GetCurrentItem();
+
+                Interactuable i = null;
+                foreach (GameObject interactuable in TavernController.GetCurrentInteractuables())
+                {
+                    Interactuable aux = interactuable.GetComponent<Interactuable>();
+
+                    if (aux.IsInsideObject(GameController.instance.WorldMousePosition()))
+                    {
+                        i = aux;
+                        break;
+                    }
+
                 }
 
-                if (toBePickedUp != null)
+                if (i == null)
                 {
-                    toBePickedUp.PickUp();
+                    if (item != null && item.TryGetComponent(out Furniture f))
+                    {
+                        if (f.rotateGameObject != null)
+                        {
+                            SetCurrentItem(f.rotateGameObject);
+                            InventoryUI.instance.UpdateSpriteHotbar(f.rotateGameObject.GetComponent<Item>(), currentItem);
+                        }
+                    }
+                }
+                else
+                {
+                    if (Vector2.Distance(gameObject.transform.position, i.GetPosition()) <= i.GetMaxDistance())
+                    {
+                        i.Interact();
+                    }
                 }
             }
         }
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E))
         {
-            GameObject item = GetCurrentItem();
-
-            Interactuable i = null;
-            foreach (GameObject interactuable in TavernController.GetCurrentInteractuables())
-            {
-                Interactuable aux = interactuable.GetComponent<Interactuable>();
-
-                if (aux.IsInsideObject(GameController.instance.WorldMousePosition()))
-                {
-                    i = aux;
-                    break;
-                }
-                
-            }
-
-            if (i == null)
-            {
-                if (item != null && item.TryGetComponent(out Furniture f))
-                {
-                    if (f.rotateGameObject != null)
-                    {
-                        SetCurrentItem(f.rotateGameObject);
-                        InventoryUI.instance.UpdateSpriteHotbar(f.rotateGameObject.GetComponent<Item>(), currentItem);
-                    }
-                }
-            } else
-            {
-                if (Vector2.Distance(gameObject.transform.position, i.GetPosition()) <= i.GetMaxDistance())
-                {
-                    i.Interact();
-                }
-            }
+            BookMenuUI.OpenOrCloseMenu();
         }
     }
 
@@ -216,5 +359,38 @@ public class PlayerInventory : MonoBehaviour
     {
         hotBar[currentItem] = null;
         InventoryUI.instance.UpdateSpriteHotbar(null, currentItem);
+    }
+
+    public InventoryData Serialize()
+    {
+        return new InventoryData(instance.inventory, instance.hotBar);
+    }
+
+    public void Deserialize()
+    {
+        InventoryData d = ReadData();
+
+        if (d == null)
+        {
+            Debug.Log("No inventory data was found !");
+        }
+        else
+        {
+            inventory = d.GetInventory();
+            hotBar = d.GetHotbar();
+
+            for (int i = 0; i < hotBar.Length; i++)
+            {
+                InventoryUI.instance.UpdateUI(i);
+            }
+        }
+    }
+
+    public InventoryData ReadData()
+    {
+        Master m = MasterData.Read();
+
+        if (m == null) return null;
+        return m.inventoryData;
     }
 }

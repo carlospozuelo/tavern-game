@@ -31,10 +31,16 @@ public class FurniturePreview : MonoBehaviour
         previewCoroutine = StartCoroutine(PreviewItem(item));
     }
 
+    public void EnablePreview()
+    {
+        spriteRenderer.enabled = true;
+    }
+
     private Coroutine previewCoroutine;
     public void DisablePreview()
     {
         spriteRenderer.enabled = false;
+        spriteRenderer.sprite = null;
         if (previewCoroutine != null) { StopCoroutine(previewCoroutine); }
     }
 

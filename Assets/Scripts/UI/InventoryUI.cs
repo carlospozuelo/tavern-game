@@ -44,6 +44,26 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
+    public static void SelectAllItems()
+    {
+        foreach (var slot in instance.slots)
+        {
+            slot.GetComponent<RectTransform>().sizeDelta = new Vector2(instance.sizeHeld, instance.sizeHeld);
+            Image image = slot.GetComponent<Image>();
+            image.color = new Color(image.color.r, image.color.g, image.color.b, instance.transHeld / 255f);
+        }
+    }
+
+    public static void DeselectAllItems()
+    {
+        foreach (var slot in instance.slots)
+        {
+            slot.GetComponent<RectTransform>().sizeDelta = new Vector2(instance.sizeDef, instance.sizeDef);
+            Image image = slot.GetComponent<Image>();
+            image.color = new Color(image.color.r, image.color.g, image.color.b, instance.transDef / 255f);
+        }
+    }
+
     public void UpdateUI(int itemHeld)
     {
         slots[currentHeld].GetComponent<RectTransform>().sizeDelta = new Vector2(sizeDef, sizeDef);

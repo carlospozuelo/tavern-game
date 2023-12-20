@@ -20,12 +20,12 @@ public class TownData
 
     public void AddBuilding(GameObject g, string type)
     {
-        townBuildings.Add(new Position(g.transform.position, g.name));
+        townBuildings.Add(new Position(g.transform.position, g.name.Replace("(Clone)", "")));
     }
 
     public void AddItem(GameObject g)
     {
-        townItems.Add(new Position(g.transform.position, g.name));
+        townItems.Add(new Position(g.transform.position, g.name.Replace("(Clone)", "")));
     }
 
 }
@@ -105,7 +105,7 @@ public class TownController : MonoBehaviour
     {
         TownData data = ReadData();
 
-        if (data != null)
+        if (data != null && data.townBuildings.Count > 0)
         {
             // Delete default town
             foreach (Transform child in buildingParent) { Destroy(child.gameObject); }

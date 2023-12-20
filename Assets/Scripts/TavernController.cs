@@ -76,6 +76,13 @@ public class TavernController : MonoBehaviour
     [SerializeField]
     private GameObject[] allFurniture, allTaverns, allHouses;
 
+    public void SetAllFurniture(GameObject[] f)
+    {
+        allFurniture = f;
+    }
+
+    public static GameObject[] GetAllFurnitureRaw() { return instance.allFurniture; }
+
     private Dictionary<string, GameObject> dictionary;
     private Dictionary<string, GameObject> tavernDictionary;
 

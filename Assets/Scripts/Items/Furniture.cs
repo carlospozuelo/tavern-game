@@ -211,4 +211,8 @@ public class Furniture : MonoBehaviour, Item, IFurniture
         }
     }
 
+    public string GetName()
+    {
+        return originalPrefab.name;
+    }
 }

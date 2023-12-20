@@ -569,7 +569,7 @@ MonoBehaviour:
   - {x: -0.410983, y: -0.9378841, z: 0}
   m_ShapePathHash: -89003620
   m_Mesh: {fileID: 0}
-  m_InstanceId: 46708
+  m_InstanceId: -2314
 --- !u!114 &1623079457481746270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -583,27 +583,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hotBar:
-  - {fileID: 7095797780511728409, guid: 0773e28b445192d439b63bb235ff603d, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 7095797780511728409, guid: 71e61ec87f7e1ac4eb39ee56e20f3117, type: 3}
+  - {fileID: 7095797780511728409, guid: 379b5e34a9a725549babd3ddb56cf4f4, type: 3}
+  - {fileID: 7095797780511728409, guid: b0ffc83ad39d9054f80b0319f1e16f49, type: 3}
+  - {fileID: 7095797780511728409, guid: 0aac92a48873d324d8bb988ba2b1eb29, type: 3}
+  - {fileID: 7095797780511728409, guid: 350036c56da1ce943b944026543d79e7, type: 3}
+  - {fileID: 708207897021222902, guid: f764b51c3ee6a3c44b8314bc853e5235, type: 3}
+  - {fileID: 7095797780511728409, guid: c59dd1b27e51cb8458081f20f1b33373, type: 3}
+  - {fileID: 7757420893425116376, guid: cb0d39ce4ef8cd247b6bb2e80df0ad5d, type: 3}
+  - {fileID: 7095797780511728409, guid: 07894633f34fc35429ed790709325bf3, type: 3}
   - {fileID: 0}
   inventory:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
