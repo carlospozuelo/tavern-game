@@ -10,6 +10,8 @@ public class Master
 {
     public string version = "v1";
 
+    public InventoryData inventoryData;
+
     public TavernData tavernData;
 
     public PlayerClothingData clothingData;
@@ -85,6 +87,8 @@ public class MasterData : MonoBehaviour
         instance.data.townData = TownController.GetCurrentTownData();
 
         instance.data.clothingData = ClothingController.Serialize();
+
+        instance.data.inventoryData = PlayerInventory.instance.Serialize();
 
         //string json = JsonUtility.ToJson(this);
         //FileStream stream = new FileStream(GetPath(), FileMode.Create);

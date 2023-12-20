@@ -9,6 +9,17 @@ public class BookMenuUI : MonoBehaviour
     private bool isOpen = false;
     public GameObject menu;
 
+    [SerializeField]
+    private Canvas canvas;
+
+    [SerializeField]
+    private DragDrop[] slots;
+
+    public static Canvas GetCanvas()
+    {
+        return instance.canvas;
+    }
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -39,6 +50,17 @@ public class BookMenuUI : MonoBehaviour
 
         // Make all boxes in the inventory big
         InventoryUI.SelectAllItems();
+
+        // Disable furniture preview
+        FurniturePreview.instance.DisablePreview();
+
+        PlayerInventory.instance.Disable();
+
+        // Update all slots
+        foreach(var slot in instance.slots)
+        {
+            slot.UpdateImage();
+        }
     }
 
     private static void Close()
@@ -49,5 +71,12 @@ public class BookMenuUI : MonoBehaviour
         // Select the previously selected inventory item
         InventoryUI.DeselectAllItems();
         PlayerInventory.SelectItem();
+
+        // Enable furniture preview
+        FurniturePreview.instance.EnablePreview();
+
+        PlayerInventory.instance.Enable();
+
+        DraggableIcon.HideImage();
     }
 }

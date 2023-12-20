@@ -60,7 +60,7 @@ public class InventoryUI : MonoBehaviour
         {
             slot.GetComponent<RectTransform>().sizeDelta = new Vector2(instance.sizeDef, instance.sizeDef);
             Image image = slot.GetComponent<Image>();
-            image.color = new Color(image.color.r, image.color.g, image.color.b, instance.sizeDef / 255f);
+            image.color = new Color(image.color.r, image.color.g, image.color.b, instance.transDef / 255f);
         }
     }
 
