@@ -113,8 +113,10 @@ public class TavernController : MonoBehaviour
         dictionary = Utils.InitializeDictionary(allFurniture);
         tavernDictionary = Utils.InitializeDictionary(allTaverns);
 
-
-        placedFurnitures = new List<GameObject>();
+        if (placedFurnitures == null)
+        {
+            placedFurnitures = new List<GameObject>();
+        }
     }
 
     public static void UpgradeTavern(List<GameObject> newTaverns, bool deleteAll = true)
@@ -193,15 +195,15 @@ public class TavernController : MonoBehaviour
 
     public void DeSerializeTavern()
     {
-        foreach (GameObject g in placedFurnitures)
-        {
-            Destroy(g);
-        }
-        placedFurnitures = new List<GameObject>();
-
         TavernData tavern = ReadTavernData();
         if (tavern != null)
         {
+            foreach (GameObject g in placedFurnitures)
+            {
+                Destroy(g);
+            }
+            placedFurnitures = new List<GameObject>();
+
             foreach (FurnitureData furniture in tavern.GetFurniture())
             {
                 InstantiateFurniture(dictionary[furniture.GetFurnitureName()], furniture.GetPosition());
