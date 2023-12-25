@@ -37,6 +37,18 @@ public class Furniture : MonoBehaviour, Item, IFurniture
     [SerializeField]
     private List<GameObject> blocks = new List<GameObject>();
 
+    private void OnDrawGizmos()
+    {
+        foreach (Transform child in transform)
+        {
+            if (child.name.Equals("Table surface"))
+            {
+                Gizmos.color = Color.blue;
+                Gizmos.DrawWireSphere(child.position + new Vector3(.5f, -.5f), .5f);
+            }
+        }
+    }
+
     public void Block(GameObject g)
     {
         blocks.Add(g);
@@ -56,17 +68,26 @@ public class Furniture : MonoBehaviour, Item, IFurniture
     {
         // Place the item on the grid, using the mouse position.
         // Placeholder
-        Vector3 worldPosition = GameController.instance.WorldPosition(Input.mousePosition);
-        if (CanBePlaced(GridManager.instance.GridPosition(worldPosition)))
-        {
-            TavernController.InstantiateFurniture(gameObject, worldPosition);
-            
 
-            // Consume item from the inventory
-            PlayerInventory.instance.ConsumeItem();
-            CancelSelectItem();
+        Vector3 worldPosition = GameController.instance.WorldPosition(Input.mousePosition);
+
+        if (CanBePlacedOnATable(worldPosition, out Vector3 tablePosition))
+        {
+            PlaceItem(tablePosition);
+        } else if (CanBePlaced(GridManager.instance.GridPosition(worldPosition)))
+        {
+            Vector2 pos = GridManager.instance.SnapPosition(worldPosition);
+            PlaceItem(pos);
         }
-       
+    }
+
+    private void PlaceItem(Vector3 p)
+    {
+        TavernController.InstantiateFurniture(gameObject, p);
+
+        // Consume item from the inventory
+        PlayerInventory.instance.ConsumeItem();
+        CancelSelectItem();
     }
 
     public void SelectItem()
@@ -100,7 +121,7 @@ public class Furniture : MonoBehaviour, Item, IFurniture
         return true;
     }
 
-    private bool BoxcastOnTableLike(Vector3Int topLeftTile)
+    private bool BoxcastOnTableLike(Vector3 topLeftTile)
     {
         Vector2 direction = Vector2.up;
         Vector2 origin = new Vector2(topLeftTile.x, topLeftTile.y + 1) + new Vector2(size.x, -size.y) / 2;
@@ -119,6 +140,27 @@ public class Furniture : MonoBehaviour, Item, IFurniture
         return false;
     }
 
+    private bool BoxcastOnTableLike(Vector3 mouse, out Vector3 position)
+    {
+        Vector2 direction = Vector2.up;
+        Vector2 origin = new Vector2(mouse.x, mouse.y);
+
+        RaycastHit2D[] rays = Physics2D.BoxCastAll(origin, size, 0f, direction, 0f);
+
+        foreach (var ray in rays)
+        {
+            if (ray.collider.gameObject.name.Equals("Table surface"))
+            {
+                position = ray.collider.transform.position;
+                return true;
+            }
+
+        }
+
+        position = Vector3.zero;
+        return false;
+    }
+
     // This method will be called if the current position of the furniture is invalid
     public void ReplaceWallFurniture()
     {
@@ -127,7 +169,6 @@ public class Furniture : MonoBehaviour, Item, IFurniture
             if (!GridManager.instance.IsEntirelyInATilemap(GridManager.instance.GridPosition(transform.position + new Vector3(0, -1)), size, "FurnishableWall")) {
                 int attemps = 0;
                 Vector3 offset = Vector2.zero;
-                Debug.Log("Moving " + gameObject.name);
                 while (attemps < 10 && !GridManager.instance.IsEntirelyInATilemap(GridManager.instance.GridPosition(transform.position + offset + new Vector3(0,-1)), size, "FurnishableWall"))
                 {
                     offset.y = offset.y + 1;
@@ -160,11 +201,30 @@ public class Furniture : MonoBehaviour, Item, IFurniture
         
         if (canBePlacedOnTable)
         {
-            if (!BoxcastOnTableLike(topLeftTile)) { return false;  }   
+            return false;
+           // if (!BoxcastOnTableLike(topLeftTile)) { return false;  }   
         } else if (!rugLike && checkCollisions && TryGetComponent(out Collider2D c) && !Boxcast(topLeftTile)) { return false; } 
 
 
         return true;
+    }
+
+    public bool CanBePlacedOnATable(Vector3 mouse, out Vector3 position)
+    {
+        position = mouse;
+
+        if (canBePlacedOnTable)
+        {
+            if (BoxcastOnTableLike(mouse, out Vector3 tablePosition)) {
+                position = tablePosition;
+                return true;
+            } else
+            {
+                return false;
+            }
+        }
+
+        return false;
     }
 
     public bool IsInsideObject(Vector3 worldPosition)
