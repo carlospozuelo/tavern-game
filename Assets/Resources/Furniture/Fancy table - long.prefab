@@ -71,6 +71,7 @@ GameObject:
   - component: {fileID: 7095797780511728404}
   - component: {fileID: 4300351203634306632}
   - component: {fileID: 597382733558665992}
+  - component: {fileID: 5364085430994027809}
   m_Layer: 0
   m_Name: Fancy table - long
   m_TagString: Untagged
@@ -186,7 +187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateGameObject: {fileID: 7095797780511728409, guid: c59dd1b27e51cb8458081f20f1b33373, type: 3}
-  size: {x: 1, y: 3}
+  size: {x: 2, y: 3}
   originalPrefab: {fileID: 7095797780511728409}
   canBePlacedInside: 1
   canBePlacedOutside: 0
@@ -223,7 +224,33 @@ MonoBehaviour:
   - {x: 0.9511118, y: -1.7239561, z: 0}
   m_ShapePathHash: 557750717
   m_Mesh: {fileID: 0}
-  m_InstanceId: 274264
+  m_InstanceId: 322584
+--- !u!61 &5364085430994027809
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7095797780511728409}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.49844247, y: -1}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 1}
+    oldSize: {x: 2, y: 2}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.99688494, y: 2}
+  m_EdgeRadius: 0
 --- !u!1 &8326707529131833119
 GameObject:
   m_ObjectHideFlags: 0

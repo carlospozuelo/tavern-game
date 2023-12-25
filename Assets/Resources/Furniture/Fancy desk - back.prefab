@@ -72,6 +72,7 @@ GameObject:
   - component: {fileID: 4300351203634306632}
   - component: {fileID: 4423483373379594654}
   - component: {fileID: 6779384553534154873}
+  - component: {fileID: 8289056039120214262}
   m_Layer: 0
   m_Name: Fancy desk - back
   m_TagString: Untagged
@@ -228,7 +229,7 @@ MonoBehaviour:
   - {x: 1.0053595, y: -0.65649927, z: 0}
   m_ShapePathHash: -2008713812
   m_Mesh: {fileID: 0}
-  m_InstanceId: 239804
+  m_InstanceId: 301466
 --- !u!68 &6779384553534154873
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -255,3 +256,29 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!61 &8289056039120214262
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7095797780511728409}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 1, y: -0.25607562}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0.75}
+    oldSize: {x: 2, y: 2}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2, y: 1.5121512}
+  m_EdgeRadius: 0

@@ -102,7 +102,7 @@ public class Furniture : MonoBehaviour, Item, IFurniture
     }
 
 
-    // Returns false if the item would overlap with a non-wall collider
+    // Returns false if the item would overlap with a non-wall, non rug collider
     private bool Boxcast(Vector3Int topLeftTile)
     {
         Vector2 direction = Vector2.up;
@@ -111,7 +111,7 @@ public class Furniture : MonoBehaviour, Item, IFurniture
         RaycastHit2D[] rays = Physics2D.BoxCastAll(origin, size, 0f, direction, 0f);
 
         foreach (var ray in rays) { 
-            if (!ray.collider.name.Equals("Wall"))
+            if (!ray.collider.name.Equals("Wall") && (ray.collider.TryGetComponent(out Furniture f) && !f.rugLike))
             {
                 return false;
             }
@@ -119,25 +119,6 @@ public class Furniture : MonoBehaviour, Item, IFurniture
 
 
         return true;
-    }
-
-    private bool BoxcastOnTableLike(Vector3 topLeftTile)
-    {
-        Vector2 direction = Vector2.up;
-        Vector2 origin = new Vector2(topLeftTile.x, topLeftTile.y + 1) + new Vector2(size.x, -size.y) / 2;
-
-        RaycastHit2D[] rays = Physics2D.BoxCastAll(origin, size, 0f, direction, 0f);
-
-        foreach (var ray in rays)
-        {
-            if (ray.collider.gameObject.name.Equals("Table surface")) {
-                return true;
-            }
-            
-        }
-
-
-        return false;
     }
 
     private bool BoxcastOnTableLike(Vector3 mouse, out Vector3 position)

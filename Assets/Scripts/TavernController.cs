@@ -236,14 +236,6 @@ public class TavernController : MonoBehaviour
         }
     }
 
-    public void DeleteData()
-    {
-        if (File.Exists(GetPath()))
-        {
-            File.Delete(GetPath());
-        }
-    }
-
     public static bool IsActive() { return instance.isActiveAndEnabled; }
 
     public static void InstantiateFurniture(GameObject g, Vector3 worldPosition)
@@ -295,9 +287,5 @@ public class TavernController : MonoBehaviour
         
     }
 
- 
-    private string GetPath()
-    {
-        return Application.persistentDataPath + "/tavern.tav";
-    }
+
 }

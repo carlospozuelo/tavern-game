@@ -262,12 +262,12 @@ public class PlayerInventory : MonoBehaviour
                     SelectItem(i);
                 }
             }
-
             if (Input.GetMouseButtonDown(0))
             {
                 if (!UseItem())
                 {
-                    List<Furniture> list = new List<Furniture>();
+                    List<Furniture> list = Cast<Furniture>();
+                    /*
                     foreach (GameObject furniture in TavernController.GetPlacedFurnitures())
                     {
                         Furniture f = furniture.GetComponent<Furniture>();
@@ -276,6 +276,7 @@ public class PlayerInventory : MonoBehaviour
                             list.Add(f);
                         }
                     }
+                    */
 
 
                     Furniture toBePickedUp = null;
@@ -298,12 +299,14 @@ public class PlayerInventory : MonoBehaviour
                     }
                 }
             }
+            
 
             if (Input.GetMouseButtonDown(1))
             {
                 GameObject item = GetCurrentItem();
 
                 Interactuable i = null;
+                /*
                 foreach (GameObject interactuable in TavernController.GetCurrentInteractuables())
                 {
                     Interactuable aux = interactuable.GetComponent<Interactuable>();
@@ -315,6 +318,10 @@ public class PlayerInventory : MonoBehaviour
                     }
 
                 }
+                */
+
+                List<Interactuable> l = Cast<Interactuable>(true);
+                if (l.Count > 0) { i = l[0]; }
 
                 if (i == null)
                 {
@@ -341,6 +348,39 @@ public class PlayerInventory : MonoBehaviour
         {
             BookMenuUI.OpenOrCloseMenu();
         }
+    }
+
+    private List<T> Cast<T>(bool deepSearch = false)
+    {
+        Vector3 worldPosition = GameController.instance.WorldPosition(Input.mousePosition);
+
+        RaycastHit2D[] rays = Physics2D.RaycastAll(worldPosition, Vector2.zero);
+
+        List<T> fs = new List<T>();
+
+        foreach (var ray in rays)
+        {
+            Debug.Log(ray.collider.name);
+            if (!deepSearch)
+            {
+                if (ray.collider.gameObject.TryGetComponent(out T f))
+                {
+                    fs.Add(f);
+                }
+            } else
+            {
+                T[] components = ray.collider.gameObject.GetComponentsInChildren<T>();
+                if (components != null)
+                {
+                    foreach (T component in components)
+                    {
+                        fs.Add(component);
+                    }
+                }
+            } 
+        }
+
+        return fs;
     }
 
     public bool UseItem()
