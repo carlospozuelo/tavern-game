@@ -236,24 +236,15 @@ public class TavernController : MonoBehaviour
         }
     }
 
-    public void DeleteData()
-    {
-        if (File.Exists(GetPath()))
-        {
-            File.Delete(GetPath());
-        }
-    }
-
     public static bool IsActive() { return instance.isActiveAndEnabled; }
 
     public static void InstantiateFurniture(GameObject g, Vector3 worldPosition)
     {
-        Vector2 pos = GridManager.instance.SnapPosition(worldPosition);
-        GameObject newInstance = Instantiate(g, new Vector3(pos.x, pos.y, g.transform.position.z), Quaternion.identity, instance.furnitureParent);
+        GameObject newInstance = Instantiate(g, new Vector3(worldPosition.x, worldPosition.y, g.transform.position.z), Quaternion.identity, instance.furnitureParent);
         Furniture f = newInstance.GetComponent<Furniture>();
         f.originalPrefab = g;
 
-        UpdateItemsOnTop(pos, newInstance, f);
+        UpdateItemsOnTop(worldPosition, newInstance, f);
 
         AddFurniture(newInstance);
 
@@ -296,9 +287,5 @@ public class TavernController : MonoBehaviour
         
     }
 
- 
-    private string GetPath()
-    {
-        return Application.persistentDataPath + "/tavern.tav";
-    }
+
 }

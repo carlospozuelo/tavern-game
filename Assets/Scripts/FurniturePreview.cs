@@ -54,14 +54,25 @@ public class FurniturePreview : MonoBehaviour
         while (true)
         {
             Vector3 worldPosition = GameController.instance.WorldPosition(Input.mousePosition);
-            
-            MovePreview(GridManager.instance.SnapPosition(worldPosition));
-            
-            if (item.CanBePlaced(GridManager.instance.GridPosition(worldPosition))) 
+
+            // Try to place the item in a table
+            if (item.CanBePlacedOnATable(worldPosition, out Vector3 tablePosition))
             {
+                MovePreview(tablePosition);
                 spriteRenderer.color = defColor;
-            } else {
-                spriteRenderer.color = wrongColor;
+            }
+            else
+            {
+                MovePreview(GridManager.instance.SnapPosition(worldPosition));
+
+                if (item.CanBePlaced(GridManager.instance.GridPosition(worldPosition)))
+                {
+                    spriteRenderer.color = defColor;
+                }
+                else
+                {
+                    spriteRenderer.color = wrongColor;
+                }
             }
 
             yield return new WaitForEndOfFrame();
