@@ -28,11 +28,13 @@ public class Furniture : MonoBehaviour, Item, IFurniture
     public bool rugLike = false;
     [Tooltip("Used for furniture that can have accessories on top")]
     public bool tableLike = false;
-    [Tooltip("Used for furniture that can be placed on top of a tablelike furniture")]
+    [Tooltip("Used for furniture that HAS TO be placed on top of a tablelike furniture")]
     public bool canBePlacedOnTable = false;
 
-    public List<GameObject> itemsOnTop = new List<GameObject>();
-    public Furniture onTopOf = null;
+    [SerializeField]
+    private List<GameObject> itemsOnTop = new List<GameObject>();
+    [SerializeField]
+    private Furniture onTopOf = null;
 
     [SerializeField]
     private List<GameObject> blocks = new List<GameObject>();
@@ -64,6 +66,10 @@ public class Furniture : MonoBehaviour, Item, IFurniture
         return blocks.Count > 0;
     }
 
+    public bool HasItemsOnTop() { return itemsOnTop.Count > 0;  }
+
+    public void AddItemOnTop(Furniture item) { itemsOnTop.Add(item.gameObject); item.onTopOf = this; }
+
     public void UseItem()
     {
         // Place the item on the grid, using the mouse position.
@@ -71,9 +77,11 @@ public class Furniture : MonoBehaviour, Item, IFurniture
 
         Vector3 worldPosition = GameController.instance.WorldPosition(Input.mousePosition);
 
-        if (CanBePlacedOnATable(worldPosition, out Vector3 tablePosition))
+        if (CanBePlacedOnATable(worldPosition, out Vector3 tablePosition, out Furniture table))
         {
-            PlaceItem(tablePosition);
+            GameObject g = PlaceItem(tablePosition);
+            table.AddItemOnTop(g.GetComponent<Furniture>());
+
         } else if (CanBePlaced(GridManager.instance.GridPosition(worldPosition)))
         {
             Vector2 pos = GridManager.instance.SnapPosition(worldPosition);
@@ -81,13 +89,15 @@ public class Furniture : MonoBehaviour, Item, IFurniture
         }
     }
 
-    private void PlaceItem(Vector3 p)
+    private GameObject PlaceItem(Vector3 p)
     {
-        TavernController.InstantiateFurniture(gameObject, p);
+        GameObject g = TavernController.InstantiateFurniture(gameObject, p);
 
         // Consume item from the inventory
         PlayerInventory.instance.ConsumeItem();
         CancelSelectItem();
+
+        return g;
     }
 
     public void SelectItem()
@@ -121,10 +131,21 @@ public class Furniture : MonoBehaviour, Item, IFurniture
         return true;
     }
 
-    private bool BoxcastOnTableLike(Vector3 mouse, out Vector3 position)
+    public Furniture SearchTable()
+    {
+        if (BoxcastOnTableLike(transform.position, out Vector3 p, out Furniture table))
+        {
+            return table;
+        }
+
+        return null;
+    }
+
+    private bool BoxcastOnTableLike(Vector3 mouse, out Vector3 position, out Furniture table)
     {
         Vector2 direction = Vector2.up;
         Vector2 origin = new Vector2(mouse.x, mouse.y);
+        table = null;
 
         RaycastHit2D[] rays = Physics2D.BoxCastAll(origin, size, 0f, direction, 0f);
 
@@ -133,6 +154,7 @@ public class Furniture : MonoBehaviour, Item, IFurniture
             if (ray.collider.gameObject.name.Equals("Table surface"))
             {
                 position = ray.collider.transform.position;
+                table = ray.collider.GetComponentInParent<Furniture>();
                 return true;
             }
 
@@ -190,14 +212,16 @@ public class Furniture : MonoBehaviour, Item, IFurniture
         return true;
     }
 
-    public bool CanBePlacedOnATable(Vector3 mouse, out Vector3 position)
+    public bool CanBePlacedOnATable(Vector3 mouse, out Vector3 position, out Furniture table)
     {
         position = mouse;
+        table = null;
 
         if (canBePlacedOnTable)
         {
-            if (BoxcastOnTableLike(mouse, out Vector3 tablePosition)) {
+            if (BoxcastOnTableLike(mouse, out Vector3 tablePosition, out Furniture t)) {
                 position = tablePosition;
+                table = t;
                 return true;
             } else
             {

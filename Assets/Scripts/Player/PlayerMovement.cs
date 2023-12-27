@@ -82,10 +82,10 @@ public class PlayerMovement : MonoBehaviour
             bench = null;
             sitting = false;
             animator.SetBool("Sitting", false);
-        }
 
-        ToggleColliders(true);
-        ToggleMasking(SpriteMaskInteraction.None);
+            ToggleColliders(true);
+            ToggleMasking(SpriteMaskInteraction.None);
+        }
     }
     // Update is called once per frame
     void Update()

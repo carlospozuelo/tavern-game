@@ -56,7 +56,7 @@ public class FurniturePreview : MonoBehaviour
             Vector3 worldPosition = GameController.instance.WorldPosition(Input.mousePosition);
 
             // Try to place the item in a table
-            if (item.CanBePlacedOnATable(worldPosition, out Vector3 tablePosition))
+            if (item.CanBePlacedOnATable(worldPosition, out Vector3 tablePosition, out Furniture table))
             {
                 MovePreview(tablePosition);
                 spriteRenderer.color = defColor;

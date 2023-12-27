@@ -206,12 +206,23 @@ public class TavernController : MonoBehaviour
 
             foreach (FurnitureData furniture in tavern.GetFurniture())
             {
-                InstantiateFurniture(dictionary[furniture.GetFurnitureName()], furniture.GetPosition());
+                InstantiateFurniture(dictionary[furniture.GetFurnitureName()], furniture.GetPosition() + new Vector3(0,1));
             }
 
-            foreach (GameObject furniture in placedFurnitures)
+            // Upgrade items on top
+
+            foreach (GameObject g in placedFurnitures)
             {
-                UpdateItemsOnTop(furniture.transform.position, furniture, furniture.GetComponent<Furniture>());
+                Furniture f = g.GetComponent<Furniture>();
+
+                if (f.canBePlacedOnTable)
+                {
+                    Furniture table = f.SearchTable();
+                    if (table != null)
+                    {
+                        table.AddItemOnTop(f);
+                    }
+                }
             }
 
             List<string> taverns = tavern.GetTaverns();
@@ -238,13 +249,11 @@ public class TavernController : MonoBehaviour
 
     public static bool IsActive() { return instance.isActiveAndEnabled; }
 
-    public static void InstantiateFurniture(GameObject g, Vector3 worldPosition)
+    public static GameObject InstantiateFurniture(GameObject g, Vector3 worldPosition)
     {
         GameObject newInstance = Instantiate(g, new Vector3(worldPosition.x, worldPosition.y, g.transform.position.z), Quaternion.identity, instance.furnitureParent);
         Furniture f = newInstance.GetComponent<Furniture>();
         f.originalPrefab = g;
-
-        UpdateItemsOnTop(worldPosition, newInstance, f);
 
         AddFurniture(newInstance);
 
@@ -255,28 +264,8 @@ public class TavernController : MonoBehaviour
                 instance.currentInteractuables.Add(t.gameObject);
             }
         }
-    }
 
-    private static void UpdateItemsOnTop(Vector2 pos, GameObject gO, Furniture f)
-    {
-        if (f.canBePlacedOnTable)
-        {
-            foreach (GameObject gf in instance.placedFurnitures)
-            {
-                if (!gf.Equals(gO))
-                {
-                    Furniture furniture = gf.GetComponent<Furniture>();
-                    if (furniture.IsPartiallyInsideObject(pos) && !furniture.rugLike)
-                    {
-                        if (!furniture.itemsOnTop.Contains(gO))
-                        {
-                            furniture.itemsOnTop.Add(gO);
-                            f.onTopOf = furniture;
-                        }
-                    }
-                }
-            }
-        }
+        return newInstance;
     }
 
     private TavernData ReadTavernData()
