@@ -15,6 +15,8 @@ public class LocationController : MonoBehaviour
     // Could be changed via savefile in the future
     public string currentLocation = "Tavern";
 
+    public static string GetCurrentLocation() { return instance.currentLocation; }
+
     private void Awake()
     {
         if (instance != null && instance != this)

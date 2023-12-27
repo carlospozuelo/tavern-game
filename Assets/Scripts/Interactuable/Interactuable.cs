@@ -11,4 +11,6 @@ public interface Interactuable : IFurniture
 
     public Vector3 GetPosition();
 
+    public GameObject GetGameObject();
+
 }

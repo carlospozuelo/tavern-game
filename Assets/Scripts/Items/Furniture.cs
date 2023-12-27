@@ -111,7 +111,7 @@ public class Furniture : MonoBehaviour, Item, IFurniture
         RaycastHit2D[] rays = Physics2D.BoxCastAll(origin, size, 0f, direction, 0f);
 
         foreach (var ray in rays) { 
-            if (!ray.collider.name.Equals("Wall") && (ray.collider.TryGetComponent(out Furniture f) && !f.rugLike))
+            if (!ray.collider.name.Equals("Wall") && !ray.collider.isTrigger && (ray.collider.TryGetComponent(out Furniture f) && !f.rugLike))
             {
                 return false;
             }
@@ -236,18 +236,23 @@ public class Furniture : MonoBehaviour, Item, IFurniture
 
     public void PickUp()
     {
-        if (PlayerInventory.instance.GetCurrentItem() == null)
+        if (LocationController.GetCurrentLocation().Equals("Tavern") && isActiveAndEnabled)
         {
-            if (GameController.instance.DistanceToPlayer(transform.position + new Vector3(size.x, -size.y) / 2) < GameController.instance.maxDistanceToPlaceItems) {
-                PlayerInventory.instance.SetCurrentItem(originalPrefab);
-                TavernController.RemoveFurniture(gameObject);
-                InventoryUI.instance.UpdateSpriteHotbar(this, PlayerInventory.instance.currentItem);
+            if (PlayerInventory.instance.GetCurrentItem() == null)
+            {
+                if (GameController.instance.DistanceToPlayer(transform.position + new Vector3(size.x, -size.y) / 2) < GameController.instance.maxDistanceToPlaceItems)
+                {
+                    PlayerInventory.instance.SetCurrentItem(originalPrefab);
+                    TavernController.RemoveFurniture(gameObject);
+                    InventoryUI.instance.UpdateSpriteHotbar(this, PlayerInventory.instance.currentItem);
 
-                if (onTopOf != null) {
-                    onTopOf.itemsOnTop.Remove(gameObject);
+                    if (onTopOf != null)
+                    {
+                        onTopOf.itemsOnTop.Remove(gameObject);
+                    }
+
+                    Destroy(gameObject);
                 }
-
-                Destroy(gameObject);
             }
         }
     }

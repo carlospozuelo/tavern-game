@@ -321,7 +321,14 @@ public class PlayerInventory : MonoBehaviour
                 */
 
                 List<Interactuable> l = Cast<Interactuable>(true);
-                if (l.Count > 0) { i = l[0]; }
+                if (l.Count > 0) {
+                    // Sort the list. The first element should be the one that has the smallest distance to the mouse.
+                    Vector3 worldPosition = GameController.instance.WorldPosition(Input.mousePosition);
+
+                    SortByDistance(l, worldPosition);
+
+                    i = l[0];
+                }
 
                 if (i == null)
                 {
@@ -350,6 +357,24 @@ public class PlayerInventory : MonoBehaviour
         }
     }
 
+    private List<Interactuable> SortByDistance(List<Interactuable> l, Vector3 distance)
+    {
+        Comparison<Interactuable> comparison = (a, b) =>
+        {
+            GameObject objA = a.GetGameObject();
+            GameObject objB = b.GetGameObject();
+
+            float distanceA = Vector3.Distance(objA.transform.position, distance);
+            float distanceB = Vector3.Distance(objB.transform.position, distance);
+
+            return distanceA.CompareTo(distanceB);
+        };
+
+        l.Sort(comparison);
+
+        return l;
+    }
+
     private List<T> Cast<T>(bool deepSearch = false)
     {
         Vector3 worldPosition = GameController.instance.WorldPosition(Input.mousePosition);
@@ -360,7 +385,6 @@ public class PlayerInventory : MonoBehaviour
 
         foreach (var ray in rays)
         {
-            Debug.Log(ray.collider.name);
             if (!deepSearch)
             {
                 if (ray.collider.gameObject.TryGetComponent(out T f))
@@ -372,10 +396,7 @@ public class PlayerInventory : MonoBehaviour
                 T[] components = ray.collider.gameObject.GetComponentsInChildren<T>();
                 if (components != null)
                 {
-                    foreach (T component in components)
-                    {
-                        fs.Add(component);
-                    }
+                    fs.AddRange(components);
                 }
             } 
         }
