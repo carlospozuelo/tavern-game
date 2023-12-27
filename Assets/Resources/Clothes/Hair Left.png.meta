@@ -101,11 +101,275 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Hair Left_0x0
+      name: Hair Left_00x00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 704
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hair Left_00x01
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 704
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hair Left_01x00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 640
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hair Left_01x01
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 640
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hair Left_02x00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 576
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hair Left_02x01
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 576
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hair Left_03x00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 512
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hair Left_03x01
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 512
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hair Left_04x00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 448
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hair Left_04x01
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 448
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hair Left_05x00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 384
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hair Left_05x01
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 384
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hair Left_06x00
       rect:
         serializedVersion: 2
         x: 0
@@ -119,14 +383,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c0cca7dbb78f24e60800000000000000
-      internalID: 7945185902978583564
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hair Left_0x1
+      name: Hair Left_06x01
       rect:
         serializedVersion: 2
         x: 32
@@ -140,14 +404,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: affe337ca7c2bbc40800000000000000
-      internalID: 5529061873367117818
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hair Left_1x0
+      name: Hair Left_07x00
       rect:
         serializedVersion: 2
         x: 0
@@ -161,14 +425,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ca547f3ca0271c090800000000000000
-      internalID: -8016000471179770452
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hair Left_1x1
+      name: Hair Left_07x01
       rect:
         serializedVersion: 2
         x: 32
@@ -182,14 +446,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d0d4f9ab92fe91e10800000000000000
-      internalID: 2169027658059304205
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hair Left_2x0
+      name: Hair Left_08x00
       rect:
         serializedVersion: 2
         x: 0
@@ -203,14 +467,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 68cc53ce0814cd3e0800000000000000
-      internalID: -2027673710248997754
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hair Left_2x1
+      name: Hair Left_08x01
       rect:
         serializedVersion: 2
         x: 32
@@ -224,14 +488,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8e819417c9af57b00800000000000000
-      internalID: 825841656514812136
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hair Left_3x0
+      name: Hair Left_09x00
       rect:
         serializedVersion: 2
         x: 0
@@ -245,14 +509,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e8e9743cca60dcc90800000000000000
-      internalID: -7148049694486716786
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hair Left_3x1
+      name: Hair Left_09x01
       rect:
         serializedVersion: 2
         x: 32
@@ -266,14 +530,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1372696c25d9e9350800000000000000
-      internalID: 6025426330312910641
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hair Left_4x0
+      name: Hair Left_10x00
       rect:
         serializedVersion: 2
         x: 0
@@ -287,14 +551,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 90edf586d58370710800000000000000
-      internalID: 1659356961543544329
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hair Left_4x1
+      name: Hair Left_10x01
       rect:
         serializedVersion: 2
         x: 32
@@ -308,14 +572,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7c7d154761d6abc00800000000000000
-      internalID: 917165417331546055
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hair Left_5x0
+      name: Hair Left_11x00
       rect:
         serializedVersion: 2
         x: 0
@@ -329,14 +593,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3f9c81c63cdb71ed0800000000000000
-      internalID: -2443275625795368461
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hair Left_5x1
+      name: Hair Left_11x01
       rect:
         serializedVersion: 2
         x: 32
@@ -350,8 +614,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7e8ebdd10683a7a90800000000000000
-      internalID: -7315472659240982297
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
       vertices: []
       indices: 
       edges: []
@@ -367,16 +631,52 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Hair Left_2x1: 825841656514812136
+      Hair Left_9x0: 0
+      Hair Left_00x01: 0
       Hair Left_0x1: 5529061873367117818
+      Hair Left_02x01: 0
+      Hair Left_04x00: 0
+      Hair Left_11x0: 0
+      Hair Left_11x1: 0
+      Hair Left_03x01: 0
+      Hair Left_06x01: 0
       Hair Left_3x1: 6025426330312910641
+      Hair Left_10x01: 0
+      Hair Left_02x00: 0
       Hair Left_4x0: 1659356961543544329
       Hair Left_2x0: -2027673710248997754
-      Hair Left_3x0: -7148049694486716786
-      Hair Left_4x1: 917165417331546055
+      Hair Left_10x0: 0
+      Hair Left_6x0: 0
+      Hair Left_9x1: 0
+      Hair Left_07x00: 0
       Hair Left_5x1: -7315472659240982297
-      Hair Left_1x0: -8016000471179770452
+      Hair Left_8x1: 0
+      Hair Left_08x00: 0
+      Hair Left_11x00: 0
+      Hair Left_10x1: 0
+      Hair Left_04x01: 0
+      Hair Left_7x0: 0
       Hair Left_1x1: 2169027658059304205
+      Hair Left_06x00: 0
+      Hair Left_09x00: 0
+      Hair Left_7x1: 0
+      Hair Left_01x01: 0
+      Hair Left_2x1: 825841656514812136
+      Hair Left_10x00: 0
+      Hair Left_05x00: 0
+      Hair Left_11x01: 0
+      Hair Left_03x00: 0
+      Hair Left_08x01: 0
+      Hair Left_01x00: 0
+      Hair Left_07x01: 0
+      Hair Left_8x0: 0
+      Hair Left_6x1: 0
+      Hair Left_3x0: -7148049694486716786
+      Hair Left_05x01: 0
+      Hair Left_4x1: 917165417331546055
+      Hair Left_09x01: 0
+      Hair Left_1x0: -8016000471179770452
+      Hair Left_00x00: 0
       Hair Left_5x0: -2443275625795368461
       Hair Left_0x0: 7945185902978583564
   spritePackingTag: 

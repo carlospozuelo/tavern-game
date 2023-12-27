@@ -102,4 +102,9 @@ public class Bench : MonoBehaviour, Interactuable
     {
         return IsInsideObject(worldPosition);
     }
+
+    public GameObject GetGameObject()
+    {
+        return gameObject;
+    }
 }

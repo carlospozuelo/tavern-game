@@ -28,14 +28,28 @@ public class Furniture : MonoBehaviour, Item, IFurniture
     public bool rugLike = false;
     [Tooltip("Used for furniture that can have accessories on top")]
     public bool tableLike = false;
-    [Tooltip("Used for furniture that can be placed on top of a tablelike furniture")]
+    [Tooltip("Used for furniture that HAS TO be placed on top of a tablelike furniture")]
     public bool canBePlacedOnTable = false;
 
-    public List<GameObject> itemsOnTop = new List<GameObject>();
-    public Furniture onTopOf = null;
+    [SerializeField]
+    private List<GameObject> itemsOnTop = new List<GameObject>();
+    [SerializeField]
+    private Furniture onTopOf = null;
 
     [SerializeField]
     private List<GameObject> blocks = new List<GameObject>();
+
+    private void OnDrawGizmos()
+    {
+        foreach (Transform child in transform)
+        {
+            if (child.name.Equals("Table surface"))
+            {
+                Gizmos.color = Color.blue;
+                Gizmos.DrawWireSphere(child.position + new Vector3(.5f, -.5f), .5f);
+            }
+        }
+    }
 
     public void Block(GameObject g)
     {
@@ -52,21 +66,38 @@ public class Furniture : MonoBehaviour, Item, IFurniture
         return blocks.Count > 0;
     }
 
+    public bool HasItemsOnTop() { return itemsOnTop.Count > 0;  }
+
+    public void AddItemOnTop(Furniture item) { itemsOnTop.Add(item.gameObject); item.onTopOf = this; }
+
     public void UseItem()
     {
         // Place the item on the grid, using the mouse position.
         // Placeholder
-        Vector3 worldPosition = GameController.instance.WorldPosition(Input.mousePosition);
-        if (CanBePlaced(GridManager.instance.GridPosition(worldPosition)))
-        {
-            TavernController.InstantiateFurniture(gameObject, worldPosition);
-            
 
-            // Consume item from the inventory
-            PlayerInventory.instance.ConsumeItem();
-            CancelSelectItem();
+        Vector3 worldPosition = GameController.instance.WorldPosition(Input.mousePosition);
+
+        if (CanBePlacedOnATable(worldPosition, out Vector3 tablePosition, out Furniture table))
+        {
+            GameObject g = PlaceItem(tablePosition);
+            table.AddItemOnTop(g.GetComponent<Furniture>());
+
+        } else if (CanBePlaced(GridManager.instance.GridPosition(worldPosition)))
+        {
+            Vector2 pos = GridManager.instance.SnapPosition(worldPosition);
+            PlaceItem(pos);
         }
-       
+    }
+
+    private GameObject PlaceItem(Vector3 p)
+    {
+        GameObject g = TavernController.InstantiateFurniture(gameObject, p);
+
+        // Consume item from the inventory
+        PlayerInventory.instance.ConsumeItem();
+        CancelSelectItem();
+
+        return g;
     }
 
     public void SelectItem()
@@ -81,7 +112,7 @@ public class Furniture : MonoBehaviour, Item, IFurniture
     }
 
 
-    // Returns false if the item would overlap with a non-wall collider
+    // Returns false if the item would overlap with a non-wall, non rug collider
     private bool Boxcast(Vector3Int topLeftTile)
     {
         Vector2 direction = Vector2.up;
@@ -90,7 +121,7 @@ public class Furniture : MonoBehaviour, Item, IFurniture
         RaycastHit2D[] rays = Physics2D.BoxCastAll(origin, size, 0f, direction, 0f);
 
         foreach (var ray in rays) { 
-            if (!ray.collider.name.Equals("Wall"))
+            if (!ray.collider.name.Equals("Wall") && !ray.collider.isTrigger && (ray.collider.TryGetComponent(out Furniture f) && !f.rugLike))
             {
                 return false;
             }
@@ -100,22 +131,36 @@ public class Furniture : MonoBehaviour, Item, IFurniture
         return true;
     }
 
-    private bool BoxcastOnTableLike(Vector3Int topLeftTile)
+    public Furniture SearchTable()
+    {
+        if (BoxcastOnTableLike(transform.position, out Vector3 p, out Furniture table))
+        {
+            return table;
+        }
+
+        return null;
+    }
+
+    private bool BoxcastOnTableLike(Vector3 mouse, out Vector3 position, out Furniture table)
     {
         Vector2 direction = Vector2.up;
-        Vector2 origin = new Vector2(topLeftTile.x, topLeftTile.y + 1) + new Vector2(size.x, -size.y) / 2;
+        Vector2 origin = new Vector2(mouse.x, mouse.y);
+        table = null;
 
         RaycastHit2D[] rays = Physics2D.BoxCastAll(origin, size, 0f, direction, 0f);
 
         foreach (var ray in rays)
         {
-            if (ray.collider.gameObject.name.Equals("Table surface")) {
+            if (ray.collider.gameObject.name.Equals("Table surface"))
+            {
+                position = ray.collider.transform.position;
+                table = ray.collider.GetComponentInParent<Furniture>();
                 return true;
             }
-            
+
         }
 
-
+        position = Vector3.zero;
         return false;
     }
 
@@ -127,7 +172,6 @@ public class Furniture : MonoBehaviour, Item, IFurniture
             if (!GridManager.instance.IsEntirelyInATilemap(GridManager.instance.GridPosition(transform.position + new Vector3(0, -1)), size, "FurnishableWall")) {
                 int attemps = 0;
                 Vector3 offset = Vector2.zero;
-                Debug.Log("Moving " + gameObject.name);
                 while (attemps < 10 && !GridManager.instance.IsEntirelyInATilemap(GridManager.instance.GridPosition(transform.position + offset + new Vector3(0,-1)), size, "FurnishableWall"))
                 {
                     offset.y = offset.y + 1;
@@ -146,6 +190,8 @@ public class Furniture : MonoBehaviour, Item, IFurniture
 
     public bool CanBePlaced(Vector3Int topLeftTile, bool checkCollisions = true)
     {
+
+        if (!canBePlacedOutside && !TavernController.IsActive()) { return false; }
         if (GameController.instance.DistanceToPlayer(topLeftTile + new Vector3(size.x, -size.y) / 2) >= GameController.instance.maxDistanceToPlaceItems) { return false;  }
 
         if (placedOnWalls)
@@ -158,11 +204,32 @@ public class Furniture : MonoBehaviour, Item, IFurniture
         
         if (canBePlacedOnTable)
         {
-            if (!BoxcastOnTableLike(topLeftTile)) { return false;  }   
+            return false;
+           // if (!BoxcastOnTableLike(topLeftTile)) { return false;  }   
         } else if (!rugLike && checkCollisions && TryGetComponent(out Collider2D c) && !Boxcast(topLeftTile)) { return false; } 
 
 
         return true;
+    }
+
+    public bool CanBePlacedOnATable(Vector3 mouse, out Vector3 position, out Furniture table)
+    {
+        position = mouse;
+        table = null;
+
+        if (canBePlacedOnTable)
+        {
+            if (BoxcastOnTableLike(mouse, out Vector3 tablePosition, out Furniture t)) {
+                position = tablePosition;
+                table = t;
+                return true;
+            } else
+            {
+                return false;
+            }
+        }
+
+        return false;
     }
 
     public bool IsInsideObject(Vector3 worldPosition)
@@ -193,20 +260,29 @@ public class Furniture : MonoBehaviour, Item, IFurniture
 
     public void PickUp()
     {
-        if (PlayerInventory.instance.GetCurrentItem() == null)
+        if (LocationController.GetCurrentLocation().Equals("Tavern") && isActiveAndEnabled)
         {
-            if (GameController.instance.DistanceToPlayer(transform.position + new Vector3(size.x, -size.y) / 2) < GameController.instance.maxDistanceToPlaceItems) {
-                PlayerInventory.instance.SetCurrentItem(originalPrefab);
-                TavernController.RemoveFurniture(gameObject);
-                InventoryUI.instance.UpdateSpriteHotbar(this, PlayerInventory.instance.currentItem);
+            if (PlayerInventory.instance.GetCurrentItem() == null)
+            {
+                if (GameController.instance.DistanceToPlayer(transform.position + new Vector3(size.x, -size.y) / 2) < GameController.instance.maxDistanceToPlaceItems)
+                {
+                    PlayerInventory.instance.SetCurrentItem(originalPrefab);
+                    TavernController.RemoveFurniture(gameObject);
+                    InventoryUI.instance.UpdateSpriteHotbar(this, PlayerInventory.instance.currentItem);
 
-                if (onTopOf != null) {
-                    onTopOf.itemsOnTop.Remove(gameObject);
+                    if (onTopOf != null)
+                    {
+                        onTopOf.itemsOnTop.Remove(gameObject);
+                    }
+
+                    Destroy(gameObject);
                 }
-
-                Destroy(gameObject);
             }
         }
     }
 
+    public string GetName()
+    {
+        return originalPrefab.name;
+    }
 }

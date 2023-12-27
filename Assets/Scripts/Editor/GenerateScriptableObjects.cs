@@ -59,33 +59,11 @@ public class GenerateScriptableObjects : MonoBehaviour
             }
         }
 
-        /*
-        string str = "{\n";
-        foreach(var kv in dictionary)
-        {
-            str += kv.Key + ": {\n";
-
-            foreach (var kv2 in kv.Value)
-            {
-                str += kv2.Key + ": {\n";
-                foreach (var kv3 in kv2.Value.container)
-                {
-                    str += kv3.Key + ": {";
-                    str += "front: " + kv3.Value.front + ", back: " + kv3.Value.back + ", left: " + kv3.Value.left + ", right: " + kv3.Value.right + "}\n";
-                }
-                str += "}\n";
-            }
-            str += "}\n";
-        }
-        str += "}";
-        Debug.Log(str);
-        */
-        //List<ClothingItem> items = new List<ClothingItem>();
         foreach (var kv in dictionary)
         {
             foreach (var kv2 in kv.Value)
             {
-                ClothingItem item = ClothingItem.CreateInstance(kv.Key, kv.Key + " " + kv2.Key);
+                ClothingItem item = ClothingItem.CreateInstance(kv.Key, kv.Key + " " + kv2.Key.ToString("00"));
 
                 foreach (var kv3 in kv2.Value.container)
                 {

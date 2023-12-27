@@ -17,6 +17,10 @@ public class PlayerMovement : MonoBehaviour
     private static PlayerMovement instance;
     private Bench bench;
 
+    private Collider2D[] colliders;
+
+    private SpriteRenderer[] renderers;
+
     public static bool IsSitting()
     {
         return instance.sitting;
@@ -37,10 +41,14 @@ public class PlayerMovement : MonoBehaviour
     {
         ClothingController.SetAnimator(animator);
         ClothingController.UpdateColorsReverse();
+        colliders = GetComponentsInChildren<Collider2D>();
+        renderers = GetComponentsInChildren<SpriteRenderer>();
     }
 
     public static void Sit(Vector2 position, Bench bench)
     {
+        ToggleColliders(false);
+
         instance.transform.position = new Vector3(position.x, position.y, instance.transform.position.z);
         instance.animator.SetBool("Sitting", true);
         instance.animator.SetFloat("AnimMoveX", bench.direction.x);
@@ -48,6 +56,23 @@ public class PlayerMovement : MonoBehaviour
         instance.sitting = true;
         instance.bench = bench;
         instance.Stop();
+        ToggleMasking(SpriteMaskInteraction.VisibleOutsideMask);
+    }
+
+    public static void ToggleColliders(bool value)
+    {
+        foreach (Collider2D c in instance.colliders)
+        {
+            c.enabled = value;
+        }
+    }
+
+    public static void ToggleMasking(SpriteMaskInteraction maskInteraction)
+    {
+        foreach (SpriteRenderer s in instance.renderers)
+        {
+            s.maskInteraction = maskInteraction;
+        }
     }
 
     private void GetUp(float h, float v)
@@ -57,6 +82,9 @@ public class PlayerMovement : MonoBehaviour
             bench = null;
             sitting = false;
             animator.SetBool("Sitting", false);
+
+            ToggleColliders(true);
+            ToggleMasking(SpriteMaskInteraction.None);
         }
     }
     // Update is called once per frame

@@ -1,7 +1,47 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 using UnityEngine;
+
+[Serializable]
+public class PlayerClothingData
+{
+    [JsonProperty]
+    public string playerName, playerPronouns;
+    [JsonProperty]
+    public Dictionary<ClothingItem.ClothingType, ClothingData> data;
+    [JsonProperty]
+    private float skinToneR, skinToneG, skinToneB, skinToneA;
+
+    public Color GetSkintone() { return new Color(skinToneR, skinToneG, skinToneB, skinToneA); }
+    public void SetColor(Color c)
+    {
+        skinToneR = c.r;
+        skinToneG = c.g;
+        skinToneB = c.b;
+        skinToneA = c.a;
+    }
+
+    public override string ToString()
+    {
+        string s = "{\ndata:\n{";
+        if (data != null)
+        {
+            foreach (var keypair in data)
+            {
+                s += keypair.Key + ": " + keypair.Value + ",\n";
+            }
+        }
+        s += ",\nskinTone: " + GetSkintone();
+
+        return s;
+    }
+
+    
+}
+
 
 public class ClothingController : MonoBehaviour
 {
@@ -11,8 +51,6 @@ public class ClothingController : MonoBehaviour
 
     private Dictionary<ClothingItem.ClothingType, ClothingItem> current;
 
-    public List<ClothingItem> testArray;
-
     private ClothingItem[] all;
 
     private AnimatorOverrideController aoc;
@@ -20,6 +58,8 @@ public class ClothingController : MonoBehaviour
 
     public SpriteRenderer body, arms, face, torso, hair, legs, shoes;
     public Color greyTint;
+
+    public string playerName, pronouns;
 
     private Dictionary<ClothingItem.ClothingType, string> clothing_type_to_body_parts;
 
@@ -30,6 +70,73 @@ public class ClothingController : MonoBehaviour
 
     private Color bodyColor;
     private Material torsoMaterial, hairMaterial, legsMaterial, faceMaterial, shoeMaterial;
+
+    private void Start()
+    {
+        Master data = MasterData.Read();
+
+        if (data != null)
+        {
+            Deserialize(data.clothingData);
+        }
+    }
+
+    public static PlayerClothingData Serialize()
+    {
+        PlayerClothingData playerData = new PlayerClothingData();
+
+        // Serialize
+        playerData.data = new Dictionary<ClothingItem.ClothingType, ClothingData>();
+        playerData.SetColor(instance.bodyColor);
+
+        foreach (var keypair in instance.current)
+        {
+            Material m;
+            if (keypair.Key == ClothingItem.ClothingType.Torso) { m = instance.torsoMaterial; }
+            else if (keypair.Key == ClothingItem.ClothingType.Legs) { m = instance.legsMaterial; }
+            else if (keypair.Key == ClothingItem.ClothingType.Hair) { m = instance.hairMaterial; }
+            else if (keypair.Key == ClothingItem.ClothingType.Faces) { m = instance.faceMaterial; }
+            else m = instance.shoeMaterial;
+
+            playerData.data[keypair.Key] = new ClothingData(keypair.Value.Name, m.GetColor("_Color1"), m.GetColor("_Color2"), m.GetColor("_Color3"));
+        }
+
+        playerData.playerPronouns = instance.pronouns;
+        playerData.playerName = instance.playerName;
+
+        return playerData;
+    }
+
+    public void Deserialize(PlayerClothingData data)
+    {
+        instance.bodyColor = data.GetSkintone();
+
+        foreach (var keypair in data.data)
+        {
+            Material m;
+            if (keypair.Key == ClothingItem.ClothingType.Torso) { m = instance.torsoMaterial; }
+            else if (keypair.Key == ClothingItem.ClothingType.Legs) { m = instance.legsMaterial; }
+            else if (keypair.Key == ClothingItem.ClothingType.Hair) { m = instance.hairMaterial; }
+            else if (keypair.Key == ClothingItem.ClothingType.Faces) { m = instance.faceMaterial; }
+            else m = instance.shoeMaterial;
+            // Restore color
+            m.SetColor("_Color1", keypair.Value.GetColor1());
+            m.SetColor("_Color2", keypair.Value.GetColor2());
+            m.SetColor("_Color3", keypair.Value.GetColor3());
+
+            // Store item for future AOC generation
+            ClothingItem item = keypair.Value.GetClothingItem();
+            instance.current[keypair.Key] = item;
+        }
+
+        GenerateAOC();
+    }
+
+    public static void UpdateNameAndPronouns(string playername, string pronouns)
+    {
+        instance.playerName = playername;
+        instance.pronouns = pronouns;
+    }
 
     public static void UpdateColors()
     {
@@ -44,15 +151,20 @@ public class ClothingController : MonoBehaviour
 
     public static void UpdateColorsReverse()
     {
-        
-        instance.body.color = instance.bodyColor;
-        instance.arms.color = instance.bodyColor;
-        instance.torso.material = instance.torsoMaterial;
-        instance.hair.material = instance.hairMaterial;
-        instance.legs.material = instance.legsMaterial;
+        if (instance.torsoMaterial != null)
+        {
+            instance.body.color = instance.bodyColor;
+            instance.arms.color = instance.bodyColor;
+            instance.torso.material = instance.torsoMaterial;
+            instance.hair.material = instance.hairMaterial;
+            instance.legs.material = instance.legsMaterial;
 
-        instance.face.material = instance.faceMaterial;
-        instance.shoes.material = instance.shoeMaterial;
+            instance.face.material = instance.faceMaterial;
+            instance.shoes.material = instance.shoeMaterial;
+        } else
+        {
+            UpdateColors();
+        }
         
     }
 
@@ -241,9 +353,9 @@ public class ClothingController : MonoBehaviour
         List<KeyValuePair<AnimationClip, AnimationClip>> overrides = new List<KeyValuePair<AnimationClip, AnimationClip>>();
 
         // TODO: Change test array and use current instead
-        foreach (var kv in instance.testArray)//instance.current)
+        foreach (var kv in instance.current)//instance.current)
         {
-            overrides = kv.GetAnimations(overrides);
+            overrides = kv.Value.GetAnimations(overrides);
         }
 
         instance.aoc.ApplyOverrides(overrides);
@@ -254,19 +366,6 @@ public class ClothingController : MonoBehaviour
     {
         instance.current[item.type] = item;
 
-        // TODO: Remove this (once AOC uses current instead of testArray)
-        List<ClothingItem> newTestArray = new List<ClothingItem>();
-        foreach (ClothingItem i in instance.testArray)
-        {
-            if (!i.type.Equals(item.type))
-            {
-                newTestArray.Add(i);
-            }
-        }
-
-        newTestArray.Add(item);
-
-        instance.testArray = newTestArray;
         GenerateAOC();
     }
 

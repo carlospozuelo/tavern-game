@@ -14,6 +14,14 @@ public class Portal : MonoBehaviour
 
     public Vector3 offset;
 
+    public string location = "Tavern";
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position + offset, 1f);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,6 +51,11 @@ public class Portal : MonoBehaviour
         Start();
     }
 
+    public Vector3 GetPosition()
+    {
+        return transform.position;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         bool validTag = false;
@@ -55,7 +68,9 @@ public class Portal : MonoBehaviour
         }
         if (!validTag) { return; }
 
-        Vector3 vector = portals[destination].gameObject.transform.position;
+        LocationController.ChangeLocation(location);
+
+        Vector3 vector = portals[destination].GetPosition();
         vector.z = collision.transform.position.z;
 
         collision.transform.position = vector + portals[destination].offset;
