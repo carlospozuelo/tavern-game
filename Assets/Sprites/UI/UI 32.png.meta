@@ -272,7 +272,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -280,6 +280,27 @@ TextureImporter:
       bones: []
       spriteID: ea9141e7e4f714260b2512a01eeae0a7
       internalID: 563778697
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI 32_8
+      rect:
+        serializedVersion: 2
+        x: 259
+        y: 2
+        width: 27
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc92bcd5c8fb1480b8554f34e86a5756
+      internalID: 788703218
       vertices: []
       indices: 
       edges: []
@@ -296,6 +317,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       UI 32_5: 114487333
+      UI 32_8: 788703218
       UI 32_0: -968919819
       UI 32_7: 563778697
       UI 32_2: -1637012961

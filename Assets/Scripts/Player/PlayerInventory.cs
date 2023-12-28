@@ -10,16 +10,20 @@ public class InventoryData
     [JsonProperty]
     private string[] inventory, hotbar;
 
+    [JsonProperty]
+    private int gold;
+
     public InventoryData()
     {
         inventory = new string[20];
         hotbar = new string[10];
     }
 
-    public InventoryData(GameObject[] inventory, GameObject[] hotbar)
+    public InventoryData(GameObject[] inventory, GameObject[] hotbar, int gold)
     {
         this.inventory = new string[inventory.Length];
         this.hotbar = new string[hotbar.Length];
+        this.gold = gold;
 
         for (int i = 0; i < inventory.Length; i++)
         {
@@ -82,6 +86,8 @@ public class InventoryData
 
         return hb;
     }
+
+    public int GetGold() { return gold; }
 }
 
 
@@ -101,6 +107,8 @@ public class PlayerInventory : MonoBehaviour
     public int currentItem = 0;
 
     public static PlayerInventory instance;
+
+    private int gold;
 
     public GameObject GetCurrentItem()
     {
@@ -122,6 +130,9 @@ public class PlayerInventory : MonoBehaviour
     private bool listening = true;
     public void Enable() { listening = true; }
     public void Disable() { listening = false; }
+
+    public static int GetGold() { return instance.gold; }
+    public static void ModifyGold(int amount) { instance.gold += amount; InventoryUI.SetGoldUI(instance.gold); }
 
     public void SetCurrentItem(GameObject g)
     {
@@ -424,7 +435,7 @@ public class PlayerInventory : MonoBehaviour
 
     public InventoryData Serialize()
     {
-        return new InventoryData(instance.inventory, instance.hotBar);
+        return new InventoryData(instance.inventory, instance.hotBar, instance.gold);
     }
 
     public void Deserialize()
@@ -439,6 +450,7 @@ public class PlayerInventory : MonoBehaviour
         {
             inventory = d.GetInventory();
             hotBar = d.GetHotbar();
+            ModifyGold(d.GetGold());
 
             for (int i = 0; i < hotBar.Length; i++)
             {

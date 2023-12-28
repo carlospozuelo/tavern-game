@@ -105,14 +105,18 @@ public class PlayerMovement : MonoBehaviour
                 animator.SetFloat("AnimMoveY", v);
 
                 rb.velocity = normalized * speed;
-            } else
+                InventoryUI.ToggleGold(.2f);
+            }
+            else
             {
                 GetUp(h, v);
             }
         } else
         {
+            InventoryUI.ToggleGold(1f);
             Stop();
         }
+
     }
 
     private void Stop()

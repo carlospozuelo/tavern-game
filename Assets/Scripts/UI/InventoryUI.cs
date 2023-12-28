@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +17,23 @@ public class InventoryUI : MonoBehaviour
 
     public int transHeld = 200;
     public int transDef = 125;
+
+    [SerializeField]
+    private CanvasGroup goldCanvasGroup;
+
+    [SerializeField]
+    private TextMeshProUGUI goldCount;
+
+    public static void SetGoldUI(int value)
+    {
+        instance.goldCount.text = "" + value;
+        // Play animation or sound whenever gaining / spending money -> This would be handled here
+    }
+
+    public static void ToggleGold(float trans)
+    {
+        instance.goldCanvasGroup.alpha = trans;
+    }
 
 
     private void Awake()
