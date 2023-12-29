@@ -100,10 +100,16 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (!BookMenuUI.IsOpen()) { return;  }
+        if (!BookMenuUI.IsOpen()) { return; }
         if (GetItem() != null && DraggableIcon.GetItemHeld() != null)
         {
             // Swap
+            GameObject temp = GetItem();
+            Sprite s = targetImage.sprite;
+
+            SlotItem(DraggableIcon.GetItemHeld());
+
+            DraggableIcon.DisplayImage(s, rectTransform.position, this, temp);
         }
         else
         {
