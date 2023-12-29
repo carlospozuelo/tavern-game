@@ -256,14 +256,20 @@ public class PlayerInventory : MonoBehaviour
         KeyCode.Alpha8,
         KeyCode.Alpha9,
     };
+
+    private bool wheelCooldown;
+
+    private IEnumerator WheelCooldown() { wheelCooldown = true; yield return new WaitForSeconds(.075f); wheelCooldown = false; }
+
     public void Update()
     {
         if (listening)
         {
             float wheel = Input.GetAxis("Mouse ScrollWheel");
-            if (wheel != 0)
+            if (wheel != 0 && !wheelCooldown)
             {
-                if (wheel > 0) { PreviousItem(); } else { NextItem(); }
+                if (wheel > 0f) { PreviousItem(); } else { NextItem(); }
+                StartCoroutine(WheelCooldown());
             }
 
             for (int i = 0; i < keyCodes.Length; i++)
