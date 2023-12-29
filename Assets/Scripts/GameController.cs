@@ -34,6 +34,15 @@ public class GameController : MonoBehaviour
         return WorldPosition(Input.mousePosition);
     }
 
+    public Vector3 ScreenMousePosition()
+    {
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(BookMenuUI.GetCanvas().GetComponent<RectTransform>(), WorldMousePosition(), mainCamera, out Vector2 localPos)) {
+            return localPos;
+        }
+
+        return Vector3.zero;
+    }
+
     [SerializeField]
     private GameObject player;
 

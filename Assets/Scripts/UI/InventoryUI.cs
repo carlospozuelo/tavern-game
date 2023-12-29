@@ -84,6 +84,7 @@ public class InventoryUI : MonoBehaviour
 
     public void UpdateUI(int itemHeld)
     {
+        if (BookMenuUI.IsOpen()) { return; }
         slots[currentHeld].GetComponent<RectTransform>().sizeDelta = new Vector2(sizeDef, sizeDef);
         slots[itemHeld].GetComponent<RectTransform>().sizeDelta = new Vector2(sizeHeld, sizeHeld);
 

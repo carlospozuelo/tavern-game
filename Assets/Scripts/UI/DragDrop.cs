@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler, IDropHandler
+public class DragDrop : MonoBehaviour, IPointerDownHandler
 {
     private RectTransform rectTransform;
 
@@ -20,33 +20,24 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     private int index;
     [SerializeField]
     private Image targetImage;
-
+    [SerializeField]
     private bool draggable;
 
 
-    public void OnDrop(PointerEventData eventData)
+    private void Start()
     {
-        if (eventData.pointerDrag != null)
-        {
-            if (DraggableIcon.GetDraggable() != null && DraggableIcon.GetDraggable().draggable)
-            {
-                targetImage.sprite = DraggableIcon.GetSprite();
-                targetImage.enabled = true;
-                draggable = true;
-                // Target is inventory
-                if (isInventory)
-                {
-                    PlayerInventory.instance.SetInventory(index, DraggableIcon.GetDraggable().GetItem());
-                }
-                else if (isHotbar)
-                {
-                    PlayerInventory.instance.SetHotBar(index, DraggableIcon.GetDraggable().GetItem());
-                }
+        canvas = BookMenuUI.GetCanvas();
+        if (target == null) { target = gameObject; }
+        if (targetImage == null) { targetImage = target.GetComponent<Image>(); }
+        rectTransform = target.GetComponent<RectTransform>();
 
-                
-                DraggableIcon.GetDraggable().DestroyItem();
-                DraggableIcon.HideImage();
-            }
+        if (isInventory)
+        {
+            draggable = PlayerInventory.instance.inventory[index] != null;
+        }
+        else if (isHotbar)
+        {
+            draggable = PlayerInventory.instance.hotBar[index] != null;
         }
     }
 
@@ -82,60 +73,56 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     public void DestroyItem()
     {
         draggable = false;
+        targetImage.enabled = false;
 
-        if (isInventory)
-        {
-            PlayerInventory.instance.SetInventory(index, null);
-        } else if (isHotbar)
-        {
-            PlayerInventory.instance.SetHotBar(index, null);
-        }
+        SlotItem(null);
     }
 
-    private void Start()
-    { 
-        canvas = BookMenuUI.GetCanvas();
-        if (target == null) { target = gameObject; }
-        if (targetImage == null) { targetImage = target.GetComponent<Image>();  }
-        rectTransform = target.GetComponent<RectTransform>();
-
+    private void SlotItem(GameObject item)
+    {
         if (isInventory)
         {
-            draggable = PlayerInventory.instance.inventory[index] != null;
+            PlayerInventory.instance.SetInventory(index, item);//DraggableIcon.GetDraggable().GetItem());
         }
         else if (isHotbar)
         {
-            draggable = PlayerInventory.instance.hotBar[index] != null;
+            PlayerInventory.instance.SetHotBar(index, item);//DraggableIcon.GetDraggable().GetItem());
         }
+
+        if (item != null)
+        {
+            draggable = true;
+        }
+
+        UpdateImage();
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        if (draggable)
-        {
-            targetImage.enabled = false;
-            DraggableIcon.DisplayImage(targetImage.sprite, rectTransform.position, this);
-        }
-    }
-
-    public void OnDrag(PointerEventData eventData)
-    {
-        if (draggable)
-        {
-            DraggableIcon.MoveImage(eventData.delta / canvas.scaleFactor);
-        }
-    }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        if (draggable)
-        {
-            targetImage.enabled = true;
-            DraggableIcon.HideImage();
-        }
-    }
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (!BookMenuUI.IsOpen()) { return;  }
+        if (GetItem() != null && DraggableIcon.GetItemHeld() != null)
+        {
+            // Swap
+        }
+        else
+        {
+            if (draggable)
+            {
+                // Stacks would be implemented here
+                DraggableIcon.DisplayImage(targetImage.sprite, rectTransform.position, this, GetItem());
+                // Remove item from the inventory
+                DestroyItem();
+            }
+            else
+            {
+                GameObject itemHeld = DraggableIcon.GetItemHeld();
+                if (itemHeld != null)
+                {
+                    SlotItem(itemHeld);
+                    DraggableIcon.HideImage();
+                }
+            }
+        }
     }
 }

@@ -79,4 +79,6 @@ public class BookMenuUI : MonoBehaviour
 
         DraggableIcon.HideImage();
     }
+
+    public static bool IsOpen() { return instance.isOpen; }
 }
