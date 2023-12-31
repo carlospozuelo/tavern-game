@@ -48,11 +48,11 @@ public class DraggableIcon : MonoBehaviour, IPointerDownHandler
         return instance.itemHeld;
     }
 
-    public static void DisplayImage(Sprite sprite, Vector2 position, DragDrop d, GameObject item)
+    public static void DisplayImage(Sprite sprite, DragDrop d, GameObject item)
     {
         instance.image.sprite = sprite;
         instance.image.enabled = true;
-        instance.position.position = position;
+        instance.position.position = Input.mousePosition;//position;
         instance.c.blocksRaycasts = true;
         instance.draggable = d;
         instance.itemHeld = item;
@@ -60,23 +60,26 @@ public class DraggableIcon : MonoBehaviour, IPointerDownHandler
         instance.MoveImage();
     }
 
-    public static void HideImage()
+    public static void HideImage(bool dropsItem = true)
     {
         instance.image.enabled = false;
         instance.c.blocksRaycasts = true;
         instance.draggable = null;
 
         
-        instance.Stop();
+        instance.Stop(dropsItem);
     }
 
-    private void Stop()
+    private void Stop(bool dropsItem)
     {
         if (coroutine != null)
         {
-            Debug.Log("Stop");
             StopCoroutine(coroutine);
             // TODO: Drop held item to the ground
+            if (dropsItem && itemHeld != null)
+            {
+                GameController.DropItem(itemHeld.GetComponent<Item>());
+            }
             itemHeld = null;
         }
     }
@@ -116,11 +119,17 @@ public class DraggableIcon : MonoBehaviour, IPointerDownHandler
         List<RaycastResult> raycastResults = new List<RaycastResult>();
         EventSystem.current.RaycastAll(eventData, raycastResults);
 
+
         foreach (RaycastResult result in raycastResults) {
             if (result.gameObject != gameObject)
             {
                 ExecuteEvents.Execute(result.gameObject, eventData, ExecuteEvents.pointerDownHandler);
             }
+        }
+
+        if (raycastResults.Count <= 1)
+        {
+            HideImage();
         }
     }
 }

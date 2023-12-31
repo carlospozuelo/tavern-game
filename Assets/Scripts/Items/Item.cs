@@ -15,4 +15,6 @@ public interface Item
     public void SelectItem();
     public void CancelSelectItem();
 
+    public GameObject GetOriginalPrefab();
+
 }

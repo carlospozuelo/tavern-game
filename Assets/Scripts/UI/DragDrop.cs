@@ -31,6 +31,11 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
         if (targetImage == null) { targetImage = target.GetComponent<Image>(); }
         rectTransform = target.GetComponent<RectTransform>();
 
+        SetDraggable();
+    }
+
+    private void SetDraggable()
+    {
         if (isInventory)
         {
             draggable = PlayerInventory.instance.inventory[index] != null;
@@ -100,6 +105,8 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        SetDraggable();
+
         if (!BookMenuUI.IsOpen()) { return; }
         if (GetItem() != null && DraggableIcon.GetItemHeld() != null)
         {
@@ -109,14 +116,14 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
 
             SlotItem(DraggableIcon.GetItemHeld());
 
-            DraggableIcon.DisplayImage(s, rectTransform.position, this, temp);
+            DraggableIcon.DisplayImage(s, this, temp);
         }
         else
         {
             if (draggable)
             {
                 // Stacks would be implemented here
-                DraggableIcon.DisplayImage(targetImage.sprite, rectTransform.position, this, GetItem());
+                DraggableIcon.DisplayImage(targetImage.sprite, this, GetItem());
                 // Remove item from the inventory
                 DestroyItem();
             }
@@ -126,7 +133,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
                 if (itemHeld != null)
                 {
                     SlotItem(itemHeld);
-                    DraggableIcon.HideImage();
+                    DraggableIcon.HideImage(false);
                 }
             }
         }

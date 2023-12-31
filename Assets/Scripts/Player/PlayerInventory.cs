@@ -115,6 +115,32 @@ public class PlayerInventory : MonoBehaviour
         return hotBar[currentItem];
     }
 
+
+    public static bool StoreAnywhere(Item item)
+    {
+        
+        for (int i = 0; i < instance.hotBar.Length; i++)
+        {
+            if (instance.hotBar[(i + 1) % 10] == null)
+            {
+                instance.SetHotBar((i + 1) % 10, item.GetOriginalPrefab());
+                if ((i + 1) % 10 == instance.currentItem) { SelectItem(); } 
+                return true;
+            }
+        }
+
+        for (int i = 0; i < instance.inventory.Length; i++)
+        {
+            if (instance.inventory[i] == null)
+            {
+                instance.SetInventory(i, item.GetOriginalPrefab());
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public GameObject GetItem(string name)
     {
         if (allItemsDictionary.ContainsKey(name))
@@ -215,7 +241,7 @@ public class PlayerInventory : MonoBehaviour
     public void SetHotBar(int slot, GameObject item)
     {
         hotBar[slot] = item;
-        InventoryUI.instance.UpdateUI(slot);
+        InventoryUI.instance.UpdateSpriteHotbar(slot);
     }
 
     public void SetInventory(int slot, GameObject item)

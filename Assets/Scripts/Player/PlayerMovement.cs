@@ -45,6 +45,11 @@ public class PlayerMovement : MonoBehaviour
         renderers = GetComponentsInChildren<SpriteRenderer>();
     }
 
+    public static Vector3 GetPosition()
+    {
+        return instance.rb.position;
+    }
+
     public static void Sit(Vector2 position, Bench bench)
     {
         ToggleColliders(false);

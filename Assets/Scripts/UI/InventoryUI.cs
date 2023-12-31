@@ -62,7 +62,14 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
-    public static void SelectAllItems()
+    public void UpdateSpriteHotbar(int slot)
+    {
+        GameObject item = PlayerInventory.instance.hotBar[slot];
+
+        if (item != null) { UpdateSpriteHotbar(item.GetComponent<Item>(), slot); }
+    }
+
+        public static void SelectAllItems()
     {
         foreach (var slot in instance.slots)
         {
@@ -85,6 +92,8 @@ public class InventoryUI : MonoBehaviour
     public void UpdateUI(int itemHeld)
     {
         if (BookMenuUI.IsOpen()) { return; }
+        UpdateSpriteHotbar(itemHeld);
+
         slots[currentHeld].GetComponent<RectTransform>().sizeDelta = new Vector2(sizeDef, sizeDef);
         slots[itemHeld].GetComponent<RectTransform>().sizeDelta = new Vector2(sizeHeld, sizeHeld);
 

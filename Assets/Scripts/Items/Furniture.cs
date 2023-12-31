@@ -9,6 +9,7 @@ public class Furniture : MonoBehaviour, Item, IFurniture
     [SerializeField]
     private Vector2Int size = new Vector2Int(1,1);
 
+    [SerializeField]
     public GameObject originalPrefab;
 
     public FurnitureData GetFurnitureData()
@@ -21,8 +22,6 @@ public class Furniture : MonoBehaviour, Item, IFurniture
         return GetComponent<SpriteRenderer>().sprite;
     }
 
-    public bool canBePlacedInside = true;
-    public bool canBePlacedOutside = true;
     public bool placedOnWalls = false;
     [Tooltip("Used for rugs or flooring in general. If set to true, the furniture can be placed below items and below the player as well.")]
     public bool rugLike = false;
@@ -74,7 +73,7 @@ public class Furniture : MonoBehaviour, Item, IFurniture
     {
         // Place the item on the grid, using the mouse position.
         // Placeholder
-
+        if (!LocationController.GetCurrentLocation().Equals("Tavern")) { return; }
         Vector3 worldPosition = GameController.instance.WorldPosition(Input.mousePosition);
 
         if (CanBePlacedOnATable(worldPosition, out Vector3 tablePosition, out Furniture table))
@@ -191,7 +190,7 @@ public class Furniture : MonoBehaviour, Item, IFurniture
     public bool CanBePlaced(Vector3Int topLeftTile, bool checkCollisions = true)
     {
 
-        if (!canBePlacedOutside && !TavernController.IsActive()) { return false; }
+        if (!TavernController.IsActive()) { return false; }
         if (GameController.instance.DistanceToPlayer(topLeftTile + new Vector3(size.x, -size.y) / 2) >= GameController.instance.maxDistanceToPlaceItems) { return false;  }
 
         if (placedOnWalls)
@@ -284,5 +283,10 @@ public class Furniture : MonoBehaviour, Item, IFurniture
     public string GetName()
     {
         return originalPrefab.name;
+    }
+
+    public GameObject GetOriginalPrefab()
+    {
+        return originalPrefab;
     }
 }
