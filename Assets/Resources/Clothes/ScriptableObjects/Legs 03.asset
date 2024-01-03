@@ -36,4 +36,5 @@ MonoBehaviour:
   primary: {r: 0, g: 0, b: 0, a: 0}
   secondary: {r: 0, g: 0, b: 0, a: 0}
   tertiary: {r: 0, g: 0, b: 0, a: 0}
+  sprite: {fileID: 5763978800486370738, guid: 7bcfe757069f14035806ec6369ea6aa7, type: 3}
   Name: Legs 03

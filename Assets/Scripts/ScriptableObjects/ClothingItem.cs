@@ -52,6 +52,7 @@ public class ClothingItem : ScriptableObject
         data.type = ToClothingType(type);
         data.name = name;
         data.Name = name;
+        //data.sprite = sprite;
 
         data.idle = new AnimationContainer();
         data.hold = new AnimationContainer();
@@ -83,6 +84,8 @@ public class ClothingItem : ScriptableObject
 
     public AnimationContainer idle, hold, walk, sit;
     public Color primary, secondary, tertiary;
+
+    public Sprite sprite;
 
     public string Name;
 

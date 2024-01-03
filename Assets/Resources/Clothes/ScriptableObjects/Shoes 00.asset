@@ -36,4 +36,5 @@ MonoBehaviour:
   primary: {r: 0, g: 0, b: 0, a: 0}
   secondary: {r: 0, g: 0, b: 0, a: 0}
   tertiary: {r: 0, g: 0, b: 0, a: 0}
+  sprite: {fileID: 0, guid: 0517b7922124046b1a46aa3655bc3737, type: 3}
   Name: Shoes 00

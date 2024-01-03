@@ -23,7 +23,23 @@ public class GenerateScriptableObjects : MonoBehaviour
     static void Generate()
     {
         AnimationClip[] list = Resources.LoadAll("Clothes/Animations", typeof(AnimationClip)).Cast<AnimationClip>().ToArray();
+        Sprite[] sprites = Resources.LoadAll("", typeof(Sprite)).Cast<Sprite>().ToArray();
 
+        // Maps BODY PART and NUMBER to the default sprite (x00)
+        Dictionary<(string,string), Sprite> defaultSprites = new Dictionary<(string, string), Sprite>();
+
+        foreach (Sprite s in sprites)
+        {
+            if (s.name.Contains("Front") && s.name.Contains("x00"))
+            {
+                string bodyPart = s.name.Split(" ")[0];
+                var tmp = s.name.Split("_")[1];
+                string number = tmp.Substring(0, tmp.Length - 3);
+
+                defaultSprites.Add((bodyPart, number), s);
+                Debug.Log("k: " + (bodyPart, number) + ", v: " + defaultSprites[(bodyPart, number)]);
+            }
+        }
         // { Torso: [ 0: { idle: { front: clip, right: clip, left: clip, back: clip }, 1: {}, ... ], Hair: { ... } ], ... }
 
         Dictionary<string, Dictionary<int, AnimationWrapper>> dictionary = new Dictionary<string, Dictionary<int, AnimationWrapper>>();
@@ -68,8 +84,14 @@ public class GenerateScriptableObjects : MonoBehaviour
                 foreach (var kv3 in kv2.Value.container)
                 {
                     item.SetAnimationContainer(kv3.Value, kv3.Key.ToLower());
-
                 }
+
+                (string, string) key = (item.type.ToString(), item.Name.Split(" ")[1]);
+                if (defaultSprites.TryGetValue(key, out Sprite s))
+                {
+                    item.sprite = s;
+                }
+
                 //Debug.Log(item);
                 AssetDatabase.CreateAsset(item, "Assets/Resources/Clothes/ScriptableObjects/" + item.name + ".asset");
             }
