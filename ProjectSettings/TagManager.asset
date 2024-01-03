@@ -7,14 +7,15 @@ TagManager:
   - Tavern
   - Shop
   - Townhall
+  - Town
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
+  - Light
   - 
   - 
   - 
@@ -46,4 +47,7 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Preview
+    uniqueID: 650751653
     locked: 0

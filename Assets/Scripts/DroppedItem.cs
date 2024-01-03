@@ -40,7 +40,6 @@ public class DroppedItem : MonoBehaviour
             float distance = Vector2.Distance(new Vector2(transform.position.x, transform.position.y), playerPosition);
             if (distance <= 0.2f)
             {
-                Debug.Log("Store in inventory");
                 if (PlayerInventory.StoreAnywhere(item))
                 {
                     Destroy(gameObject);

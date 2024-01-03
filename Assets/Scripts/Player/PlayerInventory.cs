@@ -15,7 +15,7 @@ public class InventoryData
 
     public InventoryData()
     {
-        inventory = new string[20];
+        inventory = new string[30];
         hotbar = new string[10];
     }
 
