@@ -12,12 +12,31 @@ public class Clothing : MonoBehaviour, Item
     private GameObject prefab;
 
     [SerializeField]
-    private SpriteRenderer spriteRenderer;
+    private ClothingItem.ThreeColors colors;
 
-    void Start()
+    public void Initialize(ClothingItem item, ClothingItem.ThreeColors colors)
     {
-
+        clothingItem = item;
+        this.colors = colors;
     }
+
+    public void Initialize(ClothingItem item, Color c1, Color c2, Color c3)
+    {
+        ClothingItem.ThreeColors colors = new ClothingItem.ThreeColors();
+        colors.primary = c1;
+        colors.secondary = c2;
+        colors.tertiary = c3;
+
+        Initialize(item, colors);
+    }
+
+    public void Wear()
+    {
+        ClothingController.Wear(clothingItem, colors);
+        PlayerInventory.Wear(this);
+    }
+
+    public ClothingItem GetClothingItem() { return clothingItem; }
 
     public void CancelSelectItem()
     {

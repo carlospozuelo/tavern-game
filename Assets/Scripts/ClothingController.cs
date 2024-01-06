@@ -63,6 +63,32 @@ public class ClothingController : MonoBehaviour
 
     private Dictionary<ClothingItem.ClothingType, string> clothing_type_to_body_parts;
 
+    [SerializeField]
+    private GameObject clothingPrefab;
+
+    public static GameObject GenerateClothingObject(ClothingItem item, ClothingItem.ThreeColors colors)
+    {
+        GameObject gameObject = Instantiate(instance.clothingPrefab, Vector3.zero, Quaternion.identity,instance.transform);
+
+        Clothing clothing = gameObject.GetComponent<Clothing>();
+        clothing.Initialize(item, colors);
+
+        gameObject.name = clothing.GetName();
+
+        return gameObject;
+    }
+
+    public static Dictionary<ClothingItem.ClothingType, GameObject> GenerateClothingObjects()
+    {
+        Dictionary<ClothingItem.ClothingType, GameObject> res = new Dictionary<ClothingItem.ClothingType, GameObject>();
+
+        res[ClothingItem.ClothingType.Legs] = GenerateClothingObject(instance.current[ClothingItem.ClothingType.Legs], instance.GetThreeColors(instance.legsMaterial));
+        res[ClothingItem.ClothingType.Shoes] = GenerateClothingObject(instance.current[ClothingItem.ClothingType.Shoes], instance.GetThreeColors(instance.shoeMaterial));
+        res[ClothingItem.ClothingType.Torso] = GenerateClothingObject(instance.current[ClothingItem.ClothingType.Torso], instance.GetThreeColors(instance.torsoMaterial));
+
+        return res;
+    }
+
     public static readonly string[] BODY_PARTS = { "Legs", "Torso", "Faces", "Shoes", "Hair" };
     public static readonly string[] ORIENTATION = { "front", "back", "left", "right" };
     public static readonly string[] ANIMATIONS = { "idle", "sit", "hold", "walk" };
@@ -70,6 +96,28 @@ public class ClothingController : MonoBehaviour
 
     private Color bodyColor;
     private Material torsoMaterial, hairMaterial, legsMaterial, faceMaterial, shoeMaterial;
+
+    public ClothingItem.ThreeColors GetThreeColors(Material m)
+    {
+        ClothingItem.ThreeColors colors = new ClothingItem.ThreeColors();
+
+        colors.primary = m.GetColor("_Color1");
+        colors.secondary = m.GetColor("_Color2");
+        colors.tertiary = m.GetColor("_Color3");
+
+        return colors;
+    }
+
+    public Material GetMaterial(ClothingItem.ClothingType t)
+    {
+        if (t == ClothingItem.ClothingType.Torso) { return torsoMaterial; }
+        if (t == ClothingItem.ClothingType.Hair) { return hairMaterial; }
+        if (t == ClothingItem.ClothingType.Legs) { return legsMaterial; }
+        if (t == ClothingItem.ClothingType.Faces) { return faceMaterial; }
+        if (t == ClothingItem.ClothingType.Shoes) { return shoeMaterial; }
+
+        return null;
+    }
 
     private void Start()
     {
@@ -367,6 +415,24 @@ public class ClothingController : MonoBehaviour
         instance.current[item.type] = item;
 
         GenerateAOC();
+    }
+
+    public static void Wear(ClothingItem item, ClothingItem.ThreeColors colors)
+    {
+
+        Material m = instance.GetMaterial(item.type);
+
+        if (m != null)
+        {
+            m.SetColor("_Color1", colors.primary);
+            m.SetColor("_Color2", colors.secondary);
+            m.SetColor("_Color3", colors.tertiary);
+
+        }
+
+        Wear(item);
+
+        
     }
 
     public static AnimationClip GetDefaultClip(ClothingItem.ClothingType type, string orientation, string animation)

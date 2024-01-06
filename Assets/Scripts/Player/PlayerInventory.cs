@@ -97,6 +97,8 @@ public class PlayerInventory : MonoBehaviour
     public GameObject[] hotBar;
     public GameObject[] inventory;
 
+    private Dictionary<ClothingItem.ClothingType, Clothing> clothingDictionary;
+
     [SerializeField]
     // This does NOT include furniture. Furniture are pulled from the Furniture controller.
     private GameObject[] allItems;
@@ -115,16 +117,26 @@ public class PlayerInventory : MonoBehaviour
         return hotBar[currentItem];
     }
 
+    public static void Wear(Clothing clothing)
+    {
+        instance.clothingDictionary[clothing.GetClothingItem().type] = clothing;
+    }
+
+    public static Clothing GetWornItem(ClothingItem.ClothingType key)
+    {
+        if (instance.clothingDictionary.TryGetValue(key, out var value)) { return value; } return null;
+    }
+
 
     public static bool StoreAnywhere(Item item)
     {
-        
+
         for (int i = 0; i < instance.hotBar.Length; i++)
         {
             if (instance.hotBar[(i + 1) % 10] == null)
             {
                 instance.SetHotBar((i + 1) % 10, item.GetOriginalPrefab());
-                if ((i + 1) % 10 == instance.currentItem) { SelectItem(); } 
+                if ((i + 1) % 10 == instance.currentItem) { SelectItem(); }
                 return true;
             }
         }
@@ -167,7 +179,7 @@ public class PlayerInventory : MonoBehaviour
             hotBar[currentItem] = g;
 
             SelectItem(currentItem);
-            
+
         } else
         {
             Debug.LogWarning("Tried to override item (" + currentItem + ")!");
@@ -200,9 +212,20 @@ public class PlayerInventory : MonoBehaviour
         }
     }
 
+    private void InitializeClothing() {
+        clothingDictionary = new Dictionary<ClothingItem.ClothingType, Clothing>();
+
+        Dictionary<ClothingItem.ClothingType, GameObject> objects = ClothingController.GenerateClothingObjects();
+        clothingDictionary[ClothingItem.ClothingType.Legs] = objects[ClothingItem.ClothingType.Legs].GetComponent<Clothing>();
+        clothingDictionary[ClothingItem.ClothingType.Shoes] = objects[ClothingItem.ClothingType.Shoes].GetComponent<Clothing>();
+        clothingDictionary[ClothingItem.ClothingType.Torso] = objects[ClothingItem.ClothingType.Torso].GetComponent<Clothing>();
+    }
+
     private void Start()
     {
         InitializeDictionary();
+        InitializeClothing();
+
         Deserialize();
         for (int i = 0; i < hotBar.Length; i++)
         {

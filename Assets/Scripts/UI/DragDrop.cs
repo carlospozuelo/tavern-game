@@ -21,7 +21,10 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
     [SerializeField]
     private Image targetImage;
     [SerializeField]
-    private bool draggable;
+    private bool draggable, isForClothing;
+
+    [SerializeField]
+    private ClothingItem.ClothingType type;
 
 
     private void Start()
@@ -58,6 +61,13 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
             return PlayerInventory.instance.hotBar[index];
         }
 
+        if (isForClothing)
+        {
+            var item = PlayerInventory.GetWornItem(type);
+
+            if (item != null) return item.gameObject;
+        }
+
         return null;
     }
 
@@ -85,6 +95,12 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
 
     private void SlotItem(GameObject item)
     {
+
+        if (isForClothing)
+        {
+            item.GetComponent<Clothing>().Wear();
+        }
+
         if (isInventory)
         {
             PlayerInventory.instance.SetInventory(index, item);//DraggableIcon.GetDraggable().GetItem());
@@ -108,9 +124,21 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
         SetDraggable();
 
         if (!BookMenuUI.IsOpen()) { return; }
+        //if (!isForClothing)
+        //{
         if (GetItem() != null && DraggableIcon.GetItemHeld() != null)
         {
             // Swap
+
+            if (isForClothing)
+            {
+                // Can only be swapped by a clothing item of the same type
+                if (!DraggableIcon.GetItemHeld().TryGetComponent(out Clothing c) || c.GetClothingItem().type != type)
+                {
+                    return;
+                }
+            }
+
             GameObject temp = GetItem();
             Sprite s = targetImage.sprite;
 
@@ -123,19 +151,44 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
             if (draggable)
             {
                 // Stacks would be implemented here
-                DraggableIcon.DisplayImage(targetImage.sprite, this, GetItem());
-                // Remove item from the inventory
-                DestroyItem();
+                bool canBePickedUp = true;
+                if (isForClothing) {
+                    canBePickedUp = type != ClothingItem.ClothingType.Legs && type != ClothingItem.ClothingType.Torso;
+                    // Torso and leg clothing can't be removed
+                }
+
+                if (canBePickedUp)
+                {
+                    DraggableIcon.DisplayImage(targetImage.sprite, this, GetItem());
+                    // Remove item from the inventory
+                    DestroyItem();
+
+                    if (isForClothing)
+                    {
+                        // TODO: Make player stop wearing clothes
+                        // ClothingController.Wear()
+                    }
+                }
             }
             else
             {
                 GameObject itemHeld = DraggableIcon.GetItemHeld();
                 if (itemHeld != null)
                 {
+                    if (isForClothing)
+                    {
+                        // Can only be swapped by a clothing item of the same type
+                        if (!DraggableIcon.GetItemHeld().TryGetComponent(out Clothing c) || c.GetClothingItem().type != type)
+                        {
+                            return;
+                        }
+                    }
+
                     SlotItem(itemHeld);
                     DraggableIcon.HideImage(false);
                 }
             }
         }
+        //}
     }
 }
