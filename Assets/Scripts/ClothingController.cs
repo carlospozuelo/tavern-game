@@ -13,15 +13,12 @@ public class PlayerClothingData
     [JsonProperty]
     public Dictionary<ClothingItem.ClothingType, ClothingData> data;
     [JsonProperty]
-    private float skinToneR, skinToneG, skinToneB, skinToneA;
+    private SerializableColor skinTone;
 
-    public Color GetSkintone() { return new Color(skinToneR, skinToneG, skinToneB, skinToneA); }
+    public Color GetSkintone() { return skinTone.GetColor(); }
     public void SetColor(Color c)
     {
-        skinToneR = c.r;
-        skinToneG = c.g;
-        skinToneB = c.b;
-        skinToneA = c.a;
+        skinTone = new SerializableColor(c);
     }
 
     public override string ToString()
@@ -65,6 +62,13 @@ public class ClothingController : MonoBehaviour
 
     [SerializeField]
     private GameObject clothingPrefab;
+
+    private Dictionary<string, ClothingItem> allClothingItems;
+
+    public static ClothingItem GetClothingItem(string s)
+    {
+        return instance.allClothingItems[s];
+    }
 
     public static GameObject GenerateClothingObject(ClothingItem item, ClothingItem.ThreeColors colors)
     {
@@ -328,6 +332,12 @@ public class ClothingController : MonoBehaviour
         instance.current = new Dictionary<ClothingItem.ClothingType, ClothingItem>();
 
         this.all = Resources.LoadAll("Clothes/ScriptableObjects", typeof(ClothingItem)).Cast<ClothingItem>().ToArray();
+
+        allClothingItems = new Dictionary<string, ClothingItem>();
+        foreach (ClothingItem c in this.all)
+        {
+            allClothingItems.Add(c.Name, c);
+        }
 
         clothing_type_to_body_parts = new Dictionary<ClothingItem.ClothingType, string>();
 

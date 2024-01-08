@@ -14,6 +14,8 @@ public class Clothing : MonoBehaviour, Item
     [SerializeField]
     private ClothingItem.ThreeColors colors;
 
+    public ClothingItem.ThreeColors GetThreeColors() { return colors; }
+
     public void Initialize(ClothingItem item, ClothingItem.ThreeColors colors)
     {
         clothingItem = item;
