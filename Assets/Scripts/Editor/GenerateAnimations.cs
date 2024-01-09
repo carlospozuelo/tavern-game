@@ -30,20 +30,27 @@ public class GenerateAnimations : MonoBehaviour
 
         foreach (var sprite in sprites)
         {
-            var result = ExtractData(sprite.name);
-            string key = result.Text1 + " " + result.Text2;
-
-            if (!dic.ContainsKey(key))
+            if (sprite.name.Contains("PREVIEW"))
             {
-                dic.Add(key, new Dictionary<int, List<Sprite>>());
-            }
 
-            if (!dic[key].ContainsKey(result.Number1))
+            }
+            else
             {
-                dic[key].Add(result.Number1, new List<Sprite>());
-            }
+                var result = ExtractData(sprite.name);
+                string key = result.Text1 + " " + result.Text2;
 
-            dic[key][result.Number1].Add(sprite);
+                if (!dic.ContainsKey(key))
+                {
+                    dic.Add(key, new Dictionary<int, List<Sprite>>());
+                }
+
+                if (!dic[key].ContainsKey(result.Number1))
+                {
+                    dic[key].Add(result.Number1, new List<Sprite>());
+                }
+
+                dic[key][result.Number1].Add(sprite);
+            }
         }
 
         foreach (var keyvalue in dic)
@@ -59,6 +66,7 @@ public class GenerateAnimations : MonoBehaviour
 
     static (string Text1, string Text2, int Number1, int Number2) ExtractData(string input)
     {
+
         // Define the regular expression pattern
         string pattern = @"^(.*?)\s(.*?)_(\d+)x(\d+)$";
 
@@ -111,16 +119,39 @@ public class GenerateAnimations : MonoBehaviour
             List<SpriteMetaData> meta = new List<SpriteMetaData>();
             ti.spritesheet = new SpriteMetaData[0];
 
+            bool hasPreview = false;
+            if (texture.name.Contains("Front"))
+            {
+                if (texture.name.Contains("Torso") || texture.name.Contains("Legs") || texture.name.Contains("Shoes"))
+                {
+                    hasPreview = true;
+                }
+            }
+
             for (int i = texture.height; i > 0; i -= height)
             {
                 int rowNum = (texture.height - i) / height;
+
+                if (hasPreview)
+                {
+                    SpriteMetaData smd = new SpriteMetaData();
+                    smd.pivot = new Vector2(0.5f, 0.5f);
+                    smd.alignment = ((int)SpriteAlignment.Center);
+                    smd.name = texture.name + "_" + rowNum.ToString("00") + " PREVIEW";
+                    smd.rect = new Rect(0, i - width, width, width);
+
+                    meta.Add(smd);
+                }
+
                 
-                for (int j = 0; j < texture.width; j += width) {
+                
+                for (int j = 0 + (hasPreview ? width : 0); j < texture.width; j += width) {
                     SpriteMetaData smd = new SpriteMetaData();
                     smd.pivot = new Vector2(0.5f, 0.5f);
                     smd.alignment = ((int)SpriteAlignment.Center);
 
-                    int colNum = j / width;
+                    int colNum = (j - (hasPreview ? width : 0)) / width;
+                    //if (hasPreview) { colNum--; }
 
                     smd.name = texture.name + "_" + rowNum.ToString("00") + "x" + colNum.ToString("00");
                     smd.rect = new Rect(j, i - height, width, height);

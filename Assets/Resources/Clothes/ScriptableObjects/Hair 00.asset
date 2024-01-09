@@ -33,8 +33,6 @@ MonoBehaviour:
     back: {fileID: 7400000, guid: d91b4b3b6b8ac4f3188053e9c8ea1f51, type: 2}
     left: {fileID: 7400000, guid: 5a1db7933743b4d7e90ce7b8d5fcf4f0, type: 2}
     right: {fileID: 7400000, guid: 51630b62300794df5b8b3912c998bb84, type: 2}
-  primary: {r: 0, g: 0, b: 0, a: 0}
-  secondary: {r: 0, g: 0, b: 0, a: 0}
-  tertiary: {r: 0, g: 0, b: 0, a: 0}
-  sprite: {fileID: 0, guid: 039d2ac5f7f0f4bba8270544968a4993, type: 3}
+  possibleColors: []
+  sprite: {fileID: 0}
   Name: Hair 00

@@ -33,8 +33,6 @@ MonoBehaviour:
     back: {fileID: 0}
     left: {fileID: 7400000, guid: 538d23630dd24a840aebb6e25f6d8e54, type: 2}
     right: {fileID: 7400000, guid: 35f5ca5d8bb2bb746b791ff29fb7a6bb, type: 2}
-  primary: {r: 0, g: 0, b: 0, a: 0}
-  secondary: {r: 0, g: 0, b: 0, a: 0}
-  tertiary: {r: 0, g: 0, b: 0, a: 0}
-  sprite: {fileID: 536523548023650185, guid: 570628cd59a674a6fbf9adbeeb86b34c, type: 3}
+  possibleColors: []
+  sprite: {fileID: 0}
   Name: Faces 02

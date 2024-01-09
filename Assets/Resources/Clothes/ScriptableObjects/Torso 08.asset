@@ -33,8 +33,6 @@ MonoBehaviour:
     back: {fileID: 7400000, guid: 7110428d9cb1b6a49b035ef3313013c7, type: 2}
     left: {fileID: 7400000, guid: 561681dc76619aa4687a47e8b1272f17, type: 2}
     right: {fileID: 7400000, guid: c78c3d3b5bf1f584ca595a599e45ac75, type: 2}
-  primary: {r: 0, g: 0, b: 0, a: 0}
-  secondary: {r: 0, g: 0, b: 0, a: 0}
-  tertiary: {r: 0, g: 0, b: 0, a: 0}
-  sprite: {fileID: 7521386885644528821, guid: 837d5ef2fa9b045529943e2665eeaf45, type: 3}
+  possibleColors: []
+  sprite: {fileID: -3281081200465157483, guid: 837d5ef2fa9b045529943e2665eeaf45, type: 3}
   Name: Torso 08

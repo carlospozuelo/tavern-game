@@ -33,8 +33,6 @@ MonoBehaviour:
     back: {fileID: 7400000, guid: ced24b77ddd502d4c81f38d7730f8420, type: 2}
     left: {fileID: 7400000, guid: de53ec6d37122b342a4369fab16eac04, type: 2}
     right: {fileID: 7400000, guid: 6581ef2916fb5c14db403787039c63c0, type: 2}
-  primary: {r: 0, g: 0, b: 0, a: 0}
-  secondary: {r: 0, g: 0, b: 0, a: 0}
-  tertiary: {r: 0, g: 0, b: 0, a: 0}
-  sprite: {fileID: -7779199448678080484, guid: 837d5ef2fa9b045529943e2665eeaf45, type: 3}
+  possibleColors: []
+  sprite: {fileID: 669916663797215844, guid: 837d5ef2fa9b045529943e2665eeaf45, type: 3}
   Name: Torso 06

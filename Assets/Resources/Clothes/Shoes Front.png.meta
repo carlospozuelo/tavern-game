@@ -117,10 +117,31 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Shoes Front_00x00
+      name: Shoes Front_00 PREVIEW
       rect:
         serializedVersion: 2
         x: 0
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shoes Front_00x00
+      rect:
+        serializedVersion: 2
+        x: 32
         y: 64
         width: 32
         height: 64
@@ -141,7 +162,7 @@ TextureImporter:
       name: Shoes Front_00x01
       rect:
         serializedVersion: 2
-        x: 32
+        x: 64
         y: 64
         width: 32
         height: 64
@@ -162,7 +183,7 @@ TextureImporter:
       name: Shoes Front_00x02
       rect:
         serializedVersion: 2
-        x: 64
+        x: 96
         y: 64
         width: 32
         height: 64
@@ -183,7 +204,7 @@ TextureImporter:
       name: Shoes Front_00x03
       rect:
         serializedVersion: 2
-        x: 96
+        x: 128
         y: 64
         width: 32
         height: 64
@@ -201,13 +222,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Shoes Front_01x00
+      name: Shoes Front_01 PREVIEW
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 32
         width: 32
-        height: 64
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -222,7 +243,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Shoes Front_01x01
+      name: Shoes Front_01x00
       rect:
         serializedVersion: 2
         x: 32
@@ -243,7 +264,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Shoes Front_01x02
+      name: Shoes Front_01x01
       rect:
         serializedVersion: 2
         x: 64
@@ -264,10 +285,31 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Shoes Front_01x03
+      name: Shoes Front_01x02
       rect:
         serializedVersion: 2
         x: 96
+        y: 0
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shoes Front_01x03
+      rect:
+        serializedVersion: 2
+        x: 128
         y: 0
         width: 32
         height: 64
@@ -296,13 +338,17 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Shoes Front_00x00: 0
+      Shoes Front_00x-01: 0
       Shoes Front_0x1: -6739902955918219947
+      Shoes Front_00 PREVIEW: 0
+      Shoes Front_01 PREVIEW: 0
       Shoes Front_0x0: 3758478830118821381
       Shoes Front_00x03: 0
       Shoes Front_01x02: 0
       Shoes Front_00x01: 0
       Shoes Front_01x01: 0
       Shoes Front_01x00: 0
+      Shoes Front_01x-01: 0
       Shoes Front_0x3: 5484795098658947123
       Shoes Front_0x2: -8537710896040961569
       Shoes Front_00x02: 0

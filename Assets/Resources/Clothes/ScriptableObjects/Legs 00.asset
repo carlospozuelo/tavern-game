@@ -33,8 +33,6 @@ MonoBehaviour:
     back: {fileID: 7400000, guid: 917be8f580853477f8ddd1c5a91c55a5, type: 2}
     left: {fileID: 7400000, guid: 09b003660a89e41798d9caf0982bc4db, type: 2}
     right: {fileID: 7400000, guid: 2c729bd7e82884fa9b6f5a659b3d8726, type: 2}
-  primary: {r: 0, g: 0, b: 0, a: 0}
-  secondary: {r: 0, g: 0, b: 0, a: 0}
-  tertiary: {r: 0, g: 0, b: 0, a: 0}
+  possibleColors: []
   sprite: {fileID: 0, guid: 7bcfe757069f14035806ec6369ea6aa7, type: 3}
   Name: Legs 00

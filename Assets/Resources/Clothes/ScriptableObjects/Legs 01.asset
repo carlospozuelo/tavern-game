@@ -33,8 +33,6 @@ MonoBehaviour:
     back: {fileID: 7400000, guid: 72d0ad7d626256b41882cffdbbec634b, type: 2}
     left: {fileID: 7400000, guid: f3f9727b31a279f4f8f5f6031d5c507f, type: 2}
     right: {fileID: 7400000, guid: dfec51afc09b1584cbcb979fa939b070, type: 2}
-  primary: {r: 0, g: 0, b: 0, a: 0}
-  secondary: {r: 0, g: 0, b: 0, a: 0}
-  tertiary: {r: 0, g: 0, b: 0, a: 0}
-  sprite: {fileID: -618861517843814449, guid: 7bcfe757069f14035806ec6369ea6aa7, type: 3}
+  possibleColors: []
+  sprite: {fileID: -4603922372540183922, guid: 7bcfe757069f14035806ec6369ea6aa7, type: 3}
   Name: Legs 01

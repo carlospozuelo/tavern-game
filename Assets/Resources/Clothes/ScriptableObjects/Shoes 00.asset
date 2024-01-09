@@ -33,8 +33,6 @@ MonoBehaviour:
     back: {fileID: 7400000, guid: 55417d558e7d94639b43515a003aff8c, type: 2}
     left: {fileID: 7400000, guid: 2a67fb3a3c1274e87ba48c00efd53ee1, type: 2}
     right: {fileID: 7400000, guid: 39cd9f779b4f14014a2392081a98f75e, type: 2}
-  primary: {r: 0, g: 0, b: 0, a: 0}
-  secondary: {r: 0, g: 0, b: 0, a: 0}
-  tertiary: {r: 0, g: 0, b: 0, a: 0}
+  possibleColors: []
   sprite: {fileID: 0, guid: 0517b7922124046b1a46aa3655bc3737, type: 3}
   Name: Shoes 00
