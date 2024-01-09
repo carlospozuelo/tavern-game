@@ -36,4 +36,5 @@ MonoBehaviour:
   primary: {r: 0, g: 0, b: 0, a: 0}
   secondary: {r: 0, g: 0, b: 0, a: 0}
   tertiary: {r: 0, g: 0, b: 0, a: 0}
+  sprite: {fileID: 0, guid: 837d5ef2fa9b045529943e2665eeaf45, type: 3}
   Name: Torso 00

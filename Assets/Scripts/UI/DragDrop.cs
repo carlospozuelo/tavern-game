@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler, IDropHandler
+public class DragDrop : MonoBehaviour, IPointerDownHandler
 {
     private RectTransform rectTransform;
 
@@ -20,33 +20,32 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     private int index;
     [SerializeField]
     private Image targetImage;
+    [SerializeField]
+    private bool draggable, isForClothing;
 
-    private bool draggable;
+    [SerializeField]
+    private ClothingItem.ClothingType type;
 
 
-    public void OnDrop(PointerEventData eventData)
+    private void Start()
     {
-        if (eventData.pointerDrag != null)
-        {
-            if (DraggableIcon.GetDraggable() != null && DraggableIcon.GetDraggable().draggable)
-            {
-                targetImage.sprite = DraggableIcon.GetSprite();
-                targetImage.enabled = true;
-                draggable = true;
-                // Target is inventory
-                if (isInventory)
-                {
-                    PlayerInventory.instance.SetInventory(index, DraggableIcon.GetDraggable().GetItem());
-                }
-                else if (isHotbar)
-                {
-                    PlayerInventory.instance.SetHotBar(index, DraggableIcon.GetDraggable().GetItem());
-                }
+        canvas = BookMenuUI.GetCanvas();
+        if (target == null) { target = gameObject; }
+        if (targetImage == null) { targetImage = target.GetComponent<Image>(); }
+        rectTransform = target.GetComponent<RectTransform>();
 
-                
-                DraggableIcon.GetDraggable().DestroyItem();
-                DraggableIcon.HideImage();
-            }
+        SetDraggable();
+    }
+
+    private void SetDraggable()
+    {
+        if (isInventory)
+        {
+            draggable = PlayerInventory.instance.inventory[index] != null;
+        }
+        else if (isHotbar)
+        {
+            draggable = PlayerInventory.instance.hotBar[index] != null;
         }
     }
 
@@ -60,6 +59,13 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
         if (isHotbar)
         {
             return PlayerInventory.instance.hotBar[index];
+        }
+
+        if (isForClothing)
+        {
+            var item = PlayerInventory.GetWornItem(type);
+
+            if (item != null) return item.gameObject;
         }
 
         return null;
@@ -82,60 +88,107 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     public void DestroyItem()
     {
         draggable = false;
+        targetImage.enabled = false;
 
-        if (isInventory)
-        {
-            PlayerInventory.instance.SetInventory(index, null);
-        } else if (isHotbar)
-        {
-            PlayerInventory.instance.SetHotBar(index, null);
-        }
+        SlotItem(null);
     }
 
-    private void Start()
-    { 
-        canvas = BookMenuUI.GetCanvas();
-        if (target == null) { target = gameObject; }
-        if (targetImage == null) { targetImage = target.GetComponent<Image>();  }
-        rectTransform = target.GetComponent<RectTransform>();
+    private void SlotItem(GameObject item)
+    {
+
+        if (isForClothing)
+        {
+            item.GetComponent<Clothing>().Wear();
+        }
 
         if (isInventory)
         {
-            draggable = PlayerInventory.instance.inventory[index] != null;
+            PlayerInventory.instance.SetInventory(index, item);//DraggableIcon.GetDraggable().GetItem());
         }
         else if (isHotbar)
         {
-            draggable = PlayerInventory.instance.hotBar[index] != null;
+            PlayerInventory.instance.SetHotBar(index, item);//DraggableIcon.GetDraggable().GetItem());
         }
+
+        if (item != null)
+        {
+            draggable = true;
+        }
+
+        UpdateImage();
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        if (draggable)
-        {
-            targetImage.enabled = false;
-            DraggableIcon.DisplayImage(targetImage.sprite, rectTransform.position, this);
-        }
-    }
-
-    public void OnDrag(PointerEventData eventData)
-    {
-        if (draggable)
-        {
-            DraggableIcon.MoveImage(eventData.delta / canvas.scaleFactor);
-        }
-    }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        if (draggable)
-        {
-            targetImage.enabled = true;
-            DraggableIcon.HideImage();
-        }
-    }
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        SetDraggable();
+
+        if (!BookMenuUI.IsOpen()) { return; }
+        //if (!isForClothing)
+        //{
+        if (GetItem() != null && DraggableIcon.GetItemHeld() != null)
+        {
+            // Swap
+
+            if (isForClothing)
+            {
+                // Can only be swapped by a clothing item of the same type
+                if (!DraggableIcon.GetItemHeld().TryGetComponent(out Clothing c) || c.GetClothingItem().type != type)
+                {
+                    return;
+                }
+            }
+
+            GameObject temp = GetItem();
+            Sprite s = targetImage.sprite;
+
+            SlotItem(DraggableIcon.GetItemHeld());
+
+            DraggableIcon.DisplayImage(s, this, temp);
+        }
+        else
+        {
+            if (draggable)
+            {
+                // Stacks would be implemented here
+                bool canBePickedUp = true;
+                if (isForClothing) {
+                    canBePickedUp = type != ClothingItem.ClothingType.Legs && type != ClothingItem.ClothingType.Torso;
+                    // Torso and leg clothing can't be removed
+                }
+
+                if (canBePickedUp)
+                {
+                    DraggableIcon.DisplayImage(targetImage.sprite, this, GetItem());
+                    // Remove item from the inventory
+                    DestroyItem();
+
+                    if (isForClothing)
+                    {
+                        // TODO: Make player stop wearing clothes
+                        // ClothingController.Wear()
+                    }
+                }
+            }
+            else
+            {
+                GameObject itemHeld = DraggableIcon.GetItemHeld();
+                if (itemHeld != null)
+                {
+                    if (isForClothing)
+                    {
+                        // Can only be swapped by a clothing item of the same type
+                        if (!DraggableIcon.GetItemHeld().TryGetComponent(out Clothing c) || c.GetClothingItem().type != type)
+                        {
+                            return;
+                        }
+                    }
+
+                    SlotItem(itemHeld);
+                    DraggableIcon.HideImage(false);
+                }
+            }
+        }
+        //}
     }
 }

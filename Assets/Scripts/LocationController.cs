@@ -12,10 +12,19 @@ public class LocationController : MonoBehaviour
 
     private static LocationController instance;
 
+    [SerializeField]
+    private Transform[] allDroppableParents;
+    private Dictionary<string, Transform> droppableDictionary;
+
     // Could be changed via savefile in the future
     public string currentLocation = "Tavern";
 
     public static string GetCurrentLocation() { return instance.currentLocation; }
+
+    public static Transform GetCurrentLocationDroppable()
+    {
+        return instance.droppableDictionary[GetCurrentLocation()];
+    }
 
     private void Awake()
     {
@@ -42,6 +51,14 @@ public class LocationController : MonoBehaviour
             keypair.Value.SetActive(false);
         }
 
+        if (name.Equals("Tavern"))
+        {
+            FurniturePreview.instance.EnablePreview();
+        } else
+        {
+            FurniturePreview.instance.HidePreview();
+        }
+
         instance.dictionary[name].SetActive(true);
         instance.currentLocation = name;
         
@@ -56,6 +73,13 @@ public class LocationController : MonoBehaviour
         {
             dictionary[item.name] = item;
         }
+
+        droppableDictionary = new Dictionary<string, Transform>();
+
+        foreach (Transform t in allDroppableParents)
+        {
+            droppableDictionary[t.parent.name] = t;
+        } 
 
         ChangeLocation(currentLocation);
     }

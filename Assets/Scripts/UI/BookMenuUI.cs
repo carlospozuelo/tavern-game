@@ -13,7 +13,7 @@ public class BookMenuUI : MonoBehaviour
     private Canvas canvas;
 
     [SerializeField]
-    private DragDrop[] slots;
+    private DragDrop[] slots, clothingSlots;
 
     public static Canvas GetCanvas()
     {
@@ -57,10 +57,13 @@ public class BookMenuUI : MonoBehaviour
         PlayerInventory.instance.Disable();
 
         // Update all slots
-        foreach(var slot in instance.slots)
-        {
-            slot.UpdateImage();
-        }
+        UpdateImage(instance.slots);
+        UpdateImage(instance.clothingSlots);
+    }
+
+    private static void UpdateImage(DragDrop[] list)
+    {
+        foreach (var d in list) { d.UpdateImage(); }
     }
 
     private static void Close()
@@ -79,4 +82,6 @@ public class BookMenuUI : MonoBehaviour
 
         DraggableIcon.HideImage();
     }
+
+    public static bool IsOpen() { return instance.isOpen; }
 }

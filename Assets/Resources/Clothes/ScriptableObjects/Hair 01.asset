@@ -36,4 +36,5 @@ MonoBehaviour:
   primary: {r: 0, g: 0, b: 0, a: 0}
   secondary: {r: 0, g: 0, b: 0, a: 0}
   tertiary: {r: 0, g: 0, b: 0, a: 0}
+  sprite: {fileID: 7654262832379748073, guid: 039d2ac5f7f0f4bba8270544968a4993, type: 3}
   Name: Hair 01

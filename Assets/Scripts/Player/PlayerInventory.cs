@@ -4,92 +4,13 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine;
 
-[Serializable]
-public class InventoryData
-{
-    [JsonProperty]
-    private string[] inventory, hotbar;
-
-    public InventoryData()
-    {
-        inventory = new string[20];
-        hotbar = new string[10];
-    }
-
-    public InventoryData(GameObject[] inventory, GameObject[] hotbar)
-    {
-        this.inventory = new string[inventory.Length];
-        this.hotbar = new string[hotbar.Length];
-
-        for (int i = 0; i < inventory.Length; i++)
-        {
-            if (inventory[i] != null)
-            {
-                GameObject g = inventory[i];
-                if (g.TryGetComponent(out Item item))
-                {
-                    this.inventory[i] = item.GetName();
-                }
-                else
-                {
-                    Debug.LogError("Trying to read an item out of " + g + ", but it was not found. Inventory should only contain Items.");
-                }
-            }
-        }
-
-        for(int i = 0; i < hotbar.Length; i++)
-        {
-            if (hotbar[i] != null)
-            {
-                GameObject g = hotbar[i];
-                if (g.TryGetComponent(out Item item))
-                {
-                    this.hotbar[i] = item.GetName();
-                }
-                else
-                {
-                    Debug.LogError("Trying to read an item out of " + g + ", but it was not found. Hotbar should only contain Items.");
-                }
-            }
-        }
-    }
-
-    public GameObject[] GetInventory()
-    {
-        GameObject[] inventory = new GameObject[this.inventory.Length];
-
-        for (int i = 0; i < inventory.Length; i++)
-        {
-            if (!string.IsNullOrEmpty(this.inventory[i])) {
-                inventory[i] = PlayerInventory.instance.GetItem(this.inventory[i]);
-            }
-        }
-
-        return inventory;
-    }
-
-    public GameObject[] GetHotbar()
-    {
-        GameObject[] hb = new GameObject[this.hotbar.Length];
-
-        for (int i = 0; i < hotbar.Length; i++)
-        {
-            if (!string.IsNullOrEmpty(this.hotbar[i]))
-            {
-                hb[i] = PlayerInventory.instance.GetItem(this.hotbar[i]);
-            }
-        }
-
-        return hb;
-    }
-}
-
-
 public class PlayerInventory : MonoBehaviour
 {
 
     public GameObject[] hotBar;
     public GameObject[] inventory;
+
+    private Dictionary<ClothingItem.ClothingType, Clothing> clothingDictionary;
 
     [SerializeField]
     // This does NOT include furniture. Furniture are pulled from the Furniture controller.
@@ -102,9 +23,47 @@ public class PlayerInventory : MonoBehaviour
 
     public static PlayerInventory instance;
 
+    private int gold;
+
     public GameObject GetCurrentItem()
     {
         return hotBar[currentItem];
+    }
+
+    public static void Wear(Clothing clothing)
+    {
+        instance.clothingDictionary[clothing.GetClothingItem().type] = clothing;
+    }
+
+    public static Clothing GetWornItem(ClothingItem.ClothingType key)
+    {
+        if (instance.clothingDictionary.TryGetValue(key, out var value)) { return value; } return null;
+    }
+
+
+    public static bool StoreAnywhere(Item item)
+    {
+
+        for (int i = 0; i < instance.hotBar.Length; i++)
+        {
+            if (instance.hotBar[(i + 1) % 10] == null)
+            {
+                instance.SetHotBar((i + 1) % 10, item.GetOriginalPrefab());
+                if ((i + 1) % 10 == instance.currentItem) { SelectItem(); }
+                return true;
+            }
+        }
+
+        for (int i = 0; i < instance.inventory.Length; i++)
+        {
+            if (instance.inventory[i] == null)
+            {
+                instance.SetInventory(i, item.GetOriginalPrefab());
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public GameObject GetItem(string name)
@@ -123,6 +82,9 @@ public class PlayerInventory : MonoBehaviour
     public void Enable() { listening = true; }
     public void Disable() { listening = false; }
 
+    public static int GetGold() { return instance.gold; }
+    public static void ModifyGold(int amount) { instance.gold += amount; InventoryUI.SetGoldUI(instance.gold); }
+
     public void SetCurrentItem(GameObject g)
     {
         if (g != null || hotBar[currentItem] != null)
@@ -130,7 +92,7 @@ public class PlayerInventory : MonoBehaviour
             hotBar[currentItem] = g;
 
             SelectItem(currentItem);
-            
+
         } else
         {
             Debug.LogWarning("Tried to override item (" + currentItem + ")!");
@@ -163,9 +125,20 @@ public class PlayerInventory : MonoBehaviour
         }
     }
 
+    private void InitializeClothing() {
+        clothingDictionary = new Dictionary<ClothingItem.ClothingType, Clothing>();
+
+        Dictionary<ClothingItem.ClothingType, GameObject> objects = ClothingController.GenerateClothingObjects();
+        clothingDictionary[ClothingItem.ClothingType.Legs] = objects[ClothingItem.ClothingType.Legs].GetComponent<Clothing>();
+        clothingDictionary[ClothingItem.ClothingType.Shoes] = objects[ClothingItem.ClothingType.Shoes].GetComponent<Clothing>();
+        clothingDictionary[ClothingItem.ClothingType.Torso] = objects[ClothingItem.ClothingType.Torso].GetComponent<Clothing>();
+    }
+
     private void Start()
     {
         InitializeDictionary();
+        InitializeClothing();
+
         Deserialize();
         for (int i = 0; i < hotBar.Length; i++)
         {
@@ -204,7 +177,7 @@ public class PlayerInventory : MonoBehaviour
     public void SetHotBar(int slot, GameObject item)
     {
         hotBar[slot] = item;
-        InventoryUI.instance.UpdateUI(slot);
+        InventoryUI.instance.UpdateSpriteHotbar(slot);
     }
 
     public void SetInventory(int slot, GameObject item)
@@ -245,14 +218,20 @@ public class PlayerInventory : MonoBehaviour
         KeyCode.Alpha8,
         KeyCode.Alpha9,
     };
+
+    private bool wheelCooldown;
+
+    private IEnumerator WheelCooldown() { wheelCooldown = true; yield return new WaitForSeconds(.075f); wheelCooldown = false; }
+
     public void Update()
     {
         if (listening)
         {
             float wheel = Input.GetAxis("Mouse ScrollWheel");
-            if (wheel != 0)
+            if (wheel != 0 && !wheelCooldown)
             {
-                if (wheel > 0) { PreviousItem(); } else { NextItem(); }
+                if (wheel > 0f) { PreviousItem(); } else { NextItem(); }
+                StartCoroutine(WheelCooldown());
             }
 
             for (int i = 0; i < keyCodes.Length; i++)
@@ -424,7 +403,7 @@ public class PlayerInventory : MonoBehaviour
 
     public InventoryData Serialize()
     {
-        return new InventoryData(instance.inventory, instance.hotBar);
+        return new InventoryData(instance.inventory, instance.hotBar, instance.gold);
     }
 
     public void Deserialize()
@@ -439,6 +418,7 @@ public class PlayerInventory : MonoBehaviour
         {
             inventory = d.GetInventory();
             hotBar = d.GetHotbar();
+            ModifyGold(d.GetGold());
 
             for (int i = 0; i < hotBar.Length; i++)
             {

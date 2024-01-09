@@ -36,6 +36,11 @@ public class FurniturePreview : MonoBehaviour
         spriteRenderer.enabled = true;
     }
 
+    public void HidePreview()
+    {
+        spriteRenderer.enabled = false;
+    }
+
     private Coroutine previewCoroutine;
     public void DisablePreview()
     {

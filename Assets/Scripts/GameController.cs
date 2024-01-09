@@ -24,6 +24,9 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private Camera mainCamera;
 
+    [SerializeField]
+    private GameObject droppedItemPrefab;
+
     public Vector3 WorldPosition(Vector3 p)
     {
         return mainCamera.ScreenToWorldPoint(p);
@@ -32,6 +35,15 @@ public class GameController : MonoBehaviour
     public Vector3 WorldMousePosition()
     {
         return WorldPosition(Input.mousePosition);
+    }
+
+    public Vector3 ScreenMousePosition()
+    {
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(BookMenuUI.GetCanvas().GetComponent<RectTransform>(), WorldMousePosition(), mainCamera, out Vector2 localPos)) {
+            return localPos;
+        }
+
+        return Vector3.zero;
     }
 
     [SerializeField]
@@ -43,4 +55,12 @@ public class GameController : MonoBehaviour
     }
 
     public float maxDistanceToPlaceItems = 5;
+
+    public static void DropItem(Item toBeDropped)
+    {
+        GameObject g = Instantiate(instance.droppedItemPrefab, PlayerMovement.GetPosition(), Quaternion.identity, LocationController.GetCurrentLocationDroppable());
+
+        DroppedItem d = g.GetComponent<DroppedItem>();
+        d.Initialize(toBeDropped);
+    }
 }

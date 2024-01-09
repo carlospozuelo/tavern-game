@@ -17,6 +17,8 @@ public class Bench : MonoBehaviour, Interactuable
 
     public Vector2 direction;
 
+    public Furniture GetFurniture() { return furniture; }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;

@@ -45,6 +45,11 @@ public class PlayerMovement : MonoBehaviour
         renderers = GetComponentsInChildren<SpriteRenderer>();
     }
 
+    public static Vector3 GetPosition()
+    {
+        return instance.rb.position;
+    }
+
     public static void Sit(Vector2 position, Bench bench)
     {
         ToggleColliders(false);
@@ -57,6 +62,9 @@ public class PlayerMovement : MonoBehaviour
         instance.bench = bench;
         instance.Stop();
         ToggleMasking(SpriteMaskInteraction.VisibleOutsideMask);
+
+        SpriteMask[] masks = bench.GetFurniture().gameObject.GetComponentsInChildren<SpriteMask>();
+        foreach (var mask in masks) { mask.enabled = true; }
     }
 
     public static void ToggleColliders(bool value)
@@ -79,6 +87,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (bench.GetUp(gameObject, h, v))
         {
+            SpriteMask[] masks = bench.GetFurniture().gameObject.GetComponentsInChildren<SpriteMask>();
+            foreach (var mask in masks) { mask.enabled = false; }
+
             bench = null;
             sitting = false;
             animator.SetBool("Sitting", false);
@@ -105,14 +116,18 @@ public class PlayerMovement : MonoBehaviour
                 animator.SetFloat("AnimMoveY", v);
 
                 rb.velocity = normalized * speed;
-            } else
+                InventoryUI.ToggleGold(.2f);
+            }
+            else
             {
                 GetUp(h, v);
             }
         } else
         {
+            InventoryUI.ToggleGold(1f);
             Stop();
         }
+
     }
 
     private void Stop()

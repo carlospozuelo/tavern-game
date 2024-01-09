@@ -44,7 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd614b9d9a20546ddac9df57e3801674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testArray: []
   animator: {fileID: 0}
   body: {fileID: 0}
   arms: {fileID: 0}
@@ -54,3 +53,6 @@ MonoBehaviour:
   legs: {fileID: 0}
   shoes: {fileID: 0}
   greyTint: {r: 0.79607844, g: 0.79607844, b: 0.79607844, a: 1}
+  playerName: 
+  pronouns: 
+  clothingPrefab: {fileID: 8958008904867222194, guid: 5d7160f8463174980be2d28092113476, type: 3}

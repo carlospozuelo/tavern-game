@@ -154,7 +154,6 @@ GameObject:
   - component: {fileID: 7095797780511728411}
   - component: {fileID: 7095797780511728404}
   - component: {fileID: 4300351203634306632}
-  - component: {fileID: 4423483373379594654}
   - component: {fileID: 6779384553534154873}
   - component: {fileID: 8928902373192056602}
   m_Layer: 0
@@ -283,36 +282,6 @@ MonoBehaviour:
   itemsOnTop: []
   onTopOf: {fileID: 0}
   blocks: []
---- !u!114 &4423483373379594654
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7095797780511728409}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
-  m_ComponentVersion: 1
-  m_HasRenderer: 1
-  m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
-  m_SelfShadows: 0
-  m_ApplyToSortingLayers: 61ae9d8f
-  m_ShapePath:
-  - {x: 0.07476108, y: -0.3879301, z: 0}
-  - {x: 0.06569523, y: -0.09912058, z: 0}
-  - {x: 1.0457693, y: -0.10832338, z: 0}
-  - {x: 1.975993, y: -0.11315255, z: 0}
-  - {x: 1.9484657, y: -0.64421856, z: 0}
-  - {x: 1.4892204, y: -0.6247109, z: 0}
-  - {x: 1.0211606, y: -0.4089486, z: 0}
-  m_ShapePathHash: -1551853145
-  m_Mesh: {fileID: 0}
-  m_InstanceId: 616554
 --- !u!68 &6779384553534154873
 EdgeCollider2D:
   m_ObjectHideFlags: 0
