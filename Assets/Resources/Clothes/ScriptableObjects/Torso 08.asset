@@ -34,5 +34,5 @@ MonoBehaviour:
     left: {fileID: 7400000, guid: 561681dc76619aa4687a47e8b1272f17, type: 2}
     right: {fileID: 7400000, guid: c78c3d3b5bf1f584ca595a599e45ac75, type: 2}
   possibleColors: []
-  sprite: {fileID: -3281081200465157483, guid: 837d5ef2fa9b045529943e2665eeaf45, type: 3}
+  sprite: {fileID: -2591105977314725133, guid: 837d5ef2fa9b045529943e2665eeaf45, type: 3}
   Name: Torso 08

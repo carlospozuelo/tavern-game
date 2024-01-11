@@ -117,15 +117,15 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Trees_0
+      name: Trees 0 base
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 128
-        height: 128
-      alignment: 9
-      pivot: {x: 0.50123185, y: 0.1268786}
+        x: 38
+        y: 128
+        width: 52
+        height: 23
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -138,15 +138,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Trees_1
+      name: Trees 1 base
       rect:
         serializedVersion: 2
-        x: 128
-        y: 0
-        width: 128
-        height: 128
-      alignment: 9
-      pivot: {x: 0.62066376, y: 0.15837105}
+        x: 139
+        y: 128
+        width: 112
+        height: 30
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -159,15 +159,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Trees_2
+      name: Trees 2 root
       rect:
         serializedVersion: 2
-        x: 256
-        y: 0
-        width: 128
-        height: 128
-      alignment: 9
-      pivot: {x: 0.50350165, y: 0.120098025}
+        x: 295
+        y: 128
+        width: 56
+        height: 22
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -175,6 +175,132 @@ TextureImporter:
       bones: []
       spriteID: b19fe3fd7aae28649a8b6e93e01859f6
       internalID: 153342323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trees 0 leaves
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 27
+        width: 60
+        height: 92
+      alignment: 9
+      pivot: {x: 0.5, y: -0.2588513}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00857953ac7d77145ab7b79c74d62751
+      internalID: 1562954876
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trees 1 leaves
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 37
+        width: 121
+        height: 85
+      alignment: 9
+      pivot: {x: 0.5, y: -0.4081164}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a2f397b68b3b56448cd4e3b38ae3caa
+      internalID: -214990124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trees 2 leaves
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 21
+        width: 76
+        height: 104
+      alignment: 9
+      pivot: {x: 0.5, y: -0.2252243}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a605e8faf7930c4c9597ddbaa262a8d
+      internalID: 1695923489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trees 1 trunk
+      rect:
+        serializedVersion: 2
+        x: 139
+        y: 158
+        width: 112
+        height: 73
+      alignment: 9
+      pivot: {x: 0.5, y: -0.4081164}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 17fd2e3ff912a9346897a3acfecf9eff
+      internalID: 657579619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trees 0 trunk
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 151
+        width: 52
+        height: 88
+      alignment: 9
+      pivot: {x: 0.5, y: -0.2588513}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: feb3e5bf8833fef46978a6f32111335b
+      internalID: 1175430775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trees 2 trunk
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 150
+        width: 56
+        height: 99
+      alignment: 9
+      pivot: {x: 0.5, y: -0.2252243}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f82bd1e1189decc4e8093f715701e374
+      internalID: 720282801
       vertices: []
       indices: 
       edges: []
@@ -190,9 +316,15 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Trees_2: 153342323
-      Trees_1: 1260033086
-      Trees_0: -1501684098
+      Trees 2 leaves: 1695923489
+      Trees 0 trunk: 1175430775
+      Trees 1 base: 1260033086
+      Trees 2 trunk: 720282801
+      Trees 0 leaves: 1562954876
+      Trees 2 root: 153342323
+      Trees 0 base: -1501684098
+      Trees 1 trunk: 657579619
+      Trees 1 leaves: -214990124
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
