@@ -49,7 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 1978897400823887130}
   detectionRadius: 2.5
-  baseSpeed: 0.5
+  baseSpeed: 2
 --- !u!95 &429021833440435864
 Animator:
   serializedVersion: 5

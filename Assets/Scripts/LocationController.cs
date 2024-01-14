@@ -61,6 +61,9 @@ public class LocationController : MonoBehaviour
 
         instance.dictionary[name].SetActive(true);
         instance.currentLocation = name;
+
+        // Select the current item
+        PlayerInventory.instance.SelectItem(PlayerInventory.instance.currentItem);
         
     }
 

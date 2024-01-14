@@ -12,16 +12,16 @@ public class DroppedItem : MonoBehaviour
 
     private bool justSpawned = true;
 
-    public void Initialize(Item item)
+    public void Initialize(Item item, bool block = true)
     {
         name = item.GetName();
+        justSpawned = block;
 
         this.item = item;
         spriteRenderer.sprite = item.GetSprite();
 
         float width = item.GetSprite().rect.width;
         float height = item.GetSprite().rect.height;
-        justSpawned = true;
         spriteRenderer.transform.localScale = new Vector3(32 / width, 32 / height);
     }
 

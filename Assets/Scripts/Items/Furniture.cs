@@ -101,6 +101,8 @@ public class Furniture : MonoBehaviour, Item, IFurniture
 
     public void SelectItem()
     {
+        if (!LocationController.GetCurrentLocation().Equals("Tavern")) { return; }
+
         FurniturePreview.instance.EnablePreview(this, transform.localScale);
     }
 

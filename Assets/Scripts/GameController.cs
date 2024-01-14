@@ -58,9 +58,14 @@ public class GameController : MonoBehaviour
 
     public static void DropItem(Item toBeDropped)
     {
-        GameObject g = Instantiate(instance.droppedItemPrefab, PlayerMovement.GetPosition(), Quaternion.identity, LocationController.GetCurrentLocationDroppable());
+        DropItem(toBeDropped, PlayerMovement.GetPosition(), true);
+    }
+
+    public static void DropItem(Item toBeDropped, Vector3 position, bool block)
+    {
+        GameObject g = Instantiate(instance.droppedItemPrefab, position, Quaternion.identity, LocationController.GetCurrentLocationDroppable());
 
         DroppedItem d = g.GetComponent<DroppedItem>();
-        d.Initialize(toBeDropped);
+        d.Initialize(toBeDropped, block);
     }
 }
