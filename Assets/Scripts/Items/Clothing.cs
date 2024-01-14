@@ -66,8 +66,9 @@ public class Clothing : MonoBehaviour, Item
         // Nothing happens if selected
     }
 
-    public void UseItem()
+    public bool UseItem()
     {
         // Can't be used
+        return false;
     }
 }

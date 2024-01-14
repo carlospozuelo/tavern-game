@@ -10,7 +10,7 @@ public interface Item
 
     public string GetName();
 
-    public void UseItem();
+    public bool UseItem();
 
     public void SelectItem();
     public void CancelSelectItem();

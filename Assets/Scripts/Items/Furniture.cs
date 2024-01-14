@@ -69,11 +69,11 @@ public class Furniture : MonoBehaviour, Item, IFurniture
 
     public void AddItemOnTop(Furniture item) { itemsOnTop.Add(item.gameObject); item.onTopOf = this; }
 
-    public void UseItem()
+    public bool UseItem()
     {
         // Place the item on the grid, using the mouse position.
         // Placeholder
-        if (!LocationController.GetCurrentLocation().Equals("Tavern")) { return; }
+        if (!LocationController.GetCurrentLocation().Equals("Tavern")) { return true; }
         Vector3 worldPosition = GameController.instance.WorldPosition(Input.mousePosition);
 
         if (CanBePlacedOnATable(worldPosition, out Vector3 tablePosition, out Furniture table))
@@ -86,6 +86,8 @@ public class Furniture : MonoBehaviour, Item, IFurniture
             Vector2 pos = GridManager.instance.SnapPosition(worldPosition);
             PlaceItem(pos);
         }
+
+        return true;
     }
 
     private GameObject PlaceItem(Vector3 p)
@@ -263,13 +265,23 @@ public class Furniture : MonoBehaviour, Item, IFurniture
     {
         if (LocationController.GetCurrentLocation().Equals("Tavern") && isActiveAndEnabled)
         {
-            if (PlayerInventory.instance.GetCurrentItem() == null)
+            if (GameController.instance.DistanceToPlayer(transform.position + new Vector3(size.x, -size.y) / 2) < GameController.instance.maxDistanceToPlaceItems)
             {
-                if (GameController.instance.DistanceToPlayer(transform.position + new Vector3(size.x, -size.y) / 2) < GameController.instance.maxDistanceToPlaceItems)
+                if (PlayerInventory.instance.GetCurrentItem() == null)
                 {
                     PlayerInventory.instance.SetCurrentItem(originalPrefab);
                     TavernController.RemoveFurniture(gameObject);
                     InventoryUI.instance.UpdateSpriteHotbar(this, PlayerInventory.instance.currentItem);
+                    if (onTopOf != null)
+                    {
+                        onTopOf.itemsOnTop.Remove(gameObject);
+                    }
+
+                    Destroy(gameObject);
+                }
+                else if (PlayerInventory.StoreAnywhere(originalPrefab))
+                {
+                    TavernController.RemoveFurniture(gameObject);
 
                     if (onTopOf != null)
                     {

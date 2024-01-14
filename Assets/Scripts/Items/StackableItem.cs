@@ -36,7 +36,8 @@ public class StackableItem : MonoBehaviour, Item
     {
     }
 
-    public void UseItem()
+    public bool UseItem()
     {
+        return false;
     }
 }

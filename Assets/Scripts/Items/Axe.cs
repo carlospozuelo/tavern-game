@@ -69,7 +69,7 @@ public class Axe : MonoBehaviour, Item
         }
     }
 
-    void Item.UseItem()
+    bool Item.UseItem()
     {
         Vector2 pos = GameController.instance.WorldMousePosition();
         Vector2 playerPos = PlayerMovement.GetPosition();
@@ -91,6 +91,7 @@ public class Axe : MonoBehaviour, Item
             }
         }
 
+        return true;
 
         // TODO: Trigger hitting animation
 
