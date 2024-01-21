@@ -192,6 +192,8 @@ public class GenerateAnimations : MonoBehaviour
             GenerateRunAnimation(meta, name, index, TORSO);
             GenerateIdleAnimation(meta[4], name, index, TORSO, SIT);
             GenerateIdleAnimation(meta[3], name, index, TORSO, HOLD);
+
+            GenerateBonkAnimation(meta, name, index, TORSO);
         }
 
         if (name.Contains(LEGS))
@@ -220,6 +222,44 @@ public class GenerateAnimations : MonoBehaviour
             GenerateBlinkAnimation(meta[2], meta[3], name, index, FACES, SIT);
         }
     }
+
+    private static void GenerateBonkAnimation(List<Sprite> meta, string name, int index, string path)
+    {
+        ObjectReferenceKeyframe[] spriteKeyFrames = new ObjectReferenceKeyframe[4];
+
+        Debug.Log("printing sprites:");
+        foreach (Sprite sprite in meta) { 
+            print(sprite);
+        }
+
+        float interval = 10f / 60f;
+
+        spriteKeyFrames[0] = new ObjectReferenceKeyframe();
+        spriteKeyFrames[0].time = 0;
+        spriteKeyFrames[0].value = meta[5];
+
+        spriteKeyFrames[1] = new ObjectReferenceKeyframe();
+        spriteKeyFrames[1].time = interval * 1;
+        spriteKeyFrames[1].value = meta[6];
+
+        int adjust = 0;
+        if (name.Contains("Back"))
+        {
+            adjust = -1;
+        }
+
+        spriteKeyFrames[2] = new ObjectReferenceKeyframe();
+        spriteKeyFrames[2].time = interval * 2;
+        spriteKeyFrames[2].value = meta[7 + adjust];
+
+        spriteKeyFrames[3] = new ObjectReferenceKeyframe();
+        spriteKeyFrames[3].time = interval * 2 + interval / 2;
+        spriteKeyFrames[3].value = meta[7 + adjust];
+
+
+        GenerateGenericAnimation(name, index, path, "bonk", spriteKeyFrames);
+    }
+
 
 
     private static void GenerateGenericAnimation(string name, int index, string path, string anim, ObjectReferenceKeyframe[] spriteKeyFrames)

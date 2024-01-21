@@ -33,6 +33,11 @@ MonoBehaviour:
     back: {fileID: 7400000, guid: 8189c73da6a734487a6264195a110ad6, type: 2}
     left: {fileID: 7400000, guid: 2c966e5e62d8a4bec89e9af1b1ce8cc9, type: 2}
     right: {fileID: 7400000, guid: 53f93fd5d551247f6b14259d16db3123, type: 2}
+  bonk:
+    front: {fileID: 7400000, guid: aec7710c9aab35049b7ef197b6ac8876, type: 2}
+    back: {fileID: 7400000, guid: c456c2c799983544ba4bee52c8bd6a54, type: 2}
+    left: {fileID: 7400000, guid: a8dba7eb155207e48b18f5c695e87ca9, type: 2}
+    right: {fileID: 7400000, guid: 7e52db2ca44afcd46863c85fea248f24, type: 2}
   possibleColors: []
-  sprite: {fileID: -2199607151861001075, guid: 837d5ef2fa9b045529943e2665eeaf45, type: 3}
+  sprite: {fileID: -4236827663724044228, guid: 837d5ef2fa9b045529943e2665eeaf45, type: 3}
   Name: Torso 03

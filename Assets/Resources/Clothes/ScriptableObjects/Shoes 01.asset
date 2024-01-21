@@ -33,6 +33,11 @@ MonoBehaviour:
     back: {fileID: 7400000, guid: 8aef81feb3591494c983749bc6dcbb16, type: 2}
     left: {fileID: 7400000, guid: fad3c0fde2de06a4b827d7be10cc649a, type: 2}
     right: {fileID: 7400000, guid: 2c3270b093305664b8f2572f95793bfd, type: 2}
+  bonk:
+    front: {fileID: 0}
+    back: {fileID: 0}
+    left: {fileID: 0}
+    right: {fileID: 0}
   possibleColors: []
-  sprite: {fileID: 8640666085735319240, guid: 0517b7922124046b1a46aa3655bc3737, type: 3}
+  sprite: {fileID: 4505543044947124772, guid: 0517b7922124046b1a46aa3655bc3737, type: 3}
   Name: Shoes 01

@@ -33,6 +33,11 @@ MonoBehaviour:
     back: {fileID: 7400000, guid: 3143426a658b993439bee4f75145b28d, type: 2}
     left: {fileID: 7400000, guid: 68c4c78f4d0f71b40bfd7de864c485bf, type: 2}
     right: {fileID: 7400000, guid: 683221f85f37a944c979231885d03d4a, type: 2}
+  bonk:
+    front: {fileID: 0}
+    back: {fileID: 0}
+    left: {fileID: 0}
+    right: {fileID: 0}
   possibleColors: []
   sprite: {fileID: 0}
   Name: Hair 09

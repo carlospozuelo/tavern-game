@@ -40,7 +40,7 @@ public class GenerateScriptableObjects : MonoBehaviour
                 Debug.Log("k: " + (bodyPart, number) + ", v: " + defaultSprites[(bodyPart, number)]);
             }
         }
-        // { Torso: [ 0: { idle: { front: clip, right: clip, left: clip, back: clip }, 1: {}, ... ], Hair: { ... } ], ... }
+
 
         Dictionary<string, Dictionary<int, AnimationWrapper>> dictionary = new Dictionary<string, Dictionary<int, AnimationWrapper>>();
 

@@ -252,17 +252,6 @@ public class PlayerInventory : MonoBehaviour
                 if (!UseItem())
                 {
                     List<Furniture> list = Cast<Furniture>();
-                    /*
-                    foreach (GameObject furniture in TavernController.GetPlacedFurnitures())
-                    {
-                        Furniture f = furniture.GetComponent<Furniture>();
-                        if (f.IsInsideObject(GameController.instance.WorldMousePosition()))
-                        {
-                            list.Add(f);
-                        }
-                    }
-                    */
-                    Debug.Log("tururu");
 
                     Furniture toBePickedUp = null;
                     foreach (Furniture f in list)

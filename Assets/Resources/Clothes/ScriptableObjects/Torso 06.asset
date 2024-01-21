@@ -33,6 +33,11 @@ MonoBehaviour:
     back: {fileID: 7400000, guid: ced24b77ddd502d4c81f38d7730f8420, type: 2}
     left: {fileID: 7400000, guid: de53ec6d37122b342a4369fab16eac04, type: 2}
     right: {fileID: 7400000, guid: 6581ef2916fb5c14db403787039c63c0, type: 2}
+  bonk:
+    front: {fileID: 7400000, guid: b56990e75882a0b4d9c68eb82133f305, type: 2}
+    back: {fileID: 7400000, guid: 0034a137f9b3f914aa8863878af85f86, type: 2}
+    left: {fileID: 7400000, guid: e7c72293bd735044eb93a5c437cdf976, type: 2}
+    right: {fileID: 7400000, guid: 9a1306c874558904cb811c7e0d9c756b, type: 2}
   possibleColors: []
-  sprite: {fileID: -3396585600576063279, guid: 837d5ef2fa9b045529943e2665eeaf45, type: 3}
+  sprite: {fileID: 8821991048950244450, guid: 837d5ef2fa9b045529943e2665eeaf45, type: 3}
   Name: Torso 06

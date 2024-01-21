@@ -33,6 +33,11 @@ MonoBehaviour:
     back: {fileID: 7400000, guid: 2f5037ea58a9d4bfea6231a90e91c7b2, type: 2}
     left: {fileID: 7400000, guid: e4646c335c91d41a99b8f584e8b44bda, type: 2}
     right: {fileID: 7400000, guid: 0b875d79a80934b2c8fe6176a76ed577, type: 2}
+  bonk:
+    front: {fileID: 7400000, guid: 505df4b13fd445e48aabc0415b043683, type: 2}
+    back: {fileID: 7400000, guid: 0dc4d0df6ad7c1d4b9684a28a8e3ac59, type: 2}
+    left: {fileID: 7400000, guid: b5d7c926d3efb0e41a511c30c96764c7, type: 2}
+    right: {fileID: 7400000, guid: a5b76086baff44e4db156c58ad972f0e, type: 2}
   possibleColors: []
-  sprite: {fileID: 6887297603693600851, guid: 837d5ef2fa9b045529943e2665eeaf45, type: 3}
+  sprite: {fileID: -1713801071319066063, guid: 837d5ef2fa9b045529943e2665eeaf45, type: 3}
   Name: Torso 02
