@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
 
     public Animator animator;
 
+    public static Animator GetAnimator() { return instance.animator; }
+
     [SerializeField]
     private bool sitting = false;
 
@@ -33,6 +35,31 @@ public class PlayerMovement : MonoBehaviour
 
         return null;
     }
+
+    public static void StopMovement(float duration)
+    {
+        instance.StopMovementPriv(duration);
+    }
+
+
+    private Coroutine stopMovementCoroutine;
+
+    private void StopMovementPriv(float duration)
+    {
+        if (stopMovementCoroutine != null) { StopCoroutine(stopMovementCoroutine); }
+        StartCoroutine(StopMovementCorr(duration));
+    }
+
+    private IEnumerator StopMovementCorr(float duration)
+    {
+        Stop();
+        canMove = false;
+
+        yield return new WaitForSeconds(duration);
+
+        canMove = true;
+    }
+
 
     private static Collider2D[] GetCollidersAtBox(Transform t)
     {
@@ -136,8 +163,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
     // Update is called once per frame
+    private bool canMove = true;
     void Update()
     {
+        if (!canMove) { return; }
+
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 

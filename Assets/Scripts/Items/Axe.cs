@@ -91,9 +91,10 @@ public class Axe : MonoBehaviour, Item
             }
         }
 
-        return true;
+        PlayerMovement.GetAnimator().SetTrigger("Bonk");
+        PlayerMovement.StopMovement(.25f);
 
-        // TODO: Trigger hitting animation
+        return true;
 
     }
 }
