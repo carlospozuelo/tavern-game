@@ -69,8 +69,14 @@ public class Axe : MonoBehaviour, Item
         }
     }
 
+    public float cooldown = .5f;
+
     bool Item.UseItem()
     {
+        if (CoroutineHandler.IsItemCooldown()) { return true; }
+
+        CoroutineHandler.ItemCooldown(cooldown);
+
         Vector2 pos = GameController.instance.WorldMousePosition();
         Vector2 playerPos = PlayerMovement.GetPosition();
 
