@@ -82,7 +82,7 @@ public class ClothingItem : ScriptableObject
 
     public ClothingType type;
 
-    public AnimationContainer idle, hold, walk, sit;
+    public AnimationContainer idle, hold, walk, sit, bonk;
 
 
     [System.Serializable]
@@ -115,6 +115,8 @@ public class ClothingItem : ScriptableObject
         if (name.Equals("hold")) hold = c;
         if (name.Equals("walk") || name.Equals("run")) walk = c;
         if (name.Equals("sit")) sit = c;
+
+        if (name.Equals("bonk")) bonk = c;
     }
 
     public List<KeyValuePair<AnimationClip, AnimationClip>> GetAnimations(List<KeyValuePair<AnimationClip, AnimationClip>> overrides)
@@ -123,6 +125,7 @@ public class ClothingItem : ScriptableObject
         overrides = hold.GetAnimations(overrides, type, "hold");
         overrides = walk.GetAnimations(overrides, type, "walk");
         overrides = sit.GetAnimations(overrides, type, "sit");
+        overrides = bonk.GetAnimations(overrides, type, "bonk");
 
 
         return overrides;

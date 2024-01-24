@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class PlayerInventory : MonoBehaviour
 {
@@ -44,11 +45,16 @@ public class PlayerInventory : MonoBehaviour
     public static bool StoreAnywhere(Item item)
     {
 
+        return StoreAnywhere(item.GetOriginalPrefab());
+    }
+
+    public static bool StoreAnywhere(GameObject prefab)
+    {
         for (int i = 0; i < instance.hotBar.Length; i++)
         {
             if (instance.hotBar[(i + 1) % 10] == null)
             {
-                instance.SetHotBar((i + 1) % 10, item.GetOriginalPrefab());
+                instance.SetHotBar((i + 1) % 10, prefab);
                 if ((i + 1) % 10 == instance.currentItem) { SelectItem(); }
                 return true;
             }
@@ -58,7 +64,7 @@ public class PlayerInventory : MonoBehaviour
         {
             if (instance.inventory[i] == null)
             {
-                instance.SetInventory(i, item.GetOriginalPrefab());
+                instance.SetInventory(i, prefab);
                 return true;
             }
         }
@@ -246,17 +252,6 @@ public class PlayerInventory : MonoBehaviour
                 if (!UseItem())
                 {
                     List<Furniture> list = Cast<Furniture>();
-                    /*
-                    foreach (GameObject furniture in TavernController.GetPlacedFurnitures())
-                    {
-                        Furniture f = furniture.GetComponent<Furniture>();
-                        if (f.IsInsideObject(GameController.instance.WorldMousePosition()))
-                        {
-                            list.Add(f);
-                        }
-                    }
-                    */
-
 
                     Furniture toBePickedUp = null;
                     foreach (Furniture f in list)
@@ -387,8 +382,8 @@ public class PlayerInventory : MonoBehaviour
     {
         if (hotBar[currentItem] != null)
         {
-            hotBar[currentItem].GetComponent<Item>().UseItem();
-            return true;
+            return hotBar[currentItem].GetComponent<Item>().UseItem();
+           // return true;
         } else
         {
             return false;

@@ -33,8 +33,11 @@ MonoBehaviour:
     back: {fileID: 7400000, guid: 734cdae226264be4c89959ccdaa392e9, type: 2}
     left: {fileID: 7400000, guid: 434755df7f1454643ab36bc9522e00ff, type: 2}
     right: {fileID: 7400000, guid: abce4bbf7044c85449080b3714275cc5, type: 2}
-  primary: {r: 0, g: 0, b: 0, a: 0}
-  secondary: {r: 0, g: 0, b: 0, a: 0}
-  tertiary: {r: 0, g: 0, b: 0, a: 0}
-  sprite: {fileID: 2442066714710141939, guid: 039d2ac5f7f0f4bba8270544968a4993, type: 3}
+  bonk:
+    front: {fileID: 0}
+    back: {fileID: 0}
+    left: {fileID: 0}
+    right: {fileID: 0}
+  possibleColors: []
+  sprite: {fileID: 0}
   Name: Hair 07

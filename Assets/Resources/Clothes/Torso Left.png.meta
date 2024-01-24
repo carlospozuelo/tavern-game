@@ -222,6 +222,69 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
+      name: Torso Left_00x05
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 512
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torso Left_00x06
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 512
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torso Left_00x07
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 512
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
       name: Torso Left_01x00
       rect:
         serializedVersion: 2
@@ -310,6 +373,69 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 128
+        y: 448
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torso Left_01x05
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 448
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torso Left_01x06
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 448
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torso Left_01x07
+      rect:
+        serializedVersion: 2
+        x: 224
         y: 448
         width: 32
         height: 64
@@ -432,6 +558,69 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
+      name: Torso Left_02x05
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 384
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torso Left_02x06
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 384
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torso Left_02x07
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 384
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
       name: Torso Left_03x00
       rect:
         serializedVersion: 2
@@ -520,6 +709,69 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 128
+        y: 320
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torso Left_03x05
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 320
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torso Left_03x06
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 320
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torso Left_03x07
+      rect:
+        serializedVersion: 2
+        x: 224
         y: 320
         width: 32
         height: 64
@@ -642,6 +894,69 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
+      name: Torso Left_04x05
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 256
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torso Left_04x06
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 256
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torso Left_04x07
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 256
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
       name: Torso Left_05x00
       rect:
         serializedVersion: 2
@@ -730,6 +1045,69 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 128
+        y: 192
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torso Left_05x05
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 192
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torso Left_05x06
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 192
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torso Left_05x07
+      rect:
+        serializedVersion: 2
+        x: 224
         y: 192
         width: 32
         height: 64
@@ -852,6 +1230,69 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
+      name: Torso Left_06x05
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 128
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torso Left_06x06
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 128
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torso Left_06x07
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 128
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
       name: Torso Left_07x00
       rect:
         serializedVersion: 2
@@ -940,6 +1381,69 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 128
+        y: 64
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torso Left_07x05
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 64
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torso Left_07x06
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 64
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torso Left_07x07
+      rect:
+        serializedVersion: 2
+        x: 224
         y: 64
         width: 32
         height: 64
@@ -1061,6 +1565,69 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Torso Left_08x05
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torso Left_08x06
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Torso Left_08x07
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -1072,91 +1639,118 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Torso Left_0x4: 0
-      Torso Left_2x3: 0
-      Torso Left_3x0: 0
       Torso Left_02x01: 0
-      Torso Left_02x00: 0
-      Torso_17: -303322457
-      Torso_11: 183839179
       Torso Left_2x0: 0
       Torso Left_3x1: 0
       Torso Left_05x00: 0
       Torso Left_03x00: 0
-      Torso Left_08x02: 0
       Torso Left_1x1: 0
-      Torso Left_06x03: 0
-      Torso_7: 399622425
-      Torso Left_1x4: 0
+      Torso Left_00x07: 0
+      Torso Left_04x05: 0
       Torso_5: 42355577
       Torso_15: -2014898656
-      Torso Left_04x00: 0
       Torso Left_0x2: 0
       Torso Left_0x3: 0
       Torso_6: -2146990085
-      Torso Left_1x3: 0
       Torso Left_3x3: 0
-      Torso Left_01x00: 0
       Torso_2: -1626067870
-      Torso Left_06x02: 0
       Torso Left_05x01: 0
       Torso Left_0x1: 0
       Torso Left_03x03: 0
       Torso Left_2x2: 0
-      Torso Left_03x01: 0
-      Torso Left_06x01: 0
+      Torso Left_04x07: 0
+      Torso Left_02x06: 0
       Torso_19: 1146964485
-      Torso Left_01x01: 0
-      Torso Left_01x03: 0
       Torso_18: -1920980620
-      Torso Left_07x01: 0
-      Torso Left_2x1: 0
-      Torso_1: 218712887
+      Torso Left_05x07: 0
       Torso Left_02x03: 0
-      Torso Left_08x01: 0
+      Torso Left_06x06: 0
       Torso Left_08x03: 0
       Torso Left_02x02: 0
-      Torso Left_0x0: 0
       Torso Left_3x2: 0
       Torso_13: 1371205475
       Torso Left_04x04: 0
+      Torso Left_01x07: 0
       Torso Left_05x04: 0
-      Torso Left_1x2: 0
-      Torso Left_3x4: 0
-      Torso Left_07x03: 0
+      Torso Left_03x05: 0
+      Torso Left_01x06: 0
       Torso Left_00x02: 0
       Torso Left_02x04: 0
       Torso Left_04x01: 0
-      Torso_8: 953511060
-      Torso Left_1x0: 0
+      Torso Left_00x06: 0
       Torso Left_08x00: 0
       Torso_14: 832819278
       Torso Left_06x00: 0
-      Torso Left_01x02: 0
-      Torso_0: -1811935771
-      Torso Left_08x04: 0
-      Torso_3: -2081601908
+      Torso Left_08x07: 0
+      Torso Left_06x05: 0
       Torso Left_07x02: 0
-      Torso_4: 1633237920
       Torso_9: -587837506
-      Torso_16: 480876062
-      Torso Left_04x03: 0
-      Torso Left_03x02: 0
       Torso Left_00x03: 0
       Torso_12: 184869900
-      Torso_10: -1570915056
-      Torso Left_05x02: 0
-      Torso Left_05x03: 0
-      Torso Left_06x04: 0
-      Torso Left_00x00: 0
-      Torso Left_00x04: 0
       Torso Left_01x04: 0
       Torso Left_07x04: 0
-      Torso Left_2x4: 0
-      Torso Left_04x02: 0
+      Torso Left_0x4: 0
+      Torso_4: 1633237920
       Torso Left_03x04: 0
       Torso Left_07x00: 0
       Torso Left_00x01: 0
+      Torso Left_2x3: 0
+      Torso Left_3x0: 0
+      Torso Left_02x00: 0
+      Torso_17: -303322457
+      Torso_11: 183839179
+      Torso Left_01x05: 0
+      Torso Left_08x02: 0
+      Torso Left_06x03: 0
+      Torso Left_07x06: 0
+      Torso_7: 399622425
+      Torso Left_1x4: 0
+      Torso Left_1x3: 0
+      Torso Left_04x00: 0
+      Torso Left_01x00: 0
+      Torso Left_06x02: 0
+      Torso Left_08x06: 0
+      Torso Left_03x01: 0
+      Torso Left_06x01: 0
+      Torso Left_05x05: 0
+      Torso Left_01x01: 0
+      Torso Left_07x01: 0
+      Torso Left_04x06: 0
+      Torso Left_01x03: 0
+      Torso Left_2x1: 0
+      Torso_1: 218712887
+      Torso Left_02x05: 0
+      Torso Left_08x01: 0
+      Torso Left_00x05: 0
+      Torso Left_0x0: 0
+      Torso Left_1x2: 0
+      Torso Left_3x4: 0
+      Torso Left_07x03: 0
+      Torso Left_03x07: 0
+      Torso_8: 953511060
+      Torso Left_1x0: 0
+      Torso Left_08x04: 0
+      Torso Left_01x02: 0
+      Torso_0: -1811935771
+      Torso_3: -2081601908
+      Torso Left_03x06: 0
+      Torso_16: 480876062
+      Torso Left_04x03: 0
+      Torso Left_03x02: 0
+      Torso Left_06x04: 0
+      Torso Left_05x03: 0
+      Torso_10: -1570915056
+      Torso Left_05x02: 0
+      Torso Left_07x07: 0
+      Torso Left_08x05: 0
+      Torso Left_00x00: 0
+      Torso Left_00x04: 0
+      Torso Left_02x07: 0
+      Torso Left_05x06: 0
+      Torso Left_07x05: 0
+      Torso Left_06x07: 0
+      Torso Left_2x4: 0
+      Torso Left_04x02: 0
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

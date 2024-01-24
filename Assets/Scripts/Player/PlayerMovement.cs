@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
 
     public Animator animator;
 
+    public static Animator GetAnimator() { return instance.animator; }
+
     [SerializeField]
     private bool sitting = false;
 
@@ -20,6 +22,60 @@ public class PlayerMovement : MonoBehaviour
     private Collider2D[] colliders;
 
     private SpriteRenderer[] renderers;
+
+    [SerializeField]
+    private Transform up, down, left, right;
+
+    public static Collider2D[] GetCollidersAtBox(Vector2 direction)
+    {
+        if (direction == Vector2.right) { return GetCollidersAtBox(instance.right); }
+        if (direction == Vector2.up) { return GetCollidersAtBox(instance.up); }
+        if (direction == Vector2.left) { return GetCollidersAtBox(instance.left); }
+        if (direction == Vector2.down) { return GetCollidersAtBox(instance.down); }
+
+        return null;
+    }
+
+    public static void StopMovement(float duration)
+    {
+        instance.StopMovementPriv(duration);
+    }
+
+
+    private Coroutine stopMovementCoroutine;
+
+    private void StopMovementPriv(float duration)
+    {
+        if (stopMovementCoroutine != null) { StopCoroutine(stopMovementCoroutine); }
+        StartCoroutine(StopMovementCorr(duration));
+    }
+
+    private IEnumerator StopMovementCorr(float duration)
+    {
+        Stop();
+        canMove = false;
+
+        yield return new WaitForSeconds(duration);
+
+        canMove = true;
+    }
+
+
+    private static Collider2D[] GetCollidersAtBox(Transform t)
+    {
+        return Physics2D.OverlapBoxAll(t.position, new Vector2(1f, 1f), 0f);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+
+
+        Gizmos.DrawWireCube(up.position, new Vector3(1f, 1f, 1f));
+        Gizmos.DrawWireCube(down.position, new Vector3(1f, 1f, 1f));
+        Gizmos.DrawWireCube(left.position, new Vector3(1f, 1f, 1f));
+        Gizmos.DrawWireCube(right.position, new Vector3(1f, 1f, 1f));
+    }
 
     public static bool IsSitting()
     {
@@ -49,6 +105,14 @@ public class PlayerMovement : MonoBehaviour
     {
         return instance.rb.position;
     }
+
+    public static void LookAt(Vector2 direction)
+    {
+        instance.animator.SetFloat("AnimMoveX" ,direction.x);
+        instance.animator.SetFloat("AnimMoveY", direction.y);
+    }
+
+
 
     public static void Sit(Vector2 position, Bench bench)
     {
@@ -99,8 +163,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
     // Update is called once per frame
+    private bool canMove = true;
     void Update()
     {
+        if (!canMove) { return; }
+
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 

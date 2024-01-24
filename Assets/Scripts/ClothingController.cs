@@ -95,7 +95,7 @@ public class ClothingController : MonoBehaviour
 
     public static readonly string[] BODY_PARTS = { "Legs", "Torso", "Faces", "Shoes", "Hair" };
     public static readonly string[] ORIENTATION = { "front", "back", "left", "right" };
-    public static readonly string[] ANIMATIONS = { "idle", "sit", "hold", "walk" };
+    public static readonly string[] ANIMATIONS = { "idle", "sit", "hold", "walk", "bonk" };
 
 
     private Color bodyColor;
@@ -410,7 +410,6 @@ public class ClothingController : MonoBehaviour
         instance.aoc = new AnimatorOverrideController(instance.animator.runtimeAnimatorController);
         List<KeyValuePair<AnimationClip, AnimationClip>> overrides = new List<KeyValuePair<AnimationClip, AnimationClip>>();
 
-        // TODO: Change test array and use current instead
         foreach (var kv in instance.current)//instance.current)
         {
             overrides = kv.Value.GetAnimations(overrides);

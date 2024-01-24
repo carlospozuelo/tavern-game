@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6687085659471477749}
   - component: {fileID: 6687085659471477747}
   - component: {fileID: 4520201122372231313}
+  - component: {fileID: 4334885226217786788}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -47,6 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 0}
+  droppedItemPrefab: {fileID: 0}
   player: {fileID: 0}
   maxDistanceToPlaceItems: 5
 --- !u!114 &6687085659471477747
@@ -79,4 +81,17 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  allDroppableParents: []
   currentLocation: Tavern
+--- !u!114 &4334885226217786788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6687085659471477748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 970121570a13dbe4ba10901201037be1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

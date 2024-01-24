@@ -1,7 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public interface Item
 {
 
@@ -10,7 +10,7 @@ public interface Item
 
     public string GetName();
 
-    public void UseItem();
+    public bool UseItem();
 
     public void SelectItem();
     public void CancelSelectItem();

@@ -30,17 +30,17 @@ public class GenerateScriptableObjects : MonoBehaviour
 
         foreach (Sprite s in sprites)
         {
-            if (s.name.Contains("Front") && s.name.Contains("x00"))
+            if (s.name.Contains("Front") && s.name.Contains("PREVIEW"))
             {
                 string bodyPart = s.name.Split(" ")[0];
-                var tmp = s.name.Split("_")[1];
-                string number = tmp.Substring(0, tmp.Length - 3);
+                string number = s.name.Split("_")[1].Split(" ")[0];
+                //string number = tmp.Substring(0, tmp.Length - 3);
 
                 defaultSprites.Add((bodyPart, number), s);
                 Debug.Log("k: " + (bodyPart, number) + ", v: " + defaultSprites[(bodyPart, number)]);
             }
         }
-        // { Torso: [ 0: { idle: { front: clip, right: clip, left: clip, back: clip }, 1: {}, ... ], Hair: { ... } ], ... }
+
 
         Dictionary<string, Dictionary<int, AnimationWrapper>> dictionary = new Dictionary<string, Dictionary<int, AnimationWrapper>>();
 

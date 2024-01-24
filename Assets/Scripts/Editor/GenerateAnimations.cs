@@ -30,20 +30,27 @@ public class GenerateAnimations : MonoBehaviour
 
         foreach (var sprite in sprites)
         {
-            var result = ExtractData(sprite.name);
-            string key = result.Text1 + " " + result.Text2;
-
-            if (!dic.ContainsKey(key))
+            if (sprite.name.Contains("PREVIEW"))
             {
-                dic.Add(key, new Dictionary<int, List<Sprite>>());
-            }
 
-            if (!dic[key].ContainsKey(result.Number1))
+            }
+            else
             {
-                dic[key].Add(result.Number1, new List<Sprite>());
-            }
+                var result = ExtractData(sprite.name);
+                string key = result.Text1 + " " + result.Text2;
 
-            dic[key][result.Number1].Add(sprite);
+                if (!dic.ContainsKey(key))
+                {
+                    dic.Add(key, new Dictionary<int, List<Sprite>>());
+                }
+
+                if (!dic[key].ContainsKey(result.Number1))
+                {
+                    dic[key].Add(result.Number1, new List<Sprite>());
+                }
+
+                dic[key][result.Number1].Add(sprite);
+            }
         }
 
         foreach (var keyvalue in dic)
@@ -59,6 +66,7 @@ public class GenerateAnimations : MonoBehaviour
 
     static (string Text1, string Text2, int Number1, int Number2) ExtractData(string input)
     {
+
         // Define the regular expression pattern
         string pattern = @"^(.*?)\s(.*?)_(\d+)x(\d+)$";
 
@@ -111,16 +119,39 @@ public class GenerateAnimations : MonoBehaviour
             List<SpriteMetaData> meta = new List<SpriteMetaData>();
             ti.spritesheet = new SpriteMetaData[0];
 
+            bool hasPreview = false;
+            if (texture.name.Contains("Front"))
+            {
+                if (texture.name.Contains("Torso") || texture.name.Contains("Legs") || texture.name.Contains("Shoes"))
+                {
+                    hasPreview = true;
+                }
+            }
+
             for (int i = texture.height; i > 0; i -= height)
             {
                 int rowNum = (texture.height - i) / height;
+
+                if (hasPreview)
+                {
+                    SpriteMetaData smd = new SpriteMetaData();
+                    smd.pivot = new Vector2(0.5f, 0.5f);
+                    smd.alignment = ((int)SpriteAlignment.Center);
+                    smd.name = texture.name + "_" + rowNum.ToString("00") + " PREVIEW";
+                    smd.rect = new Rect(0, i - width, width, width);
+
+                    meta.Add(smd);
+                }
+
                 
-                for (int j = 0; j < texture.width; j += width) {
+                
+                for (int j = 0 + (hasPreview ? width : 0); j < texture.width; j += width) {
                     SpriteMetaData smd = new SpriteMetaData();
                     smd.pivot = new Vector2(0.5f, 0.5f);
                     smd.alignment = ((int)SpriteAlignment.Center);
 
-                    int colNum = j / width;
+                    int colNum = (j - (hasPreview ? width : 0)) / width;
+                    //if (hasPreview) { colNum--; }
 
                     smd.name = texture.name + "_" + rowNum.ToString("00") + "x" + colNum.ToString("00");
                     smd.rect = new Rect(j, i - height, width, height);
@@ -161,6 +192,8 @@ public class GenerateAnimations : MonoBehaviour
             GenerateRunAnimation(meta, name, index, TORSO);
             GenerateIdleAnimation(meta[4], name, index, TORSO, SIT);
             GenerateIdleAnimation(meta[3], name, index, TORSO, HOLD);
+
+            GenerateBonkAnimation(meta, name, index, TORSO);
         }
 
         if (name.Contains(LEGS))
@@ -189,6 +222,44 @@ public class GenerateAnimations : MonoBehaviour
             GenerateBlinkAnimation(meta[2], meta[3], name, index, FACES, SIT);
         }
     }
+
+    private static void GenerateBonkAnimation(List<Sprite> meta, string name, int index, string path)
+    {
+        ObjectReferenceKeyframe[] spriteKeyFrames = new ObjectReferenceKeyframe[4];
+
+        Debug.Log("printing sprites:");
+        foreach (Sprite sprite in meta) { 
+            print(sprite);
+        }
+
+        float interval = 10f / 60f;
+
+        spriteKeyFrames[0] = new ObjectReferenceKeyframe();
+        spriteKeyFrames[0].time = 0;
+        spriteKeyFrames[0].value = meta[5];
+
+        spriteKeyFrames[1] = new ObjectReferenceKeyframe();
+        spriteKeyFrames[1].time = interval * 1;
+        spriteKeyFrames[1].value = meta[6];
+
+        int adjust = 0;
+        if (name.Contains("Back"))
+        {
+            adjust = -1;
+        }
+
+        spriteKeyFrames[2] = new ObjectReferenceKeyframe();
+        spriteKeyFrames[2].time = interval * 2;
+        spriteKeyFrames[2].value = meta[7 + adjust];
+
+        spriteKeyFrames[3] = new ObjectReferenceKeyframe();
+        spriteKeyFrames[3].time = interval * 2 + interval / 2;
+        spriteKeyFrames[3].value = meta[7 + adjust];
+
+
+        GenerateGenericAnimation(name, index, path, "bonk", spriteKeyFrames);
+    }
+
 
 
     private static void GenerateGenericAnimation(string name, int index, string path, string anim, ObjectReferenceKeyframe[] spriteKeyFrames)
