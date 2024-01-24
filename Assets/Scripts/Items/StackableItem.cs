@@ -11,6 +11,8 @@ public class StackableItem : MonoBehaviour, Item
     [SerializeField]
     private string itemName;
 
+    public int GetStacks() {  return currentStacks; }
+
     [SerializeField]
     private GameObject prefab;
     public void CancelSelectItem()

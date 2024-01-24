@@ -16,6 +16,9 @@ public class DraggableIcon : MonoBehaviour, IPointerDownHandler
 
     private DragDrop draggable;
 
+    [SerializeField]
+    private TMPro.TextMeshProUGUI stackText;
+
     public static DragDrop GetDraggable()
     {
         return instance.draggable;
@@ -57,6 +60,17 @@ public class DraggableIcon : MonoBehaviour, IPointerDownHandler
         instance.draggable = d;
         instance.itemHeld = item;
 
+        if (item != null)
+        {
+            if (item.TryGetComponent(out StackableItem stack))
+            {
+                instance.stackText.text = stack.GetStacks() + "";
+            } else
+            {
+                instance.stackText.text = "";
+            }
+        }
+
         instance.MoveImage();
     }
 
@@ -66,7 +80,8 @@ public class DraggableIcon : MonoBehaviour, IPointerDownHandler
         instance.c.blocksRaycasts = true;
         instance.draggable = null;
 
-        
+        instance.stackText.text = "";
+
         instance.Stop(dropsItem);
     }
 

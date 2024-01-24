@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class DragDrop : MonoBehaviour, IPointerDownHandler
 {
@@ -25,6 +26,9 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
 
     [SerializeField]
     private ClothingItem.ClothingType type;
+
+    [SerializeField]
+    private TMPro.TextMeshProUGUI stackText;
 
 
     private void Start()
@@ -74,9 +78,22 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
     public void UpdateImage()
     {
         GameObject g = GetItem();
-
         if (g != null)
         {
+
+            if (stackText != null)
+            {
+                if (g.TryGetComponent(out StackableItem stack))
+                {
+                    // Is stackable. Set stacks
+                    stackText.text = stack.GetStacks() + "";
+                }
+                else
+                {
+                    stackText.text = "";
+                }
+            }
+
             targetImage.sprite = g.GetComponent<Item>().GetSprite();
             targetImage.enabled = true;
         } else
@@ -95,6 +112,15 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
 
     private void SlotItem(GameObject item)
     {
+
+        if (item != null && item.TryGetComponent(out StackableItem stack))
+        {
+            // Is stackable. Set stacks
+            stackText.text = stack.GetStacks() + "";
+        } else
+        {
+            stackText.text = "";
+        }
 
         if (isForClothing)
         {
