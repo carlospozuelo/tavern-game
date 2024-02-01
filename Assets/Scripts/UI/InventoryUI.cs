@@ -52,6 +52,12 @@ public class InventoryUI : MonoBehaviour
     {
         Image image = slots[slot].transform.GetChild(0).GetComponent<Image>();
 
+        if (item is StackableItem)
+        {
+            DragDrop d = slots[slot].GetComponent<DragDrop>();
+            d.UpdateStacks(item);
+        }
+
         if (item != null)
         {
             image.enabled = true;
@@ -86,6 +92,14 @@ public class InventoryUI : MonoBehaviour
             slot.GetComponent<RectTransform>().sizeDelta = new Vector2(instance.sizeDef, instance.sizeDef);
             Image image = slot.GetComponent<Image>();
             image.color = new Color(image.color.r, image.color.g, image.color.b, instance.transDef / 255f);
+        }
+    }
+
+    public void UpdateUI()
+    {
+        for (int i = 0; i < slots.Length; i++)
+        {
+            UpdateSpriteHotbar(i);
         }
     }
 

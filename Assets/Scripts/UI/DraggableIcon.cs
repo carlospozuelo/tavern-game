@@ -90,10 +90,17 @@ public class DraggableIcon : MonoBehaviour, IPointerDownHandler
         if (coroutine != null)
         {
             StopCoroutine(coroutine);
-            // TODO: Drop held item to the ground
             if (dropsItem && itemHeld != null)
             {
-                GameController.DropItem(itemHeld.GetComponent<Item>());
+                if (itemHeld.TryGetComponent(out StackableItem stack))
+                {
+                    for (int i = 0; i < stack.GetStacks(); i++) { GameController.DropItem(itemHeld.GetComponent<Item>(), true); }
+                }
+                else
+                {
+                    GameController.DropItem(itemHeld.GetComponent<Item>());
+                }
+   
             }
             itemHeld = null;
         }
@@ -142,8 +149,9 @@ public class DraggableIcon : MonoBehaviour, IPointerDownHandler
             }
         }
 
-        if (raycastResults.Count <= 1)
+        if (raycastResults.Count <= 2)
         {
+            // Drop item
             HideImage();
         }
     }

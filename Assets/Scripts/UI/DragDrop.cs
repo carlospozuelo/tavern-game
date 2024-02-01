@@ -75,26 +75,31 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
         return null;
     }
 
+    public void UpdateStacks(Item i)
+    {
+        if (stackText != null)
+        {
+            if (i is StackableItem)
+            {
+                // Is stackable. Set stacks
+                stackText.text = ((StackableItem) i).GetStacks() + "";
+            }
+            else
+            {
+                stackText.text = "";
+            }
+        }
+    }
+
     public void UpdateImage()
     {
         GameObject g = GetItem();
         if (g != null)
         {
+            Item i = g.GetComponent<Item>();
+            UpdateStacks(i);
 
-            if (stackText != null)
-            {
-                if (g.TryGetComponent(out StackableItem stack))
-                {
-                    // Is stackable. Set stacks
-                    stackText.text = stack.GetStacks() + "";
-                }
-                else
-                {
-                    stackText.text = "";
-                }
-            }
-
-            targetImage.sprite = g.GetComponent<Item>().GetSprite();
+            targetImage.sprite = i.GetSprite();
             targetImage.enabled = true;
         } else
         {
@@ -191,7 +196,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
 
                     if (isForClothing)
                     {
-                        // TODO: Make player stop wearing clothes
+                        // TODO: Make player stop wearing clothes (shoes)
                         // ClothingController.Wear()
                     }
                 }

@@ -19,7 +19,21 @@ public class GameController : MonoBehaviour
         }
     }
 
-    
+    public static GameObject GenerateStackableItem(GameObject stackableItemGameObjectPrefab, int stacks = 1)
+    {
+        GameObject gameObject = Instantiate(stackableItemGameObjectPrefab, Vector3.zero, Quaternion.identity, instance.transform);
+
+        StackableItem stackableItem = gameObject.GetComponent<StackableItem>();
+
+        stackableItem.SetStacks(stacks);
+
+        gameObject.name = stackableItem.GetName();
+
+        return gameObject;
+    }
+
+
+
 
     [SerializeField]
     private Camera mainCamera;
@@ -56,9 +70,10 @@ public class GameController : MonoBehaviour
 
     public float maxDistanceToPlaceItems = 5;
 
-    public static void DropItem(Item toBeDropped)
+    public static void DropItem(Item toBeDropped, bool noise = false)
     {
-        DropItem(toBeDropped, PlayerMovement.GetPosition(), true);
+        Vector3 n = noise ? new Vector3(Random.Range(0f,1f), Random.Range(0f,1f)) : Vector3.zero;
+        DropItem(toBeDropped, PlayerMovement.GetPosition() + n, true);
     }
 
     public static void DropItem(Item toBeDropped, Vector3 position, bool block)

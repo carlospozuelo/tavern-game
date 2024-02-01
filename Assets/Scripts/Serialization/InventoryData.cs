@@ -141,7 +141,14 @@ public class InventoryData
                 }
                 else
                 {
-                    inventory[i] = PlayerInventory.instance.GetItem(collection[i].GetId());
+                    GameObject item = PlayerInventory.instance.GetItem(collection[i].GetId());
+
+                    if (item.TryGetComponent(out StackableItem stackable))
+                    {
+                        item = GameController.GenerateStackableItem(item);
+                    }
+
+                    inventory[i] = item;
                 }
             }
         }
