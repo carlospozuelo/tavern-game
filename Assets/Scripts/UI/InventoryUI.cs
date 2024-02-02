@@ -101,6 +101,8 @@ public class InventoryUI : MonoBehaviour
         {
             UpdateSpriteHotbar(i);
         }
+
+        BookMenuUI.UpdateImage();
     }
 
     public void UpdateUI(int itemHeld)

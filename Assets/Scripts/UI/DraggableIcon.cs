@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class DraggableIcon : MonoBehaviour, IPointerDownHandler
 {
@@ -49,6 +50,11 @@ public class DraggableIcon : MonoBehaviour, IPointerDownHandler
     public static GameObject GetItemHeld()
     {
         return instance.itemHeld;
+    }
+
+    public static void UpdateStacks(int stacks)
+    {
+        instance.stackText.text = stacks + "";
     }
 
     public static void DisplayImage(Sprite sprite, DragDrop d, GameObject item)

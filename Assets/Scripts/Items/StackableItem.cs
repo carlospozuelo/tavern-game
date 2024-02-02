@@ -13,6 +13,7 @@ public class StackableItem : MonoBehaviour, Item
 
     public int GetStacks() {  return currentStacks; }
 
+    public bool IsFull() { return maxStacks == currentStacks; }
     public bool IncrementStacks() {
 
 
@@ -21,13 +22,30 @@ public class StackableItem : MonoBehaviour, Item
             InventoryUI.instance.UpdateUI();
             return true; 
         }
-
         return false;
+    }
+
+    public int IncrementStacks(int amount)
+    {
+        if (currentStacks + amount <= maxStacks)
+        {
+            currentStacks += amount;
+            InventoryUI.instance.UpdateUI();
+            return 0;
+        }
+
+        int leftover = (currentStacks + amount) - maxStacks;
+        currentStacks = maxStacks;
+
+        InventoryUI.instance.UpdateUI();
+
+        return leftover;
     }
 
     public void SetStacks(int stacks)
     {
         currentStacks = Mathf.Min(stacks, maxStacks);
+        InventoryUI.instance.UpdateUI();
     }
 
     [SerializeField]
