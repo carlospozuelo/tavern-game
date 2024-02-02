@@ -98,7 +98,11 @@ public class InventoryData
                 if (g.TryGetComponent(out Clothing c))
                 {
                     collection[i] = new ClothingString(c.GetName(), c.GetThreeColors());
-                } else if (g.TryGetComponent(out Item item))
+                } else if (g.TryGetComponent(out StackableItem s))
+                {
+                    collection[i] = new StackableString(s.GetStacks(), s.GetName());
+                } 
+                else if (g.TryGetComponent(out Item item))
                 {
                     collection[i] = new InventoryString(item.GetName());
                 }
@@ -138,10 +142,19 @@ public class InventoryData
                     ClothingItem item = ClothingController.GetClothingItem(str.GetClothingItemId());
                     inventory[i] = ClothingController.GenerateClothingObject(item, str.GetThreeColors());
                     Debug.Log(inventory[i]);
-                }
+                } 
                 else
                 {
-                    inventory[i] = PlayerInventory.instance.GetItem(collection[i].GetId());
+                    GameObject item = PlayerInventory.instance.GetItem(collection[i].GetId());
+
+                    if (collection[i] is StackableString)
+                    {
+                        int stacks = ((StackableString)collection[i]).GetCurrentStacks();
+
+                        item = GameController.GenerateStackableItem(item, stacks);
+                    }
+
+                    inventory[i] = item;
                 }
             }
         }

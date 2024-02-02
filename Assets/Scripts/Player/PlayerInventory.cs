@@ -44,6 +44,7 @@ public class PlayerInventory : MonoBehaviour
 
     public static bool StoreAnywhere(Item item)
     {
+        if (item is StackableItem) { return StoreAnywhereStackable((StackableItem)item); }
 
         return StoreAnywhere(item.GetOriginalPrefab());
     }
@@ -70,6 +71,48 @@ public class PlayerInventory : MonoBehaviour
         }
 
         return false;
+    }
+
+    private static bool StoreAnywhereStackable(StackableItem item)
+    {
+        // Check if the same item is already slotted in the inventory / hotbar
+
+        for (int i = 0; i < instance.hotBar.Length; i++)
+        {
+            GameObject eval = instance.hotBar[(i + 1) % 10];
+
+            if (eval != null)
+            {
+                if (eval.TryGetComponent(out StackableItem evalItem))
+                {
+                    if (evalItem.GetName().Equals(item.GetName()))
+                    {
+                        // We have a match - increment its stacks if we can.
+                        if (evalItem.IncrementStacks()) { return true; }
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < instance.inventory.Length; i++)
+        {
+            GameObject eval = instance.inventory[i];
+
+            if (eval != null)
+            {
+                if (eval.TryGetComponent(out StackableItem evalItem))
+                {
+                    if (evalItem.GetName().Equals(item.GetName()))
+                    {
+                        // We have a match - increment its stacks if we can.
+                        if (evalItem.IncrementStacks()) { return true; }
+                    }
+                }
+            }
+        }
+
+        // Either no items of the same type were present on the inventory, or the present stacks were already full. Try to slot the item elsewhere
+        return StoreAnywhere(GameController.GenerateStackableItem(item.GetOriginalPrefab()));
     }
 
     public GameObject GetItem(string name)
@@ -184,6 +227,7 @@ public class PlayerInventory : MonoBehaviour
     {
         hotBar[slot] = item;
         InventoryUI.instance.UpdateSpriteHotbar(slot);
+
     }
 
     public void SetInventory(int slot, GameObject item)

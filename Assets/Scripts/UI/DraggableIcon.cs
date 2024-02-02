@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class DraggableIcon : MonoBehaviour, IPointerDownHandler
 {
@@ -15,6 +16,9 @@ public class DraggableIcon : MonoBehaviour, IPointerDownHandler
     private Image image;
 
     private DragDrop draggable;
+
+    [SerializeField]
+    private TMPro.TextMeshProUGUI stackText;
 
     public static DragDrop GetDraggable()
     {
@@ -48,6 +52,11 @@ public class DraggableIcon : MonoBehaviour, IPointerDownHandler
         return instance.itemHeld;
     }
 
+    public static void UpdateStacks(int stacks)
+    {
+        instance.stackText.text = stacks + "";
+    }
+
     public static void DisplayImage(Sprite sprite, DragDrop d, GameObject item)
     {
         instance.image.sprite = sprite;
@@ -56,6 +65,17 @@ public class DraggableIcon : MonoBehaviour, IPointerDownHandler
         instance.c.blocksRaycasts = true;
         instance.draggable = d;
         instance.itemHeld = item;
+
+        if (item != null)
+        {
+            if (item.TryGetComponent(out StackableItem stack))
+            {
+                instance.stackText.text = stack.GetStacks() + "";
+            } else
+            {
+                instance.stackText.text = "";
+            }
+        }
 
         instance.MoveImage();
     }
@@ -66,7 +86,8 @@ public class DraggableIcon : MonoBehaviour, IPointerDownHandler
         instance.c.blocksRaycasts = true;
         instance.draggable = null;
 
-        
+        instance.stackText.text = "";
+
         instance.Stop(dropsItem);
     }
 
@@ -75,10 +96,17 @@ public class DraggableIcon : MonoBehaviour, IPointerDownHandler
         if (coroutine != null)
         {
             StopCoroutine(coroutine);
-            // TODO: Drop held item to the ground
             if (dropsItem && itemHeld != null)
             {
-                GameController.DropItem(itemHeld.GetComponent<Item>());
+                if (itemHeld.TryGetComponent(out StackableItem stack))
+                {
+                    for (int i = 0; i < stack.GetStacks(); i++) { GameController.DropItem(itemHeld.GetComponent<Item>(), true); }
+                }
+                else
+                {
+                    GameController.DropItem(itemHeld.GetComponent<Item>());
+                }
+   
             }
             itemHeld = null;
         }
@@ -127,8 +155,9 @@ public class DraggableIcon : MonoBehaviour, IPointerDownHandler
             }
         }
 
-        if (raycastResults.Count <= 1)
+        if (raycastResults.Count <= 2)
         {
+            // Drop item
             HideImage();
         }
     }

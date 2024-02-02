@@ -57,6 +57,11 @@ public class BookMenuUI : MonoBehaviour
         PlayerInventory.instance.Disable();
 
         // Update all slots
+        UpdateImage();
+    }
+
+    public static void UpdateImage()
+    {
         UpdateImage(instance.slots);
         UpdateImage(instance.clothingSlots);
     }
