@@ -39,5 +39,5 @@ MonoBehaviour:
     left: {fileID: 7400000, guid: 1136263a763354047add95f16f23a4fa, type: 2}
     right: {fileID: 7400000, guid: 0632d9517241a3049bf7a9b45cdac3b4, type: 2}
   possibleColors: []
-  sprite: {fileID: -2364997005464773918, guid: 837d5ef2fa9b045529943e2665eeaf45, type: 3}
+  sprite: {fileID: -6602040182455614462, guid: 837d5ef2fa9b045529943e2665eeaf45, type: 3}
   Name: Torso 01

@@ -129,8 +129,6 @@ MonoBehaviour:
   rotateGameObject: {fileID: 0}
   size: {x: 3, y: 2}
   originalPrefab: {fileID: 7095797780511728409}
-  canBePlacedInside: 1
-  canBePlacedOutside: 0
   placedOnWalls: 0
   rugLike: 0
   tableLike: 0
@@ -164,7 +162,7 @@ MonoBehaviour:
   - {x: 1.8694445, y: -1.4574791, z: 0}
   m_ShapePathHash: 1595654161
   m_Mesh: {fileID: 0}
-  m_InstanceId: 303020
+  m_InstanceId: 141942
 --- !u!61 &8024201752284014415
 BoxCollider2D:
   m_ObjectHideFlags: 0

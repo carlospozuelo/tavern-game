@@ -543,8 +543,6 @@ MonoBehaviour:
   rotateGameObject: {fileID: 7095797780511728409, guid: 27343682f5b4e964cb357971b4548936, type: 3}
   size: {x: 3, y: 1}
   originalPrefab: {fileID: 7095797780511728409}
-  canBePlacedInside: 1
-  canBePlacedOutside: 0
   placedOnWalls: 0
   rugLike: 0
   tableLike: 0
@@ -565,7 +563,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.9953785, y: -0.20114732}
+  m_Offset: {x: 0.99920326, y: -0.20497215}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.0023107529, y: 0.85098535}
@@ -576,5 +574,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 0.9983531}
+  m_Size: {x: 1.9388024, y: 0.8836075}
   m_EdgeRadius: 0

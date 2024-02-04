@@ -39,5 +39,5 @@ MonoBehaviour:
     left: {fileID: 0}
     right: {fileID: 0}
   possibleColors: []
-  sprite: {fileID: 4505543044947124772, guid: 0517b7922124046b1a46aa3655bc3737, type: 3}
+  sprite: {fileID: 5920891238085284314, guid: 0517b7922124046b1a46aa3655bc3737, type: 3}
   Name: Shoes 01

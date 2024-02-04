@@ -39,5 +39,5 @@ MonoBehaviour:
     left: {fileID: 0}
     right: {fileID: 0}
   possibleColors: []
-  sprite: {fileID: -6599182060666448397, guid: 7bcfe757069f14035806ec6369ea6aa7, type: 3}
+  sprite: {fileID: 6201814509932499240, guid: 7bcfe757069f14035806ec6369ea6aa7, type: 3}
   Name: Legs 01

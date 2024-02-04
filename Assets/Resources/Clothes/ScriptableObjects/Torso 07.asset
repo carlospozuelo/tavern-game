@@ -39,5 +39,5 @@ MonoBehaviour:
     left: {fileID: 7400000, guid: 48d5050c3bba38c4cb51e261cc0169a6, type: 2}
     right: {fileID: 7400000, guid: 16884fe6adb2d184c9c0c577e5cb0ae9, type: 2}
   possibleColors: []
-  sprite: {fileID: 8448279177304489771, guid: 837d5ef2fa9b045529943e2665eeaf45, type: 3}
+  sprite: {fileID: 8620417883942682330, guid: 837d5ef2fa9b045529943e2665eeaf45, type: 3}
   Name: Torso 07
