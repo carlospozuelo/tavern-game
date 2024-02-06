@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7095797780511728411}
   - component: {fileID: 7095797780511728404}
   - component: {fileID: 4300351203634306632}
-  - component: {fileID: 597382733558665992}
   - component: {fileID: 3270048257748222273}
   m_Layer: 0
   m_Name: Worn bar
@@ -136,33 +135,6 @@ MonoBehaviour:
   itemsOnTop: []
   onTopOf: {fileID: 0}
   blocks: []
---- !u!114 &597382733558665992
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7095797780511728409}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
-  m_ComponentVersion: 1
-  m_HasRenderer: 1
-  m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
-  m_SelfShadows: 0
-  m_ApplyToSortingLayers: 61ae9d8f
-  m_ShapePath:
-  - {x: 0.07112147, y: -0.71578807, z: 0}
-  - {x: 0.061768144, y: -0.5916314, z: 0}
-  - {x: 1.9556626, y: -0.6022989, z: 0}
-  - {x: 1.9415901, y: -0.73347783, z: 0}
-  m_ShapePathHash: 1740230344
-  m_Mesh: {fileID: 0}
-  m_InstanceId: 832564
 --- !u!61 &3270048257748222273
 BoxCollider2D:
   m_ObjectHideFlags: 0
