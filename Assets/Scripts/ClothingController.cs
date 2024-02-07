@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using Unity.Mathematics;
 using UnityEngine;
 
 [Serializable]
@@ -64,6 +65,12 @@ public class ClothingController : MonoBehaviour
     private GameObject clothingPrefab;
 
     private Dictionary<string, ClothingItem> allClothingItems;
+    private Dictionary<ClothingItem.ClothingType, List<ClothingItem>> allClothingItemsByType;
+
+    public static ClothingItem GetRandomClothingItem(ClothingItem.ClothingType type)
+    {
+        return instance.allClothingItemsByType[type][UnityEngine.Random.Range(0, instance.allClothingItemsByType[type].Count)];
+    }
 
     public static ClothingItem GetClothingItem(string s)
     {
@@ -334,9 +341,20 @@ public class ClothingController : MonoBehaviour
         this.all = Resources.LoadAll("Clothes/ScriptableObjects", typeof(ClothingItem)).Cast<ClothingItem>().ToArray();
 
         allClothingItems = new Dictionary<string, ClothingItem>();
+        allClothingItemsByType = new Dictionary<ClothingItem.ClothingType, List<ClothingItem>>();
+
+        allClothingItemsByType[ClothingItem.ClothingType.Shoes] = new List<ClothingItem>();
+        allClothingItemsByType[ClothingItem.ClothingType.Torso] = new List<ClothingItem>();
+        allClothingItemsByType[ClothingItem.ClothingType.Legs] = new List<ClothingItem>();
+        allClothingItemsByType[ClothingItem.ClothingType.Hair] = new List<ClothingItem>();
+        allClothingItemsByType[ClothingItem.ClothingType.Faces] = new List<ClothingItem>();
+
+
         foreach (ClothingItem c in this.all)
         {
             allClothingItems.Add(c.Name, c);
+
+            allClothingItemsByType[c.type].Add(c);
         }
 
         clothing_type_to_body_parts = new Dictionary<ClothingItem.ClothingType, string>();

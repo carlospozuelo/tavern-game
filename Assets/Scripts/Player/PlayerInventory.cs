@@ -458,11 +458,9 @@ public class PlayerInventory : MonoBehaviour
             inventory = d.GetInventory();
             hotBar = d.GetHotbar();
             ModifyGold(d.GetGold());
+            InventoryUI.instance.UpdateUI();
 
-            for (int i = 0; i < hotBar.Length; i++)
-            {
-                InventoryUI.instance.UpdateUI(i);
-            }
+            
         }
     }
 

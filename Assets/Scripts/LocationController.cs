@@ -20,6 +20,15 @@ public class LocationController : MonoBehaviour
     public string currentLocation = "Tavern";
 
     public static string GetCurrentLocation() { return instance.currentLocation; }
+    public static GameObject GetLocation(string location)
+    {
+        foreach (GameObject g in instance.locations)
+        {
+            if (g.name.Equals(location)) return g;
+        }
+
+        return null;
+    }
 
     public static Transform GetCurrentLocationDroppable()
     {

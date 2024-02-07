@@ -93,6 +93,11 @@ public class ClothingItem : ScriptableObject
 
     public ThreeColors[] possibleColors;
 
+    public ThreeColors GetRandomColor()
+    {
+        return possibleColors[UnityEngine.Random.Range(0, possibleColors.Length)];
+    }
+
     public Sprite sprite;
 
     public string Name;
