@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5452120230367270437}
   - component: {fileID: 5452120230367270442}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Arms
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,7 +178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5452120230387834836}
   - component: {fileID: 5452120230387834837}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Faces
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -262,7 +262,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5452120230588932171}
   - component: {fileID: 5452120230588932168}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -346,7 +346,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5452120230848589409}
   - component: {fileID: 5452120230848589414}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Legs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -603,7 +603,7 @@ MonoBehaviour:
   - {x: -0.410983, y: -0.9378841, z: 0}
   m_ShapePathHash: -89003620
   m_Mesh: {fileID: 0}
-  m_InstanceId: 214274
+  m_InstanceId: 84964
 --- !u!210 &6882171631210739274
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -645,7 +645,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5452120230977845397}
   - component: {fileID: 5452120230977845402}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Hair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -729,7 +729,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5452120231293259708}
   - component: {fileID: 5452120231293259709}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -813,7 +813,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5452120231643377645}
   - component: {fileID: 5452120231643377618}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Shoes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -897,7 +897,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5452120232308463815}
   - component: {fileID: 5452120232308463812}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Torso
   m_TagString: Untagged
   m_Icon: {fileID: 0}

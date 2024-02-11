@@ -24,10 +24,7 @@ public class Clothing : MonoBehaviour, Item
 
     public void Initialize(ClothingItem item, Color c1, Color c2, Color c3)
     {
-        ClothingItem.ThreeColors colors = new ClothingItem.ThreeColors();
-        colors.primary = c1;
-        colors.secondary = c2;
-        colors.tertiary = c3;
+        ClothingItem.ThreeColors colors = new ClothingItem.ThreeColors(c1, c2, c3);
 
         Initialize(item, colors);
     }

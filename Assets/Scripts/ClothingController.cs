@@ -57,6 +57,8 @@ public class ClothingController : MonoBehaviour
     public SpriteRenderer body, arms, face, torso, hair, legs, shoes;
     public Color greyTint;
 
+    public static Color GetTint() { return instance.greyTint; }
+
     public string playerName, pronouns;
 
     private Dictionary<ClothingItem.ClothingType, string> clothing_type_to_body_parts;

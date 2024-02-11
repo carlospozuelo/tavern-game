@@ -28,6 +28,14 @@ public class NPC : MonoBehaviour
         shoeMaterial = shoes.material;
 
         current = clothes;
+
+        UpdateColors(torsoMaterial, clothes[ClothingItem.ClothingType.Torso]);
+        UpdateColors(hairMaterial, clothes[ClothingItem.ClothingType.Hair]);
+        UpdateColors(legsMaterial, clothes[ClothingItem.ClothingType.Legs]);
+        UpdateColors(faceMaterial, clothes[ClothingItem.ClothingType.Faces]);
+        UpdateColors(shoeMaterial, clothes[ClothingItem.ClothingType.Shoes]);
+
+
         GenerateAOC();
     }
 
@@ -37,6 +45,20 @@ public class NPC : MonoBehaviour
 
         m.SetColor("_Color1", c.primary);
         m.SetColor("_Color2", c.secondary);
+
+        if (i.type.Equals(ClothingItem.ClothingType.Hair))
+        {
+            faceMaterial.SetColor("_Color3", c.primary);
+        }
+
+        if (i.type.Equals(ClothingItem.ClothingType.Faces))
+        {
+            body.color = c.primary;
+            arms.color = c.primary;
+
+            m.SetColor("_Color1", c.primary * ClothingController.GetTint());
+        }
+
         // CONTINUE THIS: It is not as simple as setting c1 = primary and so on. For example, the primary hair color becomes the teritary facial color.
     }
 
