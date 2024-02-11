@@ -3,25 +3,15 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : CharacterAbstract
 {
 
     public float speed = 6f;
-    public Rigidbody2D rb;
-
-    public Animator animator;
 
     public static Animator GetAnimator() { return instance.animator; }
 
-    [SerializeField]
-    private bool sitting = false;
-
     private static PlayerMovement instance;
-    private Bench bench;
-
-    private Collider2D[] colliders;
-
-    private SpriteRenderer[] renderers;
+    public static PlayerMovement GetInstance() { return instance; }
 
     [SerializeField]
     private Transform up, down, left, right;
@@ -77,11 +67,6 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.DrawWireCube(right.position, new Vector3(1f, 1f, 1f));
     }
 
-    public static bool IsSitting()
-    {
-        return instance.sitting;
-    }
-
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -97,8 +82,7 @@ public class PlayerMovement : MonoBehaviour
     {
         ClothingController.SetAnimator(animator);
         ClothingController.UpdateColorsReverse();
-        colliders = GetComponentsInChildren<Collider2D>();
-        renderers = GetComponentsInChildren<SpriteRenderer>();
+        Initialize();
     }
 
     public static Vector3 GetPosition()
@@ -112,56 +96,17 @@ public class PlayerMovement : MonoBehaviour
         instance.animator.SetFloat("AnimMoveY", direction.y);
     }
 
-
-
-    public static void Sit(Vector2 position, Bench bench)
-    {
-        ToggleColliders(false);
-
-        instance.transform.position = new Vector3(position.x, position.y, instance.transform.position.z);
-        instance.animator.SetBool("Sitting", true);
-        instance.animator.SetFloat("AnimMoveX", bench.direction.x);
-        instance.animator.SetFloat("AnimMoveY", bench.direction.y);
-        instance.sitting = true;
-        instance.bench = bench;
-        instance.Stop();
-        ToggleMasking(SpriteMaskInteraction.VisibleOutsideMask);
-
-        SpriteMask[] masks = bench.GetFurniture().gameObject.GetComponentsInChildren<SpriteMask>();
-        foreach (var mask in masks) { mask.enabled = true; }
-    }
-
     public static void ToggleColliders(bool value)
     {
-        foreach (Collider2D c in instance.colliders)
-        {
-            c.enabled = value;
-        }
+        instance.ToggleCollidersPrivate(value);
     }
-
+    
     public static void ToggleMasking(SpriteMaskInteraction maskInteraction)
     {
-        foreach (SpriteRenderer s in instance.renderers)
-        {
-            s.maskInteraction = maskInteraction;
-        }
+        instance.ToggleMaskingPrivate(maskInteraction);
     }
 
-    private void GetUp(float h, float v)
-    {
-        if (bench.GetUp(gameObject, h, v))
-        {
-            SpriteMask[] masks = bench.GetFurniture().gameObject.GetComponentsInChildren<SpriteMask>();
-            foreach (var mask in masks) { mask.enabled = false; }
-
-            bench = null;
-            sitting = false;
-            animator.SetBool("Sitting", false);
-
-            ToggleColliders(true);
-            ToggleMasking(SpriteMaskInteraction.None);
-        }
-    }
+    
     // Update is called once per frame
     private bool canMove = true;
     void Update()
@@ -195,11 +140,5 @@ public class PlayerMovement : MonoBehaviour
             Stop();
         }
 
-    }
-
-    private void Stop()
-    {
-        rb.velocity = Vector2.zero;
-        animator.SetFloat("MovementMagnitude", 0);
     }
 }

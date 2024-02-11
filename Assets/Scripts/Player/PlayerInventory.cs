@@ -363,7 +363,7 @@ public class PlayerInventory : MonoBehaviour
                 {
                     if (Vector2.Distance(gameObject.transform.position, i.GetPosition()) <= i.GetMaxDistance())
                     {
-                        i.Interact();
+                        i.Interact(PlayerMovement.GetInstance());
                     }
                 }
             }

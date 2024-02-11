@@ -5,7 +5,7 @@ using UnityEngine;
 public interface Interactuable : IFurniture
 {
 
-    public void Interact();
+    public void Interact(CharacterAbstract character);
 
     public float GetMaxDistance();
 

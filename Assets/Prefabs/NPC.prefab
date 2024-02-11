@@ -603,7 +603,7 @@ MonoBehaviour:
   - {x: -0.410983, y: -0.9378841, z: 0}
   m_ShapePathHash: -89003620
   m_Mesh: {fileID: 0}
-  m_InstanceId: 84964
+  m_InstanceId: 273682
 --- !u!210 &6882171631210739274
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -627,6 +627,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f1f9c8bc2284aa48bf2d69ca9c03697, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sitting: 0
+  animator: {fileID: 5452120230875309742}
+  rb: {fileID: 5452120230875309715}
   body: {fileID: 5452120231293259709}
   arms: {fileID: 5452120230367270442}
   face: {fileID: 5452120230387834837}
@@ -634,7 +637,6 @@ MonoBehaviour:
   hair: {fileID: 5452120230977845402}
   legs: {fileID: 5452120230848589414}
   shoes: {fileID: 5452120231643377618}
-  animator: {fileID: 5452120230875309742}
 --- !u!1 &5452120230977845396
 GameObject:
   m_ObjectHideFlags: 0

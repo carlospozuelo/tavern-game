@@ -2,12 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NPC : MonoBehaviour
+public class NPC : CharacterAbstract
 {
     [SerializeField]
     private SpriteRenderer body, arms, face, torso, hair, legs, shoes;
     private Material torsoMaterial, hairMaterial, legsMaterial, faceMaterial, shoeMaterial;
-    private Color bodyColor;
 
     private Dictionary<ClothingItem.ClothingType, ClothingItem> current;
     private string location;
@@ -15,11 +14,7 @@ public class NPC : MonoBehaviour
     public void SetLocation(string location) { this.location = location; }
     public string GetLocation() { return location; }
 
-    [SerializeField]
-    private Animator animator;
-
     public void Initialize(Dictionary<ClothingItem.ClothingType, ClothingItem> clothes) {
-        bodyColor = body.color;
 
         torsoMaterial = torso.material;
         hairMaterial = hair.material;
@@ -37,8 +32,13 @@ public class NPC : MonoBehaviour
 
 
         GenerateAOC();
-    }
 
+        // Default: Spwan in tavern- so assign a tavern task.
+        // WIP - To test interaction with benches. OBVIOUSLY remove.
+        Initialize();
+        FindObjectOfType<Bench>().Interact(this);
+    }
+    
     private void UpdateColors(Material m, ClothingItem i)
     {
         ClothingItem.ThreeColors c = i.GetRandomColor();

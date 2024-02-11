@@ -37,12 +37,12 @@ public class Bench : MonoBehaviour, Interactuable
         return gameObject.transform.position;
     }
 
-    public void Interact()
+    public void Interact(CharacterAbstract character)
     {
-        if (!PlayerMovement.IsSitting())
+        if (!character.IsSitting() && !furniture.IsBlocked())
         {
             furniture.Block(gameObject);
-            PlayerMovement.Sit(transform.position, this);
+            character.Sit(transform.position, this);
         }
         
     }
