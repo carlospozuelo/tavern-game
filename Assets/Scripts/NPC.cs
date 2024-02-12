@@ -14,6 +14,8 @@ public class NPC : CharacterAbstract
     public void SetLocation(string location) { this.location = location; }
     public string GetLocation() { return location; }
 
+    
+
     public void Initialize(Dictionary<ClothingItem.ClothingType, ClothingItem> clothes) {
 
         torsoMaterial = torso.material;
@@ -32,13 +34,11 @@ public class NPC : CharacterAbstract
 
 
         GenerateAOC();
-
-        // Default: Spwan in tavern- so assign a tavern task.
-        // WIP - To test interaction with benches. OBVIOUSLY remove.
         Initialize();
-        FindObjectOfType<Bench>().Interact(this);
+        // Default: Spwan in tavern- so assign a tavern task.
+
     }
-    
+
     private void UpdateColors(Material m, ClothingItem i)
     {
         ClothingItem.ThreeColors c = i.GetRandomColor();

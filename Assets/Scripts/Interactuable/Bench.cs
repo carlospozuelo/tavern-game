@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bench : MonoBehaviour, Interactuable
+public class Bench : Interactuable
 {
     [SerializeField]
     private float maxDistance = 2f;
@@ -28,16 +28,16 @@ public class Bench : MonoBehaviour, Interactuable
         Gizmos.DrawWireSphere(transform.position, maxDistance);
     }
 
-    public float GetMaxDistance()
+    public override float GetMaxDistance()
     {
         return maxDistance;
     }
 
-    public Vector3 GetPosition() {
+    public override Vector3 GetPosition() {
         return gameObject.transform.position;
     }
 
-    public void Interact(CharacterAbstract character)
+    public override void Interact(CharacterAbstract character)
     {
         if (!character.IsSitting() && !furniture.IsBlocked())
         {
@@ -93,20 +93,25 @@ public class Bench : MonoBehaviour, Interactuable
         return false;
     }
 
-    public bool IsInsideObject(Vector3 worldPosition)
+    public override bool IsInsideObject(Vector3 worldPosition)
     {
         //worldPosition = GridManager.instance.GridPosition(worldPosition);
 
         return Vector2.Distance(worldPosition, transform.position) <= radius;
     }
 
-    public bool IsPartiallyInsideObject(Vector3 worldPosition)
+    public override bool IsPartiallyInsideObject(Vector3 worldPosition)
     {
         return IsInsideObject(worldPosition);
     }
 
-    public GameObject GetGameObject()
+    public override GameObject GetGameObject()
     {
         return gameObject;
+    }
+
+    public override bool CanBeUsedByNPCS()
+    {
+        return true;
     }
 }

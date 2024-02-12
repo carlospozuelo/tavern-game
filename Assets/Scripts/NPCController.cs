@@ -7,7 +7,38 @@ public class NPCController : MonoBehaviour
     private static NPCController instance;
 
     [SerializeField]
+    private HashSet<Interactuable> interactuablesForNPCS;
+
+    [SerializeField]
     private GameObject npcPrefab;
+    private bool initialized = false;
+    private void Start()
+    {
+        if (initialized) return;
+
+        interactuablesForNPCS = new HashSet<Interactuable>();
+        initialized = true;
+    }
+
+    public static void AddInteractuableForNPC(Interactuable i)
+    {
+        if (!instance.initialized)
+        {
+            instance.Start();
+        }
+        if (!instance.interactuablesForNPCS.Contains(i))
+        {
+            instance.interactuablesForNPCS.Add(i);
+        }
+    }
+
+    public static void RemoveInteractuableForNPC(Interactuable i)
+    {
+        if (instance.interactuablesForNPCS.Contains(i))
+        {
+            instance.interactuablesForNPCS.Remove(i);
+        }
+    }
 
     private void Awake()
     {

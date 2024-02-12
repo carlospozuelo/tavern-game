@@ -20,7 +20,15 @@ public abstract class CharacterAbstract : MonoBehaviour
 
     protected SpriteRenderer[] renderers;
 
-
+    private void OnEnable()
+    {
+        if (sitting)
+        {
+            animator.SetBool("Sitting", true);
+            animator.SetFloat("AnimMoveX", bench.direction.x);
+            animator.SetFloat("AnimMoveY", bench.direction.y);
+        }
+    }
 
     protected void Stop()
     {
