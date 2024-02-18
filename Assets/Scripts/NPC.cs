@@ -36,7 +36,27 @@ public class NPC : CharacterAbstract
         GenerateAOC();
         Initialize();
         // Default: Spwan in tavern- so assign a tavern task.
+        StartCoroutine(Exist());
+    }
 
+    private IEnumerator Exist()
+    {
+        while (true)
+        {
+            // Select a task randomly (for now just go to a bench)
+            
+            yield return WalkTowardsBench(NPCController.GetRandomBench());
+        }
+    }
+
+    private IEnumerator WalkTowardsBench(Bench bench)
+    {
+        while(true)
+        {
+            // Pathfinding
+            print("Walking towards the bench: " + bench.transform.parent.name);
+            yield return null;
+        }
     }
 
     private void UpdateColors(Material m, ClothingItem i)

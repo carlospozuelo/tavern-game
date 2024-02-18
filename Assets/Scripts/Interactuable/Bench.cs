@@ -19,6 +19,22 @@ public class Bench : Interactuable
 
     public Furniture GetFurniture() { return furniture; }
 
+    protected override void OnEnable()
+    {
+        if (CanBeUsedByNPCS())
+        {
+            NPCController.AddBenchForNPC(this);
+        }
+    }
+
+    protected override void OnDisable()
+    {
+        if (CanBeUsedByNPCS())
+        {
+            NPCController.RemoveBenchForNPC(this);
+        }
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
@@ -52,6 +68,7 @@ public class Bench : Interactuable
         if (GetUpPrv(g, h, v))
         {
             furniture.Unblock(gameObject);
+            NPCController.AddBenchForNPC(this);
             return true;
         }
 

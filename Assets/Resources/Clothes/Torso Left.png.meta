@@ -1688,16 +1688,16 @@ TextureImporter:
       Torso Left_00x03: 0
       Torso_12: 184869900
       Torso Left_01x04: 0
+      Torso Left_0x4: 0
       Torso Left_07x04: 0
       Torso_4: 1633237920
-      Torso_17: -303322457
       Torso Left_03x04: 0
       Torso Left_07x00: 0
       Torso Left_00x01: 0
-      Torso Left_0x4: 0
       Torso Left_2x3: 0
       Torso Left_3x0: 0
       Torso Left_02x00: 0
+      Torso_17: -303322457
       Torso_11: 183839179
       Torso Left_01x05: 0
       Torso Left_08x02: 0
@@ -1714,9 +1714,9 @@ TextureImporter:
       Torso Left_06x01: 0
       Torso Left_05x05: 0
       Torso Left_01x01: 0
-      Torso Left_01x03: 0
-      Torso Left_04x06: 0
       Torso Left_07x01: 0
+      Torso Left_04x06: 0
+      Torso Left_01x03: 0
       Torso Left_2x1: 0
       Torso_1: 218712887
       Torso Left_02x05: 0

@@ -79,6 +79,8 @@ public abstract class CharacterAbstract : MonoBehaviour
 
         SpriteMask[] masks = bench.GetFurniture().gameObject.GetComponentsInChildren<SpriteMask>();
         foreach (var mask in masks) { mask.enabled = true; }
+
+        NPCController.RemoveBenchForNPC(bench);
     }
 
     protected void ToggleCollidersPrivate(bool value)

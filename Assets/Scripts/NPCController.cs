@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class NPCController : MonoBehaviour
 {
     private static NPCController instance;
 
-    [SerializeField]
     private HashSet<Interactuable> interactuablesForNPCS;
+
+    private HashSet<Bench> benchesForNPCS;
 
     [SerializeField]
     private GameObject npcPrefab;
@@ -17,6 +19,7 @@ public class NPCController : MonoBehaviour
         if (initialized) return;
 
         interactuablesForNPCS = new HashSet<Interactuable>();
+        benchesForNPCS = new HashSet<Bench>();
         initialized = true;
     }
 
@@ -38,6 +41,49 @@ public class NPCController : MonoBehaviour
         {
             instance.interactuablesForNPCS.Remove(i);
         }
+    }
+
+    public static void AddBenchForNPC(Bench b)
+    {
+        if (!instance.initialized)
+        {
+            instance.Start();
+        }
+        if (!instance.benchesForNPCS.Contains(b))
+        {
+            instance.benchesForNPCS.Add(b);
+        }
+
+        // Debug();
+
+    }
+
+    public static Bench GetRandomBench()
+    {
+        if (instance.benchesForNPCS.Count == 0) { return null; }
+
+        return instance.benchesForNPCS.ElementAt(Random.Range(0, instance.benchesForNPCS.Count));
+    }
+
+    private static void Debug()
+    {
+        string str = "";
+        foreach (var bench in instance.benchesForNPCS)
+        {
+            str += bench + " ";
+        }
+
+        DebugPanelUI.instance.Debug(str);
+    }
+
+    public static void RemoveBenchForNPC(Bench b)
+    {
+        if (instance.benchesForNPCS.Contains(b))
+        {
+            instance.benchesForNPCS.Remove(b);
+        }
+
+        // Debug();
     }
 
     private void Awake()

@@ -38,7 +38,7 @@ public class Furniture : MonoBehaviour, Item, IFurniture
     [SerializeField]
     private List<GameObject> blocks = new List<GameObject>();
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         foreach (Transform child in transform)
         {
