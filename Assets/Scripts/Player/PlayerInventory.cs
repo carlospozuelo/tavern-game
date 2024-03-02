@@ -314,7 +314,10 @@ public class PlayerInventory : MonoBehaviour
                     if (toBePickedUp != null)
                     {
                         toBePickedUp.PickUp();
+
+                        LocationController.GetPathfindingAgent("Tavern").RecalculateBoundaries();
                     }
+
                 }
             }
             

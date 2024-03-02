@@ -18,6 +18,10 @@ public class CustomGrid<TGridObject>
     public int GetWidth() { return width; }
     public int GetHeight() { return height; }
 
+    public float GetCellSize() { return cellSize; }
+
+    private bool debug = false;
+
     public CustomGrid(int width, int height, float cellSize, Vector3 originPosition, Func<CustomGrid<TGridObject>, int, int, TGridObject> createGridObject)
     {
         this.width = width;
@@ -35,7 +39,6 @@ public class CustomGrid<TGridObject>
             }
         }
 
-                bool debug = true;
         if (debug)
         {
             debugTextArray = new TextMesh[width, height];
@@ -44,7 +47,7 @@ public class CustomGrid<TGridObject>
             {
                 for (int y = 0; y < height; y++)
                 {
-                    debugTextArray[x, y] = Utils.CreateWorldText(matrix[x, y]?.ToString(), null, GetWorldPosition(x, y) + new Vector3(cellSize, cellSize) / 2, 5, TextAnchor.MiddleCenter);
+                    debugTextArray[x, y] = Utils.CreateWorldText(matrix[x, y]?.ToString(), null, GetWorldPosition(x, y) + new Vector3(cellSize, cellSize) / 2, 2, TextAnchor.MiddleCenter);
                     Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), Color.white, 100f);
                     Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), Color.white, 100f);
                 }
@@ -71,6 +74,15 @@ public class CustomGrid<TGridObject>
         else
         {
             Debug.LogError("x or y out of bounds for the custom grid. Ignoring");
+        }
+    }
+
+    public void UpdateValueText(int x, int y, Color color)
+    {
+        if (debug)
+        {
+            debugTextArray[x, y].text = matrix[x, y].ToString();
+            debugTextArray[x, y].color = color;
         }
     }
 
@@ -102,7 +114,7 @@ public class CustomGrid<TGridObject>
         return GetValue(x, y);
     }
 
-    private Vector3 GetWorldPosition(int x, int y)
+    public Vector3 GetWorldPosition(int x, int y)
     {
         return new Vector3(x, y) * cellSize + originPosition;
     }

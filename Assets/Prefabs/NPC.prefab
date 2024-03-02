@@ -438,7 +438,7 @@ GameObject:
   - component: {fileID: 3060368670352611892}
   m_Layer: 0
   m_Name: NPC
-  m_TagString: Untagged
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -603,7 +603,7 @@ MonoBehaviour:
   - {x: -0.410983, y: -0.9378841, z: 0}
   m_ShapePathHash: -89003620
   m_Mesh: {fileID: 0}
-  m_InstanceId: 273682
+  m_InstanceId: 1233542
 --- !u!210 &6882171631210739274
 SortingGroup:
   m_ObjectHideFlags: 0

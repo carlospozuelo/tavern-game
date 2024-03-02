@@ -8,7 +8,7 @@ public class Testing : MonoBehaviour
     private void Start()
     {
         print("Creating new pathfinding object");
-        pathfinding = new Pathfinding(20,20, new Vector3(0,0,0));
+        pathfinding = new Pathfinding(20,20, 1f, new Vector3(0,0,0));
     }
 
     private void Update()

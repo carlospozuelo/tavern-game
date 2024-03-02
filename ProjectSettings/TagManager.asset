@@ -8,6 +8,7 @@ TagManager:
   - Shop
   - Townhall
   - Town
+  - NPC
   layers:
   - Default
   - TransparentFX

@@ -12,9 +12,73 @@ public class Pathfinding
     private List<PathNode> openList;
     private List<PathNode> closedList;
 
-    public Pathfinding(int width, int height, Vector3 originPosition)
+    public Pathfinding(int width, int height, float cellSize, Vector3 originPosition)
     {
-        grid = new CustomGrid<PathNode>(width, height, 1f, originPosition, (CustomGrid<PathNode> g, int x, int y) => new PathNode(g, x, y));
+        grid = new CustomGrid<PathNode>(width, height, cellSize, originPosition, (CustomGrid<PathNode> g, int x, int y) => new PathNode(g, x, y));
+    }
+
+
+    public List<PathNode> GetPathToClosestReachableTile(Vector3 from, Vector3 to, int deepness = 5)
+    {
+        GetGrid().GetXY(from, out int fromX, out int fromY);
+        GetGrid().GetXY(to, out int toX, out int toY);
+
+        return GetPathToClosestReachableTile(fromX, fromY, toX, toY, deepness);
+
+    }
+
+    // Returns the closest tile to xTo yTo, that is reachable from the xFrom yFrom position
+    private List<PathNode> GetPathToClosestReachableTile(int fromX, int fromY, int toX, int toY, int deepness = 5)
+    {
+        for (int total = 0; total < deepness + deepness - 1; total++)
+        {
+            for (int x = 0; x <= System.Math.Min(total, deepness - 1); x++)
+            {
+                int y = total - x;
+                List<PathNode> list = FindPath(fromX, fromY, toX + x, toY + y);
+                if (list != null)
+                {
+                    return list;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public void UpdateNonWalkableTiles(string location)
+    {
+        // For each tile, box cast and get ALL the colliders. If at least one of them is in the same location, mark the tile as non-walkable
+
+        for (int x = 0; x < grid.GetWidth(); x++)
+        {
+            for (int y = 0; y < grid.GetHeight(); y++)
+            {
+                Vector2 direction = Vector2.up;
+                Vector2 bottomLeftCorner = grid.GetWorldPosition(x,y);
+                Vector2 size = new Vector2(grid.GetCellSize(), grid.GetCellSize());
+
+                grid.GetValue(x, y).isWalkable = true;
+                grid.UpdateValueText(x, y, Color.white);
+
+                RaycastHit2D[] rays = Physics2D.BoxCastAll(bottomLeftCorner, size, 0f, direction, 0f);
+                
+                foreach (var ray in rays)
+                {
+                    if (!ray.collider.CompareTag("Player") && !ray.collider.CompareTag("NPC"))
+                    {
+                        if (!ray.collider.isTrigger)
+                        {
+                            // Found at least one collider. Mark the walkable tile as non-walkable
+                            grid.GetValue(x, y).isWalkable = false;
+                            grid.UpdateValueText(x, y, Color.red);
+                            break;
+                        }
+                    }
+                }
+            }
+        } 
+
     }
 
     public CustomGrid<PathNode> GetGrid() { return grid; }

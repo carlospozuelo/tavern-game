@@ -102,8 +102,6 @@ MonoBehaviour:
   rotateGameObject: {fileID: 0}
   size: {x: 1, y: 1}
   originalPrefab: {fileID: 7757420893425116376}
-  canBePlacedInside: 1
-  canBePlacedOutside: 0
   placedOnWalls: 1
   rugLike: 0
   tableLike: 0
@@ -121,7 +119,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.5, y: -0.5}
@@ -135,7 +133,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.9, y: 0.9}
   m_EdgeRadius: 0
 --- !u!1 &7757420893640767478
 GameObject:

@@ -136,12 +136,10 @@ public class InventoryData
 
                 if (collection[i].GetId().Equals("ClothingItem"))
                 {
-                    Debug.Log(collection[i]);
                     ClothingString str = (ClothingString) collection[i];
 
                     ClothingItem item = ClothingController.GetClothingItem(str.GetClothingItemId());
                     inventory[i] = ClothingController.GenerateClothingObject(item, str.GetThreeColors());
-                    Debug.Log(inventory[i]);
                 } 
                 else
                 {

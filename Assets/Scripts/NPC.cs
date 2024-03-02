@@ -41,21 +41,67 @@ public class NPC : CharacterAbstract
 
     private IEnumerator Exist()
     {
+        bool loggedInactivity = false;
         while (true)
         {
             // Select a task randomly (for now just go to a bench)
-            
-            yield return WalkTowardsBench(NPCController.GetRandomBench());
+            Bench bench = NPCController.GetRandomBench();
+            if (bench != null) {
+                loggedInactivity = false;
+                yield return WalkTowardsBench(bench);
+            }
+            else
+            {
+                // Nothing else to do
+                if (!loggedInactivity)
+                {
+                    Debug.LogWarning("There's nothing for the npc to do! Wander around?");
+                    loggedInactivity = true;
+                }
+                yield return new WaitForSeconds(1f);
+            }
         }
     }
 
+    // TODO: Walk towards a NON selected bench
     private IEnumerator WalkTowardsBench(Bench bench)
     {
-        while(true)
+        Vector3 benchPosition = bench.GetPosition();
+        Pathfinding pathfinding = LocationController.GetPathfindingAgent(location).GetPathfinding();
+        List<PathNode> path = pathfinding.GetPathToClosestReachableTile(transform.position, benchPosition);
+
+        while (true)
         {
-            // Pathfinding
-            print("Walking towards the bench: " + bench.transform.parent.name);
-            yield return null;
+            if (bench == null || path == null)
+            {
+                yield break;
+            }
+
+            foreach (PathNode node in path)
+            {
+                if (bench == null || path == null)
+                {
+                    yield break;
+                }
+                // TODO: Modify movement
+                Vector3 worldPos = pathfinding.GetGrid().GetWorldPosition(node.x, node.y);
+                transform.position = new Vector3(worldPos.x, worldPos.y, transform.position.z);
+                yield return new WaitForSeconds(.5f);
+            }
+
+            // Reached the bench
+            yield return Sit(bench);
+        }
+    }
+
+    private IEnumerator Sit(Bench bench)
+    {
+        if (bench == null) { yield break; }
+        Debug.Log("Sitting for eternity");
+        bench.Interact(this);
+        while (true)
+        {
+            yield return new WaitForSeconds(1f);
         }
     }
 
