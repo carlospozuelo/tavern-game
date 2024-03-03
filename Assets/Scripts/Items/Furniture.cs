@@ -38,7 +38,7 @@ public class Furniture : MonoBehaviour, Item, IFurniture
     [SerializeField]
     private List<GameObject> blocks = new List<GameObject>();
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         foreach (Transform child in transform)
         {
@@ -81,10 +81,15 @@ public class Furniture : MonoBehaviour, Item, IFurniture
             GameObject g = PlaceItem(tablePosition);
             table.AddItemOnTop(g.GetComponent<Furniture>());
 
+            LocationController.GetPathfindingAgent("Tavern").RecalculateBoundaries();
+
         } else if (CanBePlaced(GridManager.instance.GridPosition(worldPosition)))
         {
             Vector2 pos = GridManager.instance.SnapPosition(worldPosition);
             PlaceItem(pos);
+
+            LocationController.GetPathfindingAgent("Tavern").RecalculateBoundaries();
+
         }
 
         return true;

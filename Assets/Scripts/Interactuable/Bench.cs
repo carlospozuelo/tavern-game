@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bench : MonoBehaviour, Interactuable
+public class Bench : Interactuable
 {
     [SerializeField]
     private float maxDistance = 2f;
@@ -19,6 +19,22 @@ public class Bench : MonoBehaviour, Interactuable
 
     public Furniture GetFurniture() { return furniture; }
 
+    protected override void OnEnable()
+    {
+        if (CanBeUsedByNPCS())
+        {
+            NPCController.AddBenchForNPC(this);
+        }
+    }
+
+    protected override void OnDisable()
+    {
+        if (CanBeUsedByNPCS())
+        {
+            NPCController.RemoveBenchForNPC(this);
+        }
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
@@ -28,21 +44,21 @@ public class Bench : MonoBehaviour, Interactuable
         Gizmos.DrawWireSphere(transform.position, maxDistance);
     }
 
-    public float GetMaxDistance()
+    public override float GetMaxDistance()
     {
         return maxDistance;
     }
 
-    public Vector3 GetPosition() {
+    public override Vector3 GetPosition() {
         return gameObject.transform.position;
     }
 
-    public void Interact()
+    public override void Interact(CharacterAbstract character)
     {
-        if (!PlayerMovement.IsSitting())
+        if (!character.IsSitting() && !furniture.IsBlocked())
         {
             furniture.Block(gameObject);
-            PlayerMovement.Sit(transform.position, this);
+            character.Sit(transform.position, this);
         }
         
     }
@@ -52,6 +68,7 @@ public class Bench : MonoBehaviour, Interactuable
         if (GetUpPrv(g, h, v))
         {
             furniture.Unblock(gameObject);
+            NPCController.AddBenchForNPC(this);
             return true;
         }
 
@@ -93,20 +110,25 @@ public class Bench : MonoBehaviour, Interactuable
         return false;
     }
 
-    public bool IsInsideObject(Vector3 worldPosition)
+    public override bool IsInsideObject(Vector3 worldPosition)
     {
         //worldPosition = GridManager.instance.GridPosition(worldPosition);
 
         return Vector2.Distance(worldPosition, transform.position) <= radius;
     }
 
-    public bool IsPartiallyInsideObject(Vector3 worldPosition)
+    public override bool IsPartiallyInsideObject(Vector3 worldPosition)
     {
         return IsInsideObject(worldPosition);
     }
 
-    public GameObject GetGameObject()
+    public override GameObject GetGameObject()
     {
         return gameObject;
+    }
+
+    public override bool CanBeUsedByNPCS()
+    {
+        return true;
     }
 }

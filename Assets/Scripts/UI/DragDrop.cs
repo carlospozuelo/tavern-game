@@ -125,7 +125,10 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
             stackText.text = stack.GetStacks() + "";
         } else
         {
-            stackText.text = "";
+            if (stackText != null)
+            {
+                stackText.text = "";
+            }
         }
 
         if (isForClothing)

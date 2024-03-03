@@ -101,7 +101,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.98874557, y: -0.65886563}
+  m_Offset: {x: 0.98874557, y: -0.61813194}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0.76377195}
@@ -112,7 +112,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.8693163, y: 1.3098403}
+  m_Size: {x: 1.8693163, y: 1.3913077}
   m_EdgeRadius: 0
 --- !u!114 &4300351203634306632
 MonoBehaviour:
@@ -129,8 +129,6 @@ MonoBehaviour:
   rotateGameObject: {fileID: 0}
   size: {x: 3, y: 2}
   originalPrefab: {fileID: 7095797780511728409}
-  canBePlacedInside: 1
-  canBePlacedOutside: 0
   placedOnWalls: 0
   rugLike: 0
   tableLike: 0
@@ -164,7 +162,7 @@ MonoBehaviour:
   - {x: 1.8694445, y: -1.4574791, z: 0}
   m_ShapePathHash: 1595654161
   m_Mesh: {fileID: 0}
-  m_InstanceId: 303020
+  m_InstanceId: 1140796
 --- !u!61 &8024201752284014415
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -314,7 +314,10 @@ public class PlayerInventory : MonoBehaviour
                     if (toBePickedUp != null)
                     {
                         toBePickedUp.PickUp();
+
+                        LocationController.GetPathfindingAgent("Tavern").RecalculateBoundaries();
                     }
+
                 }
             }
             
@@ -363,7 +366,7 @@ public class PlayerInventory : MonoBehaviour
                 {
                     if (Vector2.Distance(gameObject.transform.position, i.GetPosition()) <= i.GetMaxDistance())
                     {
-                        i.Interact();
+                        i.Interact(PlayerMovement.GetInstance());
                     }
                 }
             }
@@ -458,11 +461,9 @@ public class PlayerInventory : MonoBehaviour
             inventory = d.GetInventory();
             hotBar = d.GetHotbar();
             ModifyGold(d.GetGold());
+            InventoryUI.instance.UpdateUI();
 
-            for (int i = 0; i < hotBar.Length; i++)
-            {
-                InventoryUI.instance.UpdateUI(i);
-            }
+            
         }
     }
 
