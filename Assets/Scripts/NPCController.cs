@@ -65,6 +65,15 @@ public class NPCController : MonoBehaviour
         return instance.benchesForNPCS.ElementAt(Random.Range(0, instance.benchesForNPCS.Count));
     }
 
+    public static Bench PopRandomBench()
+    {
+        Bench bench = GetRandomBench();
+
+        instance.benchesForNPCS.Remove(bench);
+
+        return bench;
+    }
+
     private static void Debug()
     {
         string str = "";

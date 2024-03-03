@@ -14,6 +14,9 @@ public class NPC : CharacterAbstract
     public void SetLocation(string location) { this.location = location; }
     public string GetLocation() { return location; }
 
+    [SerializeField]
+    private float speed = 2;
+
     
 
     public void Initialize(Dictionary<ClothingItem.ClothingType, ClothingItem> clothes) {
@@ -45,7 +48,7 @@ public class NPC : CharacterAbstract
         while (true)
         {
             // Select a task randomly (for now just go to a bench)
-            Bench bench = NPCController.GetRandomBench();
+            Bench bench = NPCController.PopRandomBench();
             if (bench != null) {
                 loggedInactivity = false;
                 yield return WalkTowardsBench(bench);
@@ -53,6 +56,9 @@ public class NPC : CharacterAbstract
             else
             {
                 // Nothing else to do
+                rb.velocity = Vector2.zero;
+                animator.SetFloat("MovementMagnitude", 0);
+
                 if (!loggedInactivity)
                 {
                     Debug.LogWarning("There's nothing for the npc to do! Wander around?");
@@ -63,7 +69,6 @@ public class NPC : CharacterAbstract
         }
     }
 
-    // TODO: Walk towards a NON selected bench
     private IEnumerator WalkTowardsBench(Bench bench)
     {
         Vector3 benchPosition = bench.GetPosition();
@@ -83,14 +88,45 @@ public class NPC : CharacterAbstract
                 {
                     yield break;
                 }
-                // TODO: Modify movement
+
                 Vector3 worldPos = pathfinding.GetGrid().GetWorldPosition(node.x, node.y);
-                transform.position = new Vector3(worldPos.x, worldPos.y, transform.position.z);
-                yield return new WaitForSeconds(.5f);
+                //transform.position = new Vector3(worldPos.x, worldPos.y, transform.position.z);
+                yield return MoveRoutine(worldPos);
             }
 
             // Reached the bench
             yield return Sit(bench);
+        }
+    }
+
+    private IEnumerator MoveRoutine(Vector3 endPoint)
+    {
+        Vector2 direction = (endPoint - transform.position).normalized;
+
+        float distance = Vector2.Distance(transform.position, endPoint);
+        int failures = 0;
+        while (distance > .15f && failures < 10)
+        {
+            if (Vector2.Distance(transform.position, endPoint) >= distance)
+            {
+                // Distance increased !!
+                direction = (endPoint - transform.position).normalized;
+                failures++;
+            }
+
+            distance = Vector2.Distance(transform.position, endPoint);
+
+            animator.SetFloat("AnimMoveX", direction.x);
+            animator.SetFloat("AnimMoveY", direction.y);
+            animator.SetFloat("MovementMagnitude", direction.magnitude);
+            rb.velocity = direction * speed;
+            yield return new WaitForSeconds(.05f);
+        }
+
+        if (failures >= 10) {
+            // Corrected position !!
+            Debug.LogWarning("Corrected Position !! ");
+            rb.position = endPoint;
         }
     }
 

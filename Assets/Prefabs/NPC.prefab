@@ -603,7 +603,7 @@ MonoBehaviour:
   - {x: -0.410983, y: -0.9378841, z: 0}
   m_ShapePathHash: -89003620
   m_Mesh: {fileID: 0}
-  m_InstanceId: 1233542
+  m_InstanceId: 2080378
 --- !u!210 &6882171631210739274
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -637,6 +637,7 @@ MonoBehaviour:
   hair: {fileID: 5452120230977845402}
   legs: {fileID: 5452120230848589414}
   shoes: {fileID: 5452120231643377618}
+  speed: 6
 --- !u!1 &5452120230977845396
 GameObject:
   m_ObjectHideFlags: 0

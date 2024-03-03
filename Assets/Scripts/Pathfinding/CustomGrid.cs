@@ -39,7 +39,7 @@ public class CustomGrid<TGridObject>
             }
         }
 
-        if (debug)
+        if (this.debug)
         {
             debugTextArray = new TextMesh[width, height];
 
