@@ -28,6 +28,11 @@ public class LocationController : MonoBehaviour
         }
 
         print("Adding: " + location);
+
+        if (instance.pathfindingAgents.ContainsKey(location)) { 
+            // Replace current agent
+            instance.pathfindingAgents.Remove(location);
+        }
         instance.pathfindingAgents.Add(location, agent);
     }
 

@@ -52,13 +52,17 @@ public class NPC : CharacterAbstract
             if (bench != null) {
                 loggedInactivity = false;
                 yield return WalkTowardsBench(bench);
+                if (!sitting)
+                {
+                    // Something went wrong. Reinstall the bench
+                    NPCController.AddBenchForNPC(bench);
+                    Stop();
+                }
             }
             else
             {
                 // Nothing else to do
-                rb.velocity = Vector2.zero;
-                animator.SetFloat("MovementMagnitude", 0);
-
+                Stop();
                 if (!loggedInactivity)
                 {
                     Debug.LogWarning("There's nothing for the npc to do! Wander around?");
@@ -74,29 +78,28 @@ public class NPC : CharacterAbstract
         Vector3 benchPosition = bench.GetPosition();
         Pathfinding pathfinding = LocationController.GetPathfindingAgent(location).GetPathfinding();
         List<PathNode> path = pathfinding.GetPathToClosestReachableTile(transform.position, benchPosition);
+        
 
-        while (true)
+        if (bench == null || path == null)
+        {
+            yield break;
+        }
+
+        foreach (PathNode node in path)
         {
             if (bench == null || path == null)
             {
                 yield break;
             }
 
-            foreach (PathNode node in path)
-            {
-                if (bench == null || path == null)
-                {
-                    yield break;
-                }
-
-                Vector3 worldPos = pathfinding.GetGrid().GetWorldPosition(node.x, node.y);
-                //transform.position = new Vector3(worldPos.x, worldPos.y, transform.position.z);
-                yield return MoveRoutine(worldPos);
-            }
-
-            // Reached the bench
-            yield return Sit(bench);
+            Vector3 worldPos = pathfinding.GetGrid().GetWorldPosition(node.x, node.y);
+            //transform.position = new Vector3(worldPos.x, worldPos.y, transform.position.z);
+            yield return MoveRoutine(worldPos);
         }
+
+        // Reached the bench
+        yield return Sit(bench);
+        
     }
 
     private IEnumerator MoveRoutine(Vector3 endPoint)
@@ -116,8 +119,8 @@ public class NPC : CharacterAbstract
 
             distance = Vector2.Distance(transform.position, endPoint);
 
-            animator.SetFloat("AnimMoveX", direction.x);
-            animator.SetFloat("AnimMoveY", direction.y);
+            animator.SetFloat("AnimMoveX", direction.normalized.x);
+            animator.SetFloat("AnimMoveY", direction.normalized.y);
             animator.SetFloat("MovementMagnitude", direction.magnitude);
             rb.velocity = direction * speed;
             yield return new WaitForSeconds(.05f);
@@ -132,13 +135,18 @@ public class NPC : CharacterAbstract
 
     private IEnumerator Sit(Bench bench)
     {
+        Stop();
         if (bench == null) { yield break; }
         Debug.Log("Sitting for eternity");
-        bench.Interact(this);
-        while (true)
-        {
-            yield return new WaitForSeconds(1f);
+
+        if (bench.Interact(this)) { 
+            while (true)
+            {
+                yield return new WaitForSeconds(1f);
+            }
         }
+
+        yield break;
     }
 
     private void UpdateColors(Material m, ClothingItem i)

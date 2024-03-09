@@ -20,14 +20,15 @@ public class CustomGrid<TGridObject>
 
     public float GetCellSize() { return cellSize; }
 
-    private bool debug = false;
+    private bool debug = true;
 
-    public CustomGrid(int width, int height, float cellSize, Vector3 originPosition, Func<CustomGrid<TGridObject>, int, int, TGridObject> createGridObject)
+    public CustomGrid(int width, int height, float cellSize, Vector3 originPosition, Func<CustomGrid<TGridObject>, int, int, TGridObject> createGridObject, bool debug = false)
     {
         this.width = width;
         this.height = height;
         this.cellSize = cellSize;
         this.originPosition = originPosition;
+        this.debug = debug;
 
         matrix = new TGridObject[width, height];
 

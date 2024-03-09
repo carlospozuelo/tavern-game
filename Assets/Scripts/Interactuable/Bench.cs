@@ -17,6 +17,10 @@ public class Bench : Interactuable
 
     public Vector2 direction;
 
+    private bool busy = false;
+
+    public bool IsBusy() {  return busy; }
+
     public Furniture GetFurniture() { return furniture; }
 
     protected override void OnEnable()
@@ -53,12 +57,18 @@ public class Bench : Interactuable
         return gameObject.transform.position;
     }
 
-    public override void Interact(CharacterAbstract character)
+    public override bool Interact(CharacterAbstract character)
     {
-        if (!character.IsSitting() && !furniture.IsBlocked())
+        if (!character.IsSitting() && !busy) //&& !furniture.IsBlocked())
         {
+            busy = true;
             furniture.Block(gameObject);
             character.Sit(transform.position, this);
+            return true;
+        } else
+        {
+            Debug.LogWarning("Can't interact with this bench. Busy: " + busy + ", character sitting: " + character.IsSitting());
+            return false;
         }
         
     }
@@ -67,6 +77,7 @@ public class Bench : Interactuable
     {
         if (GetUpPrv(g, h, v))
         {
+            busy = false;
             furniture.Unblock(gameObject);
             NPCController.AddBenchForNPC(this);
             return true;

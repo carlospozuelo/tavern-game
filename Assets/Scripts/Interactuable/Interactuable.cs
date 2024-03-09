@@ -24,7 +24,7 @@ public abstract class Interactuable : MonoBehaviour, IFurniture
     }
 
 
-    public abstract void Interact(CharacterAbstract character);
+    public abstract bool Interact(CharacterAbstract character);
 
     public abstract bool CanBeUsedByNPCS();
 
