@@ -7,7 +7,7 @@ using UnityEngine;
 public class LoadFurniture : MonoBehaviour
 {
 
-    [MenuItem("Tools/Load furniture")]
+    [MenuItem("Tools/Load/Furniture")]
     static void Load()
     {
         GameObject[] prefabs = Resources.LoadAll("Furniture", typeof(GameObject)).Cast<GameObject>().ToArray();
@@ -23,5 +23,25 @@ public class LoadFurniture : MonoBehaviour
         }
         */
 
+    }
+
+    [MenuItem("Tools/Load/Items")]
+    static void LoadItems()
+    {
+        GameObject[] prefabs = Resources.LoadAll("Items", typeof(GameObject)).Cast<GameObject>().ToArray();
+
+        PlayerInventory playerInventory = FindObjectOfType<PlayerInventory>();
+
+        playerInventory.SetAllItems(prefabs);
+    }
+
+    [MenuItem("Tools/Load/Recipes")]
+    static void LoadRecipes()
+    {
+        CraftingRecipe[] recipes = Resources.LoadAll("Recipes", typeof(CraftingRecipe)).Cast<CraftingRecipe>().ToArray();
+
+        CraftingController controller = FindObjectOfType<CraftingController>();
+
+        controller.SetAllRecipes(recipes);
     }
 }

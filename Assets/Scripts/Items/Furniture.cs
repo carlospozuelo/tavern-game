@@ -240,6 +240,8 @@ public class Furniture : MonoBehaviour, Item, IFurniture
         return false;
     }
 
+    /*
+     * Deprecated
     public bool IsInsideObject(Vector3 worldPosition)
     {
         worldPosition = GridManager.instance.GridPosition(worldPosition);
@@ -265,6 +267,7 @@ public class Furniture : MonoBehaviour, Item, IFurniture
 
         return resul;
     }
+    */
 
     public void PickUp()
     {

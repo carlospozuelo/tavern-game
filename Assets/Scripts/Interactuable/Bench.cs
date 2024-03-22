@@ -5,9 +5,6 @@ using UnityEngine;
 public class Bench : Interactuable
 {
     [SerializeField]
-    private float maxDistance = 2f;
-
-    [SerializeField]
     private float radius = .5f;
 
     [SerializeField]
@@ -119,18 +116,6 @@ public class Bench : Interactuable
         }
 
         return false;
-    }
-
-    public override bool IsInsideObject(Vector3 worldPosition)
-    {
-        //worldPosition = GridManager.instance.GridPosition(worldPosition);
-
-        return Vector2.Distance(worldPosition, transform.position) <= radius;
-    }
-
-    public override bool IsPartiallyInsideObject(Vector3 worldPosition)
-    {
-        return IsInsideObject(worldPosition);
     }
 
     public override GameObject GetGameObject()

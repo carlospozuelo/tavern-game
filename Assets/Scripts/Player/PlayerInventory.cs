@@ -17,6 +17,8 @@ public class PlayerInventory : MonoBehaviour
     // This does NOT include furniture. Furniture are pulled from the Furniture controller.
     private GameObject[] allItems;
 
+    public void SetAllItems(GameObject[] allItems) { this.allItems = allItems; }
+
     // This includes both Items and Furniture.
     private Dictionary<string, GameObject> allItemsDictionary;
 
@@ -342,6 +344,7 @@ public class PlayerInventory : MonoBehaviour
                 */
 
                 List<Interactuable> l = Cast<Interactuable>(true);
+
                 if (l.Count > 0) {
                     // Sort the list. The first element should be the one that has the smallest distance to the mouse.
                     Vector3 worldPosition = GameController.instance.WorldPosition(Input.mousePosition);

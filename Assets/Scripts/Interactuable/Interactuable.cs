@@ -2,8 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Interactuable : MonoBehaviour, IFurniture
+public abstract class Interactuable : MonoBehaviour
 {
+    [SerializeField]
+    protected float maxDistance = 2f;
+
+    public virtual float GetMaxDistance() { return maxDistance; }
+
 
     protected virtual void OnEnable()
     {
@@ -28,12 +33,7 @@ public abstract class Interactuable : MonoBehaviour, IFurniture
 
     public abstract bool CanBeUsedByNPCS();
 
-    public abstract float GetMaxDistance();
-
     public abstract Vector3 GetPosition();
 
     public abstract GameObject GetGameObject();
-
-    public abstract bool IsInsideObject(Vector3 worldPosition);
-    public abstract bool IsPartiallyInsideObject(Vector3 worldPosition);
 }
