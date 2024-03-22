@@ -105,6 +105,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
         } else
         {
             targetImage.enabled = false;
+            if (stackText != null) { stackText.text = ""; }
         }
     }
 

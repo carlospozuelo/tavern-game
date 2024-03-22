@@ -3,6 +3,8 @@ using UnityEngine;
 // This class represents an interactable furniture that opens a crafting menu
 public class CraftingTable : Interactuable
 {
+    [SerializeField]
+    private string menuName = "Beer basic";
     public override bool CanBeUsedByNPCS()
     {
         // Only for player
@@ -22,7 +24,7 @@ public class CraftingTable : Interactuable
     public override bool Interact(CharacterAbstract character)
     {
         // Open crafting menu with recipes
-        print("Crafty crafty");
+        CraftingController.OpenMenu(menuName);
         return true;
     }
 }

@@ -9,10 +9,13 @@ public class CraftingController : MonoBehaviour
 
     [SerializeField]
     private CraftingRecipe[] recipes;
+    [SerializeField]
+    private MenuUI[] allMenus;
 
     public void SetAllRecipes(CraftingRecipe[] recipes) { this.recipes = recipes; }
 
     private Dictionary<Tables, List<CraftingRecipe>> dictionary;
+    private Dictionary<string, MenuUI> menus;
 
     private static CraftingController instance;
 
@@ -30,6 +33,43 @@ public class CraftingController : MonoBehaviour
         }
     }
 
+    public static void UpdateAll()
+    {
+        foreach (MenuUI menu in instance.allMenus)
+        {
+            if (menu != null)
+            {
+                menu.UpdateImage();
+}
+        }
+    }
+
+    public static void CloseAllMenus(float timescale)
+    {
+        foreach (MenuUI menu in instance.allMenus)
+        {
+            if (menu != null)
+            {
+                print("Closing: " + menu);
+                menu.Close(timescale);
+            } else
+            {
+                Debug.LogError("Menu is null: " + menu);
+            }
+        }
+    }
+
+    public static bool OpenMenu(string name)
+    {
+        if (instance.menus.TryGetValue(name, out MenuUI menu))
+        {
+            //InventoryUI.
+            menu.OpenOrCloseMenu();
+        }
+
+        return false;
+    }
+
     private void Start()
     {
         Initialize();
@@ -40,6 +80,7 @@ public class CraftingController : MonoBehaviour
         if (initialized) { return; }
 
         dictionary = new Dictionary<Tables, List<CraftingRecipe>>();
+        menus = new Dictionary<string, MenuUI>();
 
         foreach (Tables type in System.Enum.GetValues(typeof (Tables)))
         {
@@ -49,6 +90,11 @@ public class CraftingController : MonoBehaviour
         foreach (CraftingRecipe recipe in recipes)
         {
             dictionary[recipe.requiredTable].Add(recipe);
+        }
+
+        foreach (MenuUI menu in allMenus)
+        {
+            menus.Add(menu.menu.name, menu);
         }
 
         initialized = true;

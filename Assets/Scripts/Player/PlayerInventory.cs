@@ -377,7 +377,7 @@ public class PlayerInventory : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E))
         {
-            BookMenuUI.OpenOrCloseMenu();
+            BookMenuUI.OpenOrCloseMenuPublic();
         }
     }
 

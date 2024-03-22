@@ -75,7 +75,7 @@ public class InventoryUI : MonoBehaviour
         if (item != null) { UpdateSpriteHotbar(item.GetComponent<Item>(), slot); }
     }
 
-        public static void SelectAllItems()
+    public static void SelectAllItems()
     {
         foreach (var slot in instance.slots)
         {
@@ -102,7 +102,8 @@ public class InventoryUI : MonoBehaviour
             UpdateSpriteHotbar(i);
         }
 
-        BookMenuUI.UpdateImage();
+        CraftingController.UpdateAll();
+        //BookMenuUI.UpdateImagePublic();
     }
 
     public void UpdateUI(int itemHeld)

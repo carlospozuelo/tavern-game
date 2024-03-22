@@ -295,7 +295,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Shoes Right_0x2: -903550224886779790
+      Shoes Right_00x03: 0
       Shoes Right_0x1: -2608907003546832484
       Shoes Right_0x0: -4717304108645612007
       Shoes Right_01x02: 0
@@ -306,7 +306,7 @@ TextureImporter:
       Shoes Right_00x01: 0
       Shoes Right_0x3: -1733504484965934095
       Shoes Right_01x01: 0
-      Shoes Right_00x03: 0
+      Shoes Right_0x2: -903550224886779790
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
