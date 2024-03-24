@@ -176,3 +176,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxDistance: 3
   menuName: Beer basic
+  slots:
+  - {fileID: 0}
+  - {fileID: 0}

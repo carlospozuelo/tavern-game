@@ -69,5 +69,5 @@ MonoBehaviour:
     - {r: 0.7254902, g: 0.5254902, b: 0.27058825, a: 1}
     tertiary:
     - {r: 1, g: 1, b: 1, a: 1}
-  sprite: {fileID: 1423264529756576310, guid: 7bcfe757069f14035806ec6369ea6aa7, type: 3}
+  sprite: {fileID: -8470121683324254095, guid: 7bcfe757069f14035806ec6369ea6aa7, type: 3}
   Name: Legs 01

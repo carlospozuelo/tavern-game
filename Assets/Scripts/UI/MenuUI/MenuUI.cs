@@ -33,7 +33,7 @@ public abstract class MenuUI : MonoBehaviour
     {
         // Close all other menus
         CraftingController.CloseAllMenus(1f);
-
+        CraftingController.anyOpen = true;
         isOpen = true;
         // Stop time - temporary, should be its own script
         Time.timeScale = 0f;
@@ -50,11 +50,13 @@ public abstract class MenuUI : MonoBehaviour
         UpdateImage();
 
         menu.SetActive(isOpen);
+        CraftingController.SetOpenedMenu(this);
     }
 
     public virtual void Close(float timescale = 1f)
     {
         isOpen = false;
+        CraftingController.anyOpen = false;
         // Resume time - temporary, should be its own script
         Time.timeScale = timescale;
 

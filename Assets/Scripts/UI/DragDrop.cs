@@ -17,7 +17,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
 
     // Slot
     [SerializeField]
-    private bool isInventory, isHotbar;
+    private bool isInventory, isHotbar, isSlottable;
     [SerializeField]
     private int index;
     [SerializeField]
@@ -51,6 +51,10 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
         else if (isHotbar)
         {
             draggable = PlayerInventory.instance.hotBar[index] != null;
+        } else if (isSlottable)
+        {
+            // Slot on the current open menu
+            draggable = CraftingController.GetOpenIndex(index) != null;
         }
     }
 
@@ -69,6 +73,13 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
         if (isForClothing)
         {
             var item = PlayerInventory.GetWornItem(type);
+
+            if (item != null) return item.gameObject;
+        }
+
+        if (isSlottable)
+        {
+            var item = CraftingController.GetOpenIndex(index);
 
             if (item != null) return item.gameObject;
         }
@@ -144,6 +155,9 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
         else if (isHotbar)
         {
             PlayerInventory.instance.SetHotBar(index, item);//DraggableIcon.GetDraggable().GetItem());
+        } else if (isSlottable)
+        {
+            CraftingController.SetOpenIndex(index, item);
         }
 
         if (item != null)
@@ -159,7 +173,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
     {
         SetDraggable();
 
-        if (!BookMenuUI.IsOpen()) { return; }
+        if (!CraftingController.anyOpen) { return; }
 
         if (GetItem() != null && DraggableIcon.GetItemHeld() != null)
         {

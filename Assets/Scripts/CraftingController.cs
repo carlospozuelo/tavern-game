@@ -12,6 +12,13 @@ public class CraftingController : MonoBehaviour
     [SerializeField]
     private MenuUI[] allMenus;
 
+    private MenuUI openedMenu;
+
+    public static void SetOpenedMenu(MenuUI menu)
+    {
+        instance.openedMenu = menu;
+    }
+
     public void SetAllRecipes(CraftingRecipe[] recipes) { this.recipes = recipes; }
 
     private Dictionary<Tables, List<CraftingRecipe>> dictionary;
@@ -20,6 +27,31 @@ public class CraftingController : MonoBehaviour
     private static CraftingController instance;
 
     private bool initialized = false;
+
+    public static bool anyOpen = false;
+
+    private GameObject[] slots;
+
+    public static GameObject GetOpenIndex(int index)
+    {
+        if (instance.slots != null)
+        {
+            return instance.slots[index];
+        }
+
+        return null;
+    }
+
+    public static void SetOpenIndex(int index, GameObject g)
+    {
+        if (instance.slots != null)
+        {
+            if (index < instance.slots.Length)
+            {
+                instance.slots[index] = g;
+            }
+        }
+    }
 
     private void Awake()
     {
@@ -50,7 +82,6 @@ public class CraftingController : MonoBehaviour
         {
             if (menu != null)
             {
-                print("Closing: " + menu);
                 menu.Close(timescale);
             } else
             {
@@ -59,12 +90,14 @@ public class CraftingController : MonoBehaviour
         }
     }
 
-    public static bool OpenMenu(string name)
+
+    public static bool OpenMenu(string name, GameObject[] slots = null)
     {
         if (instance.menus.TryGetValue(name, out MenuUI menu))
         {
             //InventoryUI.
-            menu.OpenOrCloseMenu();
+            instance.slots = slots;
+            menu.Open();
         }
 
         return false;
