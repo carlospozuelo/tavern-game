@@ -114,7 +114,7 @@ public class PlayerInventory : MonoBehaviour
         }
 
         // Either no items of the same type were present on the inventory, or the present stacks were already full. Try to slot the item elsewhere
-        return StoreAnywhere(GameController.GenerateStackableItem(item.GetOriginalPrefab()));
+        return StoreAnywhere(GameController.GenerateStackableItem(item.GetName()));
     }
 
     public GameObject GetItem(string name)

@@ -8,8 +8,15 @@ public class StackableItem : MonoBehaviour, Item
     private Sprite sprite;
     [SerializeField]
     private int maxStacks = 30, currentStacks = 1;
+
     [SerializeField]
-    private string itemName;
+    private Ingredient ingredient;
+
+    public void SetIngredient(Ingredient ingredient)
+    {
+        this.ingredient = ingredient;
+        this.sprite = ingredient.sprite;
+    }
 
     public int GetStacks() {  return currentStacks; }
 
@@ -56,7 +63,7 @@ public class StackableItem : MonoBehaviour, Item
 
     public string GetName()
     {
-        return itemName;
+        return ingredient.ingredientName;
     }
 
     public GameObject GetOriginalPrefab()

@@ -14,7 +14,7 @@ public class Tree : MonoBehaviour
     private Vector2 anchor, anchorR;
 
     [SerializeField]
-    private GameObject woodItem;
+    private Ingredient droppedIngredient;
     private bool destroying = false;
     private Vector2 GetAnchor() { return new Vector2(transform.position.x, transform.position.y) + anchor ; }
 
@@ -42,7 +42,7 @@ public class Tree : MonoBehaviour
 
         for (int i = 0; i < currentWood; i++)
         {
-            GameController.DropItem(woodItem.GetComponent<StackableItem>(), aux + new Vector2(Random.Range(0f, 1f), Random.Range(0f, 1f)).normalized, false);
+            GameController.DropItem(droppedIngredient, aux + new Vector2(Random.Range(0f, 1f), Random.Range(0f, 1f)).normalized, false);
         }
     }
 

@@ -38,10 +38,20 @@ public class LoadFurniture : MonoBehaviour
     [MenuItem("Tools/Load/Recipes")]
     static void LoadRecipes()
     {
-        CraftingRecipe[] recipes = Resources.LoadAll("Recipes", typeof(CraftingRecipe)).Cast<CraftingRecipe>().ToArray();
+        AbstractRecipe[] recipes = Resources.LoadAll("Crafting/Recipes", typeof(AbstractRecipe)).Cast<AbstractRecipe>().ToArray();
 
         CraftingController controller = FindObjectOfType<CraftingController>();
 
         controller.SetAllRecipes(recipes);
+    }
+
+    [MenuItem("Tools/Load/Ingredients")]
+    static void LoadIngredients()
+    {
+        Ingredient[] ingredients = Resources.LoadAll("Crafting/Ingredients", typeof(Ingredient)).Cast<Ingredient>().ToArray();
+
+        CraftingController controller = FindObjectOfType<CraftingController>();
+
+        controller.SetAllIngreidents(ingredients);
     }
 }

@@ -10,11 +10,16 @@ public class StackableString : InventoryString
 
     [JsonProperty]
     private int currentStacks;
+    [JsonProperty]
+    private string stackableId;
+
+    public string GetStackableId() { return stackableId; }
 
     public int GetCurrentStacks() { return currentStacks; }
 
-    public StackableString(int stacks, string id) : base(id)
+    public StackableString(int stacks, string id) : base("StackableItem")
     {
+        stackableId = id;
         currentStacks = stacks;
     }
 }

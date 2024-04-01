@@ -8,9 +8,12 @@ public class CraftingController : MonoBehaviour
     public enum Tables { Basic_Beer_Tap }
 
     [SerializeField]
-    private CraftingRecipe[] recipes;
+    private AbstractRecipe[] recipes;
     [SerializeField]
     private MenuUI[] allMenus;
+
+    [SerializeField]
+    private Ingredient[] allIngredients;
 
     private MenuUI openedMenu;
 
@@ -19,10 +22,15 @@ public class CraftingController : MonoBehaviour
         instance.openedMenu = menu;
     }
 
-    public void SetAllRecipes(CraftingRecipe[] recipes) { this.recipes = recipes; }
+    public void SetAllIngreidents(Ingredient[] ingredients) { this.allIngredients = ingredients; }
 
-    private Dictionary<Tables, List<CraftingRecipe>> dictionary;
+    public void SetAllRecipes(AbstractRecipe[] recipes) { this.recipes = recipes; }
+
+    private Dictionary<Tables, List<AbstractRecipe>> dictionary;
     private Dictionary<string, MenuUI> menus;
+
+    private Dictionary<string, Ingredient> ingredientDictionary;
+    private Dictionary<Ingredient.IngredientType, List<Ingredient>> ingredientTypeList;
 
     private static CraftingController instance;
 
@@ -31,6 +39,11 @@ public class CraftingController : MonoBehaviour
     public static bool anyOpen = false;
 
     private GameObject[] slots;
+
+    public static Ingredient GetIngredient(string name)
+    {
+        return instance.ingredientDictionary[name];
+    }
 
     public static GameObject GetOpenIndex(int index)
     {
@@ -112,15 +125,17 @@ public class CraftingController : MonoBehaviour
     {
         if (initialized) { return; }
 
-        dictionary = new Dictionary<Tables, List<CraftingRecipe>>();
+        dictionary = new Dictionary<Tables, List<AbstractRecipe>>();
         menus = new Dictionary<string, MenuUI>();
+        ingredientDictionary = new Dictionary<string, Ingredient>();
+        ingredientTypeList = new Dictionary<Ingredient.IngredientType, List<Ingredient>>();
 
         foreach (Tables type in System.Enum.GetValues(typeof (Tables)))
         {
-            dictionary.Add(type, new List<CraftingRecipe>());
+            dictionary.Add(type, new List<AbstractRecipe>());
         }
 
-        foreach (CraftingRecipe recipe in recipes)
+        foreach (AbstractRecipe recipe in recipes)
         {
             dictionary[recipe.requiredTable].Add(recipe);
         }
@@ -130,6 +145,19 @@ public class CraftingController : MonoBehaviour
             menus.Add(menu.menu.name, menu);
         }
 
+        foreach (Ingredient i in allIngredients)
+        {
+            print(i);
+            ingredientDictionary.Add(i.ingredientName, i);
+
+            if (!ingredientTypeList.ContainsKey(i.type))
+            {
+                ingredientTypeList.Add(i.type, new List<Ingredient>());
+            }
+
+            ingredientTypeList[i.type].Add(i);
+        }
+        print("Initialized");
         initialized = true;
     }
 }

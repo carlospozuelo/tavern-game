@@ -140,17 +140,18 @@ public class InventoryData
 
                     ClothingItem item = ClothingController.GetClothingItem(str.GetClothingItemId());
                     inventory[i] = ClothingController.GenerateClothingObject(item, str.GetThreeColors());
-                } 
+                } else if (collection[i].GetId().Equals("StackableItem"))
+                {
+                    StackableString stackable = (StackableString) collection[i];
+                    int stacks = stackable.GetCurrentStacks();
+
+                    GameObject item = GameController.GenerateStackableItem(stackable.GetStackableId(), stacks);
+
+                    inventory[i] = item;
+                }
                 else
                 {
                     GameObject item = PlayerInventory.instance.GetItem(collection[i].GetId());
-
-                    if (collection[i] is StackableString)
-                    {
-                        int stacks = ((StackableString)collection[i]).GetCurrentStacks();
-
-                        item = GameController.GenerateStackableItem(item, stacks);
-                    }
 
                     inventory[i] = item;
                 }

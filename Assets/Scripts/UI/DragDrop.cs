@@ -273,7 +273,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
                             int stacks1 =  aux ? stackable.GetStacks() / 2 : (stackable.GetStacks() + 1) / 2;
                             int stacks2 =  aux ? stacks1 : stacks1 - 1;
 
-                            DraggableIcon.DisplayImage(targetImage.sprite, this, GameController.GenerateStackableItem(stackable.GetOriginalPrefab(), stacks1));
+                            DraggableIcon.DisplayImage(targetImage.sprite, this, GameController.GenerateStackableItem(stackable.GetName(), stacks1));
 
                             stackable.SetStacks(stacks2);
                             if (stackable.GetStacks() <= 0)
@@ -317,7 +317,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
                         if (itemHeld.TryGetComponent(out StackableItem stackable))
                         {
                             // Stack just one
-                            SlotItem(GameController.GenerateStackableItem(stackable.GetOriginalPrefab()));
+                            SlotItem(GameController.GenerateStackableItem(stackable.GetName()));
                             stackable.SetStacks(stackable.GetStacks() - 1);
 
                             if (stackable.GetStacks() == 0)
