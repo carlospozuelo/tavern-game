@@ -31,6 +31,9 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
     [SerializeField]
     private TMPro.TextMeshProUGUI stackText;
 
+    [SerializeField]
+    private Ingredient.IngredientType acceptedTypes;
+
 
     private void Start()
     {
@@ -189,6 +192,8 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
             }
 
             GameObject temp = GetItem();
+            if (!TypeMatches(DraggableIcon.GetItemHeld())) { return; }
+
 
 
             // If the item is stackable AND it's of the same type as the draggable icon item
@@ -312,6 +317,9 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
                         }
                     }
 
+                    // Check, if it is a resource slot, if the required type matches
+                    if (!TypeMatches(itemHeld)) { return; }
+
                     if (eventData.button == PointerEventData.InputButton.Right)
                     {
                         if (itemHeld.TryGetComponent(out StackableItem stackable))
@@ -340,5 +348,23 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
             }
         }
         //}
+    }
+
+    private bool TypeMatches(GameObject itemHeld)
+    {
+        if (isSlottable)
+        {
+            // Can only be slotted if the ingredient matches the required type
+            if (itemHeld.TryGetComponent(out StackableItem stackable))
+            {
+                if (stackable.GetIngredient().HasAnyType(acceptedTypes))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        return true;
     }
 }

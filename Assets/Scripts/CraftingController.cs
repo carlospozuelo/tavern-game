@@ -147,15 +147,18 @@ public class CraftingController : MonoBehaviour
 
         foreach (Ingredient i in allIngredients)
         {
-            print(i);
             ingredientDictionary.Add(i.ingredientName, i);
 
-            if (!ingredientTypeList.ContainsKey(i.type))
+            foreach (var type in i.GetAllTypes())
             {
-                ingredientTypeList.Add(i.type, new List<Ingredient>());
-            }
+                if (!ingredientTypeList.ContainsKey(type))
+                {
+                    ingredientTypeList.Add(type, new List<Ingredient>());
+                }
 
-            ingredientTypeList[i.type].Add(i);
+                ingredientTypeList[type].Add(i);
+            }
+            
         }
         print("Initialized");
         initialized = true;

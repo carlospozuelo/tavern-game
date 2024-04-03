@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Wood
   m_EditorClassIdentifier: 
   ingredientName: Wood
-  type: 3
+  type: 8
   sprite: {fileID: -535507411, guid: 2c2c6936c8f88b048b3113459cdf198c, type: 3}
   value: 0

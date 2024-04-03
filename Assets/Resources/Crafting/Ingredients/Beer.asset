@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Beer
   m_EditorClassIdentifier: 
   ingredientName: Beer
-  type: 2
+  type: 4
   sprite: {fileID: -1479445721, guid: 2c2c6936c8f88b048b3113459cdf198c, type: 3}
   value: 0

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Hops
   m_EditorClassIdentifier: 
   ingredientName: Hops
-  type: 1
+  type: 10
   sprite: {fileID: -1148044973, guid: 2c2c6936c8f88b048b3113459cdf198c, type: 3}
   value: 2

@@ -18,6 +18,8 @@ public class StackableItem : MonoBehaviour, Item
         this.sprite = ingredient.sprite;
     }
 
+    public Ingredient GetIngredient() { return ingredient; }
+
     public int GetStacks() {  return currentStacks; }
 
     public bool IsFull() { return maxStacks == currentStacks; }
