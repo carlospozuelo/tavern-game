@@ -17,6 +17,8 @@ public class CraftingController : MonoBehaviour
 
     private MenuUI openedMenu;
 
+    public static CraftingTable openedCraftingTable;
+
     public static void SetOpenedMenu(MenuUI menu)
     {
         instance.openedMenu = menu;
@@ -62,6 +64,38 @@ public class CraftingController : MonoBehaviour
             if (index < instance.slots.Length)
             {
                 instance.slots[index] = g;
+                // Attempt to craft
+                instance.CheckCrafts();
+            }
+        }
+    }
+
+    // Check if, with the current ingredients, something can be crafted. If so, craft
+    private void CheckCrafts()
+    {
+        List<Ingredient> currentIngredients = new List<Ingredient>();
+
+        foreach (GameObject g in slots)
+        {
+            if (g != null && g.TryGetComponent(out StackableItem i))
+            {
+                currentIngredients.Add(i.GetIngredient());
+            } 
+        }
+
+        foreach (AbstractRecipe recipe in instance.dictionary[openedCraftingTable.tableType])
+        {
+            GameObject result = recipe.Craft(currentIngredients);
+            if (result != null)
+            {
+                // Recipe crafted succesfully. UPDATE THIS. This should:
+                // 1. Be a coroutine so that it doesn't happen all at once
+                // 2. Only assign the item there if the slot is vacant. If it's not, and the recipe produces the EXACT same stackable item, stack instead. Otherwise, pause crafting
+                // 3. Consume all of the ingredients.
+                slots[slots.Length - 1] = result;
+                openedMenu.UpdateImage();
+
+                return;
             }
         }
     }
@@ -106,6 +140,11 @@ public class CraftingController : MonoBehaviour
 
     public static bool OpenMenu(string name, GameObject[] slots = null)
     {
+        foreach (CraftingTable table in CraftingTable.craftingTables)
+        {
+            table.Close();
+        }
+
         if (instance.menus.TryGetValue(name, out MenuUI menu))
         {
             //InventoryUI.

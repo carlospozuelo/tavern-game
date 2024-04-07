@@ -7,7 +7,7 @@ public class CraftingRecipe : AbstractRecipe
 {
     public List<Ingredient> ingredients;
 
-    public override StackableItem Craft(List<Ingredient> list, DragDrop slot)
+    public override GameObject Craft(List<Ingredient> list)
     {
         throw new NotImplementedException();
     }

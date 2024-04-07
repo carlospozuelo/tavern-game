@@ -8,6 +8,6 @@ public abstract class AbstractRecipe : ScriptableObject
 
     public IngredientWrapper result;
 
-    public abstract StackableItem Craft(List<Ingredient> list, DragDrop slot);
+    public abstract GameObject Craft(List<Ingredient> list);
 
 }

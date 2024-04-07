@@ -10,7 +10,7 @@ public class GenericRecipe : AbstractRecipe
     public List<IngredientTypeWrapper> ingredients;
 
     // Crafts ONE item
-    public override StackableItem Craft(List<Ingredient> list, DragDrop slot)
+    public override GameObject Craft(List<Ingredient> list)
     {
         float value = 0;
 
@@ -52,9 +52,7 @@ public class GenericRecipe : AbstractRecipe
             }
         }
 
-        // All ingredients were found in the recipe -> Craft recipe.
-        // Probably not the best approach to directly use this method. Invesitgate alternatives.
-        slot.SlotItem(GameController.GenerateStackableItem(result.ingredient.name, value, ingredientsUsed, result.amount));
+        return GameController.GenerateStackableItem(result.ingredient.name, value, ingredientsUsed, result.amount);
         
     }
 }

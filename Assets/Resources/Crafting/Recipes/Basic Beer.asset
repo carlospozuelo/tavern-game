@@ -16,4 +16,6 @@ MonoBehaviour:
   result:
     ingredient: {fileID: 11400000, guid: b9392fe86ba294b998cb185f27af21db, type: 2}
     amount: 1
-  ingredients: 00000000
+  ingredients:
+  - type: 1
+    valueMultiplier: 1

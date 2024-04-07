@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 // This class represents an interactable furniture that opens a crafting menu
@@ -8,6 +9,34 @@ public class CraftingTable : Interactuable, Slottable
 
     [SerializeField]
     private GameObject[] slots;
+
+    public static List<CraftingTable> craftingTables;
+
+    public CraftingController.Tables tableType;
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+
+        if (craftingTables == null)
+        {
+            craftingTables = new List<CraftingTable>();
+        }
+
+        if (!craftingTables.Contains(this))
+        {
+            craftingTables.Add(this);
+        }
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        craftingTables.Remove(this);
+    }
+
+    private bool isOpened = false;
+    public void Close() { isOpened = false; }
 
     public override bool CanBeUsedByNPCS()
     {
@@ -29,6 +58,8 @@ public class CraftingTable : Interactuable, Slottable
     {
         // Open crafting menu with recipes
         CraftingController.OpenMenu(menuName, slots);
+        isOpened = true;
+        CraftingController.openedCraftingTable = this;
         return true;
     }
 
