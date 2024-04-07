@@ -48,7 +48,7 @@ public class Ingredient : ScriptableObject
     public Sprite sprite;
 
     [Tooltip("Value of the ingredient relative to the type. Affects the price of generic recipes")]
-    public int value = 1;
+    public float value = 1;
 
     public Ingredient(string name)
     {

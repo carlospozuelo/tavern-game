@@ -131,7 +131,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
         SlotItem(null);
     }
 
-    private void SlotItem(GameObject item)
+    public void SlotItem(GameObject item)
     {
 
         if (item != null && item.TryGetComponent(out StackableItem stack))

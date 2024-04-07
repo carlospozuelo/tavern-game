@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AbstractRecipe : ScriptableObject
+public abstract class AbstractRecipe : ScriptableObject
 {
     public CraftingController.Tables requiredTable;
 
     public IngredientWrapper result;
+
+    public abstract StackableItem Craft(List<Ingredient> list, DragDrop slot);
+
 }

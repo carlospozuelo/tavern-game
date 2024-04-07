@@ -12,6 +12,18 @@ public class StackableItem : MonoBehaviour, Item
     [SerializeField]
     private Ingredient ingredient;
 
+    [SerializeField]
+    private List<Ingredient> madeOf;
+
+    public void SetIngredients(List<Ingredient> list) { madeOf = list; }
+    public List<Ingredient> GetIngredients() { return madeOf; }
+
+    [SerializeField]
+    private float value = 0;
+
+    public void SetValue(float value) { this.value = value; }
+    public float GetValue() { return value; }
+
     public void SetIngredient(Ingredient ingredient)
     {
         this.ingredient = ingredient;

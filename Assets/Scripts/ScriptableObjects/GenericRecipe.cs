@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,5 +6,62 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Generic Recipe", menuName = "ScriptableObjects/Generic Recipe", order = 1)]
 public class GenericRecipe : AbstractRecipe
 {
-    public List<Ingredient.IngredientType> ingredients;
+    [Tooltip("The value of the generated item will be the sum of the values of all ingredients used, multiplied by their multiplier")]
+    public List<IngredientTypeWrapper> ingredients;
+
+    // Crafts ONE item
+    public override StackableItem Craft(List<Ingredient> list, DragDrop slot)
+    {
+        float value = 0;
+
+        Tuple<Ingredient, bool>[] aux = new Tuple<Ingredient, bool>[list.Count];
+        List<Ingredient> ingredientsUsed = new List<Ingredient>();
+
+        for (int i = 0; i < list.Count; i++)
+        {
+            aux[i] = new Tuple<Ingredient, bool>(list[i], false);
+        }
+
+        // Go through all of the ingredients, and see if they're present on the recipe
+        foreach (IngredientTypeWrapper ingredientType in ingredients)
+        {
+            bool found = false;
+            for (int i = 0; i < aux.Length; i++)
+            {
+                if (aux[i].Item2) { continue; }
+
+                if (aux[i].Item1.HasAllTypes(ingredientType.type))
+                {
+                    // It's a valid ingredient
+                    value += (aux[i].Item1.value * ingredientType.valueMultiplier);
+                    found = true;
+
+                    // Mark the item to used, so that the same item can't be used twice per recipe.
+                    aux[i] = new Tuple<Ingredient, bool>(aux[i].Item1, true);
+
+                    ingredientsUsed.Add(aux[i].Item1);
+                    break;
+                }
+            }
+
+            if (!found)
+            {
+                // Some ingredients weren't found in the recipe -> Abort
+                Debug.LogWarning("Recipe could not be prepared with these ingredients.");
+                return null;
+            }
+        }
+
+        // All ingredients were found in the recipe -> Craft recipe.
+        // Probably not the best approach to directly use this method. Invesitgate alternatives.
+        slot.SlotItem(GameController.GenerateStackableItem(result.ingredient.name, value, ingredientsUsed, result.amount));
+        
+    }
+}
+
+[System.Serializable]
+public class IngredientTypeWrapper
+{
+    public Ingredient.IngredientType type;
+    public float valueMultiplier = 1;
 }
