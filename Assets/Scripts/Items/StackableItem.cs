@@ -14,7 +14,6 @@ public class StackableItem : MonoBehaviour, Item
 
     [SerializeField]
     private List<Ingredient> madeOf;
-
     public void SetIngredients(List<Ingredient> list) { madeOf = list; }
     public List<Ingredient> GetIngredients() { return madeOf; }
 
@@ -35,6 +34,25 @@ public class StackableItem : MonoBehaviour, Item
     public int GetStacks() {  return currentStacks; }
 
     public bool IsFull() { return maxStacks == currentStacks; }
+
+    public bool CanStack(StackableItem stackableItem)
+    {
+        return CanStack(stackableItem.GetName(), stackableItem.currentStacks, stackableItem.madeOf);
+    }
+
+    public bool CanStack(string name, int stacks, List<Ingredient> ingredients)
+    {
+        if (!name.Equals(GetName())) { return false; }
+        if (stacks + this.currentStacks > maxStacks) { return false; }
+
+        if (ingredients.Count != madeOf.Count) { return false; }
+        foreach (var ingredient in madeOf)
+        {
+            if (!ingredients.Contains(ingredient)) { return false; }
+        }
+
+        return true;
+    }
     public bool IncrementStacks() {
 
 
@@ -43,6 +61,20 @@ public class StackableItem : MonoBehaviour, Item
             InventoryUI.instance.UpdateUI();
             return true; 
         }
+        return false;
+    }
+
+    // Warning: this method destroys the stackable item.
+    public bool Consume()
+    {
+        currentStacks--;
+
+        if (currentStacks <= 0)
+        {
+            Destroy(gameObject);
+            return true;
+        }
+
         return false;
     }
 

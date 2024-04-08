@@ -14,6 +14,8 @@ public class CraftingTable : Interactuable, Slottable
 
     public CraftingController.Tables tableType;
 
+    public float delay = 4f;
+
     protected override void OnEnable()
     {
         base.OnEnable();

@@ -109,6 +109,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
     public void UpdateImage()
     {
         GameObject g = GetItem();
+
         if (g != null)
         {
             Item i = g.GetComponent<Item>();
@@ -194,7 +195,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
             GameObject temp = GetItem();
             if (!TypeMatches(DraggableIcon.GetItemHeld())) { return; }
 
-
+            CraftingController.CheckCurrentCrafts();
 
             // If the item is stackable AND it's of the same type as the draggable icon item
             if (temp.TryGetComponent(out StackableItem stackableItem))
@@ -202,7 +203,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
                 if (!stackableItem.IsFull()) { 
                     if (DraggableIcon.GetItemHeld().TryGetComponent(out StackableItem draggableItem))
                     {
-                        if (stackableItem.GetName().Equals(draggableItem.GetName()))
+                        if (stackableItem.CanStack(draggableItem))
                         {
                             // Left click
                             if (eventData.button == PointerEventData.InputButton.Left)
@@ -291,6 +292,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
                     }
 
                     DraggableIcon.DisplayImage(targetImage.sprite, this, item);
+                    CraftingController.CheckCurrentCrafts();
                     // Remove item from the inventory
                     DestroyItem();
 

@@ -7,7 +7,7 @@ public class CraftingRecipe : AbstractRecipe
 {
     public List<Ingredient> ingredients;
 
-    public override GameObject Craft(List<Ingredient> list)
+    public override CraftingResult Craft(List<Ingredient> list)
     {
         throw new NotImplementedException();
     }

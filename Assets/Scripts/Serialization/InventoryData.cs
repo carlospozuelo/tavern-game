@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 [Serializable]
 public class InventoryString
@@ -100,7 +101,7 @@ public class InventoryData
                     collection[i] = new ClothingString(c.GetName(), c.GetThreeColors());
                 } else if (g.TryGetComponent(out StackableItem s))
                 {
-                    collection[i] = new StackableString(s.GetStacks(), s.GetName());
+                    collection[i] = new StackableString(s.GetStacks(), s.GetName(), s.GetIngredients(), s.GetValue());
                 } 
                 else if (g.TryGetComponent(out Item item))
                 {
@@ -142,10 +143,18 @@ public class InventoryData
                     inventory[i] = ClothingController.GenerateClothingObject(item, str.GetThreeColors());
                 } else if (collection[i].GetId().Equals("StackableItem"))
                 {
+
                     StackableString stackable = (StackableString) collection[i];
                     int stacks = stackable.GetCurrentStacks();
 
-                    GameObject item = GameController.GenerateStackableItem(stackable.GetStackableId(), stacks);
+                    List<Ingredient> list = new List<Ingredient>();
+
+                    foreach (string name in stackable.GetIngredientsUsed())
+                    {
+                        list.Add(CraftingController.GetIngredient(name));
+                    }
+
+                    GameObject item = GameController.GenerateStackableItem(stackable.GetStackableId(), stackable.GetValue(), list, stacks);
 
                     inventory[i] = item;
                 }

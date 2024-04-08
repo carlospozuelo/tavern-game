@@ -10,7 +10,7 @@ public class GenericRecipe : AbstractRecipe
     public List<IngredientTypeWrapper> ingredients;
 
     // Crafts ONE item
-    public override GameObject Craft(List<Ingredient> list)
+    public override CraftingResult Craft(List<Ingredient> list)
     {
         float value = 0;
 
@@ -52,7 +52,11 @@ public class GenericRecipe : AbstractRecipe
             }
         }
 
-        return GameController.GenerateStackableItem(result.ingredient.name, value, ingredientsUsed, result.amount);
+        return new CraftingResult(
+            result.ingredient.name,
+            value,
+            ingredientsUsed,
+            result.amount);
         
     }
 }

@@ -70,33 +70,90 @@ public class CraftingController : MonoBehaviour
         }
     }
 
-    // Check if, with the current ingredients, something can be crafted. If so, craft
-    private void CheckCrafts()
+    private Coroutine openedMenuCoroutine;
+
+    private IEnumerator CraftCoroutine(GameObject[] slots)
     {
         List<Ingredient> currentIngredients = new List<Ingredient>();
+        List<StackableItem> stackablesUsed = new List<StackableItem>();
 
-        foreach (GameObject g in slots)
+        for (int index = 0; index < slots.Length - 1; index++)
         {
+            GameObject g = slots[index];
             if (g != null && g.TryGetComponent(out StackableItem i))
             {
                 currentIngredients.Add(i.GetIngredient());
-            } 
+                stackablesUsed.Add(i);
+            }
         }
 
         foreach (AbstractRecipe recipe in instance.dictionary[openedCraftingTable.tableType])
         {
-            GameObject result = recipe.Craft(currentIngredients);
-            if (result != null)
+            CraftingResult craftingResult = recipe.Craft(currentIngredients);
+            if (craftingResult != null)
             {
-                // Recipe crafted succesfully. UPDATE THIS. This should:
-                // 1. Be a coroutine so that it doesn't happen all at once
+                bool canStack = slots[slots.Length - 1] == null;
+                int stacks = craftingResult.stacks;
                 // 2. Only assign the item there if the slot is vacant. If it's not, and the recipe produces the EXACT same stackable item, stack instead. Otherwise, pause crafting
-                // 3. Consume all of the ingredients.
-                slots[slots.Length - 1] = result;
-                openedMenu.UpdateImage();
+                if (!canStack)
+                {
+                    if (slots[slots.Length - 1].TryGetComponent(out StackableItem currentStackable) && currentStackable.CanStack(craftingResult.ingredientName, craftingResult.stacks, craftingResult.ingredientsUsed))
+                    {
+                        canStack = true;
+                    }
+                }
 
-                return;
+                if (canStack)
+                {
+                    while (true)
+                    {
+                        // Can be crafted -> Wait and then slot
+                        // Maybe not the best approach, as if the game is actually paused, recipes will continue
+                        print("Craft");
+                        yield return new WaitForSecondsRealtime(openedCraftingTable.delay);
+                        if (slots[slots.Length -1] == null)
+                        {
+                            slots[slots.Length - 1] = GameController.GenerateStackableItem(craftingResult.ingredientName, craftingResult.value, craftingResult.ingredientsUsed, stacks);
+                        } else
+                        {
+                            slots[slots.Length - 1].GetComponent<StackableItem>().IncrementStacks(stacks);
+                        }
+                        // Consume ingredient
+                        bool abort = false;
+                        if (recipe.consumesIngredient)
+                        {
+                            
+                            foreach (StackableItem item in stackablesUsed)
+                            {
+                                if (item.Consume()) { print("Aborting: " + item); abort = true; };
+                            }
+                        }
+
+                        yield return null;
+                        openedMenu.UpdateImage();
+
+                        if (abort) { yield break; }
+                    }
+                }
             }
+        }
+    }
+
+    public static void CheckCurrentCrafts() {
+        instance.CheckCrafts();
+    }
+
+    // Check if, with the current ingredients, something can be crafted. If so, craft
+    private void CheckCrafts()
+    {
+        if (openedMenuCoroutine != null)
+        {
+            StopCoroutine(openedMenuCoroutine);
+        }
+
+        if (slots != null)
+        {
+            openedMenuCoroutine = StartCoroutine(CraftCoroutine(slots));
         }
     }
 
@@ -199,7 +256,6 @@ public class CraftingController : MonoBehaviour
             }
             
         }
-        print("Initialized");
         initialized = true;
     }
 }

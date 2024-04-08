@@ -8,6 +8,25 @@ public abstract class AbstractRecipe : ScriptableObject
 
     public IngredientWrapper result;
 
-    public abstract GameObject Craft(List<Ingredient> list);
+    public bool consumesIngredient = true;
 
+    public abstract CraftingResult Craft(List<Ingredient> list);
+
+}
+
+public class CraftingResult
+{
+    public string ingredientName;
+    public float value;
+
+    public List<Ingredient> ingredientsUsed;
+    public int stacks;
+
+    public CraftingResult(string ingredientName, float value, List<Ingredient> ingredientsUsed, int stacks)
+    {
+        this.ingredientName = ingredientName;
+        this.value = value;
+        this.ingredientsUsed = ingredientsUsed;
+        this.stacks = stacks;
+    }
 }
