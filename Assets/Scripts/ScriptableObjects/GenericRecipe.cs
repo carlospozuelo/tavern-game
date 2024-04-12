@@ -47,7 +47,6 @@ public class GenericRecipe : AbstractRecipe
             if (!found)
             {
                 // Some ingredients weren't found in the recipe -> Abort
-                Debug.LogWarning("Recipe could not be prepared with these ingredients.");
                 return null;
             }
         }

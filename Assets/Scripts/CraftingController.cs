@@ -70,7 +70,21 @@ public class CraftingController : MonoBehaviour
         }
     }
 
-    private Coroutine openedMenuCoroutine;
+    private Dictionary<CraftingTable, Coroutine> coroutines;
+
+    private IEnumerator Timer(CraftingTable table)
+    {
+        float elapsedTime = 0f;
+        while (elapsedTime < table.delay) {
+            if (table == openedCraftingTable)
+            {
+                CraftingMenuUI.SetProgress(table.delay, elapsedTime);
+            }
+
+            yield return new WaitForSecondsRealtime(.1f);
+            elapsedTime += .1f;
+        }
+    }
 
     private IEnumerator CraftCoroutine(GameObject[] slots)
     {
@@ -87,7 +101,9 @@ public class CraftingController : MonoBehaviour
             }
         }
 
-        foreach (AbstractRecipe recipe in instance.dictionary[openedCraftingTable.tableType])
+        CraftingTable currentTable = openedCraftingTable;
+
+        foreach (AbstractRecipe recipe in instance.dictionary[currentTable.tableType])
         {
             CraftingResult craftingResult = recipe.Craft(currentIngredients);
             if (craftingResult != null)
@@ -109,8 +125,7 @@ public class CraftingController : MonoBehaviour
                     {
                         // Can be crafted -> Wait and then slot
                         // Maybe not the best approach, as if the game is actually paused, recipes will continue
-                        print("Craft");
-                        yield return new WaitForSecondsRealtime(openedCraftingTable.delay);
+                        yield return Timer(currentTable);
                         if (slots[slots.Length -1] == null)
                         {
                             slots[slots.Length - 1] = GameController.GenerateStackableItem(craftingResult.ingredientName, craftingResult.value, craftingResult.ingredientsUsed, stacks);
@@ -132,7 +147,9 @@ public class CraftingController : MonoBehaviour
                         yield return null;
                         openedMenu.UpdateImage();
 
-                        if (abort) { yield break; }
+                        if (abort) {
+                            yield break;
+                        }
                     }
                 }
             }
@@ -146,14 +163,18 @@ public class CraftingController : MonoBehaviour
     // Check if, with the current ingredients, something can be crafted. If so, craft
     private void CheckCrafts()
     {
-        if (openedMenuCoroutine != null)
+        if (coroutines.ContainsKey(openedCraftingTable))
         {
-            StopCoroutine(openedMenuCoroutine);
+            if (coroutines[openedCraftingTable] != null)
+            {
+                StopCoroutine(coroutines[openedCraftingTable]);
+            }
+            coroutines.Remove(openedCraftingTable);
         }
 
         if (slots != null)
         {
-            openedMenuCoroutine = StartCoroutine(CraftCoroutine(slots));
+            coroutines.Add(openedCraftingTable, StartCoroutine(CraftCoroutine(slots)));
         }
     }
 
@@ -256,6 +277,8 @@ public class CraftingController : MonoBehaviour
             }
             
         }
+
+        coroutines = new Dictionary<CraftingTable, Coroutine>();
         initialized = true;
     }
 }

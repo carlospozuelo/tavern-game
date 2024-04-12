@@ -37,7 +37,7 @@ public class StackableItem : MonoBehaviour, Item
 
     public bool CanStack(StackableItem stackableItem)
     {
-        return CanStack(stackableItem.GetName(), stackableItem.currentStacks, stackableItem.madeOf);
+        return CanStack(stackableItem.GetName(), 0, stackableItem.madeOf);
     }
 
     public bool CanStack(string name, int stacks, List<Ingredient> ingredients)
