@@ -71,6 +71,7 @@ public class CraftingController : MonoBehaviour
     }
 
     private Dictionary<CraftingTable, Coroutine> coroutines;
+    private Dictionary<CraftingTable, List<Ingredient>> initialIngredientsByTable;
 
     private IEnumerator Timer(CraftingTable table)
     {
@@ -102,6 +103,12 @@ public class CraftingController : MonoBehaviour
         }
 
         CraftingTable currentTable = openedCraftingTable;
+        if (initialIngredientsByTable.ContainsKey(currentTable))
+        {
+            initialIngredientsByTable.Remove(currentTable);
+            Debug.LogWarning("Key: " + currentTable + " was present in the initialIngredientsByTable dictionary, when it shouldn't have.");
+        }
+        initialIngredientsByTable.Add(currentTable, currentIngredients);
 
         foreach (AbstractRecipe recipe in instance.dictionary[currentTable.tableType])
         {
@@ -148,6 +155,7 @@ public class CraftingController : MonoBehaviour
                         openedMenu.UpdateImage();
 
                         if (abort) {
+                            initialIngredientsByTable.Remove(currentTable);
                             yield break;
                         }
                     }
@@ -160,19 +168,62 @@ public class CraftingController : MonoBehaviour
         instance.CheckCrafts();
     }
 
+    private bool CompareIngredients(List<Ingredient> ing)
+    {
+        if (ing != null)
+        {
+            int count = 0;
+            for (int index = 0; index < slots.Length - 1; index++)
+            {
+                GameObject g = slots[index];
+                if (g != null && g.TryGetComponent(out StackableItem i))
+                {
+                    Ingredient ingredient = i.GetIngredient();
+                    count++;
+                    if (!ing.Contains(ingredient))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            if (count == ing.Count)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     // Check if, with the current ingredients, something can be crafted. If so, craft
     private void CheckCrafts()
     {
+        bool startCoroutine = true;
         if (coroutines.ContainsKey(openedCraftingTable))
         {
             if (coroutines[openedCraftingTable] != null)
             {
-                StopCoroutine(coroutines[openedCraftingTable]);
+                if (!CompareIngredients(initialIngredientsByTable[openedCraftingTable]))
+                {
+                    StopCoroutine(coroutines[openedCraftingTable]);
+                    initialIngredientsByTable.Remove(openedCraftingTable);
+                    coroutines.Remove(openedCraftingTable);
+                } else
+                {
+                    print("Not restarting coroutine ! ");
+                    // They are the same ingredients. No need to restart the craft.
+                    startCoroutine = false;
+                }
+            } else
+            {
+                initialIngredientsByTable.Remove(openedCraftingTable);
+                coroutines.Remove(openedCraftingTable);
             }
-            coroutines.Remove(openedCraftingTable);
+
         }
 
-        if (slots != null)
+        if (startCoroutine && slots != null)
         {
             coroutines.Add(openedCraftingTable, StartCoroutine(CraftCoroutine(slots)));
         }
@@ -277,7 +328,7 @@ public class CraftingController : MonoBehaviour
             }
             
         }
-
+        initialIngredientsByTable = new Dictionary<CraftingTable, List<Ingredient>>();
         coroutines = new Dictionary<CraftingTable, Coroutine>();
         initialized = true;
     }

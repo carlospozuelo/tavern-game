@@ -195,7 +195,10 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
             GameObject temp = GetItem();
             if (!TypeMatches(DraggableIcon.GetItemHeld())) { return; }
 
-            CraftingController.CheckCurrentCrafts();
+            if (isSlottable)
+            {
+                CraftingController.CheckCurrentCrafts();
+            }
 
             // If the item is stackable AND it's of the same type as the draggable icon item
             if (temp.TryGetComponent(out StackableItem stackableItem))
@@ -292,7 +295,11 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
                     }
 
                     DraggableIcon.DisplayImage(targetImage.sprite, this, item);
-                    CraftingController.CheckCurrentCrafts();
+
+                    if (isSlottable)
+                    {
+                        CraftingController.CheckCurrentCrafts();
+                    }
                     // Remove item from the inventory
                     DestroyItem();
 
