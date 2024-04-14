@@ -45,6 +45,7 @@ public class ClothingItem : ScriptableObject
         }
     }
 
+    // "Constructor"
     public static ClothingItem CreateInstance(string type, string name)
     {
         var data = CreateInstance<ClothingItem>();

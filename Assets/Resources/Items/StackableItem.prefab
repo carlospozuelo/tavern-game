@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8958008904867222192}
   - component: {fileID: -388677304495783781}
   m_Layer: 0
-  m_Name: Wood
+  m_Name: StackableItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16eca66d2712c4544b1cbd3d8bbb7921, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: -535507411, guid: 2c2c6936c8f88b048b3113459cdf198c, type: 3}
+  sprite: {fileID: -117373085, guid: 2c2c6936c8f88b048b3113459cdf198c, type: 3}
   maxStacks: 30
   currentStacks: 0
-  itemName: Wood
+  itemName: Barley
   prefab: {fileID: 8958008904867222194}

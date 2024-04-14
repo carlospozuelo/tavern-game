@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 [Serializable]
 public class InventoryString
@@ -100,7 +101,7 @@ public class InventoryData
                     collection[i] = new ClothingString(c.GetName(), c.GetThreeColors());
                 } else if (g.TryGetComponent(out StackableItem s))
                 {
-                    collection[i] = new StackableString(s.GetStacks(), s.GetName());
+                    collection[i] = new StackableString(s.GetStacks(), s.GetName(), s.GetIngredients(), s.GetValue());
                 } 
                 else if (g.TryGetComponent(out Item item))
                 {
@@ -140,17 +141,26 @@ public class InventoryData
 
                     ClothingItem item = ClothingController.GetClothingItem(str.GetClothingItemId());
                     inventory[i] = ClothingController.GenerateClothingObject(item, str.GetThreeColors());
-                } 
+                } else if (collection[i].GetId().Equals("StackableItem"))
+                {
+
+                    StackableString stackable = (StackableString) collection[i];
+                    int stacks = stackable.GetCurrentStacks();
+
+                    List<Ingredient> list = new List<Ingredient>();
+
+                    foreach (string name in stackable.GetIngredientsUsed())
+                    {
+                        list.Add(CraftingController.GetIngredient(name));
+                    }
+
+                    GameObject item = GameController.GenerateStackableItem(stackable.GetStackableId(), stackable.GetValue(), list, stacks);
+
+                    inventory[i] = item;
+                }
                 else
                 {
                     GameObject item = PlayerInventory.instance.GetItem(collection[i].GetId());
-
-                    if (collection[i] is StackableString)
-                    {
-                        int stacks = ((StackableString)collection[i]).GetCurrentStacks();
-
-                        item = GameController.GenerateStackableItem(item, stacks);
-                    }
 
                     inventory[i] = item;
                 }

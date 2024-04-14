@@ -17,7 +17,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
 
     // Slot
     [SerializeField]
-    private bool isInventory, isHotbar;
+    private bool isInventory, isHotbar, isSlottable;
     [SerializeField]
     private int index;
     [SerializeField]
@@ -30,6 +30,9 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
 
     [SerializeField]
     private TMPro.TextMeshProUGUI stackText;
+
+    [SerializeField]
+    private Ingredient.IngredientType acceptedTypes;
 
 
     private void Start()
@@ -51,6 +54,10 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
         else if (isHotbar)
         {
             draggable = PlayerInventory.instance.hotBar[index] != null;
+        } else if (isSlottable)
+        {
+            // Slot on the current open menu
+            draggable = CraftingController.GetOpenIndex(index) != null;
         }
     }
 
@@ -69,6 +76,13 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
         if (isForClothing)
         {
             var item = PlayerInventory.GetWornItem(type);
+
+            if (item != null) return item.gameObject;
+        }
+
+        if (isSlottable)
+        {
+            var item = CraftingController.GetOpenIndex(index);
 
             if (item != null) return item.gameObject;
         }
@@ -95,6 +109,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
     public void UpdateImage()
     {
         GameObject g = GetItem();
+
         if (g != null)
         {
             Item i = g.GetComponent<Item>();
@@ -105,6 +120,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
         } else
         {
             targetImage.enabled = false;
+            if (stackText != null) { stackText.text = ""; }
         }
     }
 
@@ -143,6 +159,9 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
         else if (isHotbar)
         {
             PlayerInventory.instance.SetHotBar(index, item);//DraggableIcon.GetDraggable().GetItem());
+        } else if (isSlottable)
+        {
+            CraftingController.SetOpenIndex(index, item);
         }
 
         if (item != null)
@@ -158,7 +177,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
     {
         SetDraggable();
 
-        if (!BookMenuUI.IsOpen()) { return; }
+        if (!CraftingController.anyOpen) { return; }
 
         if (GetItem() != null && DraggableIcon.GetItemHeld() != null)
         {
@@ -174,7 +193,12 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
             }
 
             GameObject temp = GetItem();
+            if (!TypeMatches(DraggableIcon.GetItemHeld())) { return; }
 
+            if (isSlottable)
+            {
+                CraftingController.CheckCurrentCrafts();
+            }
 
             // If the item is stackable AND it's of the same type as the draggable icon item
             if (temp.TryGetComponent(out StackableItem stackableItem))
@@ -182,7 +206,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
                 if (!stackableItem.IsFull()) { 
                     if (DraggableIcon.GetItemHeld().TryGetComponent(out StackableItem draggableItem))
                     {
-                        if (stackableItem.GetName().Equals(draggableItem.GetName()))
+                        if (stackableItem.CanStack(draggableItem))
                         {
                             // Left click
                             if (eventData.button == PointerEventData.InputButton.Left)
@@ -258,7 +282,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
                             int stacks1 =  aux ? stackable.GetStacks() / 2 : (stackable.GetStacks() + 1) / 2;
                             int stacks2 =  aux ? stacks1 : stacks1 - 1;
 
-                            DraggableIcon.DisplayImage(targetImage.sprite, this, GameController.GenerateStackableItem(stackable.GetOriginalPrefab(), stacks1));
+                            DraggableIcon.DisplayImage(targetImage.sprite, this, GameController.GenerateStackableItem(stackable.GetName(), stackable.GetValue(), stackable.GetIngredients(), stacks1));
 
                             stackable.SetStacks(stacks2);
                             if (stackable.GetStacks() <= 0)
@@ -271,6 +295,11 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
                     }
 
                     DraggableIcon.DisplayImage(targetImage.sprite, this, item);
+
+                    if (isSlottable)
+                    {
+                        CraftingController.CheckCurrentCrafts();
+                    }
                     // Remove item from the inventory
                     DestroyItem();
 
@@ -297,12 +326,15 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
                         }
                     }
 
+                    // Check, if it is a resource slot, if the required type matches
+                    if (!TypeMatches(itemHeld)) { return; }
+
                     if (eventData.button == PointerEventData.InputButton.Right)
                     {
                         if (itemHeld.TryGetComponent(out StackableItem stackable))
                         {
                             // Stack just one
-                            SlotItem(GameController.GenerateStackableItem(stackable.GetOriginalPrefab()));
+                            SlotItem(GameController.GenerateStackableItem(stackable.GetName()));
                             stackable.SetStacks(stackable.GetStacks() - 1);
 
                             if (stackable.GetStacks() == 0)
@@ -325,5 +357,23 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
             }
         }
         //}
+    }
+
+    private bool TypeMatches(GameObject itemHeld)
+    {
+        if (isSlottable)
+        {
+            // Can only be slotted if the ingredient matches the required type
+            if (itemHeld.TryGetComponent(out StackableItem stackable))
+            {
+                if (stackable.GetIngredient().HasAnyType(acceptedTypes))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        return true;
     }
 }

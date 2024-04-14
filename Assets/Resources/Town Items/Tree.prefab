@@ -242,7 +242,7 @@ MonoBehaviour:
   animator: {fileID: 857029732574688318}
   anchor: {x: -1.7, y: 0.27}
   anchorR: {x: 1.7, y: 0.27}
-  woodItem: {fileID: 8958008904867222194, guid: a698ac7f79544804490969b9febd17b5, type: 3}
+  droppedIngredient: {fileID: 11400000, guid: ec330fce404b747ab9ca1a9c7639528d, type: 2}
 --- !u!1 &8428568711700800654
 GameObject:
   m_ObjectHideFlags: 0

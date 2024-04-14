@@ -19,17 +19,32 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public static GameObject GenerateStackableItem(GameObject stackableItemGameObjectPrefab, int stacks = 1)
+    [SerializeField]
+    private GameObject stackableItemGameObjectPrefab;
+
+    public static GameObject GenerateStackableItem(string stackableId, float value, List<Ingredient> ingredients, int stacks = 1)
     {
-        GameObject gameObject = Instantiate(stackableItemGameObjectPrefab, Vector3.zero, Quaternion.identity, instance.transform);
+        GameObject gameObject = Instantiate(instance.stackableItemGameObjectPrefab, Vector3.zero, Quaternion.identity, instance.transform);
 
         StackableItem stackableItem = gameObject.GetComponent<StackableItem>();
+
+        Ingredient ingredient = CraftingController.GetIngredient(stackableId);
+
+        stackableItem.SetIngredients(ingredients);
+        stackableItem.SetValue(value);
+
+        stackableItem.SetIngredient(ingredient);
 
         stackableItem.SetStacks(stacks);
 
         gameObject.name = stackableItem.GetName();
 
         return gameObject;
+    }
+
+    public static GameObject GenerateStackableItem(string stackableId, int stacks = 1)
+    {
+        return GenerateStackableItem(stackableId, 0, new List<Ingredient>(), stacks);
     }
 
 
@@ -70,10 +85,23 @@ public class GameController : MonoBehaviour
 
     public float maxDistanceToPlaceItems = 5;
 
+    public static void DropItem(Ingredient ingredient, bool noise = false)
+    {
+        GameObject item = GenerateStackableItem(ingredient.ingredientName);
+
+        DropItem(item.GetComponent<Item>(), noise);
+    }
+
     public static void DropItem(Item toBeDropped, bool noise = false)
     {
         Vector3 n = noise ? new Vector3(Random.Range(0f,1f), Random.Range(0f,1f)) : Vector3.zero;
         DropItem(toBeDropped, PlayerMovement.GetPosition() + n, true);
+    }
+
+    public static void DropItem(Ingredient ingredient, Vector3 position, bool block) {
+        GameObject item = GenerateStackableItem(ingredient.ingredientName);
+
+        DropItem(item.GetComponent<Item>(), position, block);
     }
 
     public static void DropItem(Item toBeDropped, Vector3 position, bool block)

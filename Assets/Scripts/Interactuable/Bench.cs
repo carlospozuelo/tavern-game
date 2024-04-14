@@ -5,9 +5,6 @@ using UnityEngine;
 public class Bench : Interactuable
 {
     [SerializeField]
-    private float maxDistance = 2f;
-
-    [SerializeField]
     private float radius = .5f;
 
     [SerializeField]
@@ -16,6 +13,10 @@ public class Bench : Interactuable
     public Transform getUpN, getUpS, getUpE, getUpW;
 
     public Vector2 direction;
+
+    private bool busy = false;
+
+    public bool IsBusy() {  return busy; }
 
     public Furniture GetFurniture() { return furniture; }
 
@@ -53,12 +54,18 @@ public class Bench : Interactuable
         return gameObject.transform.position;
     }
 
-    public override void Interact(CharacterAbstract character)
+    public override bool Interact(CharacterAbstract character)
     {
-        if (!character.IsSitting() && !furniture.IsBlocked())
+        if (!character.IsSitting() && !busy) //&& !furniture.IsBlocked())
         {
+            busy = true;
             furniture.Block(gameObject);
             character.Sit(transform.position, this);
+            return true;
+        } else
+        {
+            Debug.LogWarning("Can't interact with this bench. Busy: " + busy + ", character sitting: " + character.IsSitting());
+            return false;
         }
         
     }
@@ -67,6 +74,7 @@ public class Bench : Interactuable
     {
         if (GetUpPrv(g, h, v))
         {
+            busy = false;
             furniture.Unblock(gameObject);
             NPCController.AddBenchForNPC(this);
             return true;
@@ -108,18 +116,6 @@ public class Bench : Interactuable
         }
 
         return false;
-    }
-
-    public override bool IsInsideObject(Vector3 worldPosition)
-    {
-        //worldPosition = GridManager.instance.GridPosition(worldPosition);
-
-        return Vector2.Distance(worldPosition, transform.position) <= radius;
-    }
-
-    public override bool IsPartiallyInsideObject(Vector3 worldPosition)
-    {
-        return IsInsideObject(worldPosition);
     }
 
     public override GameObject GetGameObject()

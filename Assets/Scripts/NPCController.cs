@@ -45,6 +45,8 @@ public class NPCController : MonoBehaviour
 
     public static void AddBenchForNPC(Bench b)
     {
+        if (b.IsBusy()) { return; }
+
         if (!instance.initialized)
         {
             instance.Start();

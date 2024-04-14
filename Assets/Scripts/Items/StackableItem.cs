@@ -8,12 +8,51 @@ public class StackableItem : MonoBehaviour, Item
     private Sprite sprite;
     [SerializeField]
     private int maxStacks = 30, currentStacks = 1;
+
     [SerializeField]
-    private string itemName;
+    private Ingredient ingredient;
+
+    [SerializeField]
+    private List<Ingredient> madeOf;
+    public void SetIngredients(List<Ingredient> list) { madeOf = list; }
+    public List<Ingredient> GetIngredients() { return madeOf; }
+
+    [SerializeField]
+    private float value = 0;
+
+    public void SetValue(float value) { this.value = value; }
+    public float GetValue() { return value; }
+
+    public void SetIngredient(Ingredient ingredient)
+    {
+        this.ingredient = ingredient;
+        this.sprite = ingredient.sprite;
+    }
+
+    public Ingredient GetIngredient() { return ingredient; }
 
     public int GetStacks() {  return currentStacks; }
 
     public bool IsFull() { return maxStacks == currentStacks; }
+
+    public bool CanStack(StackableItem stackableItem, bool useCurrentStacks = false)
+    {
+        return CanStack(stackableItem.GetName(), useCurrentStacks ? stackableItem.currentStacks : 0, stackableItem.madeOf);
+    }
+
+    public bool CanStack(string name, int stacks, List<Ingredient> ingredients)
+    {
+        if (!name.Equals(GetName())) { return false; }
+        if (stacks + this.currentStacks > maxStacks) { return false; }
+
+        if (ingredients.Count != madeOf.Count) { return false; }
+        foreach (var ingredient in madeOf)
+        {
+            if (!ingredients.Contains(ingredient)) { return false; }
+        }
+
+        return true;
+    }
     public bool IncrementStacks() {
 
 
@@ -22,6 +61,20 @@ public class StackableItem : MonoBehaviour, Item
             InventoryUI.instance.UpdateUI();
             return true; 
         }
+        return false;
+    }
+
+    // Warning: this method destroys the stackable item.
+    public bool Consume()
+    {
+        currentStacks--;
+
+        if (currentStacks <= 0)
+        {
+            Destroy(gameObject);
+            return true;
+        }
+
         return false;
     }
 
@@ -56,7 +109,7 @@ public class StackableItem : MonoBehaviour, Item
 
     public string GetName()
     {
-        return itemName;
+        return ingredient.ingredientName;
     }
 
     public GameObject GetOriginalPrefab()

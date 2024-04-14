@@ -17,6 +17,8 @@ public class PlayerInventory : MonoBehaviour
     // This does NOT include furniture. Furniture are pulled from the Furniture controller.
     private GameObject[] allItems;
 
+    public void SetAllItems(GameObject[] allItems) { this.allItems = allItems; }
+
     // This includes both Items and Furniture.
     private Dictionary<string, GameObject> allItemsDictionary;
 
@@ -85,7 +87,7 @@ public class PlayerInventory : MonoBehaviour
             {
                 if (eval.TryGetComponent(out StackableItem evalItem))
                 {
-                    if (evalItem.GetName().Equals(item.GetName()))
+                    if (item.CanStack(evalItem))
                     {
                         // We have a match - increment its stacks if we can.
                         if (evalItem.IncrementStacks()) { return true; }
@@ -112,7 +114,7 @@ public class PlayerInventory : MonoBehaviour
         }
 
         // Either no items of the same type were present on the inventory, or the present stacks were already full. Try to slot the item elsewhere
-        return StoreAnywhere(GameController.GenerateStackableItem(item.GetOriginalPrefab()));
+        return StoreAnywhere(GameController.GenerateStackableItem(item.GetName()));
     }
 
     public GameObject GetItem(string name)
@@ -342,6 +344,7 @@ public class PlayerInventory : MonoBehaviour
                 */
 
                 List<Interactuable> l = Cast<Interactuable>(true);
+
                 if (l.Count > 0) {
                     // Sort the list. The first element should be the one that has the smallest distance to the mouse.
                     Vector3 worldPosition = GameController.instance.WorldPosition(Input.mousePosition);
@@ -374,7 +377,7 @@ public class PlayerInventory : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E))
         {
-            BookMenuUI.OpenOrCloseMenu();
+            BookMenuUI.OpenOrCloseMenuPublic();
         }
     }
 

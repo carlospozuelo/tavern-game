@@ -18,6 +18,18 @@ public class PathfindingAgent : MonoBehaviour
     [SerializeField]
     private float cellSize = 1f;
 
+    [SerializeField]
+    private bool debug = false;
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        if (debug)
+        {
+            Gizmos.DrawWireCube(startingPoint  + (new Vector2(width, height) / 4), new Vector3(width, height) / 2);
+        }
+    }
+
     public void RecalculateBoundaries()
     {
         pathfinding.UpdateNonWalkableTiles(location);
@@ -32,7 +44,7 @@ public class PathfindingAgent : MonoBehaviour
     void Start()
     {
         LocationController.AddPathfindingAgent(location, this);
-        pathfinding = new Pathfinding(width, height, cellSize, startingPoint);
+        pathfinding = new Pathfinding(width, height, cellSize, startingPoint, debug);
 
         // Load all obstacles
         pathfinding.UpdateNonWalkableTiles(location);

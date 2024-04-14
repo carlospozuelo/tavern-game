@@ -240,6 +240,8 @@ public class Furniture : MonoBehaviour, Item, IFurniture
         return false;
     }
 
+    /*
+     * Deprecated
     public bool IsInsideObject(Vector3 worldPosition)
     {
         worldPosition = GridManager.instance.GridPosition(worldPosition);
@@ -265,6 +267,7 @@ public class Furniture : MonoBehaviour, Item, IFurniture
 
         return resul;
     }
+    */
 
     public void PickUp()
     {
@@ -272,6 +275,11 @@ public class Furniture : MonoBehaviour, Item, IFurniture
         {
             if (GameController.instance.DistanceToPlayer(transform.position + new Vector3(size.x, -size.y) / 2) < GameController.instance.maxDistanceToPlaceItems)
             {
+                Slottable s = GetComponent<Slottable>();
+
+                if (s != null && !s.IsEmpty()) { return; }
+
+
                 if (PlayerInventory.instance.GetCurrentItem() == null)
                 {
                     PlayerInventory.instance.SetCurrentItem(originalPrefab);

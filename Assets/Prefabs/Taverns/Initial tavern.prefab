@@ -2584,10 +2584,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   location: Tavern
-  width: 22
-  height: 34
+  width: 21
+  height: 16
   startingPoint: {x: -3, y: -3}
   cellSize: 0.5
+  debug: 0
 --- !u!1001 &1535100669212598452
 PrefabInstance:
   m_ObjectHideFlags: 0

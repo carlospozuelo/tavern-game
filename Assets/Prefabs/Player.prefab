@@ -683,10 +683,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdef9581859880b469ca7a80a259c692, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
-  rb: {fileID: 1623079457481746268}
-  animator: {fileID: 1623079457481746273}
   sitting: 0
+  animator: {fileID: 1623079457481746273}
+  rb: {fileID: 1623079457481746268}
+  speed: 6
   up: {fileID: 5826724607762745426}
   down: {fileID: 3796672145019323606}
   left: {fileID: 3123467972299951081}
@@ -717,7 +717,7 @@ MonoBehaviour:
   - {x: -0.410983, y: -0.9378841, z: 0}
   m_ShapePathHash: -89003620
   m_Mesh: {fileID: 0}
-  m_InstanceId: -2542
+  m_InstanceId: -1857548
 --- !u!114 &1623079457481746270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -773,8 +773,12 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   allItems:
-  - {fileID: 8958008904867222194, guid: 5d7160f8463174980be2d28092113476, type: 3}
+  - {fileID: 8958008904867222194, guid: 4052656a2f3cb48399de56e3af87295a, type: 3}
   - {fileID: 7241936359824760931, guid: eb94a86541c29d04283b7ba0a5081593, type: 3}
+  - {fileID: 8958008904867222194, guid: 5d7160f8463174980be2d28092113476, type: 3}
+  - {fileID: 8958008904867222194, guid: 594145afa557e49e2ad54a27f301b69b, type: 3}
+  - {fileID: 8958008904867222194, guid: 6e34e9dae9a474d20ac5d253092caccc, type: 3}
+  - {fileID: 8958008904867222194, guid: 8ab11844f4b984c1f85ef8eabcd6efd0, type: 3}
   - {fileID: 8958008904867222194, guid: a698ac7f79544804490969b9febd17b5, type: 3}
   currentItem: 0
 --- !u!210 &193064341047867269

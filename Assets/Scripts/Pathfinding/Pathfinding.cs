@@ -12,11 +12,20 @@ public class Pathfinding
     private List<PathNode> openList;
     private List<PathNode> closedList;
 
-    public Pathfinding(int width, int height, float cellSize, Vector3 originPosition)
+    public Pathfinding(int width, int height, float cellSize, Vector3 originPosition, bool debug = false)
     {
-        grid = new CustomGrid<PathNode>(width, height, cellSize, originPosition, (CustomGrid<PathNode> g, int x, int y) => new PathNode(g, x, y));
+        grid = new CustomGrid<PathNode>(width, height, cellSize, originPosition, (CustomGrid<PathNode> g, int x, int y) => new PathNode(g, x, y), debug);
     }
 
+    public bool IsInRange(Vector2 xy)
+    {
+        return xy.x >= 0 && xy.x < grid.GetWidth() && xy.y >= 0 && xy.y < grid.GetHeight();
+    }
+
+    public bool IsInRange(float x, float y)
+    {
+        return IsInRange(new Vector2(x, y));
+    }
 
     public List<PathNode> GetPathToClosestReachableTile(Vector3 from, Vector3 to, int deepness = 5)
     {
@@ -30,16 +39,49 @@ public class Pathfinding
     // Returns the closest tile to xTo yTo, that is reachable from the xFrom yFrom position
     private List<PathNode> GetPathToClosestReachableTile(int fromX, int fromY, int toX, int toY, int deepness = 5)
     {
-        for (int total = 0; total < deepness + deepness - 1; total++)
+        for (int i = 0; i < deepness; i++)
         {
-            for (int x = 0; x <= System.Math.Min(total, deepness - 1); x++)
+            for (int x = i; x >= 0; x--)
             {
-                int y = total - x;
-                List<PathNode> list = FindPath(fromX, fromY, toX + x, toY + y);
-                if (list != null)
+                int y = i - x;
+
+                // -, -
+                if (IsInRange(toX - x, toY - y))
                 {
-                    return list;
+                    List<PathNode> list = FindPath(fromX, fromY, toX - x, toY - y);
+                    if (list != null)
+                    {
+                        return list;
+                    }
                 }
+                // -, +. Makes no sense if y is 0 (same case as above)
+                if (y != 0 && IsInRange(toX - x, toY + y))
+                {
+                    List<PathNode> list = FindPath(fromX, fromY, toX - x, toY + y);
+                    if (list != null)
+                    {
+                        return list;
+                    }
+                }
+                // +, -. Makes no sense if x is 0. (same as first case)
+                if (x != 0 && IsInRange(toX + x, toY - y))
+                {
+                    List<PathNode> list = FindPath(fromX, fromY, toX + x, toY - y);
+                    if (list != null)
+                    {
+                        return list;
+                    }
+                }
+                // +, +. Makes no sense if both x and y are 0. (first case)
+                if (x != 0 && y != 0 && IsInRange(toX + x, toY + y))
+                {
+                    List<PathNode> list = FindPath(fromX, fromY, toX + x, toY + y);
+                    if (list != null)
+                    {
+                        return list;
+                    }
+                }
+
             }
         }
 

@@ -306,7 +306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6e84e047f0018e4596a3ee2407e4a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotateGameObject: {fileID: 7095797780511728409, guid: 9351769f12d9ed54b9afb4b047a23246, type: 3}
+  rotateGameObject: {fileID: 0}
   size: {x: 1, y: 1}
   originalPrefab: {fileID: 7095797780511728409}
   placedOnWalls: 0
