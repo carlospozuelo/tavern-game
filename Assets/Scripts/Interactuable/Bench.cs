@@ -2,11 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bench : MonoBehaviour, Interactuable
+public class Bench : Interactuable
 {
-    [SerializeField]
-    private float maxDistance = 2f;
-
     [SerializeField]
     private float radius = .5f;
 
@@ -17,6 +14,28 @@ public class Bench : MonoBehaviour, Interactuable
 
     public Vector2 direction;
 
+    private bool busy = false;
+
+    public bool IsBusy() {  return busy; }
+
+    public Furniture GetFurniture() { return furniture; }
+
+    protected override void OnEnable()
+    {
+        if (CanBeUsedByNPCS())
+        {
+            NPCController.AddBenchForNPC(this);
+        }
+    }
+
+    protected override void OnDisable()
+    {
+        if (CanBeUsedByNPCS())
+        {
+            NPCController.RemoveBenchForNPC(this);
+        }
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
@@ -26,21 +45,27 @@ public class Bench : MonoBehaviour, Interactuable
         Gizmos.DrawWireSphere(transform.position, maxDistance);
     }
 
-    public float GetMaxDistance()
+    public override float GetMaxDistance()
     {
         return maxDistance;
     }
 
-    public Vector3 GetPosition() {
+    public override Vector3 GetPosition() {
         return gameObject.transform.position;
     }
 
-    public void Interact()
+    public override bool Interact(CharacterAbstract character)
     {
-        if (!PlayerMovement.IsSitting())
+        if (!character.IsSitting() && !busy) //&& !furniture.IsBlocked())
         {
+            busy = true;
             furniture.Block(gameObject);
-            PlayerMovement.Sit(transform.position, this);
+            character.Sit(transform.position, this);
+            return true;
+        } else
+        {
+            Debug.LogWarning("Can't interact with this bench. Busy: " + busy + ", character sitting: " + character.IsSitting());
+            return false;
         }
         
     }
@@ -49,7 +74,9 @@ public class Bench : MonoBehaviour, Interactuable
     {
         if (GetUpPrv(g, h, v))
         {
+            busy = false;
             furniture.Unblock(gameObject);
+            NPCController.AddBenchForNPC(this);
             return true;
         }
 
@@ -91,20 +118,13 @@ public class Bench : MonoBehaviour, Interactuable
         return false;
     }
 
-    public bool IsInsideObject(Vector3 worldPosition)
-    {
-        //worldPosition = GridManager.instance.GridPosition(worldPosition);
-
-        return Vector2.Distance(worldPosition, transform.position) <= radius;
-    }
-
-    public bool IsPartiallyInsideObject(Vector3 worldPosition)
-    {
-        return IsInsideObject(worldPosition);
-    }
-
-    public GameObject GetGameObject()
+    public override GameObject GetGameObject()
     {
         return gameObject;
+    }
+
+    public override bool CanBeUsedByNPCS()
+    {
+        return true;
     }
 }

@@ -3,87 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine;
-
-[Serializable]
-public class InventoryData
-{
-    [JsonProperty]
-    private string[] inventory, hotbar;
-
-    public InventoryData()
-    {
-        inventory = new string[20];
-        hotbar = new string[10];
-    }
-
-    public InventoryData(GameObject[] inventory, GameObject[] hotbar)
-    {
-        this.inventory = new string[inventory.Length];
-        this.hotbar = new string[hotbar.Length];
-
-        for (int i = 0; i < inventory.Length; i++)
-        {
-            if (inventory[i] != null)
-            {
-                GameObject g = inventory[i];
-                if (g.TryGetComponent(out Item item))
-                {
-                    this.inventory[i] = item.GetName();
-                }
-                else
-                {
-                    Debug.LogError("Trying to read an item out of " + g + ", but it was not found. Inventory should only contain Items.");
-                }
-            }
-        }
-
-        for(int i = 0; i < hotbar.Length; i++)
-        {
-            if (hotbar[i] != null)
-            {
-                GameObject g = hotbar[i];
-                if (g.TryGetComponent(out Item item))
-                {
-                    this.hotbar[i] = item.GetName();
-                }
-                else
-                {
-                    Debug.LogError("Trying to read an item out of " + g + ", but it was not found. Hotbar should only contain Items.");
-                }
-            }
-        }
-    }
-
-    public GameObject[] GetInventory()
-    {
-        GameObject[] inventory = new GameObject[this.inventory.Length];
-
-        for (int i = 0; i < inventory.Length; i++)
-        {
-            if (!string.IsNullOrEmpty(this.inventory[i])) {
-                inventory[i] = PlayerInventory.instance.GetItem(this.inventory[i]);
-            }
-        }
-
-        return inventory;
-    }
-
-    public GameObject[] GetHotbar()
-    {
-        GameObject[] hb = new GameObject[this.hotbar.Length];
-
-        for (int i = 0; i < hotbar.Length; i++)
-        {
-            if (!string.IsNullOrEmpty(this.hotbar[i]))
-            {
-                hb[i] = PlayerInventory.instance.GetItem(this.hotbar[i]);
-            }
-        }
-
-        return hb;
-    }
-}
-
+using static UnityEditor.Progress;
 
 public class PlayerInventory : MonoBehaviour
 {
@@ -91,9 +11,13 @@ public class PlayerInventory : MonoBehaviour
     public GameObject[] hotBar;
     public GameObject[] inventory;
 
+    private Dictionary<ClothingItem.ClothingType, Clothing> clothingDictionary;
+
     [SerializeField]
     // This does NOT include furniture. Furniture are pulled from the Furniture controller.
     private GameObject[] allItems;
+
+    public void SetAllItems(GameObject[] allItems) { this.allItems = allItems; }
 
     // This includes both Items and Furniture.
     private Dictionary<string, GameObject> allItemsDictionary;
@@ -102,9 +26,95 @@ public class PlayerInventory : MonoBehaviour
 
     public static PlayerInventory instance;
 
+    private int gold;
+
     public GameObject GetCurrentItem()
     {
         return hotBar[currentItem];
+    }
+
+    public static void Wear(Clothing clothing)
+    {
+        instance.clothingDictionary[clothing.GetClothingItem().type] = clothing;
+    }
+
+    public static Clothing GetWornItem(ClothingItem.ClothingType key)
+    {
+        if (instance.clothingDictionary.TryGetValue(key, out var value)) { return value; } return null;
+    }
+
+
+    public static bool StoreAnywhere(Item item)
+    {
+        if (item is StackableItem) { return StoreAnywhereStackable((StackableItem)item); }
+
+        return StoreAnywhere(item.GetOriginalPrefab());
+    }
+
+    public static bool StoreAnywhere(GameObject prefab)
+    {
+        for (int i = 0; i < instance.hotBar.Length; i++)
+        {
+            if (instance.hotBar[(i + 1) % 10] == null)
+            {
+                instance.SetHotBar((i + 1) % 10, prefab);
+                if ((i + 1) % 10 == instance.currentItem) { SelectItem(); }
+                return true;
+            }
+        }
+
+        for (int i = 0; i < instance.inventory.Length; i++)
+        {
+            if (instance.inventory[i] == null)
+            {
+                instance.SetInventory(i, prefab);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool StoreAnywhereStackable(StackableItem item)
+    {
+        // Check if the same item is already slotted in the inventory / hotbar
+
+        for (int i = 0; i < instance.hotBar.Length; i++)
+        {
+            GameObject eval = instance.hotBar[(i + 1) % 10];
+
+            if (eval != null)
+            {
+                if (eval.TryGetComponent(out StackableItem evalItem))
+                {
+                    if (item.CanStack(evalItem))
+                    {
+                        // We have a match - increment its stacks if we can.
+                        if (evalItem.IncrementStacks()) { return true; }
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < instance.inventory.Length; i++)
+        {
+            GameObject eval = instance.inventory[i];
+
+            if (eval != null)
+            {
+                if (eval.TryGetComponent(out StackableItem evalItem))
+                {
+                    if (evalItem.GetName().Equals(item.GetName()))
+                    {
+                        // We have a match - increment its stacks if we can.
+                        if (evalItem.IncrementStacks()) { return true; }
+                    }
+                }
+            }
+        }
+
+        // Either no items of the same type were present on the inventory, or the present stacks were already full. Try to slot the item elsewhere
+        return StoreAnywhere(GameController.GenerateStackableItem(item.GetName()));
     }
 
     public GameObject GetItem(string name)
@@ -123,6 +133,9 @@ public class PlayerInventory : MonoBehaviour
     public void Enable() { listening = true; }
     public void Disable() { listening = false; }
 
+    public static int GetGold() { return instance.gold; }
+    public static void ModifyGold(int amount) { instance.gold += amount; InventoryUI.SetGoldUI(instance.gold); }
+
     public void SetCurrentItem(GameObject g)
     {
         if (g != null || hotBar[currentItem] != null)
@@ -130,7 +143,7 @@ public class PlayerInventory : MonoBehaviour
             hotBar[currentItem] = g;
 
             SelectItem(currentItem);
-            
+
         } else
         {
             Debug.LogWarning("Tried to override item (" + currentItem + ")!");
@@ -163,9 +176,20 @@ public class PlayerInventory : MonoBehaviour
         }
     }
 
+    private void InitializeClothing() {
+        clothingDictionary = new Dictionary<ClothingItem.ClothingType, Clothing>();
+
+        Dictionary<ClothingItem.ClothingType, GameObject> objects = ClothingController.GenerateClothingObjects();
+        clothingDictionary[ClothingItem.ClothingType.Legs] = objects[ClothingItem.ClothingType.Legs].GetComponent<Clothing>();
+        clothingDictionary[ClothingItem.ClothingType.Shoes] = objects[ClothingItem.ClothingType.Shoes].GetComponent<Clothing>();
+        clothingDictionary[ClothingItem.ClothingType.Torso] = objects[ClothingItem.ClothingType.Torso].GetComponent<Clothing>();
+    }
+
     private void Start()
     {
         InitializeDictionary();
+        InitializeClothing();
+
         Deserialize();
         for (int i = 0; i < hotBar.Length; i++)
         {
@@ -204,7 +228,8 @@ public class PlayerInventory : MonoBehaviour
     public void SetHotBar(int slot, GameObject item)
     {
         hotBar[slot] = item;
-        InventoryUI.instance.UpdateUI(slot);
+        InventoryUI.instance.UpdateSpriteHotbar(slot);
+
     }
 
     public void SetInventory(int slot, GameObject item)
@@ -245,14 +270,20 @@ public class PlayerInventory : MonoBehaviour
         KeyCode.Alpha8,
         KeyCode.Alpha9,
     };
+
+    private bool wheelCooldown;
+
+    private IEnumerator WheelCooldown() { wheelCooldown = true; yield return new WaitForSeconds(.075f); wheelCooldown = false; }
+
     public void Update()
     {
         if (listening)
         {
             float wheel = Input.GetAxis("Mouse ScrollWheel");
-            if (wheel != 0)
+            if (wheel != 0 && !wheelCooldown)
             {
-                if (wheel > 0) { PreviousItem(); } else { NextItem(); }
+                if (wheel > 0f) { PreviousItem(); } else { NextItem(); }
+                StartCoroutine(WheelCooldown());
             }
 
             for (int i = 0; i < keyCodes.Length; i++)
@@ -267,17 +298,6 @@ public class PlayerInventory : MonoBehaviour
                 if (!UseItem())
                 {
                     List<Furniture> list = Cast<Furniture>();
-                    /*
-                    foreach (GameObject furniture in TavernController.GetPlacedFurnitures())
-                    {
-                        Furniture f = furniture.GetComponent<Furniture>();
-                        if (f.IsInsideObject(GameController.instance.WorldMousePosition()))
-                        {
-                            list.Add(f);
-                        }
-                    }
-                    */
-
 
                     Furniture toBePickedUp = null;
                     foreach (Furniture f in list)
@@ -296,7 +316,10 @@ public class PlayerInventory : MonoBehaviour
                     if (toBePickedUp != null)
                     {
                         toBePickedUp.PickUp();
+
+                        LocationController.GetPathfindingAgent("Tavern").RecalculateBoundaries();
                     }
+
                 }
             }
             
@@ -321,6 +344,7 @@ public class PlayerInventory : MonoBehaviour
                 */
 
                 List<Interactuable> l = Cast<Interactuable>(true);
+
                 if (l.Count > 0) {
                     // Sort the list. The first element should be the one that has the smallest distance to the mouse.
                     Vector3 worldPosition = GameController.instance.WorldPosition(Input.mousePosition);
@@ -345,7 +369,7 @@ public class PlayerInventory : MonoBehaviour
                 {
                     if (Vector2.Distance(gameObject.transform.position, i.GetPosition()) <= i.GetMaxDistance())
                     {
-                        i.Interact();
+                        i.Interact(PlayerMovement.GetInstance());
                     }
                 }
             }
@@ -353,7 +377,7 @@ public class PlayerInventory : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E))
         {
-            BookMenuUI.OpenOrCloseMenu();
+            BookMenuUI.OpenOrCloseMenuPublic();
         }
     }
 
@@ -408,8 +432,8 @@ public class PlayerInventory : MonoBehaviour
     {
         if (hotBar[currentItem] != null)
         {
-            hotBar[currentItem].GetComponent<Item>().UseItem();
-            return true;
+            return hotBar[currentItem].GetComponent<Item>().UseItem();
+           // return true;
         } else
         {
             return false;
@@ -424,7 +448,7 @@ public class PlayerInventory : MonoBehaviour
 
     public InventoryData Serialize()
     {
-        return new InventoryData(instance.inventory, instance.hotBar);
+        return new InventoryData(instance.inventory, instance.hotBar, instance.gold);
     }
 
     public void Deserialize()
@@ -439,11 +463,10 @@ public class PlayerInventory : MonoBehaviour
         {
             inventory = d.GetInventory();
             hotBar = d.GetHotbar();
+            ModifyGold(d.GetGold());
+            InventoryUI.instance.UpdateUI();
 
-            for (int i = 0; i < hotBar.Length; i++)
-            {
-                InventoryUI.instance.UpdateUI(i);
-            }
+            
         }
     }
 

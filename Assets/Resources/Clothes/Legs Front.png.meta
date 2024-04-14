@@ -117,11 +117,32 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Legs Front_00x00
+      name: Legs Front_00 PREVIEW
       rect:
         serializedVersion: 2
         x: 0
-        y: 192
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Legs Front_00x00
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 128
         width: 32
         height: 64
       alignment: 0
@@ -141,8 +162,8 @@ TextureImporter:
       name: Legs Front_00x01
       rect:
         serializedVersion: 2
-        x: 32
-        y: 192
+        x: 64
+        y: 128
         width: 32
         height: 64
       alignment: 0
@@ -162,8 +183,8 @@ TextureImporter:
       name: Legs Front_00x02
       rect:
         serializedVersion: 2
-        x: 64
-        y: 192
+        x: 96
+        y: 128
         width: 32
         height: 64
       alignment: 0
@@ -183,10 +204,31 @@ TextureImporter:
       name: Legs Front_00x03
       rect:
         serializedVersion: 2
-        x: 96
-        y: 192
+        x: 128
+        y: 128
         width: 32
         height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Legs Front_01 PREVIEW
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 96
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -204,8 +246,8 @@ TextureImporter:
       name: Legs Front_01x00
       rect:
         serializedVersion: 2
-        x: 0
-        y: 128
+        x: 32
+        y: 64
         width: 32
         height: 64
       alignment: 0
@@ -225,8 +267,8 @@ TextureImporter:
       name: Legs Front_01x01
       rect:
         serializedVersion: 2
-        x: 32
-        y: 128
+        x: 64
+        y: 64
         width: 32
         height: 64
       alignment: 0
@@ -246,8 +288,8 @@ TextureImporter:
       name: Legs Front_01x02
       rect:
         serializedVersion: 2
-        x: 64
-        y: 128
+        x: 96
+        y: 64
         width: 32
         height: 64
       alignment: 0
@@ -267,10 +309,31 @@ TextureImporter:
       name: Legs Front_01x03
       rect:
         serializedVersion: 2
-        x: 96
-        y: 128
+        x: 128
+        y: 64
         width: 32
         height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00000000000000000800000000000000
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Legs Front_02 PREVIEW
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -288,8 +351,8 @@ TextureImporter:
       name: Legs Front_02x00
       rect:
         serializedVersion: 2
-        x: 0
-        y: 64
+        x: 32
+        y: 0
         width: 32
         height: 64
       alignment: 0
@@ -309,8 +372,8 @@ TextureImporter:
       name: Legs Front_02x01
       rect:
         serializedVersion: 2
-        x: 32
-        y: 64
+        x: 64
+        y: 0
         width: 32
         height: 64
       alignment: 0
@@ -330,8 +393,8 @@ TextureImporter:
       name: Legs Front_02x02
       rect:
         serializedVersion: 2
-        x: 64
-        y: 64
+        x: 96
+        y: 0
         width: 32
         height: 64
       alignment: 0
@@ -351,91 +414,7 @@ TextureImporter:
       name: Legs Front_02x03
       rect:
         serializedVersion: 2
-        x: 96
-        y: 64
-        width: 32
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 00000000000000000800000000000000
-      internalID: 0
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Legs Front_03x00
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 32
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 00000000000000000800000000000000
-      internalID: 0
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Legs Front_03x01
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 0
-        width: 32
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 00000000000000000800000000000000
-      internalID: 0
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Legs Front_03x02
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 32
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 00000000000000000800000000000000
-      internalID: 0
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Legs Front_03x03
-      rect:
-        serializedVersion: 2
-        x: 96
+        x: 128
         y: 0
         width: 32
         height: 64
@@ -467,12 +446,17 @@ TextureImporter:
       Legs Front_03x01: 0
       Legs Front_02x02: 0
       Legs Front_03x02: 0
+      Legs Front_01 PREVIEW: 0
       Legs_1: 1435739575
       Legs Front_0x2: 0
       Legs Front_00x01: 0
+      Legs Front_00 PREVIEW: 0
       Legs Front_02x03: 0
+      Legs Front_02 PREVIEW: 0
       Legs_2: -1280868769
       Legs Front_03x03: 0
+      Legs Front_01x-01: 0
+      Legs Front_02x-01: 0
       Legs Front_02x00: 0
       Legs Front_01x03: 0
       Legs Front_00x02: 0
@@ -484,8 +468,9 @@ TextureImporter:
       Legs_0: 1528484505
       Legs Front_0x1: 0
       Legs Front_00x03: 0
-      Legs Front_02x01: 0
+      Legs Front_00x-01: 0
       Legs Front_01x02: 0
+      Legs Front_02x01: 0
       Legs Front_0x3: 0
   spritePackingTag: 
   pSDRemoveMatte: 0

@@ -2,15 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface Interactuable : IFurniture
+public abstract class Interactuable : MonoBehaviour
 {
+    [SerializeField]
+    protected float maxDistance = 2f;
 
-    public void Interact();
+    public virtual float GetMaxDistance() { return maxDistance; }
 
-    public float GetMaxDistance();
 
-    public Vector3 GetPosition();
+    protected virtual void OnEnable()
+    {
+        // TODO: Only add the interactuable if it's inside the tavern area (and not in the house)
+        if (CanBeUsedByNPCS())
+        {
+            NPCController.AddInteractuableForNPC(this);
+        }
+    }
 
-    public GameObject GetGameObject();
+    protected virtual void OnDisable()
+    {
+        // TODO: Only add the interactuable if it's inside the tavern area (and not in the house)
+        if (CanBeUsedByNPCS())
+        {
+            NPCController.RemoveInteractuableForNPC(this);
+        }
+    }
 
+
+    public abstract bool Interact(CharacterAbstract character);
+
+    public abstract bool CanBeUsedByNPCS();
+
+    public abstract Vector3 GetPosition();
+
+    public abstract GameObject GetGameObject();
 }

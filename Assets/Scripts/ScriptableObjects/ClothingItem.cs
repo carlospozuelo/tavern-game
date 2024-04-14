@@ -45,6 +45,7 @@ public class ClothingItem : ScriptableObject
         }
     }
 
+    // "Constructor"
     public static ClothingItem CreateInstance(string type, string name)
     {
         var data = CreateInstance<ClothingItem>();
@@ -52,6 +53,7 @@ public class ClothingItem : ScriptableObject
         data.type = ToClothingType(type);
         data.name = name;
         data.Name = name;
+        //data.sprite = sprite;
 
         data.idle = new AnimationContainer();
         data.hold = new AnimationContainer();
@@ -81,8 +83,70 @@ public class ClothingItem : ScriptableObject
 
     public ClothingType type;
 
-    public AnimationContainer idle, hold, walk, sit;
-    public Color primary, secondary, tertiary;
+    public AnimationContainer idle, hold, walk, sit, bonk;
+
+
+    [System.Serializable]
+    public class ThreeColors
+    {
+        public Color primary, secondary, tertiary;
+
+        public ThreeColors() { }
+
+        public ThreeColors(Color primary, Color secondary, Color tertiary)
+        {
+            this.primary = primary;
+            this.secondary = secondary;
+            this.tertiary = tertiary;
+        }
+
+    }
+
+    [System.Serializable]
+    public class PossibleColors
+    {
+        public List<Color> primary, secondary, tertiary;
+
+        public PossibleColors() { 
+            primary = new List<Color>();
+            secondary = new List<Color>();
+            tertiary = new List<Color>();
+        }
+
+        public static Color ColorFromHexCode(string code)
+        {
+            // Remove the '#' character from the hex code
+            code = code.TrimStart('#');
+
+            // Parse the R, G, B, A values from the hex code
+            float r = Convert.ToInt32(code.Substring(0, 2), 16) / 255.0f;
+            float g = Convert.ToInt32(code.Substring(2, 2), 16) / 255.0f;
+            float b = Convert.ToInt32(code.Substring(4, 2), 16) / 255.0f;
+
+            float a = 1.0f; // Default alpha value
+
+            // Check if the hex code includes transparency information
+            if (code.Length == 8)
+            {
+                int alpha = Convert.ToInt32(code.Substring(6, 2), 16);
+                a = alpha / 255.0f;
+            }
+
+            // Create and return the Color object
+            return new Color(r, g, b, a);
+        }
+    }
+
+    public PossibleColors possibleColors;
+
+    public ThreeColors GetRandomColor()
+    {
+        return new ThreeColors(possibleColors.primary[UnityEngine.Random.Range(0, possibleColors.primary.Count)],
+                               possibleColors.secondary[UnityEngine.Random.Range(0, possibleColors.secondary.Count)],
+                               possibleColors.tertiary[UnityEngine.Random.Range(0, possibleColors.tertiary.Count)]);
+    }
+
+    public Sprite sprite;
 
     public string Name;
 
@@ -104,6 +168,8 @@ public class ClothingItem : ScriptableObject
         if (name.Equals("hold")) hold = c;
         if (name.Equals("walk") || name.Equals("run")) walk = c;
         if (name.Equals("sit")) sit = c;
+
+        if (name.Equals("bonk")) bonk = c;
     }
 
     public List<KeyValuePair<AnimationClip, AnimationClip>> GetAnimations(List<KeyValuePair<AnimationClip, AnimationClip>> overrides)
@@ -112,6 +178,7 @@ public class ClothingItem : ScriptableObject
         overrides = hold.GetAnimations(overrides, type, "hold");
         overrides = walk.GetAnimations(overrides, type, "walk");
         overrides = sit.GetAnimations(overrides, type, "sit");
+        overrides = bonk.GetAnimations(overrides, type, "bonk");
 
 
         return overrides;

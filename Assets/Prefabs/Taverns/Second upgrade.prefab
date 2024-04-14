@@ -3124,6 +3124,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3620853160558560099}
+  - component: {fileID: 2748766309807497681}
   m_Layer: 0
   m_Name: Second upgrade
   m_TagString: Untagged
@@ -3150,6 +3151,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2748766309807497681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7565584797550029459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9f5fbbbc3a8145a0963c9697606eee5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  location: Tavern
+  width: 21
+  height: 32
+  startingPoint: {x: -3, y: -3}
+  cellSize: 0.5
+  debug: 0
 --- !u!1001 &1674497347699682081
 PrefabInstance:
   m_ObjectHideFlags: 0

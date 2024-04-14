@@ -12,6 +12,9 @@ GameObject:
   - component: {fileID: 6687085659471477749}
   - component: {fileID: 6687085659471477747}
   - component: {fileID: 4520201122372231313}
+  - component: {fileID: 4334885226217786788}
+  - component: {fileID: 3803191344970562466}
+  - component: {fileID: 266483745}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -46,7 +49,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39977213c04fcd341b59959639e0793c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stackableItemGameObjectPrefab: {fileID: 8958008904867222194, guid: 4052656a2f3cb48399de56e3af87295a, type: 3}
   mainCamera: {fileID: 0}
+  droppedItemPrefab: {fileID: 1391236071572550940, guid: 045c64adffa5c4ad382f04a5971a7dd0, type: 3}
   player: {fileID: 0}
   maxDistanceToPlaceItems: 5
 --- !u!114 &6687085659471477747
@@ -79,4 +84,57 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  allDroppableParents:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   currentLocation: Tavern
+--- !u!114 &4334885226217786788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6687085659471477748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 970121570a13dbe4ba10901201037be1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3803191344970562466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6687085659471477748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bdaff1257e5f46e4afa35f8052bb783, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recipes:
+  - {fileID: 11400000, guid: d85590de497a7437188220bb6eab03b9, type: 2}
+  allMenus:
+  - {fileID: 0}
+  - {fileID: 0}
+  allIngredients:
+  - {fileID: 11400000, guid: 73bc4368074ed4fc2b392eacd120d248, type: 2}
+  - {fileID: 11400000, guid: b9392fe86ba294b998cb185f27af21db, type: 2}
+  - {fileID: 11400000, guid: 302a628d265324b2f8062dfa1a680aca, type: 2}
+  - {fileID: 11400000, guid: 2939a8a8172de49b2a53ed4101c1f960, type: 2}
+  - {fileID: 11400000, guid: d6d4b4a702cb24c43b3eef088747b5a4, type: 2}
+  - {fileID: 11400000, guid: ec330fce404b747ab9ca1a9c7639528d, type: 2}
+--- !u!114 &266483745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6687085659471477748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c53dedb39f0cdd041a6c3acb1aaa54d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcPrefab: {fileID: 5452120230875309737, guid: 3d30de68b9176e84d94a062223d2903c, type: 3}

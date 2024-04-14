@@ -9,13 +9,59 @@ public class LocationController : MonoBehaviour
     private GameObject[] locations;
 
     private Dictionary<string, GameObject> dictionary;
+    private Dictionary<string, PathfindingAgent> pathfindingAgents;
 
     private static LocationController instance;
+
+    [SerializeField]
+    private Transform[] allDroppableParents;
+    private Dictionary<string, Transform> droppableDictionary;
 
     // Could be changed via savefile in the future
     public string currentLocation = "Tavern";
 
+    public static void AddPathfindingAgent(string location, PathfindingAgent agent)
+    {
+        if (instance.pathfindingAgents == null)
+        {
+            instance.pathfindingAgents = new Dictionary<string, PathfindingAgent>();
+        }
+
+        print("Adding: " + location);
+
+        if (instance.pathfindingAgents.ContainsKey(location)) { 
+            // Replace current agent
+            instance.pathfindingAgents.Remove(location);
+        }
+        instance.pathfindingAgents.Add(location, agent);
+    }
+
+    public static PathfindingAgent GetPathfindingAgent(string location)
+    {
+        if (instance.pathfindingAgents != null && instance.pathfindingAgents.ContainsKey(location))
+        {
+            return instance.pathfindingAgents[location];
+        }
+
+        Debug.LogWarning("Trying to access a pathfinding agent not stored in the controller. (" + location + ")");
+        return null;
+    }
+
     public static string GetCurrentLocation() { return instance.currentLocation; }
+    public static GameObject GetLocation(string location)
+    {
+        foreach (GameObject g in instance.locations)
+        {
+            if (g.name.Equals(location)) return g;
+        }
+
+        return null;
+    }
+
+    public static Transform GetCurrentLocationDroppable()
+    {
+        return instance.droppableDictionary[GetCurrentLocation()];
+    }
 
     private void Awake()
     {
@@ -42,8 +88,19 @@ public class LocationController : MonoBehaviour
             keypair.Value.SetActive(false);
         }
 
+        if (name.Equals("Tavern"))
+        {
+            FurniturePreview.instance.EnablePreview();
+        } else
+        {
+            FurniturePreview.instance.HidePreview();
+        }
+
         instance.dictionary[name].SetActive(true);
         instance.currentLocation = name;
+
+        // Select the current item
+        PlayerInventory.instance.SelectItem(PlayerInventory.instance.currentItem);
         
     }
 
@@ -56,6 +113,13 @@ public class LocationController : MonoBehaviour
         {
             dictionary[item.name] = item;
         }
+
+        droppableDictionary = new Dictionary<string, Transform>();
+
+        foreach (Transform t in allDroppableParents)
+        {
+            droppableDictionary[t.parent.name] = t;
+        } 
 
         ChangeLocation(currentLocation);
     }

@@ -3,27 +3,68 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : CharacterAbstract
 {
 
     public float speed = 6f;
-    public Rigidbody2D rb;
 
-    public Animator animator;
-
-    [SerializeField]
-    private bool sitting = false;
+    public static Animator GetAnimator() { return instance.animator; }
 
     private static PlayerMovement instance;
-    private Bench bench;
+    public static PlayerMovement GetInstance() { return instance; }
 
-    private Collider2D[] colliders;
+    [SerializeField]
+    private Transform up, down, left, right;
 
-    private SpriteRenderer[] renderers;
-
-    public static bool IsSitting()
+    public static Collider2D[] GetCollidersAtBox(Vector2 direction)
     {
-        return instance.sitting;
+        if (direction == Vector2.right) { return GetCollidersAtBox(instance.right); }
+        if (direction == Vector2.up) { return GetCollidersAtBox(instance.up); }
+        if (direction == Vector2.left) { return GetCollidersAtBox(instance.left); }
+        if (direction == Vector2.down) { return GetCollidersAtBox(instance.down); }
+
+        return null;
+    }
+
+    public static void StopMovement(float duration)
+    {
+        instance.StopMovementPriv(duration);
+    }
+
+
+    private Coroutine stopMovementCoroutine;
+
+    private void StopMovementPriv(float duration)
+    {
+        if (stopMovementCoroutine != null) { StopCoroutine(stopMovementCoroutine); }
+        StartCoroutine(StopMovementCorr(duration));
+    }
+
+    private IEnumerator StopMovementCorr(float duration)
+    {
+        Stop();
+        canMove = false;
+
+        yield return new WaitForSeconds(duration);
+
+        canMove = true;
+    }
+
+
+    private static Collider2D[] GetCollidersAtBox(Transform t)
+    {
+        return Physics2D.OverlapBoxAll(t.position, new Vector2(1f, 1f), 0f);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+
+
+        Gizmos.DrawWireCube(up.position, new Vector3(1f, 1f, 1f));
+        Gizmos.DrawWireCube(down.position, new Vector3(1f, 1f, 1f));
+        Gizmos.DrawWireCube(left.position, new Vector3(1f, 1f, 1f));
+        Gizmos.DrawWireCube(right.position, new Vector3(1f, 1f, 1f));
     }
 
     private void Awake()
@@ -41,55 +82,37 @@ public class PlayerMovement : MonoBehaviour
     {
         ClothingController.SetAnimator(animator);
         ClothingController.UpdateColorsReverse();
-        colliders = GetComponentsInChildren<Collider2D>();
-        renderers = GetComponentsInChildren<SpriteRenderer>();
+        Initialize();
     }
 
-    public static void Sit(Vector2 position, Bench bench)
+    public static Vector3 GetPosition()
     {
-        ToggleColliders(false);
+        return instance.rb.position;
+    }
 
-        instance.transform.position = new Vector3(position.x, position.y, instance.transform.position.z);
-        instance.animator.SetBool("Sitting", true);
-        instance.animator.SetFloat("AnimMoveX", bench.direction.x);
-        instance.animator.SetFloat("AnimMoveY", bench.direction.y);
-        instance.sitting = true;
-        instance.bench = bench;
-        instance.Stop();
-        ToggleMasking(SpriteMaskInteraction.VisibleOutsideMask);
+    public static void LookAt(Vector2 direction)
+    {
+        instance.animator.SetFloat("AnimMoveX" ,direction.x);
+        instance.animator.SetFloat("AnimMoveY", direction.y);
     }
 
     public static void ToggleColliders(bool value)
     {
-        foreach (Collider2D c in instance.colliders)
-        {
-            c.enabled = value;
-        }
+        instance.ToggleCollidersPrivate(value);
     }
-
+    
     public static void ToggleMasking(SpriteMaskInteraction maskInteraction)
     {
-        foreach (SpriteRenderer s in instance.renderers)
-        {
-            s.maskInteraction = maskInteraction;
-        }
+        instance.ToggleMaskingPrivate(maskInteraction);
     }
 
-    private void GetUp(float h, float v)
-    {
-        if (bench.GetUp(gameObject, h, v))
-        {
-            bench = null;
-            sitting = false;
-            animator.SetBool("Sitting", false);
-
-            ToggleColliders(true);
-            ToggleMasking(SpriteMaskInteraction.None);
-        }
-    }
+    
     // Update is called once per frame
+    private bool canMove = true;
     void Update()
     {
+        if (!canMove) { return; }
+
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 
@@ -105,19 +128,17 @@ public class PlayerMovement : MonoBehaviour
                 animator.SetFloat("AnimMoveY", v);
 
                 rb.velocity = normalized * speed;
-            } else
+                InventoryUI.ToggleGold(.2f);
+            }
+            else
             {
                 GetUp(h, v);
             }
         } else
         {
+            InventoryUI.ToggleGold(1f);
             Stop();
         }
-    }
 
-    private void Stop()
-    {
-        rb.velocity = Vector2.zero;
-        animator.SetFloat("MovementMagnitude", 0);
     }
 }

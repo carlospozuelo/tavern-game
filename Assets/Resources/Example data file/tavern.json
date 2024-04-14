@@ -1,0 +1,650 @@
+{
+  "version": "v1",
+  "inventoryData": {
+    "inventory": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "$type": "StackableString, Assembly-CSharp",
+        "currentStacks": 1,
+        "stackableId": "Beer",
+        "ingredientsUsed": [
+          "Barley"
+        ],
+        "value": 2.0,
+        "itemId": "StackableItem"
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "hotbar": [
+      null,
+      {
+        "itemId": "Basic axe"
+      },
+      {
+        "$type": "StackableString, Assembly-CSharp",
+        "currentStacks": 10,
+        "stackableId": "Wood",
+        "ingredientsUsed": [],
+        "value": 0.0,
+        "itemId": "StackableItem"
+      },
+      {
+        "$type": "StackableString, Assembly-CSharp",
+        "currentStacks": 9,
+        "stackableId": "Barley",
+        "ingredientsUsed": [],
+        "value": 0.0,
+        "itemId": "StackableItem"
+      },
+      {
+        "$type": "StackableString, Assembly-CSharp",
+        "currentStacks": 10,
+        "stackableId": "Hops",
+        "ingredientsUsed": [],
+        "value": 0.0,
+        "itemId": "StackableItem"
+      },
+      {
+        "$type": "StackableString, Assembly-CSharp",
+        "currentStacks": 10,
+        "stackableId": "Grass",
+        "ingredientsUsed": [],
+        "value": 0.0,
+        "itemId": "StackableItem"
+      },
+      {
+        "$type": "StackableString, Assembly-CSharp",
+        "currentStacks": 1,
+        "stackableId": "Beer",
+        "ingredientsUsed": [
+          "Wheat"
+        ],
+        "value": 0.0,
+        "itemId": "StackableItem"
+      },
+      {
+        "$type": "StackableString, Assembly-CSharp",
+        "currentStacks": 30,
+        "stackableId": "Wheat",
+        "ingredientsUsed": [],
+        "value": 0.0,
+        "itemId": "StackableItem"
+      },
+      null,
+      null
+    ],
+    "gold": 0
+  },
+  "tavernData": {
+    "furnitures": [
+      {
+        "x": 2.0,
+        "y": 12.0,
+        "z": 0.0,
+        "furnitureName": "Worn bed"
+      },
+      {
+        "x": -2.0,
+        "y": 1.0,
+        "z": 0.4,
+        "furnitureName": "Basic stool"
+      },
+      {
+        "x": -3.0,
+        "y": 1.0,
+        "z": 0.4,
+        "furnitureName": "Basic stool"
+      },
+      {
+        "x": -1.0,
+        "y": 1.0,
+        "z": 0.4,
+        "furnitureName": "Basic stool"
+      },
+      {
+        "x": 0.0,
+        "y": 1.0,
+        "z": 0.4,
+        "furnitureName": "Basic stool"
+      },
+      {
+        "x": 6.0,
+        "y": 4.0,
+        "z": 1.5,
+        "furnitureName": "Big plant"
+      },
+      {
+        "x": -3.0,
+        "y": 4.0,
+        "z": 0.8,
+        "furnitureName": "Basic beer tap flip"
+      },
+      {
+        "x": -1.0,
+        "y": 6.0,
+        "z": 0.0,
+        "furnitureName": "Sunset over three cliffs"
+      },
+      {
+        "x": -3.0,
+        "y": 3.0,
+        "z": 0.0,
+        "furnitureName": "Worn bar"
+      },
+      {
+        "x": 1.0,
+        "y": 4.0,
+        "z": 0.0,
+        "furnitureName": "Fancy sofa - down"
+      },
+      {
+        "x": 2.0,
+        "y": 6.0,
+        "z": 0.0,
+        "furnitureName": "Basic window"
+      },
+      {
+        "x": -1.0,
+        "y": 4.0,
+        "z": 0.8,
+        "furnitureName": "Basic beer tap flip"
+      }
+    ],
+    "taverns": [
+      "First upgrade",
+      "House"
+    ]
+  },
+  "clothingData": {
+    "playerName": "",
+    "playerPronouns": "",
+    "data": {
+      "Hair": {
+        "itemName": "Hair 11",
+        "color1": {
+          "r": 0.772549033,
+          "g": 0.482352942,
+          "b": 0.309803933,
+          "a": 1.0
+        },
+        "color2": {
+          "r": 0.420523345,
+          "g": 0.434672624,
+          "b": 0.509434,
+          "a": 1.0
+        },
+        "color3": {
+          "r": 1.0,
+          "g": 1.0,
+          "b": 1.0,
+          "a": 0.0
+        }
+      },
+      "Torso": {
+        "itemName": "Torso 03",
+        "color1": {
+          "r": 0.6192943,
+          "g": 0.8862745,
+          "b": 0.380392134,
+          "a": 1.0
+        },
+        "color2": {
+          "r": 0.7264151,
+          "g": 0.5265812,
+          "b": 0.2706924,
+          "a": 1.0
+        },
+        "color3": {
+          "r": 1.0,
+          "g": 1.0,
+          "b": 1.0,
+          "a": 0.0
+        }
+      },
+      "Legs": {
+        "itemName": "Legs 02",
+        "color1": {
+          "r": 0.9529412,
+          "g": 0.9317535,
+          "b": 0.5176471,
+          "a": 1.0
+        },
+        "color2": {
+          "r": 0.282352954,
+          "g": 0.282352954,
+          "b": 0.282352954,
+          "a": 1.0
+        },
+        "color3": {
+          "r": 1.0,
+          "g": 1.0,
+          "b": 1.0,
+          "a": 0.0
+        }
+      },
+      "Faces": {
+        "itemName": "Faces 01",
+        "color1": {
+          "r": 0.796078444,
+          "g": 0.6993003,
+          "b": 0.5151096,
+          "a": 1.0
+        },
+        "color2": {
+          "r": 0.455411226,
+          "g": 0.5989915,
+          "b": 0.8113208,
+          "a": 1.0
+        },
+        "color3": {
+          "r": 0.772549033,
+          "g": 0.482352942,
+          "b": 0.309803933,
+          "a": 1.0
+        }
+      },
+      "Shoes": {
+        "itemName": "Shoes 00",
+        "color1": {
+          "r": 0.6509804,
+          "g": 0.419607878,
+          "b": 0.500328,
+          "a": 1.0
+        },
+        "color2": {
+          "r": 1.0,
+          "g": 1.0,
+          "b": 1.0,
+          "a": 1.0
+        },
+        "color3": {
+          "r": 1.0,
+          "g": 1.0,
+          "b": 1.0,
+          "a": 0.0
+        }
+      }
+    },
+    "skinTone": {
+      "r": 1.0,
+      "g": 0.8784314,
+      "b": 0.647058845,
+      "a": 1.0
+    }
+  },
+  "townData": {
+    "townBuildings": [
+      {
+        "x": 10.93,
+        "y": 1.36,
+        "z": 2.0,
+        "name": "Townhall building"
+      },
+      {
+        "x": -10.24,
+        "y": 1.41,
+        "z": 7.0,
+        "name": "Market stall"
+      },
+      {
+        "x": 0.0,
+        "y": 1.0,
+        "z": 2.0,
+        "name": "Tavern building 1"
+      }
+    ],
+    "townItems": [
+      {
+        "x": -18.1,
+        "y": 3.7,
+        "z": 0.0,
+        "name": "Pine cone"
+      },
+      {
+        "x": -8.8,
+        "y": 8.1,
+        "z": 0.0,
+        "name": "Pine cone"
+      },
+      {
+        "x": 30.4,
+        "y": -45.0,
+        "z": 0.0,
+        "name": "Pine cone"
+      },
+      {
+        "x": -8.5,
+        "y": 3.0,
+        "z": 0.0,
+        "name": "Pine cone"
+      },
+      {
+        "x": 7.71,
+        "y": 5.93,
+        "z": 0.0,
+        "name": "Pine cone"
+      },
+      {
+        "x": -1.5,
+        "y": 11.0,
+        "z": 0.0,
+        "name": "Pine cone"
+      },
+      {
+        "x": -5.4,
+        "y": 13.6,
+        "z": 0.0,
+        "name": "Pine cone"
+      },
+      {
+        "x": 2.8,
+        "y": 18.2,
+        "z": 0.0,
+        "name": "Pine cone"
+      },
+      {
+        "x": -0.3,
+        "y": 25.2,
+        "z": 0.0,
+        "name": "Pine cone"
+      },
+      {
+        "x": -6.5,
+        "y": 23.1,
+        "z": 0.0,
+        "name": "Pine cone"
+      },
+      {
+        "x": 0.0,
+        "y": 31.9,
+        "z": 0.0,
+        "name": "Pine cone"
+      },
+      {
+        "x": 16.8,
+        "y": 31.6,
+        "z": 0.0,
+        "name": "Pine cone"
+      },
+      {
+        "x": 3.5,
+        "y": 37.3,
+        "z": 0.0,
+        "name": "Pine cone"
+      },
+      {
+        "x": -29.7,
+        "y": 42.3,
+        "z": 0.0,
+        "name": "Pine cone"
+      },
+      {
+        "x": -24.7,
+        "y": -11.3,
+        "z": 0.0,
+        "name": "Pine cone"
+      },
+      {
+        "x": -2.3,
+        "y": -15.3,
+        "z": 0.0,
+        "name": "Pine cone"
+      },
+      {
+        "x": -14.2,
+        "y": -15.1,
+        "z": 0.0,
+        "name": "Pine cone"
+      },
+      {
+        "x": 9.2,
+        "y": -31.9,
+        "z": 0.0,
+        "name": "Pine cone"
+      },
+      {
+        "x": -19.3,
+        "y": -46.8,
+        "z": 0.0,
+        "name": "Pine cone"
+      },
+      {
+        "x": -26.8,
+        "y": -38.7,
+        "z": 0.0,
+        "name": "Pine cone"
+      },
+      {
+        "x": -22.4,
+        "y": -27.0,
+        "z": 0.0,
+        "name": "Pine cone"
+      },
+      {
+        "x": 13.3,
+        "y": -15.1,
+        "z": 0.0,
+        "name": "Pine cone"
+      },
+      {
+        "x": 27.9,
+        "y": -16.3,
+        "z": 0.0,
+        "name": "Pine cone"
+      },
+      {
+        "x": 27.9,
+        "y": -16.3,
+        "z": 0.0,
+        "name": "Pine cone"
+      },
+      {
+        "x": -22.7,
+        "y": -17.5,
+        "z": 1.0,
+        "name": "Big tree"
+      },
+      {
+        "x": 34.1,
+        "y": -9.8,
+        "z": 1.0,
+        "name": "Big tree"
+      },
+      {
+        "x": -23.6,
+        "y": 9.1,
+        "z": 1.0,
+        "name": "Big tree"
+      },
+      {
+        "x": 20.9,
+        "y": 24.6,
+        "z": 1.0,
+        "name": "Big tree"
+      },
+      {
+        "x": 29.7,
+        "y": 38.4,
+        "z": 1.0,
+        "name": "Big tree"
+      },
+      {
+        "x": 18.7,
+        "y": -35.2,
+        "z": 1.0,
+        "name": "Big tree"
+      },
+      {
+        "x": -4.5,
+        "y": -26.9,
+        "z": 1.0,
+        "name": "Big tree"
+      },
+      {
+        "x": -23.2,
+        "y": -0.7,
+        "z": 1.0,
+        "name": "Big tree"
+      },
+      {
+        "x": 24.7,
+        "y": -9.7,
+        "z": 1.0,
+        "name": "Big tree"
+      },
+      {
+        "x": 36.6,
+        "y": 18.2,
+        "z": 1.0,
+        "name": "Big tree"
+      },
+      {
+        "x": 10.3,
+        "y": -20.9,
+        "z": 1.0,
+        "name": "Tree"
+      },
+      {
+        "x": 18.1,
+        "y": -44.7,
+        "z": 1.0,
+        "name": "Tree"
+      },
+      {
+        "x": -5.4,
+        "y": -44.8,
+        "z": 1.0,
+        "name": "Tree"
+      },
+      {
+        "x": 26.9,
+        "y": -32.4,
+        "z": 1.0,
+        "name": "Tree"
+      },
+      {
+        "x": 35.9,
+        "y": -15.5,
+        "z": 1.0,
+        "name": "Tree"
+      },
+      {
+        "x": 30.0,
+        "y": 22.5,
+        "z": 1.0,
+        "name": "Tree"
+      },
+      {
+        "x": 19.8,
+        "y": 39.2,
+        "z": 1.0,
+        "name": "Tree"
+      },
+      {
+        "x": -3.8,
+        "y": 41.6,
+        "z": 1.0,
+        "name": "Tree"
+      },
+      {
+        "x": 25.8,
+        "y": 31.2,
+        "z": 1.0,
+        "name": "Tree"
+      },
+      {
+        "x": -25.5,
+        "y": 18.3,
+        "z": 1.0,
+        "name": "Tree"
+      },
+      {
+        "x": -17.2,
+        "y": 24.7,
+        "z": 1.0,
+        "name": "Tree"
+      },
+      {
+        "x": -17.7,
+        "y": -10.0,
+        "z": 1.0,
+        "name": "Tree"
+      },
+      {
+        "x": 3.3,
+        "y": -17.4,
+        "z": 1.0,
+        "name": "Tree"
+      },
+      {
+        "x": 3.3,
+        "y": -34.8,
+        "z": 1.0,
+        "name": "Tree"
+      },
+      {
+        "x": -26.8,
+        "y": -49.4,
+        "z": 1.0,
+        "name": "Tree"
+      },
+      {
+        "x": -24.2,
+        "y": -43.0,
+        "z": 1.0,
+        "name": "Tree"
+      },
+      {
+        "x": -3.9,
+        "y": -52.7,
+        "z": 1.0,
+        "name": "Tree"
+      },
+      {
+        "x": 25.3,
+        "y": -0.9,
+        "z": 1.0,
+        "name": "Tree"
+      },
+      {
+        "x": 32.51,
+        "y": 12.08,
+        "z": 1.0,
+        "name": "Tree"
+      },
+      {
+        "x": -6.2,
+        "y": 30.8,
+        "z": 1.0,
+        "name": "Tree"
+      }
+    ]
+  }
+}

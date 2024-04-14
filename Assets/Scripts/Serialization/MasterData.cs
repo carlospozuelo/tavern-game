@@ -66,13 +66,24 @@ public class MasterData : MonoBehaviour
         string path = GetPath();
         if (File.Exists(path))
         {
+            JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
+            Master master = JsonConvert.DeserializeObject<Master>(File.ReadAllText(path), settings);
+            return master;
             // deserialize JSON directly from a file
+            /*
             using (StreamReader file = File.OpenText(path))
             {
+                JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
                 JsonSerializer serializer = new JsonSerializer();
+
+                //string serialized = JsonConvert.SerializeObject(file, settings);
+                //Master master = JsonConvert.DeserializeObject<Master>(file, settings);
+                
                 Master master = (Master) serializer.Deserialize(file, typeof(Master));
+                
                 return master;
             }
+            */
         }
         Debug.Log("No file found on " + GetPath());
         return null;
@@ -92,15 +103,21 @@ public class MasterData : MonoBehaviour
 
         //string json = JsonUtility.ToJson(this);
         //FileStream stream = new FileStream(GetPath(), FileMode.Create);
-
+        JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
+        File.WriteAllText(GetPath(), JsonConvert.SerializeObject(instance.data, Formatting.Indented, settings));
+        /*
         JsonSerializer serializer = new JsonSerializer();
+        JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
+
+        string data = JsonConvert.SerializeObject(instance.data, settings);
 
         using (StreamWriter sw = new StreamWriter(GetPath()))
         using (JsonWriter writer = new JsonTextWriter(sw))
         {
             writer.Formatting = Formatting.Indented;
-            serializer.Serialize(writer, instance.data);
+            serializer.Serialize(writer, data);//instance.data);
         }
+        */
     }
 
     private static string GetPath()
