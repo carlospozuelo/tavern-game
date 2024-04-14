@@ -35,9 +35,9 @@ public class StackableItem : MonoBehaviour, Item
 
     public bool IsFull() { return maxStacks == currentStacks; }
 
-    public bool CanStack(StackableItem stackableItem)
+    public bool CanStack(StackableItem stackableItem, bool useCurrentStacks = false)
     {
-        return CanStack(stackableItem.GetName(), 0, stackableItem.madeOf);
+        return CanStack(stackableItem.GetName(), useCurrentStacks ? stackableItem.currentStacks : 0, stackableItem.madeOf);
     }
 
     public bool CanStack(string name, int stacks, List<Ingredient> ingredients)

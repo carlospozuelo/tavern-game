@@ -87,7 +87,7 @@ public class PlayerInventory : MonoBehaviour
             {
                 if (eval.TryGetComponent(out StackableItem evalItem))
                 {
-                    if (evalItem.GetName().Equals(item.GetName()))
+                    if (item.CanStack(evalItem))
                     {
                         // We have a match - increment its stacks if we can.
                         if (evalItem.IncrementStacks()) { return true; }
