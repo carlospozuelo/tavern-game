@@ -109,7 +109,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 128
+        y: 192
         width: 64
         height: 64
       alignment: 4
@@ -130,7 +130,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 64
+        y: 128
         width: 64
         height: 64
       alignment: 1
@@ -151,7 +151,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 28
+        y: 92
         width: 36
         height: 36
       alignment: 1
@@ -172,7 +172,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 128
+        y: 192
         width: 64
         height: 64
       alignment: 4
@@ -193,7 +193,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 0
+        y: 64
         width: 64
         height: 64
       alignment: 1
@@ -205,6 +205,27 @@ TextureImporter:
       bones: []
       spriteID: a790531b8632cd64380fa38f65c2ae97
       internalID: 1988099595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tavern furniture_5
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 9
+        width: 41
+        height: 29
+      alignment: 9
+      pivot: {x: 0, y: 0.612}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b5e8227417e26b439a81ab6e18d55c2
+      internalID: 1228755737
       vertices: []
       indices: 
       edges: []
@@ -223,6 +244,7 @@ TextureImporter:
       Tavern furniture_2: 1990950388
       Tavern furniture_1: 6223300
       Tavern furniture_0: 729095329
+      Tavern furniture_5: 1228755737
       Tavern furniture_4: 1988099595
       Tavern furniture_3: -1213048509
   spritePackingTag: 

@@ -69,5 +69,5 @@ MonoBehaviour:
     - {r: 0.7254902, g: 0.5254902, b: 0.27058825, a: 1}
     tertiary:
     - {r: 1, g: 1, b: 1, a: 1}
-  sprite: {fileID: 228420187441940898, guid: 837d5ef2fa9b045529943e2665eeaf45, type: 3}
+  sprite: {fileID: 753667790116891218, guid: 837d5ef2fa9b045529943e2665eeaf45, type: 3}
   Name: Torso 08
