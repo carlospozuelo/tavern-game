@@ -206,7 +206,21 @@ public class TavernController : MonoBehaviour
 
             foreach (FurnitureData furniture in tavern.GetFurniture())
             {
-                InstantiateFurniture(dictionary[furniture.GetFurnitureName()], furniture.GetPosition() + new Vector3(0,1));
+                GameObject gO = InstantiateFurniture(dictionary[furniture.GetFurnitureName()], furniture.GetPosition() + new Vector3(0,1));
+                if (furniture is FurnitureWithSlotsData)
+                {
+                    FurnitureWithSlotsData fSlots = (FurnitureWithSlotsData) furniture;
+                    Slottable s = gO.GetComponent<Slottable>();
+
+                    GameObject[] newSlots = new GameObject[fSlots.slots.Count];
+
+                    for (int i = 0; i < fSlots.slots.Count; i++)
+                    {
+                        newSlots[i] = InventoryData.HandleReverse(fSlots.slots[i]);
+                    }
+
+                    s.SetSlots(newSlots);
+                }
             }
 
             // Upgrade items on top
@@ -240,6 +254,8 @@ public class TavernController : MonoBehaviour
                     currentTaverns.Add(tav);
                 }
                 GridManager.InitializeTilemap();
+
+                CraftingController.CheckAllCrafts();
             }
         } else
         {

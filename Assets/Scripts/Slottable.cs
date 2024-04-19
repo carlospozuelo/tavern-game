@@ -7,4 +7,7 @@ public interface Slottable
     public GameObject Retrieve(int index);
 
     public bool IsEmpty();
+
+    public GameObject[] GetSlots();
+    public void SetSlots(GameObject[] slots);
 }

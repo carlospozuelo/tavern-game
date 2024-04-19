@@ -77,6 +77,10 @@ public class LocationController : MonoBehaviour
 
     public static void ChangeLocation(string name)
     {
+        if (!instance.initialized)
+        {
+            instance.Initialize();
+        }
         if (!instance.dictionary.ContainsKey(name))
         {
             Debug.LogWarning("The location " + name + " does not exist.");
@@ -107,6 +111,15 @@ public class LocationController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+
+    bool initialized = false;
+    void Initialize()
+    {
+        if (initialized) { return; }
+        initialized = true;
+
         dictionary = new Dictionary<string, GameObject>();
 
         foreach (var item in locations)
@@ -119,7 +132,7 @@ public class LocationController : MonoBehaviour
         foreach (Transform t in allDroppableParents)
         {
             droppableDictionary[t.parent.name] = t;
-        } 
+        }
 
         ChangeLocation(currentLocation);
     }
