@@ -50,4 +50,9 @@ public class StackableString : InventoryString
 
         this.value = value;
     }
+
+    public override string ToString()
+    {
+        return base.ToString();
+    }
 }

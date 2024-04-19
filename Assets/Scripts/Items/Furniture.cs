@@ -12,9 +12,26 @@ public class Furniture : MonoBehaviour, Item, IFurniture
     [SerializeField]
     public GameObject originalPrefab;
 
+    [SerializeField]
+    private bool hasSlots;
+
     public FurnitureData GetFurnitureData()
     {
-        return new FurnitureData(transform.position - new Vector3(0, 1), originalPrefab.name);
+        if (TryGetComponent(out Slottable slottable))
+        {
+            FurnitureWithSlotsData data = new FurnitureWithSlotsData(transform.position - new Vector3(0, 1), originalPrefab.name);
+
+            foreach (var gO in slottable.GetSlots())
+            {
+                data.slots.Add(InventoryData.Handle(gO));
+            }
+
+            return data;
+        }
+        else
+        {
+            return new FurnitureData(transform.position - new Vector3(0, 1), originalPrefab.name);
+        }
     }
 
     public Sprite GetSprite()

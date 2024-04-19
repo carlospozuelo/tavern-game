@@ -28,8 +28,24 @@ public class FurnitureData
     {
         string s = "{\n";
 
-        s += "x: " + x + ", y:" + y + ", z: " + z + ",\nfurnitureName: " + furnitureName + "\n}";
+        s += FurnitureString() + "\n}";
 
         return s;
+    }
+
+    protected string FurnitureString()
+    {
+        return "x: " + x + ", y:" + y + ", z: " + z + ",\nfurnitureName: " + furnitureName;
+    }
+}
+
+public class FurnitureWithSlotsData : FurnitureData
+{
+    [JsonProperty]
+    public List<InventoryString> slots;
+
+    public FurnitureWithSlotsData(Vector3 position, string furnitureName) : base(position, furnitureName)
+    {
+        slots = new List<InventoryString>();
     }
 }

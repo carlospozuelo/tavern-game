@@ -29,6 +29,8 @@ public class CraftingTable : Interactuable, Slottable
         {
             craftingTables.Add(this);
         }
+
+        CraftingController.CheckCrafts(this);
     }
 
     protected override void OnDisable()
@@ -85,6 +87,16 @@ public class CraftingTable : Interactuable, Slottable
         }
 
         return true;
+    }
+
+    public GameObject[] GetSlots()
+    {
+        return slots;
+    }
+
+    public void SetSlots(GameObject[] slots)
+    {
+        this.slots = slots;
     }
 
 }

@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Rendering.UI;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class DragDrop : MonoBehaviour, IPointerDownHandler
 {

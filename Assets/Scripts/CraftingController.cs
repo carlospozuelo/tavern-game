@@ -87,7 +87,7 @@ public class CraftingController : MonoBehaviour
         }
     }
 
-    private IEnumerator CraftCoroutine(GameObject[] slots)
+    private IEnumerator CraftCoroutine(GameObject[] slots, CraftingTable currentTable)
     {
         List<Ingredient> currentIngredients = new List<Ingredient>();
         List<StackableItem> stackablesUsed = new List<StackableItem>();
@@ -102,7 +102,6 @@ public class CraftingController : MonoBehaviour
             }
         }
 
-        CraftingTable currentTable = openedCraftingTable;
         if (initialIngredientsByTable.ContainsKey(currentTable))
         {
             initialIngredientsByTable.Remove(currentTable);
@@ -152,7 +151,11 @@ public class CraftingController : MonoBehaviour
                         }
 
                         yield return null;
-                        openedMenu.UpdateImage();
+
+                        if (openedMenu != null)
+                        {
+                            openedMenu.UpdateImage();
+                        }
 
                         if (abort) {
                             initialIngredientsByTable.Remove(currentTable);
@@ -196,6 +199,41 @@ public class CraftingController : MonoBehaviour
         return false;
     }
 
+    private void CheckAllCraftsPriv()
+    {
+        foreach (CraftingTable table in CraftingTable.craftingTables)
+        {
+            CheckCraftsPriv(table);
+        }
+    }
+
+    public static void CheckAllCrafts()
+    {
+        instance.CheckAllCraftsPriv();
+    }
+
+    private void CheckCraftsPriv(CraftingTable table)
+    {
+        if (coroutines.ContainsKey(table))
+        {
+            if (coroutines[table] != null)
+            {
+                StopCoroutine(instance.coroutines[table]);
+                initialIngredientsByTable.Remove(table);
+            }
+
+            coroutines.Remove(table);
+        }
+
+        coroutines.Add(table, StartCoroutine(CraftCoroutine(table.GetSlots(), table)));
+
+    }
+
+    public static void CheckCrafts(CraftingTable table)
+    {
+        instance.CheckCraftsPriv(table);
+    }
+
     // Check if, with the current ingredients, something can be crafted. If so, craft
     private void CheckCrafts()
     {
@@ -204,7 +242,7 @@ public class CraftingController : MonoBehaviour
         {
             if (coroutines[openedCraftingTable] != null)
             {
-                if (!CompareIngredients(initialIngredientsByTable[openedCraftingTable]))
+                if (initialIngredientsByTable.TryGetValue(openedCraftingTable, out var list) && !CompareIngredients(list))
                 {
                     StopCoroutine(coroutines[openedCraftingTable]);
                     initialIngredientsByTable.Remove(openedCraftingTable);
@@ -225,7 +263,8 @@ public class CraftingController : MonoBehaviour
 
         if (startCoroutine && slots != null)
         {
-            coroutines.Add(openedCraftingTable, StartCoroutine(CraftCoroutine(slots)));
+
+            coroutines.Add(openedCraftingTable, StartCoroutine(CraftCoroutine(slots, openedCraftingTable)));
         }
     }
 

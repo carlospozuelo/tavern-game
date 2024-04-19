@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class PlayerInventory : MonoBehaviour
 {
@@ -40,6 +39,8 @@ public class PlayerInventory : MonoBehaviour
 
     public static Clothing GetWornItem(ClothingItem.ClothingType key)
     {
+        instance.Initialize();
+
         if (instance.clothingDictionary.TryGetValue(key, out var value)) { return value; } return null;
     }
 
@@ -187,6 +188,16 @@ public class PlayerInventory : MonoBehaviour
 
     private void Start()
     {
+        Initialize();
+    }
+
+    private bool initialized = false;
+
+    private void Initialize()
+    {
+        if (initialized) { return; }
+        initialized = true;
+
         InitializeDictionary();
         InitializeClothing();
 
@@ -202,7 +213,6 @@ public class PlayerInventory : MonoBehaviour
 
         SelectItem(1);
     }
-
     // Start is called before the first frame update
 
     public void NextItem()
