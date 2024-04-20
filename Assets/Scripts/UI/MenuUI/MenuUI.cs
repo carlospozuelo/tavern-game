@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class MenuUI : MonoBehaviour
+public class MenuUI : MonoBehaviour
 {
     [SerializeField]
     protected DragDrop[] inventorySlots;
