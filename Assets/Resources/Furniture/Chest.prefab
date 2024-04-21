@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7095797780511728404}
   - component: {fileID: 4300351203634306632}
   - component: {fileID: 6599693466112678955}
+  - component: {fileID: 3487500627159949375}
   m_Layer: 0
   m_Name: Chest
   m_TagString: Untagged
@@ -163,6 +164,51 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.125015, y: 0.5001825}
   m_EdgeRadius: 0
+--- !u!114 &3487500627159949375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7095797780511728409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 882f473d0a771224f85f58c08fd24168, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDistance: 2
+  slots:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  menuName: Chest
 --- !u!1 &8519547229033157544
 GameObject:
   m_ObjectHideFlags: 0

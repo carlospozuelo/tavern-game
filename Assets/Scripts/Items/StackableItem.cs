@@ -40,6 +40,25 @@ public class StackableItem : MonoBehaviour, Item
         return CanStack(stackableItem.GetName(), useCurrentStacks ? stackableItem.currentStacks : 0, stackableItem.madeOf);
     }
 
+    // Returns true if they have the same name, value and list of ingredients
+    public bool SoftEquals(StackableItem other)
+    {
+        if (other == null) return false;
+
+        if (!other.GetName().Equals(GetName())) { return false; }
+
+        if (other.value != value) return false; 
+
+        if (other.GetIngredients().Count != madeOf.Count) { return false; }
+
+        foreach (var ingredient in madeOf)
+        {
+            if (!other.madeOf.Contains(ingredient)) { return false; }
+        }
+
+        return true;
+    }
+
     public bool CanStack(string name, int stacks, List<Ingredient> ingredients)
     {
         if (!name.Equals(GetName())) { return false; }
@@ -129,5 +148,37 @@ public class StackableItem : MonoBehaviour, Item
     public bool UseItem()
     {
         return false;
+    }
+
+    public override string ToString()
+    {
+        string str = "{name: " + GetName() + ", value: " + GetValue() + ", ingredients:[";
+
+        foreach (Ingredient i in madeOf)
+        {
+            str += i + ", ";
+        }
+
+        str += "]}";
+
+        return str;
+    }
+
+    public string GetDescription()
+    {
+        string str = "(";
+        for (int i = 0; i < madeOf.Count - 1; i++) {
+            str += madeOf[i].ingredientName + ", ";
+        }
+
+        if (madeOf.Count > 0)
+        {
+            str += madeOf[madeOf.Count - 1].ingredientName + ")";
+
+            return str;
+        } else
+        {
+            return "";
+        }
     }
 }

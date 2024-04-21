@@ -17,7 +17,7 @@ public class CraftingController : MonoBehaviour
 
     private MenuUI openedMenu;
 
-    public static CraftingTable openedCraftingTable;
+    public static SlottableAbstract openedSlottable;
 
     public static void SetOpenedMenu(MenuUI menu)
     {
@@ -51,6 +51,10 @@ public class CraftingController : MonoBehaviour
     {
         if (instance.slots != null)
         {
+            if (index < 0 || index >= instance.slots.Length) { 
+                
+                return null; 
+            }
             return instance.slots[index];
         }
 
@@ -77,7 +81,7 @@ public class CraftingController : MonoBehaviour
     {
         float elapsedTime = 0f;
         while (elapsedTime < table.delay) {
-            if (table == openedCraftingTable)
+            if (table == openedSlottable)
             {
                 CraftingMenuUI.SetProgress(table.delay, elapsedTime);
             }
@@ -146,7 +150,7 @@ public class CraftingController : MonoBehaviour
                             
                             foreach (StackableItem item in stackablesUsed)
                             {
-                                if (item.Consume()) { print("Aborting: " + item); abort = true; };
+                                if (item.Consume()) { abort = true; };
                             }
                         }
 
@@ -201,9 +205,12 @@ public class CraftingController : MonoBehaviour
 
     private void CheckAllCraftsPriv()
     {
-        foreach (CraftingTable table in CraftingTable.craftingTables)
+        foreach (SlottableAbstract slottable in SlottableAbstract.slottables)
         {
-            CheckCraftsPriv(table);
+            if (slottable is CraftingTable)
+            {
+                CheckCraftsPriv((CraftingTable) slottable);
+            }
         }
     }
 
@@ -238,6 +245,10 @@ public class CraftingController : MonoBehaviour
     private void CheckCrafts()
     {
         bool startCoroutine = true;
+        if (!(openedSlottable is CraftingTable)) { return; }
+
+        CraftingTable openedCraftingTable = (CraftingTable) openedSlottable;
+
         if (coroutines.ContainsKey(openedCraftingTable))
         {
             if (coroutines[openedCraftingTable] != null)
@@ -308,9 +319,9 @@ public class CraftingController : MonoBehaviour
 
     public static bool OpenMenu(string name, GameObject[] slots = null)
     {
-        foreach (CraftingTable table in CraftingTable.craftingTables)
+        foreach (SlottableAbstract s in SlottableAbstract.slottables)
         {
-            table.Close();
+            s.Close();
         }
 
         if (instance.menus.TryGetValue(name, out MenuUI menu))

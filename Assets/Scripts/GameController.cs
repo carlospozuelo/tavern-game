@@ -6,6 +6,8 @@ public class GameController : MonoBehaviour
 {
     public static GameController instance;
 
+    public Transform stackableParent;
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -24,7 +26,7 @@ public class GameController : MonoBehaviour
 
     public static GameObject GenerateStackableItem(string stackableId, float value, List<Ingredient> ingredients, int stacks = 1)
     {
-        GameObject gameObject = Instantiate(instance.stackableItemGameObjectPrefab, Vector3.zero, Quaternion.identity, instance.transform);
+        GameObject gameObject = Instantiate(instance.stackableItemGameObjectPrefab, Vector3.zero, Quaternion.identity, instance.stackableParent);
 
         StackableItem stackableItem = gameObject.GetComponent<StackableItem>();
 

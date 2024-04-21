@@ -10,6 +10,7 @@ public interface Item
     public Sprite GetSprite();
 
     public string GetName();
+    public string GetDescription();
 
     public bool UseItem();
 

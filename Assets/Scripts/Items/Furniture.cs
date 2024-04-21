@@ -333,4 +333,9 @@ public class Furniture : MonoBehaviour, Item, IFurniture
     {
         return originalPrefab;
     }
+
+    public string GetDescription()
+    {
+        return "";
+    }
 }

@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.Rendering.UI;
 using UnityEngine.UI;
 
-public class DragDrop : MonoBehaviour, IPointerDownHandler
+public class DragDrop : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
     private RectTransform rectTransform;
 
@@ -374,5 +374,40 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
         }
 
         return true;
+    }
+
+    private Coroutine hover;
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        print("ENTER");
+        if (hover != null)
+        {
+            StopCoroutine(hover);
+        }
+
+        hover = StartCoroutine(Hover());
+    }
+
+    private IEnumerator Hover()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        var item = GetItem();
+
+        if (item != null)
+        {
+            DraggableIcon.ShowSecondTooltip(item);
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (hover != null)
+        {
+            StopCoroutine(hover);
+            hover = null;
+        }
+
+        DraggableIcon.HideSecondTooltip();
     }
 }
