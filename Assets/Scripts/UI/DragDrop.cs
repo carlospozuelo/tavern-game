@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Rendering.UI;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
-public class DragDrop : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
+public class DragDrop : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IPointerMoveHandler
 {
     private RectTransform rectTransform;
 
@@ -20,7 +21,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     [SerializeField]
     private int index;
     [SerializeField]
-    private Image targetImage;
+    private UnityEngine.UI.Image targetImage;
     [SerializeField]
     private bool draggable, isForClothing;
 
@@ -38,7 +39,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     {
         canvas = BookMenuUI.GetCanvas();
         if (target == null) { target = gameObject; }
-        if (targetImage == null) { targetImage = target.GetComponent<Image>(); }
+        if (targetImage == null) { targetImage = target.GetComponent<UnityEngine.UI.Image>(); }
         rectTransform = target.GetComponent<RectTransform>();
 
         SetDraggable();
@@ -376,38 +377,52 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
         return true;
     }
 
-    private Coroutine hover;
+    private static Coroutine hover;
+
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        print("ENTER");
-        if (hover != null)
-        {
-            StopCoroutine(hover);
-        }
+        StartHover();   
+    }
 
+    private void StartHover()
+    {
+        StopHover();
         hover = StartCoroutine(Hover());
     }
 
-    private IEnumerator Hover()
+    private void StopHover()
     {
-        yield return new WaitForSecondsRealtime(1f);
-        var item = GetItem();
-
-        if (item != null)
+        if (hover != null)
         {
-            DraggableIcon.ShowSecondTooltip(item);
+            DraggableIcon.HideSecondTooltip();
+            StopCoroutine(hover);
+            hover = null;
         }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (hover != null)
-        {
-            StopCoroutine(hover);
-            hover = null;
-        }
 
+        StopHover();
+    }
+
+    private IEnumerator Hover()
+    {
+
+        yield return new WaitForSecondsRealtime(.5f);
+        var item = GetItem();
+        if (item != null)
+        {
+
+            DraggableIcon.ShowSecondTooltip(item);
+        }
+    }
+
+    public void OnPointerMove(PointerEventData eventData)
+    {
         DraggableIcon.HideSecondTooltip();
+
+        StartHover();
     }
 }

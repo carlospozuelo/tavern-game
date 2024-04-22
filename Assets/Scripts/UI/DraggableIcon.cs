@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class DraggableIcon : MonoBehaviour, IPointerDownHandler
+public class DraggableIcon : MonoBehaviour
 {
     private static DraggableIcon instance;
     private RectTransform position;
@@ -39,6 +39,8 @@ public class DraggableIcon : MonoBehaviour, IPointerDownHandler
         if (i != null)
         {
             instance.toolTip2.SetActive(true);
+
+            instance.MoveImage();
 
             instance.toolTipName2.text = i.GetName();
             instance.toolTipDescription2.text = i.GetDescription();    
@@ -139,52 +141,48 @@ public class DraggableIcon : MonoBehaviour, IPointerDownHandler
 
     private void Stop(bool dropsItem)
     {
-        if (coroutine != null)
+        if (dropsItem && itemHeld != null)
         {
-            //StopCoroutine(coroutine);
-            if (dropsItem && itemHeld != null)
+            if (itemHeld.TryGetComponent(out StackableItem stack))
             {
-                if (itemHeld.TryGetComponent(out StackableItem stack))
-                {
-                    for (int i = 0; i < stack.GetStacks(); i++) { GameController.DropItem(itemHeld.GetComponent<Item>(), true); }
-                }
-                else
-                {
-                    GameController.DropItem(itemHeld.GetComponent<Item>());
-                }
-   
+                for (int i = 0; i < stack.GetStacks(); i++) { GameController.DropItem(itemHeld.GetComponent<Item>(), true); }
             }
-            itemHeld = null;
+            else
+            {
+                GameController.DropItem(itemHeld.GetComponent<Item>());
+            }
+   
         }
+
+        moving = false;
+        itemHeld = null;
+        
     }
 
-    private Coroutine coroutine;
     private Vector3 startingPoint;
 
     private void Start()
     {
-        MoveImage();
+        //MoveImage();
     }
 
+    bool moving = false;
     private void MoveImage()
     {
-        //Stop();
-
-        coroutine = StartCoroutine(MoveImageCoroutine());
-
+        startingPoint = Input.mousePosition;
+        instance.position.position = Input.mousePosition;//position;
+        moving = true;
     }
 
 
-
-    private IEnumerator MoveImageCoroutine()
+    private void Update()
     {
-        startingPoint = Input.mousePosition;
-        while (true)
+        if (moving)
         {
             Vector3 newPoint = Input.mousePosition;
             MoveImage((newPoint - startingPoint) / BookMenuUI.GetCanvas().scaleFactor);
             startingPoint = newPoint;
-            yield return new WaitForEndOfFrame();
+
         }
     }
 
@@ -193,23 +191,5 @@ public class DraggableIcon : MonoBehaviour, IPointerDownHandler
         instance.position.anchoredPosition += movement;
     }
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        List<RaycastResult> raycastResults = new List<RaycastResult>();
-        EventSystem.current.RaycastAll(eventData, raycastResults);
-
-
-        foreach (RaycastResult result in raycastResults) {
-            if (result.gameObject != gameObject)
-            {
-                ExecuteEvents.Execute(result.gameObject, eventData, ExecuteEvents.pointerDownHandler);
-            }
-        }
-
-        if (raycastResults.Count <= 2)
-        {
-            // Drop item
-            HideImage();
-        }
-    }
+   
 }
