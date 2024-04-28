@@ -142,6 +142,17 @@ public class NPC : CharacterAbstract
         if (bench.Interact(this)) { 
             while (true)
             {
+                // A chance to do:
+                // 50% Nothing
+                // 50% Order something
+                float n = Random.Range(0f, 1f);
+
+                if (n < .5f)
+                {
+                    // Order something
+                    Ingredient i = TavernStockController.GetRandomIngredient();
+                    print(i);
+                }
                 yield return new WaitForSeconds(1f);
             }
         }

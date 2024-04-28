@@ -8,8 +8,20 @@ public class TavernStockController : MonoBehaviour
     private static TavernStockController instance;
 
     private Dictionary<Ingredient.IngredientType, List<StackableItem>> availableIngredients;
+    private List<Ingredient> availableIngredientList;
 
     public Ingredient.IngredientType desiredTypes;
+
+    // Ask for ANY type of beer. Not a specific one
+    public static Ingredient GetRandomIngredient()
+    {
+        if (instance.availableIngredientList.Count > 0)
+        {
+            return instance.availableIngredientList[Random.Range(0, instance.availableIngredientList.Count)];
+        }
+
+        return null;
+    }
 
 
     private void Awake()
@@ -32,7 +44,7 @@ public class TavernStockController : MonoBehaviour
     private void RegenerateDictionary()
     {
         availableIngredients = new Dictionary<Ingredient.IngredientType, List<StackableItem>>();
-
+        availableIngredientList = new List<Ingredient>();
         foreach (Transform child in GameController.instance.stackableParent)
         {
             StackableItem item = child?.GetComponent<StackableItem>();
@@ -42,6 +54,10 @@ public class TavernStockController : MonoBehaviour
             {
                 if (ingredient.HasAnyType(desiredTypes))
                 {
+                    if (!availableIngredientList.Contains(ingredient))
+                    {
+                        availableIngredientList.Add(ingredient);
+                    }
                     // Add to the list
                     foreach (Ingredient.IngredientType type in ingredient.GetAllTypes()) { 
                         // If the type is one of the desired types, add it to the dictionary

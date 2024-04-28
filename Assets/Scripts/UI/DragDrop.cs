@@ -176,13 +176,13 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         SetDraggable();
+        DraggableIcon.HideSecondTooltip();
 
         if (!CraftingController.anyOpen) { return; }
 
         if (GetItem() != null && DraggableIcon.GetItemHeld() != null)
         {
             // Swap
-
             if (isForClothing)
             {
                 // Can only be swapped by a clothing item of the same type
