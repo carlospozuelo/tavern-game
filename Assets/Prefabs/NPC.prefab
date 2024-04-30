@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4269875316697597346
 RectTransform:
   m_ObjectHideFlags: 0
@@ -59,14 +59,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.5882353}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1479445721, guid: 2c2c6936c8f88b048b3113459cdf198c, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -172,7 +172,7 @@ GameObject:
   - component: {fileID: 4855766752094218455}
   - component: {fileID: 9031293865218392356}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Bubble
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -221,7 +221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.5882353}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -758,7 +758,7 @@ MonoBehaviour:
   - {x: -0.410983, y: -0.9378841, z: 0}
   m_ShapePathHash: -89003620
   m_Mesh: {fileID: 0}
-  m_InstanceId: 336146
+  m_InstanceId: 644746
 --- !u!210 &6882171631210739274
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -793,6 +793,10 @@ MonoBehaviour:
   legs: {fileID: 5452120230848589414}
   shoes: {fileID: 5452120231643377618}
   speed: 6
+  textBubble: {fileID: 5334814262189368967}
+  desireImage: {fileID: 3895311834761472783}
+  desireText: {fileID: 4808833437765761906}
+  bubbleAnimator: {fileID: 5018705785516449097}
 --- !u!1 &5452120230977845396
 GameObject:
   m_ObjectHideFlags: 0
@@ -1141,6 +1145,7 @@ GameObject:
   - component: {fileID: 402895390696573534}
   - component: {fileID: 8173882116124228089}
   - component: {fileID: 58907055945118617}
+  - component: {fileID: 5018705785516449097}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1230,6 +1235,26 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!95 &5018705785516449097
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7978032187135180602}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ae193d9bf30d147c09255f33bfd79719, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &8821691773157480101
 GameObject:
   m_ObjectHideFlags: 0
@@ -1331,7 +1356,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3274612503780660174
 RectTransform:
   m_ObjectHideFlags: 0

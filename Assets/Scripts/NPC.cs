@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NPC : CharacterAbstract
 {
@@ -16,6 +18,18 @@ public class NPC : CharacterAbstract
 
     [SerializeField]
     private float speed = 2;
+
+    [SerializeField]
+    private GameObject textBubble;
+
+    [SerializeField]
+    private Image desireImage;
+
+    [SerializeField]
+    private TextMeshProUGUI desireText;
+
+    [SerializeField]
+    private Animator bubbleAnimator;
 
     
 
@@ -150,14 +164,32 @@ public class NPC : CharacterAbstract
                 if (n < .5f)
                 {
                     // Order something
-                    Ingredient i = TavernStockController.GetRandomIngredient();
-                    print(i);
+                    yield return Order();
                 }
                 yield return new WaitForSeconds(1f);
             }
         }
 
         yield break;
+    }
+
+    private IEnumerator Order()
+    {
+        Ingredient i = TavernStockController.GetRandomIngredient();
+        print("Ordering: " + i);
+
+        desireImage.sprite = i.sprite;
+        desireImage.gameObject.SetActive(true);
+        
+        bubbleAnimator.SetTrigger("Open");
+
+
+        // PLACEHOLDER
+        while (true)
+        {
+            
+            yield return new WaitForSeconds(1f);
+        }
     }
 
     private void UpdateColors(Material m, ClothingItem i)
