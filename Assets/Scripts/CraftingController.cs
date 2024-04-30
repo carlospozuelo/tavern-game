@@ -260,7 +260,6 @@ public class CraftingController : MonoBehaviour
                     coroutines.Remove(openedCraftingTable);
                 } else
                 {
-                    print("Not restarting coroutine ! ");
                     // They are the same ingredients. No need to restart the craft.
                     startCoroutine = false;
                 }

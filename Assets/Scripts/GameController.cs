@@ -33,13 +33,15 @@ public class GameController : MonoBehaviour
         Ingredient ingredient = CraftingController.GetIngredient(stackableId);
 
         stackableItem.SetIngredients(ingredients);
-        stackableItem.SetValue(value);
+        stackableItem.SetValue(ingredient.value + value);
 
         stackableItem.SetIngredient(ingredient);
 
         stackableItem.SetStacks(stacks);
 
         gameObject.name = stackableItem.GetName();
+
+        TavernStockController.RegenerateStock();
 
         return gameObject;
     }

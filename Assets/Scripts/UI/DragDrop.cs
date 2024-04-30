@@ -17,7 +17,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
 
     // Slot
     [SerializeField]
-    private bool isInventory, isHotbar, isSlottable;
+    private bool isInventory, isHotbar, isSlottable, requiresIngredient = false;
     [SerializeField]
     private int index;
     [SerializeField]
@@ -90,20 +90,31 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
         return null;
     }
 
-    public void UpdateStacks(Item i)
+    public bool UpdateStacks(Item i)
     {
         if (stackText != null)
         {
             if (i is StackableItem)
             {
                 // Is stackable. Set stacks
-                stackText.text = ((StackableItem) i).GetStacks() + "";
+                int stacks = ((StackableItem)i).GetStacks();
+                if (stacks > 0)
+                {
+                    stackText.text = stacks + "";
+                }
+                else {
+                    stackText.text = "";
+                    return false;
+                }
             }
             else
             {
                 stackText.text = "";
+                return false;
             }
         }
+
+        return true;
     }
 
     public void UpdateImage()
@@ -113,10 +124,14 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
         if (g != null)
         {
             Item i = g.GetComponent<Item>();
-            UpdateStacks(i);
-
-            targetImage.sprite = i.GetSprite();
-            targetImage.enabled = true;
+            if (UpdateStacks(i))
+            {
+                targetImage.sprite = i.GetSprite();
+                targetImage.enabled = true;
+            } else
+            {
+                targetImage.enabled=false;
+            }
         } else
         {
             targetImage.enabled = false;
@@ -361,7 +376,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
 
     private bool TypeMatches(GameObject itemHeld)
     {
-        if (isSlottable)
+        if (isSlottable && requiresIngredient)
         {
             // Can only be slotted if the ingredient matches the required type
             if (itemHeld.TryGetComponent(out StackableItem stackable))

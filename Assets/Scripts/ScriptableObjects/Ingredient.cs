@@ -8,6 +8,7 @@ public class Ingredient : ScriptableObject
 {
     public string ingredientName;
 
+
     [SerializeField]
     private IngredientType type;
 

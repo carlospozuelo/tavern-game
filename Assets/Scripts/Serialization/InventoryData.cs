@@ -78,7 +78,7 @@ public class InventoryData
     private InventoryString[] inventory, hotbar;
 
     [JsonProperty]
-    private int gold;
+    private float gold;
 
     public InventoryData()
     {
@@ -122,7 +122,7 @@ public class InventoryData
 
     }
 
-    public InventoryData(GameObject[] inventory, GameObject[] hotbar, int gold)
+    public InventoryData(GameObject[] inventory, GameObject[] hotbar, float gold)
     {
         this.inventory = new InventoryString[inventory.Length];
         this.hotbar = new InventoryString[hotbar.Length];
@@ -189,6 +189,6 @@ public class InventoryData
         return GetCollection(this.hotbar);
     }
 
-    public int GetGold() { return gold; }
+    public float GetGold() { return gold; }
 }
 

@@ -151,7 +151,6 @@ public class NPC : CharacterAbstract
     {
         Stop();
         if (bench == null) { yield break; }
-        Debug.Log("Sitting for eternity");
 
         if (bench.Interact(this)) { 
             while (true)
@@ -173,23 +172,34 @@ public class NPC : CharacterAbstract
         yield break;
     }
 
+    private Ingredient desire;
+
     private IEnumerator Order()
     {
-        Ingredient i = TavernStockController.GetRandomIngredient();
-        print("Ordering: " + i);
+        desire = TavernStockController.GetRandomIngredient();
 
-        desireImage.sprite = i.sprite;
+        if (desire == null )
+        {
+            // No stock
+            print("NO STOCK ? ");
+            yield break;
+        }
+        desireImage.sprite = desire.sprite;
         desireImage.gameObject.SetActive(true);
         
         bubbleAnimator.SetTrigger("Open");
 
 
         // PLACEHOLDER
-        while (true)
+        while (desire != null)
         {
-            
+            // WAIT X TICKS BEFORE CANCELLING THE ORDER
             yield return new WaitForSeconds(1f);
         }
+
+        bubbleAnimator.SetTrigger("Close");
+
+        // desire = null;
     }
 
     private void UpdateColors(Material m, ClothingItem i)
@@ -227,6 +237,32 @@ public class NPC : CharacterAbstract
 
         aoc.ApplyOverrides(overrides);
         animator.runtimeAnimatorController = aoc;
+    }
+
+    public void Interact(GameObject itemHeld)
+    {
+        // If the npc wants something, try and take it.
+        if (desire != null)
+        {
+            if (itemHeld != null && itemHeld.TryGetComponent(out StackableItem stackable))
+            {
+                if (stackable.GetIngredient().Equals(desire)) {
+                    Satisfy(stackable);
+                }
+            }
+        }
+        // Otherwise, start a dialog
+    }
+
+    private void Satisfy(StackableItem item)
+    {
+        // Cancel desire
+        desire = null;
+        // Give MONEY
+        PlayerInventory.ModifyGold(item.GetBasePrice());
+        // Reduce stacks
+        item.Consume();
+        InventoryUI.instance.UpdateUI();
     }
 
 }

@@ -41,6 +41,11 @@ public class TavernStockController : MonoBehaviour
 
     private bool initialized = false;
 
+    public static void RegenerateStock()
+    {
+        instance.RegenerateDictionary();
+    }
+
     private void RegenerateDictionary()
     {
         availableIngredients = new Dictionary<Ingredient.IngredientType, List<StackableItem>>();
@@ -88,7 +93,6 @@ public class TavernStockController : MonoBehaviour
             }
         }
 
-        PrintDictionaryDebug();
     }
 
     private void PrintDictionaryDebug()

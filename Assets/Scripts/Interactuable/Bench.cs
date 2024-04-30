@@ -64,7 +64,6 @@ public class Bench : Interactuable
             return true;
         } else
         {
-            Debug.LogWarning("Can't interact with this bench. Busy: " + busy + ", character sitting: " + character.IsSitting());
             return false;
         }
         

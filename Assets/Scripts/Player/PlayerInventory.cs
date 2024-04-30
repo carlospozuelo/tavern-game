@@ -25,7 +25,7 @@ public class PlayerInventory : MonoBehaviour
 
     public static PlayerInventory instance;
 
-    private int gold;
+    private float gold;
 
     public GameObject GetCurrentItem()
     {
@@ -134,8 +134,8 @@ public class PlayerInventory : MonoBehaviour
     public void Enable() { listening = true; }
     public void Disable() { listening = false; }
 
-    public static int GetGold() { return instance.gold; }
-    public static void ModifyGold(int amount) { instance.gold += amount; InventoryUI.SetGoldUI(instance.gold); }
+    public static float GetGold() { return instance.gold; }
+    public static void ModifyGold(float amount) { instance.gold += amount; InventoryUI.SetGoldUI(instance.gold); }
 
     public void SetCurrentItem(GameObject g)
     {
@@ -339,22 +339,11 @@ public class PlayerInventory : MonoBehaviour
                 GameObject item = GetCurrentItem();
 
                 Interactuable i = null;
-                /*
-                foreach (GameObject interactuable in TavernController.GetCurrentInteractuables())
-                {
-                    Interactuable aux = interactuable.GetComponent<Interactuable>();
-
-                    if (aux.IsInsideObject(GameController.instance.WorldMousePosition()))
-                    {
-                        i = aux;
-                        break;
-                    }
-
-                }
-                */
 
                 List<Interactuable> l = Cast<Interactuable>(true);
+                List<NPC> npcs = Cast<NPC>(true);
 
+ 
                 if (l.Count > 0) {
                     // Sort the list. The first element should be the one that has the smallest distance to the mouse.
                     Vector3 worldPosition = GameController.instance.WorldPosition(Input.mousePosition);
@@ -366,12 +355,25 @@ public class PlayerInventory : MonoBehaviour
 
                 if (i == null)
                 {
+                    // Rotate held item
+                    bool rotated = false;
                     if (item != null && item.TryGetComponent(out Furniture f))
                     {
                         if (f.rotateGameObject != null)
                         {
                             SetCurrentItem(f.rotateGameObject);
                             InventoryUI.instance.UpdateSpriteHotbar(f.rotateGameObject.GetComponent<Item>(), currentItem);
+                            rotated = true;
+                        }
+                    }
+                    
+                    if (!rotated && npcs.Count > 0)
+                    {
+                        // Interact with one npc
+                        NPC npc = npcs[0];
+                        if (Vector2.Distance(npc.gameObject.transform.position, gameObject.transform.position) < 2f)
+                        {
+                            npc.Interact(item);
                         }
                     }
                 }
@@ -379,7 +381,20 @@ public class PlayerInventory : MonoBehaviour
                 {
                     if (Vector2.Distance(gameObject.transform.position, i.GetPosition()) <= i.GetMaxDistance())
                     {
-                        i.Interact(PlayerMovement.GetInstance());
+                        if (i.Interact(PlayerMovement.GetInstance())) {
+                            // All good
+                        } else
+                        {
+                            // Interaction failed. Maybe possible to interact with an npc
+                            if (npcs.Count > 0)
+                            {
+                                NPC npc = npcs[0];
+                                if (Vector2.Distance(npc.gameObject.transform.position, gameObject.transform.position) < 2f) {
+
+                                    npc.Interact(item);
+                                }
+                            }
+                        }
                     }
                 }
             }

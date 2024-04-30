@@ -24,7 +24,7 @@ public class InventoryUI : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI goldCount;
 
-    public static void SetGoldUI(int value)
+    public static void SetGoldUI(float value)
     {
         instance.goldCount.text = "" + value;
         // Play animation or sound whenever gaining / spending money -> This would be handled here
@@ -55,7 +55,11 @@ public class InventoryUI : MonoBehaviour
         if (item is StackableItem)
         {
             DragDrop d = slots[slot].GetComponent<DragDrop>();
-            d.UpdateStacks(item);
+            if (!d.UpdateStacks(item))
+            {
+                image.enabled = false;
+                return;
+            }
         }
 
         if (item != null)

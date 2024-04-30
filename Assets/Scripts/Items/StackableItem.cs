@@ -23,6 +23,11 @@ public class StackableItem : MonoBehaviour, Item
     public void SetValue(float value) { this.value = value; }
     public float GetValue() { return value; }
 
+    public float GetBasePrice()
+    {
+        return value;
+    }
+
     public void SetIngredient(Ingredient ingredient)
     {
         this.ingredient = ingredient;
@@ -39,6 +44,12 @@ public class StackableItem : MonoBehaviour, Item
     {
         return CanStack(stackableItem.GetName(), useCurrentStacks ? stackableItem.currentStacks : 0, stackableItem.madeOf);
     }
+
+    private void OnDestroy()
+    {
+        TavernStockController.RegenerateStock();
+    }
+
 
     // Returns true if they have the same name, value and list of ingredients
     public bool SoftEquals(StackableItem other)

@@ -547,7 +547,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Faces Left_04x01: 0
+      Faces Left_4x0: 0
       Faces Left_00x01: 0
       Faces Left_4x3: 0
       Faces Left_2x2: 0
@@ -586,7 +586,7 @@ TextureImporter:
       Faces Left_2x3: 0
       Faces Left_1x1: -1405552254765774023
       Faces Left_03x01: 0
-      Faces Left_4x0: 0
+      Faces Left_04x01: 0
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

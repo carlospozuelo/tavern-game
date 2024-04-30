@@ -27,7 +27,6 @@ public class LocationController : MonoBehaviour
             instance.pathfindingAgents = new Dictionary<string, PathfindingAgent>();
         }
 
-        print("Adding: " + location);
 
         if (instance.pathfindingAgents.ContainsKey(location)) { 
             // Replace current agent
