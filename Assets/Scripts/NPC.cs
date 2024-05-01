@@ -103,6 +103,7 @@ public class NPC : CharacterAbstract
         {
             if (bench == null || path == null)
             {
+                // This check is done in case the bench is picked up mid-routine. 
                 yield break;
             }
 
@@ -164,6 +165,13 @@ public class NPC : CharacterAbstract
                 {
                     // Order something
                     yield return Order();
+                    // At this point in the code, the order has been satisfied / time exceeded. Get up and leave.
+                    bench.GetUp(gameObject, 0, -1);
+                    animator.SetBool("Sitting", false);
+                    yield return SimpleWalkTowards(Portal.GetPortal("Tavern entrance").GetPosition());
+                    // Despawn (Placeholder. They should "cross" the portal")
+
+                    Destroy(gameObject);
                 }
                 yield return new WaitForSeconds(1f);
             }
@@ -176,6 +184,7 @@ public class NPC : CharacterAbstract
 
     private IEnumerator Order()
     {
+        print("Time to order");
         desire = TavernStockController.GetRandomIngredient();
 
         if (desire == null )
@@ -199,7 +208,31 @@ public class NPC : CharacterAbstract
 
         bubbleAnimator.SetTrigger("Close");
 
-        // desire = null;
+        desire = null;
+    }
+
+    private IEnumerator SimpleWalkTowards(Vector3 position)
+    {
+        Pathfinding pathfinding = LocationController.GetPathfindingAgent(location).GetPathfinding();
+        List<PathNode> path = pathfinding.GetPathToClosestReachableTile(transform.position, position);
+
+        if (path == null)
+        {
+            yield break;
+        }
+
+        foreach (PathNode node in path)
+        {
+            if (path == null)
+            {
+                // This check is done in case the bench is picked up mid-routine. 
+                yield break;
+            }
+
+            Vector3 worldPos = pathfinding.GetGrid().GetWorldPosition(node.x, node.y);
+            //transform.position = new Vector3(worldPos.x, worldPos.y, transform.position.z);
+            yield return MoveRoutine(worldPos);
+        }
     }
 
     private void UpdateColors(Material m, ClothingItem i)

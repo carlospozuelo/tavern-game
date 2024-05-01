@@ -305,7 +305,7 @@ public class PlayerInventory : MonoBehaviour
             }
             if (Input.GetMouseButtonDown(0))
             {
-                if (!UseItem())
+                if (!CraftingController.anyOpen && !UseItem())
                 {
                     List<Furniture> list = Cast<Furniture>();
 

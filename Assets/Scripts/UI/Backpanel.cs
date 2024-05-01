@@ -6,7 +6,14 @@ using UnityEngine.EventSystems;
 public class Backpanel : MonoBehaviour, IPointerDownHandler
 {
     public void OnPointerDown(PointerEventData eventData)
-    {
-        DraggableIcon.HideImage(true);
+    {   
+        if (DraggableIcon.GetItemHeld() == null)
+        {
+            CraftingController.CloseAllMenus(1f);
+        } else
+        {
+            DraggableIcon.HideImage(true);
+
+        }
     }
 }
