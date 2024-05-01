@@ -12,6 +12,8 @@ public abstract class AbstractRecipe : ScriptableObject
 
     public abstract CraftingResult Craft(List<Ingredient> list);
 
+    public abstract float CalculateValue(List<Ingredient> list);
+
 }
 
 public class CraftingResult

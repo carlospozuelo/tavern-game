@@ -7,6 +7,11 @@ public class CraftingRecipe : AbstractRecipe
 {
     public List<Ingredient> ingredients;
 
+    public override float CalculateValue(List<Ingredient> list)
+    {
+        throw new NotImplementedException();
+    }
+
     public override CraftingResult Craft(List<Ingredient> list)
     {
         throw new NotImplementedException();

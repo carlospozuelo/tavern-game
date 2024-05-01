@@ -138,7 +138,7 @@ public class CraftingController : MonoBehaviour
                         yield return Timer(currentTable);
                         if (slots[slots.Length -1] == null)
                         {
-                            slots[slots.Length - 1] = GameController.GenerateStackableItem(craftingResult.ingredientName, craftingResult.value, craftingResult.ingredientsUsed, stacks);
+                            slots[slots.Length - 1] = GameController.GenerateStackableItem(craftingResult.ingredientName, craftingResult.ingredientsUsed, stacks);
                         } else
                         {
                             slots[slots.Length - 1].GetComponent<StackableItem>().IncrementStacks(stacks);

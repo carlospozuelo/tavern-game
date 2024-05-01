@@ -98,7 +98,7 @@ public class InventoryData
         }
         else if (g.TryGetComponent(out StackableItem s))
         {
-            return new StackableString(s.GetStacks(), s.GetName(), s.GetIngredients(), s.GetValue());
+            return new StackableString(s.GetStacks(), s.GetName(), s.GetIngredients());
         }
         else if (g.TryGetComponent(out Item item))
         {
@@ -156,7 +156,7 @@ public class InventoryData
                 list.Add(CraftingController.GetIngredient(name));
             }
 
-            return GameController.GenerateStackableItem(stackable.GetStackableId(), stackable.GetValue(), list, stacks);
+            return GameController.GenerateStackableItem(stackable.GetStackableId(), list, stacks);
         }
         else
         {

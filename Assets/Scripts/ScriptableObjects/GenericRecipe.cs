@@ -9,10 +9,32 @@ public class GenericRecipe : AbstractRecipe
     [Tooltip("The value of the generated item will be the sum of the values of all ingredients used, multiplied by their multiplier")]
     public List<IngredientTypeWrapper> ingredients;
 
+    public override float CalculateValue(List<Ingredient> list)
+    {
+        // Base value of the produced ingredient
+        float value = result.ingredient.value;
+        // Add weighted value of the ingredients used
+        foreach (Ingredient ingredient in list)
+        {
+            float multiplier = 1;
+            foreach (var wrapper in ingredients)
+            {
+                if (ingredient.HasAllTypes(wrapper.type))
+                {
+                    multiplier = wrapper.valueMultiplier;
+                    break;
+                }
+            }
+
+            value += ingredient.value * multiplier;
+        }
+
+        return value;
+    }
+
     // Crafts ONE item
     public override CraftingResult Craft(List<Ingredient> list)
     {
-        float value = 0;
 
         Tuple<Ingredient, bool>[] aux = new Tuple<Ingredient, bool>[list.Count];
         List<Ingredient> ingredientsUsed = new List<Ingredient>();
@@ -33,7 +55,7 @@ public class GenericRecipe : AbstractRecipe
                 if (aux[i].Item1.HasAllTypes(ingredientType.type))
                 {
                     // It's a valid ingredient
-                    value += (aux[i].Item1.value * ingredientType.valueMultiplier);
+                    //value += (aux[i].Item1.value * ingredientType.valueMultiplier);
                     found = true;
 
                     // Mark the item to used, so that the same item can't be used twice per recipe.
@@ -53,7 +75,7 @@ public class GenericRecipe : AbstractRecipe
 
         return new CraftingResult(
             result.ingredient.name,
-            value,
+            CalculateValue(ingredientsUsed),
             ingredientsUsed,
             result.amount);
         

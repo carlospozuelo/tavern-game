@@ -297,7 +297,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
                             int stacks1 =  aux ? stackable.GetStacks() / 2 : (stackable.GetStacks() + 1) / 2;
                             int stacks2 =  aux ? stacks1 : stacks1 - 1;
 
-                            DraggableIcon.DisplayImage(targetImage.sprite, this, GameController.GenerateStackableItem(stackable.GetName(), stackable.GetValue(), stackable.GetIngredients(), stacks1));
+                            DraggableIcon.DisplayImage(targetImage.sprite, this, GameController.GenerateStackableItem(stackable.GetName(), stackable.GetIngredients(), stacks1));
 
                             stackable.SetStacks(stacks2);
                             if (stackable.GetStacks() <= 0)

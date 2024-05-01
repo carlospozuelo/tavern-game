@@ -16,11 +16,6 @@ public class StackableString : InventoryString
     [JsonProperty]
     private List<string> ingredientsUsed;
 
-    [JsonProperty]
-    private float value;
-
-    public float GetValue() {  return value; }
-
     public List<string> GetIngredientsUsed() { return ingredientsUsed; }
 
     public string GetStackableId() { return stackableId; }
@@ -28,16 +23,14 @@ public class StackableString : InventoryString
     public int GetCurrentStacks() { return currentStacks; }
 
     [JsonConstructor]
-    public StackableString(int stacks, string id, List<String> ingredientsUsed, float value) : base("StackableItem")
+    public StackableString(int stacks, string id, List<String> ingredientsUsed) : base("StackableItem")
     {
         stackableId = id;
         currentStacks = stacks;
         this.ingredientsUsed = ingredientsUsed;
-
-        this.value = value;
     }
 
-    public StackableString(int stacks, string id, List<Ingredient> ingredientsUsed, float value) : base("StackableItem")
+    public StackableString(int stacks, string id, List<Ingredient> ingredientsUsed) : base("StackableItem")
     {
         stackableId = id;
         currentStacks = stacks;
@@ -47,8 +40,6 @@ public class StackableString : InventoryString
         {
             this.ingredientsUsed.Add(ingredient.ingredientName);
         }
-
-        this.value = value;
     }
 
     public override string ToString()

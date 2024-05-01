@@ -8,6 +8,17 @@ public class Ingredient : ScriptableObject
 {
     public string ingredientName;
 
+    public AbstractRecipe genericRecipe;
+
+    public float CalculateValue(List<Ingredient> ingredients)
+    {
+        if (genericRecipe != null)
+        {
+            return genericRecipe.CalculateValue(ingredients);
+        }
+
+        return value;
+    }
 
     [SerializeField]
     private IngredientType type;
