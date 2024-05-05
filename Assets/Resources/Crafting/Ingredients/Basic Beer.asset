@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Basic Beer
   m_EditorClassIdentifier: 
   ingredientName: Basic Beer
-  genericRecipe: {fileID: 0}
+  genericRecipe: {fileID: 11400000, guid: d85590de497a7437188220bb6eab03b9, type: 2}
   type: 4
   sprite: {fileID: -1479445721, guid: 2c2c6936c8f88b048b3113459cdf198c, type: 3}
   value: 0.25

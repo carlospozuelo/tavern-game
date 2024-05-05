@@ -37,6 +37,11 @@ public class LocationController : MonoBehaviour
 
     public static PathfindingAgent GetPathfindingAgent(string location)
     {
+        if (location == null)
+        {
+            Debug.LogWarning("Location is null");
+            return null;
+        }
         if (instance.pathfindingAgents != null && instance.pathfindingAgents.ContainsKey(location))
         {
             return instance.pathfindingAgents[location];

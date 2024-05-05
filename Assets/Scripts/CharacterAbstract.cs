@@ -49,7 +49,7 @@ public abstract class CharacterAbstract : MonoBehaviour
         return sitting;
     }
 
-    private bool initialized = false;
+    protected bool initialized = false;
     protected void Initialize()
     {
         if (initialized) return;
