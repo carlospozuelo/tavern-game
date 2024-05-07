@@ -133,9 +133,11 @@ public class NPC : CharacterAbstract
 
         foreach (PathNode node in path)
         {
-            if (bench == null || path == null)
+            if (bench == null || path == null || bench.IsBusy())
             {
                 // This check is done in case the bench is picked up mid-routine. 
+                Stop();
+                this.bench = null;
                 yield break;
             }
             
@@ -249,12 +251,9 @@ public class NPC : CharacterAbstract
             {
                 desire = null;
                 // POLISHMENT: Add sad animation here
+                bubbleAnimator.SetTrigger("Close");
             }
         }
-
-        bubbleAnimator.SetTrigger("Close");
-
-        desire = null;
     }
 
     private IEnumerator SimpleWalkTowards(Vector3 position)
@@ -337,6 +336,8 @@ public class NPC : CharacterAbstract
     {
         // Cancel desire
         desire = null;
+        bubbleAnimator.SetTrigger("Close");
+
         // Give MONEY
         PlayerInventory.ModifyGold(item.GetBasePrice());
         // Reduce stacks

@@ -24,9 +24,28 @@ public class InventoryUI : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI goldCount;
 
-    public static void SetGoldUI(float value)
+    [SerializeField]
+    private Animator popUpAnimator;
+
+    [SerializeField]
+    private Sprite spriteMore, spriteMinus;
+
+    [SerializeField]
+    private Image popUpImage;
+
+    public static void SetGoldUI(float value, bool moreGold)
     {
         instance.goldCount.text = "" + value;
+
+        if (moreGold)
+        {
+            instance.popUpImage.sprite = instance.spriteMore;
+        } else
+        {
+            instance.popUpImage.sprite = instance.spriteMinus;
+        }
+
+        instance.popUpAnimator.SetTrigger("Float");
         // Play animation or sound whenever gaining / spending money -> This would be handled here
     }
 

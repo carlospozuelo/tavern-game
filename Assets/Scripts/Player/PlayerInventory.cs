@@ -135,7 +135,9 @@ public class PlayerInventory : MonoBehaviour
     public void Disable() { listening = false; }
 
     public static float GetGold() { return instance.gold; }
-    public static void ModifyGold(float amount) { instance.gold += amount; InventoryUI.SetGoldUI(instance.gold); }
+    public static void ModifyGold(float amount) { instance.gold += amount; 
+        InventoryUI.SetGoldUI(instance.gold, amount > 0);
+    }
 
     public void SetCurrentItem(GameObject g)
     {

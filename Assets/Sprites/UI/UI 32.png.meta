@@ -389,6 +389,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: UI 32_13
+      rect:
+        serializedVersion: 2
+        x: 424
+        y: 4
+        width: 21
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38fb08a61743e99419066544c392fe2b
+      internalID: 408819007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI 32_14
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 4
+        width: 21
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: accdb1f38d22ef749b8d0f0d25c4ebaa
+      internalID: -100364611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -405,10 +447,12 @@ TextureImporter:
       UI 32_11: -609581529
       UI 32_0: -968919819
       UI 32_9: 1121461351
+      UI 32_13: 408819007
       UI 32_7: 563778697
       UI 32_10: 345975880
       UI 32_12: 1195510652
       UI 32_2: -1637012961
+      UI 32_14: -100364611
       UI 32_1: 524208839
       UI 32_3: 115173606
       UI 32_4: -507607235
