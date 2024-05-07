@@ -78,7 +78,7 @@ public class InventoryData
     private InventoryString[] inventory, hotbar;
 
     [JsonProperty]
-    private int gold;
+    private float gold;
 
     public InventoryData()
     {
@@ -98,7 +98,7 @@ public class InventoryData
         }
         else if (g.TryGetComponent(out StackableItem s))
         {
-            return new StackableString(s.GetStacks(), s.GetName(), s.GetIngredients(), s.GetValue());
+            return new StackableString(s.GetStacks(), s.GetName(), s.GetIngredients());
         }
         else if (g.TryGetComponent(out Item item))
         {
@@ -122,7 +122,7 @@ public class InventoryData
 
     }
 
-    public InventoryData(GameObject[] inventory, GameObject[] hotbar, int gold)
+    public InventoryData(GameObject[] inventory, GameObject[] hotbar, float gold)
     {
         this.inventory = new InventoryString[inventory.Length];
         this.hotbar = new InventoryString[hotbar.Length];
@@ -156,7 +156,7 @@ public class InventoryData
                 list.Add(CraftingController.GetIngredient(name));
             }
 
-            return GameController.GenerateStackableItem(stackable.GetStackableId(), stackable.GetValue(), list, stacks);
+            return GameController.GenerateStackableItem(stackable.GetStackableId(), list, stacks);
         }
         else
         {
@@ -189,6 +189,6 @@ public class InventoryData
         return GetCollection(this.hotbar);
     }
 
-    public int GetGold() { return gold; }
+    public float GetGold() { return gold; }
 }
 

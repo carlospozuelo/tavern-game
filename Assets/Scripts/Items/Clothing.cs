@@ -68,4 +68,10 @@ public class Clothing : MonoBehaviour, Item
         // Can't be used
         return false;
     }
+
+    // TODO: Maybe say the color
+    public string GetDescription()
+    {
+        return "";
+    }
 }

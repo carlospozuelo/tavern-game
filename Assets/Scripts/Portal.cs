@@ -16,6 +16,11 @@ public class Portal : MonoBehaviour
 
     public string location = "Tavern";
 
+    public static Portal GetPortal(string name)
+    {
+        return portals[name];
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;

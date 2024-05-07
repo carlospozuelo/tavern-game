@@ -15,4 +15,4 @@ MonoBehaviour:
   ingredientName: Barley
   type: 9
   sprite: {fileID: -117373085, guid: 2c2c6936c8f88b048b3113459cdf198c, type: 3}
-  value: 2
+  value: 1.5

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NPC : CharacterAbstract
 {
@@ -16,6 +18,18 @@ public class NPC : CharacterAbstract
 
     [SerializeField]
     private float speed = 2;
+
+    [SerializeField]
+    private GameObject textBubble;
+
+    [SerializeField]
+    private Image desireImage;
+
+    [SerializeField]
+    private TextMeshProUGUI desireText;
+
+    [SerializeField]
+    private Animator bubbleAnimator;
 
     
 
@@ -39,7 +53,33 @@ public class NPC : CharacterAbstract
         GenerateAOC();
         Initialize();
         // Default: Spwan in tavern- so assign a tavern task.
-        StartCoroutine(Exist());
+        if (isActiveAndEnabled)
+        {
+            coroutine = StartCoroutine(Exist());
+        }
+    }
+    private Coroutine coroutine;
+    private void OnEnable()
+    {
+        if (base.initialized && coroutine == null)
+        {
+            StartCoroutine(Exist());
+
+        } 
+    }
+
+    private void OnDisable()
+    {
+        if (coroutine != null)
+        {
+            StopCoroutine(coroutine);
+        }
+        coroutine = null;
+        if (sitting && bench != null)
+        {
+            print("Soft get up");
+            bench.SoftGetUp();
+        }
     }
 
     private IEnumerator Exist()
@@ -48,18 +88,23 @@ public class NPC : CharacterAbstract
         while (true)
         {
             // Select a task randomly (for now just go to a bench)
-            Bench bench = NPCController.PopRandomBench();
-            if (bench != null) {
+            if (this.bench != null)
+            {
+                loggedInactivity = false;
+
+                yield return WalkTowardsBench(this.bench);
+            } else {
+                bench = NPCController.PopRandomBench();
                 loggedInactivity = false;
                 yield return WalkTowardsBench(bench);
                 if (!sitting)
                 {
                     // Something went wrong. Reinstall the bench
-                    NPCController.AddBenchForNPC(bench);
                     Stop();
                 }
             }
-            else
+            
+            if (bench == null)
             {
                 // Nothing else to do
                 Stop();
@@ -75,28 +120,31 @@ public class NPC : CharacterAbstract
 
     private IEnumerator WalkTowardsBench(Bench bench)
     {
+        if (bench == null)
+        {
+            yield break;
+        }
         Vector3 benchPosition = bench.GetPosition();
         Pathfinding pathfinding = LocationController.GetPathfindingAgent(location).GetPathfinding();
         List<PathNode> path = pathfinding.GetPathToClosestReachableTile(transform.position, benchPosition);
         
+        if (path == null) { yield break; }
 
-        if (bench == null || path == null)
-        {
-            yield break;
-        }
 
         foreach (PathNode node in path)
         {
-            if (bench == null || path == null)
+            if (bench == null || path == null || bench.IsBusy())
             {
+                // This check is done in case the bench is picked up mid-routine. 
+                Stop();
+                this.bench = null;
                 yield break;
             }
-
+            
             Vector3 worldPos = pathfinding.GetGrid().GetWorldPosition(node.x, node.y);
             //transform.position = new Vector3(worldPos.x, worldPos.y, transform.position.z);
             yield return MoveRoutine(worldPos);
         }
-
         // Reached the bench
         yield return Sit(bench);
         
@@ -133,20 +181,103 @@ public class NPC : CharacterAbstract
         }
     }
 
+    private IEnumerator ExistSitting()
+    {
+        while (true)
+        {
+            // A chance to do:
+            // 50% Nothing
+            // 50% Order something
+            float n = Random.Range(0f, 1f);
+
+            if (n < .5f)
+            {
+                // Order something
+                yield return Order();
+                // At this point in the code, the order has been satisfied / time exceeded. Get up and leave.
+                bench.GetUp(gameObject, 0, -1);
+                animator.SetBool("Sitting", false);
+                sitting = false;
+                yield return SimpleWalkTowards(Portal.GetPortal("Tavern entrance").GetPosition());
+                // Despawn (Placeholder. They should "cross" the portal")
+
+                Destroy(gameObject);
+            }
+            yield return new WaitForSeconds(1f);
+        }
+    } 
+
     private IEnumerator Sit(Bench bench)
     {
         Stop();
         if (bench == null) { yield break; }
-        Debug.Log("Sitting for eternity");
-
-        if (bench.Interact(this)) { 
-            while (true)
-            {
-                yield return new WaitForSeconds(1f);
-            }
+        sitting = false;
+        if (bench.Interact(this)) {
+            yield return ExistSitting();
+        } else
+        {
+            this.bench = null;
         }
 
         yield break;
+    }
+
+    private Ingredient desire;
+
+    public int maxTicksWaiting = 20;
+    private IEnumerator Order()
+    {
+        desire = TavernStockController.GetRandomIngredient();
+
+        if (desire == null )
+        {
+            // No stock
+            yield break;
+        }
+        desireImage.sprite = desire.sprite;
+        desireImage.gameObject.SetActive(true);
+        
+        bubbleAnimator.SetTrigger("Open");
+
+
+        // PLACEHOLDER
+        int ticks = 0;
+        while (desire != null)
+        {
+            // WAIT X TICKS BEFORE CANCELLING THE ORDER
+            yield return new WaitForSeconds(1f);
+            ticks++;
+            if (ticks >= maxTicksWaiting)
+            {
+                desire = null;
+                // POLISHMENT: Add sad animation here
+                bubbleAnimator.SetTrigger("Close");
+            }
+        }
+    }
+
+    private IEnumerator SimpleWalkTowards(Vector3 position)
+    {
+        Pathfinding pathfinding = LocationController.GetPathfindingAgent(location).GetPathfinding();
+        List<PathNode> path = pathfinding.GetPathToClosestReachableTile(transform.position, position);
+
+        if (path == null)
+        {
+            yield break;
+        }
+
+        foreach (PathNode node in path)
+        {
+            if (path == null)
+            {
+                // This check is done in case the bench is picked up mid-routine. 
+                yield break;
+            }
+
+            Vector3 worldPos = pathfinding.GetGrid().GetWorldPosition(node.x, node.y);
+            //transform.position = new Vector3(worldPos.x, worldPos.y, transform.position.z);
+            yield return MoveRoutine(worldPos);
+        }
     }
 
     private void UpdateColors(Material m, ClothingItem i)
@@ -184,6 +315,34 @@ public class NPC : CharacterAbstract
 
         aoc.ApplyOverrides(overrides);
         animator.runtimeAnimatorController = aoc;
+    }
+
+    public void Interact(GameObject itemHeld)
+    {
+        // If the npc wants something, try and take it.
+        if (desire != null)
+        {
+            if (itemHeld != null && itemHeld.TryGetComponent(out StackableItem stackable))
+            {
+                if (stackable.GetIngredient().Equals(desire)) {
+                    Satisfy(stackable);
+                }
+            }
+        }
+        // Otherwise, start a dialog
+    }
+
+    private void Satisfy(StackableItem item)
+    {
+        // Cancel desire
+        desire = null;
+        bubbleAnimator.SetTrigger("Close");
+
+        // Give MONEY
+        PlayerInventory.ModifyGold(item.GetBasePrice());
+        // Reduce stacks
+        item.Consume();
+        InventoryUI.instance.UpdateUI();
     }
 
 }

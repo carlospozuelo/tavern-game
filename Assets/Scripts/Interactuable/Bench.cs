@@ -64,7 +64,6 @@ public class Bench : Interactuable
             return true;
         } else
         {
-            Debug.LogWarning("Can't interact with this bench. Busy: " + busy + ", character sitting: " + character.IsSitting());
             return false;
         }
         
@@ -81,6 +80,14 @@ public class Bench : Interactuable
         }
 
         return false;
+    }
+
+    public bool SoftGetUp()
+    {
+        busy = false;
+        furniture.Unblock(gameObject);
+        NPCController.AddBenchForNPC(this);
+        return true;
     }
 
     private bool GetUpPrv(GameObject g, float h, float v)

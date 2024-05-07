@@ -72,5 +72,7 @@ public class MenuUI : MonoBehaviour
         DraggableIcon.HideImage();
 
         menu.SetActive(isOpen);
+
+        DraggableIcon.HideSecondTooltip();
     }
 }
