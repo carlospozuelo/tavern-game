@@ -7,27 +7,30 @@
       null,
       null,
       null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
       {
         "$type": "StackableString, Assembly-CSharp",
-        "currentStacks": 1,
-        "stackableId": "Beer",
-        "ingredientsUsed": [
-          "Barley"
-        ],
-        "value": 2.0,
+        "currentStacks": 10,
+        "stackableId": "Grass",
+        "ingredientsUsed": [],
         "itemId": "StackableItem"
       },
+      {
+        "$type": "StackableString, Assembly-CSharp",
+        "currentStacks": 30,
+        "stackableId": "Hops",
+        "ingredientsUsed": [],
+        "itemId": "StackableItem"
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
       null,
       null,
       null,
@@ -49,58 +52,36 @@
       },
       {
         "$type": "StackableString, Assembly-CSharp",
-        "currentStacks": 10,
+        "currentStacks": 20,
         "stackableId": "Wood",
         "ingredientsUsed": [],
-        "value": 0.0,
         "itemId": "StackableItem"
       },
       {
-        "$type": "StackableString, Assembly-CSharp",
-        "currentStacks": 9,
-        "stackableId": "Barley",
-        "ingredientsUsed": [],
-        "value": 0.0,
-        "itemId": "StackableItem"
+        "itemId": "Basic stool"
+      },
+      {
+        "itemId": "Basic stool"
+      },
+      {
+        "itemId": "Basic stool"
+      },
+      {
+        "itemId": "Fancy sofa - down"
       },
       {
         "$type": "StackableString, Assembly-CSharp",
-        "currentStacks": 10,
-        "stackableId": "Hops",
-        "ingredientsUsed": [],
-        "value": 0.0,
-        "itemId": "StackableItem"
-      },
-      {
-        "$type": "StackableString, Assembly-CSharp",
-        "currentStacks": 10,
-        "stackableId": "Grass",
-        "ingredientsUsed": [],
-        "value": 0.0,
-        "itemId": "StackableItem"
-      },
-      {
-        "$type": "StackableString, Assembly-CSharp",
-        "currentStacks": 1,
-        "stackableId": "Beer",
+        "currentStacks": 15,
+        "stackableId": "Basic Beer",
         "ingredientsUsed": [
           "Wheat"
         ],
-        "value": 0.0,
-        "itemId": "StackableItem"
-      },
-      {
-        "$type": "StackableString, Assembly-CSharp",
-        "currentStacks": 30,
-        "stackableId": "Wheat",
-        "ingredientsUsed": [],
-        "value": 0.0,
         "itemId": "StackableItem"
       },
       null,
       null
     ],
-    "gold": 0
+    "gold": 12.5
   },
   "tavernData": {
     "furnitures": [
@@ -111,36 +92,31 @@
         "furnitureName": "Worn bed"
       },
       {
-        "x": -2.0,
-        "y": 1.0,
-        "z": 0.4,
-        "furnitureName": "Basic stool"
-      },
-      {
-        "x": -3.0,
-        "y": 1.0,
-        "z": 0.4,
-        "furnitureName": "Basic stool"
-      },
-      {
-        "x": -1.0,
-        "y": 1.0,
-        "z": 0.4,
-        "furnitureName": "Basic stool"
-      },
-      {
-        "x": 0.0,
-        "y": 1.0,
-        "z": 0.4,
-        "furnitureName": "Basic stool"
-      },
-      {
         "x": 6.0,
         "y": 4.0,
         "z": 1.5,
         "furnitureName": "Big plant"
       },
       {
+        "$type": "FurnitureWithSlotsData, Assembly-CSharp",
+        "slots": [
+          {
+            "$type": "StackableString, Assembly-CSharp",
+            "currentStacks": 12,
+            "stackableId": "Barley",
+            "ingredientsUsed": [],
+            "itemId": "StackableItem"
+          },
+          {
+            "$type": "StackableString, Assembly-CSharp",
+            "currentStacks": 13,
+            "stackableId": "Basic Beer",
+            "ingredientsUsed": [
+              "Barley"
+            ],
+            "itemId": "StackableItem"
+          }
+        ],
         "x": -3.0,
         "y": 4.0,
         "z": 0.8,
@@ -159,22 +135,102 @@
         "furnitureName": "Worn bar"
       },
       {
-        "x": 1.0,
-        "y": 4.0,
-        "z": 0.0,
-        "furnitureName": "Fancy sofa - down"
-      },
-      {
         "x": 2.0,
         "y": 6.0,
         "z": 0.0,
         "furnitureName": "Basic window"
       },
       {
+        "$type": "FurnitureWithSlotsData, Assembly-CSharp",
+        "slots": [
+          {
+            "$type": "StackableString, Assembly-CSharp",
+            "currentStacks": 12,
+            "stackableId": "Wheat",
+            "ingredientsUsed": [],
+            "itemId": "StackableItem"
+          },
+          {
+            "$type": "StackableString, Assembly-CSharp",
+            "currentStacks": 1,
+            "stackableId": "Basic Beer",
+            "ingredientsUsed": [
+              "Wheat"
+            ],
+            "itemId": "StackableItem"
+          }
+        ],
         "x": -1.0,
         "y": 4.0,
         "z": 0.8,
         "furnitureName": "Basic beer tap flip"
+      },
+      {
+        "$type": "FurnitureWithSlotsData, Assembly-CSharp",
+        "slots": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "$type": "ClothingString, Assembly-CSharp",
+            "clothingItemId": "Torso 07",
+            "c1": {
+              "r": 0.3213332,
+              "g": 0.39045006,
+              "b": 0.8207547,
+              "a": 1.0
+            },
+            "c2": {
+              "r": 0.6698113,
+              "g": 0.3051218,
+              "b": 0.1990477,
+              "a": 1.0
+            },
+            "c3": {
+              "r": 0.0,
+              "g": 0.0,
+              "b": 0.0,
+              "a": 0.0
+            },
+            "itemId": "ClothingItem"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "x": 4.0,
+        "y": 2.0,
+        "z": 0.36,
+        "furnitureName": "Chest"
+      },
+      {
+        "x": 3.0,
+        "y": 0.0,
+        "z": 0.4,
+        "furnitureName": "Basic stool"
       }
     ],
     "taverns": [
@@ -450,18 +506,6 @@
       {
         "x": 13.3,
         "y": -15.1,
-        "z": 0.0,
-        "name": "Pine cone"
-      },
-      {
-        "x": 27.9,
-        "y": -16.3,
-        "z": 0.0,
-        "name": "Pine cone"
-      },
-      {
-        "x": 27.9,
-        "y": -16.3,
         "z": 0.0,
         "name": "Pine cone"
       },
