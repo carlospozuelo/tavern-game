@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TimeController : MonoBehaviour
 {
@@ -21,6 +23,15 @@ public class TimeController : MonoBehaviour
 
     [SerializeField]
     private Gradient colorCurve;
+
+    [SerializeField]
+    private TextMeshProUGUI textHour, textMinute, textDay;
+
+    [SerializeField]
+    private Image weatherImage;
+
+    [SerializeField]
+    private Sprite morningSunny, sunny, nightSunny;
 
     private void Awake()
     {
@@ -49,6 +60,7 @@ public class TimeController : MonoBehaviour
                 // Next day
                 currentTick = 0;
                 currentDay++;
+                SetCurrentDay();
             }
 
             // Update light color and intensity
@@ -57,7 +69,24 @@ public class TimeController : MonoBehaviour
 
             LightWrapper.UpdateLights(color, intensity);
 
-            DebugPanelUI.instance.Debug(GetCurrentHour().ToString("D2") + ":" + GetCurrentMinute().ToString("D2"));
+            SetCurrentHour();
+            SetCurrentMinute();
+
+            // Update weather image if necessary
+            if (currentTick == 0 || currentTick == 144)
+            {
+                // 6:00 and 18:00
+                weatherImage.sprite = morningSunny;
+            } else if (currentTick == 36)
+            {
+                // 9:00
+                weatherImage.sprite = sunny;
+            } else if (currentTick == 180)
+            {
+                // 21:00
+                weatherImage.sprite = nightSunny;
+            }
+
             yield return new WaitForSecondsRealtime(secondsPerTick);
             // Advance tick
             currentTick++;
@@ -65,13 +94,18 @@ public class TimeController : MonoBehaviour
         }
     }
 
-    private int GetCurrentHour()
+    private void SetCurrentHour()
     {
-        return ((currentTick / 12) + 6) % 24;
+        textHour.text = (((currentTick / 12) + 6) % 24).ToString("D2");
     }
 
-    private int GetCurrentMinute()
+    private void SetCurrentMinute()
     {
-        return (currentTick % 12) * 5;
+        textMinute.text = ((currentTick % 12) * 5).ToString("D2");
+    }
+
+    private void SetCurrentDay()
+    {
+        textDay.text = "Day " + currentDay.ToString();
     }
 }

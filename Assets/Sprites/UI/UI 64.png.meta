@@ -108,8 +108,8 @@ TextureImporter:
       name: UI 64_0
       rect:
         serializedVersion: 2
-        x: 2
-        y: 0
+        x: 0
+        y: 40
         width: 60
         height: 12
       alignment: 0
@@ -129,10 +129,10 @@ TextureImporter:
       name: UI 64_1
       rect:
         serializedVersion: 2
-        x: 81
-        y: 5
-        width: 34
-        height: 56
+        x: 60
+        y: 0
+        width: 30
+        height: 52
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,10 +150,10 @@ TextureImporter:
       name: UI 64_2
       rect:
         serializedVersion: 2
-        x: 141
-        y: 4
-        width: 34
-        height: 56
+        x: 90
+        y: 0
+        width: 30
+        height: 52
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,8 +171,8 @@ TextureImporter:
       name: UI 64_3
       rect:
         serializedVersion: 2
-        x: 194
-        y: 0
+        x: 120
+        y: 35
         width: 60
         height: 17
       alignment: 0
@@ -188,6 +188,90 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: UI 64_4
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 35
+        width: 46
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e70ee189a150ddb4b88980406a0e483d
+      internalID: -108654019
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI 64_5
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 0
+        width: 22
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c0ff480f10530543bb9788762fcc033
+      internalID: -185390394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI 64_6
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 35
+        width: 18
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 400fabaaed3adea43ac04bac3c71af07
+      internalID: 879097870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI 64_7
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 35
+        width: 48
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 603a53b207501ef4baafb44ae511561f
+      internalID: 2023438583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -199,10 +283,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      UI 64_4: -108654019
       UI 64_3: 170848626
       UI 64_1: 610942200
       UI 64_2: 250978140
       UI 64_0: 1347263680
+      UI 64_5: -185390394
+      UI 64_6: 879097870
+      UI 64_7: 2023438583
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
