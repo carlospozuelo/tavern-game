@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NPC : CharacterAbstract
+public class NPC : CharacterAbstract, TimeSubscriber
 {
     [SerializeField]
     private SpriteRenderer body, arms, face, torso, hair, legs, shoes;
@@ -31,6 +31,14 @@ public class NPC : CharacterAbstract
     [SerializeField]
     private Animator bubbleAnimator;
 
+    [SerializeField]
+    private Gradient waitingGradient;
+
+    [SerializeField]
+    private Image loadBar;
+
+    [SerializeField]
+    private int waitTicksForOrders = 5;
     
 
     public void Initialize(Dictionary<ClothingItem.ClothingType, ClothingItem> clothes) {
@@ -238,23 +246,17 @@ public class NPC : CharacterAbstract
         desireImage.gameObject.SetActive(true);
         
         bubbleAnimator.SetTrigger("Open");
+        bubbleAnimator.SetTrigger("Open Load");
+
+        TimeController.Subscribe(this, "Cancel order", waitTicksForOrders, 1, false);
+        TimeController.Subscribe(this, "Update waiting time", 1, waitTicksForOrders, false);
 
 
-        // PLACEHOLDER
-        int ticks = 0;
-        while (desire != null)
-        {
-            // WAIT X TICKS BEFORE CANCELLING THE ORDER
-            yield return new WaitForSeconds(1f);
-            ticks++;
-            if (ticks >= maxTicksWaiting)
-            {
-                desire = null;
-                // POLISHMENT: Add sad animation here
-                bubbleAnimator.SetTrigger("Close");
-            }
-        }
+        loadBar.fillAmount = 1;
+        yield return new WaitUntil(() => desire == null);
+        bubbleAnimator.SetTrigger("Close Load");
     }
+
 
     private IEnumerator SimpleWalkTowards(Vector3 position)
     {
@@ -345,4 +347,17 @@ public class NPC : CharacterAbstract
         InventoryUI.instance.UpdateUI();
     }
 
+    public void Notify(string text)
+    {
+        if (text.Equals("Cancel order"))
+        {
+            desire = null;
+            // POLISHMENT: Add sad animation here
+            bubbleAnimator.SetTrigger("Close");
+        } else if (text.Equals("Update waiting time"))
+        {
+            loadBar.fillAmount -= (1f / waitTicksForOrders);
+            loadBar.color = waitingGradient.Evaluate(loadBar.fillAmount);
+        }
+    }
 }

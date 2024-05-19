@@ -33,6 +33,22 @@ public class TimeController : MonoBehaviour
     [SerializeField]
     private Sprite morningSunny, sunny, nightSunny;
 
+    private List<TimeSubscriberWrapper> subscribers;
+
+    public static void Subscribe(TimeSubscriber subscriber, string uniqueName, int notifiesEveryXTicks = 1, int notifyXTimes = 1, bool notifiesForever = false)
+    {
+        print("Subscribing");
+        TimeSubscriberWrapper wrapper = new TimeSubscriberWrapper();
+        wrapper.timeSubscriber = subscriber;
+        wrapper.notifiesForever = notifiesForever;
+        wrapper.notifyXTimes = notifyXTimes;
+        wrapper.notifyEveryXTicks = notifiesEveryXTicks;
+
+        wrapper.id = uniqueName;
+
+        instance.subscribers.Add(wrapper);
+    }
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -46,6 +62,7 @@ public class TimeController : MonoBehaviour
 
     private void Start()
     {
+        subscribers = new List<TimeSubscriberWrapper>();
         StartCoroutine(TimeCoroutine());
     }
 
@@ -54,6 +71,26 @@ public class TimeController : MonoBehaviour
         while (true)
         {
             // Notify all listeners of a new tick
+            for (int i = subscribers.Count - 1; i >= 0; i--)
+            {
+                TimeSubscriberWrapper wrapper = subscribers[i];
+                wrapper.ticksElapsed++;
+
+                if (wrapper.ticksElapsed >= wrapper.notifyEveryXTicks)
+                {
+                    wrapper.ticksElapsed = 0;
+                    // Notify
+                    wrapper.timeSubscriber.Notify(wrapper.id);
+                    if (!wrapper.notifiesForever) { wrapper.timesNotified++; }
+                }
+
+                if (!wrapper.notifiesForever && wrapper.timesNotified >= wrapper.notifyXTimes)
+                {
+                    // Notification expired. Remove from the dictionary
+                    subscribers.Remove(wrapper);
+                }
+            }
+
 
             if (currentTick >= ticksPerDay)
             {
