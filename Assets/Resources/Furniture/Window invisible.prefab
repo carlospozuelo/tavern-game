@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3276429534571681791}
   - component: {fileID: 5861543669367192255}
+  - component: {fileID: 794884313623963336}
   m_Layer: 0
   m_Name: Window invisible
   m_TagString: Untagged
@@ -46,10 +47,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ComponentVersion: 1
   m_LightType: 1
-  m_BlendStyleIndex: 1
+  m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.8
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.2
+  m_Intensity: 0.5
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
   m_ApplyToSortingLayers: 61ae9d8f00000000
@@ -377,3 +378,17 @@ MonoBehaviour:
   - {x: 1.0589223, y: 5.6974554, z: 0}
   - {x: -1.3582754, y: 5.7315006, z: 0}
   - {x: -2.3722644, y: 4.3205004, z: 0}
+--- !u!114 &794884313623963336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5638255287658120469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32e52cff536614a49bf328eeedffa916, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  light2d: {fileID: 5861543669367192255}
+  affectsIntensity: 0

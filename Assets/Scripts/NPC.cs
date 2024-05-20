@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NPC : CharacterAbstract
+public class NPC : CharacterAbstract, TimeSubscriber
 {
     [SerializeField]
     private SpriteRenderer body, arms, face, torso, hair, legs, shoes;
@@ -31,7 +31,17 @@ public class NPC : CharacterAbstract
     [SerializeField]
     private Animator bubbleAnimator;
 
-    
+    [SerializeField]
+    private Gradient waitingGradient;
+
+    [SerializeField]
+    private Image loadBar;
+
+    [SerializeField]
+    private int waitTicksForOrders = 5;
+
+    [SerializeField]
+    private Sprite happySprite, sadSprite;
 
     public void Initialize(Dictionary<ClothingItem.ClothingType, ClothingItem> clothes) {
 
@@ -77,9 +87,13 @@ public class NPC : CharacterAbstract
         coroutine = null;
         if (sitting && bench != null)
         {
-            print("Soft get up");
             bench.SoftGetUp();
         }
+    }
+
+    private void OnDestroy()
+    {
+        TimeController.Unsubscribe(this);
     }
 
     private IEnumerator Exist()
@@ -195,10 +209,12 @@ public class NPC : CharacterAbstract
                 // Order something
                 yield return Order();
                 // At this point in the code, the order has been satisfied / time exceeded. Get up and leave.
+                yield return new WaitForSecondsRealtime(2f);
                 bench.GetUp(gameObject, 0, -1);
                 animator.SetBool("Sitting", false);
                 sitting = false;
                 yield return SimpleWalkTowards(Portal.GetPortal("Tavern entrance").GetPosition());
+                
                 // Despawn (Placeholder. They should "cross" the portal")
 
                 Destroy(gameObject);
@@ -238,23 +254,17 @@ public class NPC : CharacterAbstract
         desireImage.gameObject.SetActive(true);
         
         bubbleAnimator.SetTrigger("Open");
+        bubbleAnimator.SetTrigger("Open Load");
+
+        TimeController.Subscribe(this, "Cancel order", waitTicksForOrders, 1, false);
+        TimeController.Subscribe(this, "Update waiting time", 1, waitTicksForOrders, false);
 
 
-        // PLACEHOLDER
-        int ticks = 0;
-        while (desire != null)
-        {
-            // WAIT X TICKS BEFORE CANCELLING THE ORDER
-            yield return new WaitForSeconds(1f);
-            ticks++;
-            if (ticks >= maxTicksWaiting)
-            {
-                desire = null;
-                // POLISHMENT: Add sad animation here
-                bubbleAnimator.SetTrigger("Close");
-            }
-        }
+        loadBar.fillAmount = 1;
+        yield return new WaitUntil(() => desire == null);
+        bubbleAnimator.SetTrigger("Close Load");
     }
+
 
     private IEnumerator SimpleWalkTowards(Vector3 position)
     {
@@ -343,6 +353,29 @@ public class NPC : CharacterAbstract
         // Reduce stacks
         item.Consume();
         InventoryUI.instance.UpdateUI();
+        TimeController.Unsubscribe(this, "Cancel order");
+        TimeController.Unsubscribe(this, "Update waiting time");
+        // Set happy animation
+        bubbleAnimator.SetTrigger("Bounce");
+        desireImage.sprite = happySprite;
     }
 
+    public void Notify(string text)
+    {
+        if (text.Equals("Cancel order"))
+        {
+            desire = null;
+            bubbleAnimator.SetTrigger("Close");
+            // Set sad animation
+            bubbleAnimator.SetTrigger("Bounce");
+            desireImage.sprite = sadSprite;
+        } else if (text.Equals("Update waiting time"))
+        {
+            if (loadBar != null)
+            {
+                loadBar.fillAmount -= (1f / waitTicksForOrders);
+                loadBar.color = waitingGradient.Evaluate(loadBar.fillAmount);
+            }
+        }
+    }
 }
