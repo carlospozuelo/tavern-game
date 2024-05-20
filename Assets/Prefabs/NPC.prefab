@@ -927,7 +927,7 @@ MonoBehaviour:
   - {x: -0.410983, y: -0.9378841, z: 0}
   m_ShapePathHash: -89003620
   m_Mesh: {fileID: 0}
-  m_InstanceId: 365450
+  m_InstanceId: 368138
 --- !u!210 &6882171631210739274
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -997,6 +997,8 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   loadBar: {fileID: 6096518411441912767}
   waitTicksForOrders: 5
+  happySprite: {fileID: 1960325463, guid: 7bdeb89d12565394da72f55720ee9685, type: 3}
+  sadSprite: {fileID: 1223409331, guid: 7bdeb89d12565394da72f55720ee9685, type: 3}
   maxTicksWaiting: 20
 --- !u!61 &4050132785179439992
 BoxCollider2D:

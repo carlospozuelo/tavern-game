@@ -39,7 +39,9 @@ public class NPC : CharacterAbstract, TimeSubscriber
 
     [SerializeField]
     private int waitTicksForOrders = 5;
-    
+
+    [SerializeField]
+    private Sprite happySprite, sadSprite;
 
     public void Initialize(Dictionary<ClothingItem.ClothingType, ClothingItem> clothes) {
 
@@ -85,9 +87,13 @@ public class NPC : CharacterAbstract, TimeSubscriber
         coroutine = null;
         if (sitting && bench != null)
         {
-            print("Soft get up");
             bench.SoftGetUp();
         }
+    }
+
+    private void OnDestroy()
+    {
+        TimeController.Unsubscribe(this);
     }
 
     private IEnumerator Exist()
@@ -203,10 +209,12 @@ public class NPC : CharacterAbstract, TimeSubscriber
                 // Order something
                 yield return Order();
                 // At this point in the code, the order has been satisfied / time exceeded. Get up and leave.
+                yield return new WaitForSecondsRealtime(2f);
                 bench.GetUp(gameObject, 0, -1);
                 animator.SetBool("Sitting", false);
                 sitting = false;
                 yield return SimpleWalkTowards(Portal.GetPortal("Tavern entrance").GetPosition());
+                
                 // Despawn (Placeholder. They should "cross" the portal")
 
                 Destroy(gameObject);
@@ -345,6 +353,11 @@ public class NPC : CharacterAbstract, TimeSubscriber
         // Reduce stacks
         item.Consume();
         InventoryUI.instance.UpdateUI();
+        TimeController.Unsubscribe(this, "Cancel order");
+        TimeController.Unsubscribe(this, "Update waiting time");
+        // Set happy animation
+        bubbleAnimator.SetTrigger("Bounce");
+        desireImage.sprite = happySprite;
     }
 
     public void Notify(string text)
@@ -352,12 +365,17 @@ public class NPC : CharacterAbstract, TimeSubscriber
         if (text.Equals("Cancel order"))
         {
             desire = null;
-            // POLISHMENT: Add sad animation here
             bubbleAnimator.SetTrigger("Close");
+            // Set sad animation
+            bubbleAnimator.SetTrigger("Bounce");
+            desireImage.sprite = sadSprite;
         } else if (text.Equals("Update waiting time"))
         {
-            loadBar.fillAmount -= (1f / waitTicksForOrders);
-            loadBar.color = waitingGradient.Evaluate(loadBar.fillAmount);
+            if (loadBar != null)
+            {
+                loadBar.fillAmount -= (1f / waitTicksForOrders);
+                loadBar.color = waitingGradient.Evaluate(loadBar.fillAmount);
+            }
         }
     }
 }

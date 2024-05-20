@@ -37,7 +37,6 @@ public class TimeController : MonoBehaviour
 
     public static void Subscribe(TimeSubscriber subscriber, string uniqueName, int notifiesEveryXTicks = 1, int notifyXTimes = 1, bool notifiesForever = false)
     {
-        print("Subscribing");
         TimeSubscriberWrapper wrapper = new TimeSubscriberWrapper();
         wrapper.timeSubscriber = subscriber;
         wrapper.notifiesForever = notifiesForever;
@@ -47,6 +46,30 @@ public class TimeController : MonoBehaviour
         wrapper.id = uniqueName;
 
         instance.subscribers.Add(wrapper);
+    }
+
+    public static void Unsubscribe(TimeSubscriber subscriber, string uniqueName)
+    {
+        foreach (TimeSubscriberWrapper wrapper in instance.subscribers)
+        {
+            if (wrapper != null && wrapper.timeSubscriber.Equals(subscriber) && wrapper.id.Equals(uniqueName))
+            {
+                instance.subscribers.Remove(wrapper);
+                return;
+            }
+        }
+    }
+
+    public static void Unsubscribe(TimeSubscriber subscriber)
+    {
+        foreach (TimeSubscriberWrapper wrapper in instance.subscribers)
+        {
+            if (wrapper != null && wrapper.timeSubscriber.Equals(subscriber))
+            {
+                instance.subscribers.Remove(wrapper);
+                return;
+            }
+        }
     }
 
     private void Awake()
