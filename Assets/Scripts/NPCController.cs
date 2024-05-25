@@ -111,7 +111,8 @@ public class NPCController : MonoBehaviour
     public static void SpawnNPC()
     {
         // The first approach just spawns npcs in the tavern. This is provisional.
-        GameObject go = Instantiate(instance.npcPrefab,new Vector3(5f,-1.72f, 2.5f) + new Vector3(Random.Range(0f,1f), Random.Range(0f,1f)), Quaternion.identity, LocationController.GetLocation("Tavern").transform);
+        
+        GameObject go = Instantiate(instance.npcPrefab, Portal.GetPortal("Tavern entrance").GetPosition() + new Vector3(Random.Range(0f,1f), Random.Range(0f,1f), 2.5f), Quaternion.identity, LocationController.GetLocation("Tavern").transform);
 
         NPC npc = go.GetComponent<NPC>();
         npc.SetLocation("Tavern");

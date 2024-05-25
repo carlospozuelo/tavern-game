@@ -110,7 +110,6 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
             else
             {
                 stackText.text = "";
-                return false;
             }
         }
 

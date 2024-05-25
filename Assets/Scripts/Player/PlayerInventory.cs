@@ -47,7 +47,9 @@ public class PlayerInventory : MonoBehaviour
 
     public static bool StoreAnywhere(Item item)
     {
-        if (item is StackableItem) { return StoreAnywhereStackable((StackableItem)item); }
+        if (item is StackableItem) {
+            return StoreAnywhereStackable((StackableItem)item); 
+        }
 
         return StoreAnywhere(item.GetOriginalPrefab());
     }
@@ -115,7 +117,7 @@ public class PlayerInventory : MonoBehaviour
         }
 
         // Either no items of the same type were present on the inventory, or the present stacks were already full. Try to slot the item elsewhere
-        return StoreAnywhere(GameController.GenerateStackableItem(item.GetName()));
+        return StoreAnywhere(GameController.GenerateStackableItem(item.GetName(), item.GetIngredients()));
     }
 
     public GameObject GetItem(string name)
