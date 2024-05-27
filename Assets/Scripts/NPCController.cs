@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class NPCController : MonoBehaviour
+public class NPCController : MonoBehaviour, TimeSubscriber
 {
     private static NPCController instance;
 
@@ -11,15 +11,44 @@ public class NPCController : MonoBehaviour
 
     private HashSet<Bench> benchesForNPCS;
 
+    private List<NPC> npcs;
+
+    [SerializeField]
+    private int maxNPCS = 5;
+
+    [SerializeField]
+    [Range(0f, 1f)]
+    [Tooltip("This field determines the chance of spawning an NPC each tick, given that there's NO other npc")]
+    private float defaultAttractive = .5f;
+
+    [SerializeField]
+    [Range(0.5f, 1f)]
+    [Tooltip("This field determines the decay in attractiveness for each npc that is currently in the tavern." +
+        "This makes it so that it's harder to spawn npcs the more npcs are currently spawned." +
+        "The higher the number, the lesser the decay (Attractive = default attractive * decay^currentnpcs)")]
+    private float attractiveDecay = .9f;
+
+    public static void DestroyNPC(NPC npc)
+    {
+        instance.npcs.Remove(npc);
+    }
+
     [SerializeField]
     private GameObject npcPrefab;
     private bool initialized = false;
+
+    private const string TICK_TEXT = "Tick";
+
     private void Start()
     {
         if (initialized) return;
 
         interactuablesForNPCS = new HashSet<Interactuable>();
         benchesForNPCS = new HashSet<Bench>();
+
+        npcs = new List<NPC>();
+        TimeController.Subscribe(this, TICK_TEXT, 1, 1, true);
+
         initialized = true;
     }
 
@@ -118,6 +147,8 @@ public class NPCController : MonoBehaviour
         npc.SetLocation("Tavern");
 
         npc.Initialize(GenerateRandomClothes());
+
+        instance.npcs.Add(npc);
     }
 
     public static Dictionary<ClothingItem.ClothingType, ClothingItem> GenerateRandomClothes()
@@ -134,6 +165,37 @@ public class NPCController : MonoBehaviour
 
     }
 
+    // This function is called every tick (every 5 ingame minutes).
+    private void HandleNPCS()
+    {
+        float attractiveness = CalculateAttractiveness();
+        int maxNPCS = Mathf.Min(benchesForNPCS.Count, this.maxNPCS);
 
+        if (npcs.Count < maxNPCS)
+        {
+            if (Random.Range(0f, 1f) < attractiveness)
+            {
+                // Spawn npc
+                print("Spawn " + attractiveness);
+                SpawnNPC();
+            }
+            else
+            {
+                print("Unlucky " + attractiveness);
+            }
+        }
+    }
 
+    private float CalculateAttractiveness()
+    {
+        return defaultAttractive * (Mathf.Pow(attractiveDecay, npcs.Count));
+    }
+
+    public void Notify(string text)
+    {
+        if (text.Equals(TICK_TEXT))
+        {
+            HandleNPCS();
+        }
+    }
 }

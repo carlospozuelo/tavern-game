@@ -94,6 +94,7 @@ public class NPC : CharacterAbstract, TimeSubscriber
     private void OnDestroy()
     {
         TimeController.Unsubscribe(this);
+        NPCController.DestroyNPC(this);
     }
 
     private IEnumerator Exist()
