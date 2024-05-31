@@ -15,4 +15,4 @@ MonoBehaviour:
   ingredientName: Wood
   type: 8
   sprite: {fileID: -535507411, guid: 2c2c6936c8f88b048b3113459cdf198c, type: 3}
-  value: 0
+  value: 1

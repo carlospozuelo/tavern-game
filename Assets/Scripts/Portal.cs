@@ -16,6 +16,11 @@ public class Portal : MonoBehaviour
 
     public string location = "Tavern";
 
+    public static Portal GetPortal(string name)
+    {
+        return portals[name];
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
@@ -68,6 +73,7 @@ public class Portal : MonoBehaviour
         }
         if (!validTag) { return; }
 
+        // Only for the player. This method has to be updated if the portals are also intended for npcs.
         LocationController.ChangeLocation(location);
 
         Vector3 vector = portals[destination].GetPosition();

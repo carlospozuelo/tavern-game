@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class NPCController : MonoBehaviour
+public class NPCController : MonoBehaviour, TimeSubscriber
 {
     private static NPCController instance;
 
@@ -11,15 +12,56 @@ public class NPCController : MonoBehaviour
 
     private HashSet<Bench> benchesForNPCS;
 
+    private List<NPC> npcs;
+
+    [SerializeField]
+    private List<GameObject> pooledNPCS;
+
+    [SerializeField]
+    private int maxNPCS = 5;
+
+    [SerializeField]
+    [Range(0f, 1f)]
+    [Tooltip("This field determines the chance of spawning an NPC each tick, given that there's NO other npc")]
+    private float defaultAttractive = .5f;
+
+    [SerializeField]
+    [Range(0.5f, 1f)]
+    [Tooltip("This field determines the decay in attractiveness for each npc that is currently in the tavern." +
+        "This makes it so that it's harder to spawn npcs the more npcs are currently spawned." +
+        "The higher the number, the lesser the decay (Attractive = default attractive * decay^currentnpcs)")]
+    private float attractiveDecay = .9f;
+
+    [SerializeField]
+    [Tooltip("Curve that represents a multiplier with the attractiveness of the tavern based on the current time.")]
+    private AnimationCurve attractivenessByTime;
+
+    public static void DestroyNPC(NPC npc)
+    {
+        instance.npcs.Remove(npc);
+    }
+
     [SerializeField]
     private GameObject npcPrefab;
     private bool initialized = false;
+
+    private const string TICK_TEXT = "Tick";
+
+    public static void AddPooledNPC(GameObject npc)
+    {
+        instance.pooledNPCS.Add(npc);
+    }
+
     private void Start()
     {
         if (initialized) return;
 
         interactuablesForNPCS = new HashSet<Interactuable>();
         benchesForNPCS = new HashSet<Bench>();
+
+        npcs = new List<NPC>();
+        TimeController.Subscribe(this, TICK_TEXT, 1, 1, true);
+
         initialized = true;
     }
 
@@ -76,7 +118,12 @@ public class NPCController : MonoBehaviour
         return bench;
     }
 
-    private static void Debug()
+    public static int BenchesAvailable()
+    {
+        return instance.benchesForNPCS.Count;
+    }
+
+    private static void Print()
     {
         string str = "";
         foreach (var bench in instance.benchesForNPCS)
@@ -111,12 +158,29 @@ public class NPCController : MonoBehaviour
     public static void SpawnNPC()
     {
         // The first approach just spawns npcs in the tavern. This is provisional.
-        GameObject go = Instantiate(instance.npcPrefab,new Vector3(5f,-1.72f, 2.5f) + new Vector3(Random.Range(0f,1f), Random.Range(0f,1f)), Quaternion.identity, LocationController.GetLocation("Tavern").transform);
+        // ONLY spawns npcs if the player is currently in the tavern. This is provisional.
 
-        NPC npc = go.GetComponent<NPC>();
+        if (!LocationController.GetCurrentLocation().Equals("Tavern")) { return; }
+
+        if (instance.pooledNPCS.Count <= 0) {
+            Debug.LogError("Tried to instantiate an npc, but there's none available on the pool.");
+            return;
+        }
+        GameObject npcGO = instance.pooledNPCS[0];
+        instance.pooledNPCS.RemoveAt(0);
+
+        npcGO.transform.position = Portal.GetPortal("Tavern entrance").GetPosition() + new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f), 2.5f);
+        npcGO.SetActive(true);
+
+        //GameObject go = Instantiate(instance.npcPrefab, Portal.GetPortal("Tavern entrance").GetPosition() + new Vector3(Random.Range(0f,1f), Random.Range(0f,1f), 2.5f), Quaternion.identity, LocationController.GetLocation("Tavern").transform);
+
+        NPC npc = npcGO.GetComponent<NPC>();
         npc.SetLocation("Tavern");
 
         npc.Initialize(GenerateRandomClothes());
+
+
+        instance.npcs.Add(npc);
     }
 
     public static Dictionary<ClothingItem.ClothingType, ClothingItem> GenerateRandomClothes()
@@ -133,6 +197,50 @@ public class NPCController : MonoBehaviour
 
     }
 
+    // This function is called every tick (every 5 ingame minutes).
+    private void HandleNPCS()
+    {
+        float attractiveness = CalculateAttractiveness();
+        if (npcs.Count < maxNPCS && benchesForNPCS.Count > 0)
+        {
+            if (Random.Range(0f, 1f) < attractiveness)
+            {
+                // Spawn npc
+                SpawnNPC();
+            }
+           
+        } 
+    }
 
+    private float CalculateAttractiveness()
+    {
+        return defaultAttractive * (Mathf.Pow(attractiveDecay, npcs.Count)) * attractivenessByTime.Evaluate(TimeController.GetCurrentTick());
+    }
 
+    public void Notify(string text)
+    {
+        if (text.Equals(TICK_TEXT))
+        {
+            HandleNPCS();
+        }
+    }
+
+    public static void AlertLocationChange(string location)
+    {
+        foreach (var npcGO in instance.npcs)
+        {
+            if (npcGO != null && npcGO.TryGetComponent(out NPC npc)) { 
+                if (!npc.GetLocation().Equals(location))
+                {
+                    // Disable npc
+                    npc.gameObject.SetActive(false);
+                } else
+                {
+                    // Enable npc
+                    npc.gameObject.SetActive(true);
+
+                }
+            }
+        }
+    }
 }

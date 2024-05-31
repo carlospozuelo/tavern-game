@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
-public class DraggableIcon : MonoBehaviour, IPointerDownHandler
+public class DraggableIcon : MonoBehaviour
 {
     private static DraggableIcon instance;
     private RectTransform position;
@@ -19,6 +20,38 @@ public class DraggableIcon : MonoBehaviour, IPointerDownHandler
 
     [SerializeField]
     private TMPro.TextMeshProUGUI stackText;
+
+    [SerializeField]
+    private GameObject toolTip;
+
+    [SerializeField]
+    private TextMeshProUGUI toolTipName, toolTipDescription;
+
+    [SerializeField]
+    private GameObject toolTip2;
+
+    [SerializeField]
+    private TextMeshProUGUI toolTipName2, toolTipDescription2;
+
+    public static void ShowSecondTooltip(GameObject item)
+    {
+        Item i = item?.GetComponent<Item>();
+        if (i != null)
+        {
+            instance.toolTip2.SetActive(true);
+
+            instance.MoveImage();
+
+            instance.toolTipName2.text = i.GetName();
+            instance.toolTipDescription2.text = i.GetDescription();    
+        }
+    }
+
+    public static void HideSecondTooltip()
+    {
+        instance.toolTip2.SetActive(false);
+
+    }
 
     public static DragDrop GetDraggable()
     {
@@ -66,13 +99,26 @@ public class DraggableIcon : MonoBehaviour, IPointerDownHandler
         instance.draggable = d;
         instance.itemHeld = item;
 
+        instance.toolTip.SetActive(true);
+
         if (item != null)
         {
             if (item.TryGetComponent(out StackableItem stack))
             {
                 instance.stackText.text = stack.GetStacks() + "";
+                Ingredient i = stack.GetIngredient();
+                instance.toolTipDescription.text = stack.GetDescription();
+                instance.toolTipName.text = i.ingredientName;
+            }
+            else if (item.TryGetComponent(out Item i))
+            {
+                instance.toolTipName.text = i.GetName();
+                instance.toolTipDescription.text = i.GetDescription();
+                instance.stackText.text = "";
             } else
             {
+                instance.toolTipName.text = item.name;
+                instance.toolTipDescription.text = "";
                 instance.stackText.text = "";
             }
         }
@@ -88,52 +134,55 @@ public class DraggableIcon : MonoBehaviour, IPointerDownHandler
 
         instance.stackText.text = "";
 
+        instance.toolTip.SetActive(false);
+
         instance.Stop(dropsItem);
     }
 
     private void Stop(bool dropsItem)
     {
-        if (coroutine != null)
+        if (dropsItem && itemHeld != null)
         {
-            StopCoroutine(coroutine);
-            if (dropsItem && itemHeld != null)
+            if (itemHeld.TryGetComponent(out StackableItem stack))
             {
-                if (itemHeld.TryGetComponent(out StackableItem stack))
-                {
-                    for (int i = 0; i < stack.GetStacks(); i++) { GameController.DropItem(itemHeld.GetComponent<Item>(), true); }
-                }
-                else
-                {
-                    GameController.DropItem(itemHeld.GetComponent<Item>());
-                }
-   
+                for (int i = 0; i < stack.GetStacks(); i++) { GameController.DropItem(itemHeld.GetComponent<Item>(), true); }
             }
-            itemHeld = null;
+            else
+            {
+                GameController.DropItem(itemHeld.GetComponent<Item>());
+            }
+   
         }
+
+        moving = false;
+        itemHeld = null;
+        
     }
 
-    private Coroutine coroutine;
     private Vector3 startingPoint;
 
+    private void Start()
+    {
+        //MoveImage();
+    }
+
+    bool moving = false;
     private void MoveImage()
     {
-        //Stop();
-
-        coroutine = StartCoroutine(MoveImageCoroutine());
-
+        startingPoint = Input.mousePosition;
+        instance.position.position = Input.mousePosition;//position;
+        moving = true;
     }
 
 
-
-    private IEnumerator MoveImageCoroutine()
+    private void Update()
     {
-        startingPoint = Input.mousePosition;
-        while (true)
+        if (moving)
         {
             Vector3 newPoint = Input.mousePosition;
             MoveImage((newPoint - startingPoint) / BookMenuUI.GetCanvas().scaleFactor);
             startingPoint = newPoint;
-            yield return new WaitForEndOfFrame();
+
         }
     }
 
@@ -142,23 +191,5 @@ public class DraggableIcon : MonoBehaviour, IPointerDownHandler
         instance.position.anchoredPosition += movement;
     }
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        List<RaycastResult> raycastResults = new List<RaycastResult>();
-        EventSystem.current.RaycastAll(eventData, raycastResults);
-
-
-        foreach (RaycastResult result in raycastResults) {
-            if (result.gameObject != gameObject)
-            {
-                ExecuteEvents.Execute(result.gameObject, eventData, ExecuteEvents.pointerDownHandler);
-            }
-        }
-
-        if (raycastResults.Count <= 2)
-        {
-            // Drop item
-            HideImage();
-        }
-    }
+   
 }

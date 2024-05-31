@@ -17,7 +17,7 @@ public class CraftingController : MonoBehaviour
 
     private MenuUI openedMenu;
 
-    public static CraftingTable openedCraftingTable;
+    public static SlottableAbstract openedSlottable;
 
     public static void SetOpenedMenu(MenuUI menu)
     {
@@ -51,6 +51,10 @@ public class CraftingController : MonoBehaviour
     {
         if (instance.slots != null)
         {
+            if (index < 0 || index >= instance.slots.Length) { 
+                
+                return null; 
+            }
             return instance.slots[index];
         }
 
@@ -77,7 +81,7 @@ public class CraftingController : MonoBehaviour
     {
         float elapsedTime = 0f;
         while (elapsedTime < table.delay) {
-            if (table == openedCraftingTable)
+            if (table == openedSlottable)
             {
                 CraftingMenuUI.SetProgress(table.delay, elapsedTime);
             }
@@ -87,7 +91,7 @@ public class CraftingController : MonoBehaviour
         }
     }
 
-    private IEnumerator CraftCoroutine(GameObject[] slots)
+    private IEnumerator CraftCoroutine(GameObject[] slots, CraftingTable currentTable)
     {
         List<Ingredient> currentIngredients = new List<Ingredient>();
         List<StackableItem> stackablesUsed = new List<StackableItem>();
@@ -102,7 +106,6 @@ public class CraftingController : MonoBehaviour
             }
         }
 
-        CraftingTable currentTable = openedCraftingTable;
         if (initialIngredientsByTable.ContainsKey(currentTable))
         {
             initialIngredientsByTable.Remove(currentTable);
@@ -135,7 +138,7 @@ public class CraftingController : MonoBehaviour
                         yield return Timer(currentTable);
                         if (slots[slots.Length -1] == null)
                         {
-                            slots[slots.Length - 1] = GameController.GenerateStackableItem(craftingResult.ingredientName, craftingResult.value, craftingResult.ingredientsUsed, stacks);
+                            slots[slots.Length - 1] = GameController.GenerateStackableItem(craftingResult.ingredientName, craftingResult.ingredientsUsed, stacks);
                         } else
                         {
                             slots[slots.Length - 1].GetComponent<StackableItem>().IncrementStacks(stacks);
@@ -147,12 +150,16 @@ public class CraftingController : MonoBehaviour
                             
                             foreach (StackableItem item in stackablesUsed)
                             {
-                                if (item.Consume()) { print("Aborting: " + item); abort = true; };
+                                if (item.Consume()) { abort = true; };
                             }
                         }
 
                         yield return null;
-                        openedMenu.UpdateImage();
+
+                        if (openedMenu != null)
+                        {
+                            openedMenu.UpdateImage();
+                        }
 
                         if (abort) {
                             initialIngredientsByTable.Remove(currentTable);
@@ -196,22 +203,63 @@ public class CraftingController : MonoBehaviour
         return false;
     }
 
+    private void CheckAllCraftsPriv()
+    {
+        foreach (SlottableAbstract slottable in SlottableAbstract.slottables)
+        {
+            if (slottable is CraftingTable)
+            {
+                CheckCraftsPriv((CraftingTable) slottable);
+            }
+        }
+    }
+
+    public static void CheckAllCrafts()
+    {
+        instance.CheckAllCraftsPriv();
+    }
+
+    private void CheckCraftsPriv(CraftingTable table)
+    {
+        if (coroutines.ContainsKey(table))
+        {
+            if (coroutines[table] != null)
+            {
+                StopCoroutine(instance.coroutines[table]);
+                initialIngredientsByTable.Remove(table);
+            }
+
+            coroutines.Remove(table);
+        }
+
+        coroutines.Add(table, StartCoroutine(CraftCoroutine(table.GetSlots(), table)));
+
+    }
+
+    public static void CheckCrafts(CraftingTable table)
+    {
+        instance.CheckCraftsPriv(table);
+    }
+
     // Check if, with the current ingredients, something can be crafted. If so, craft
     private void CheckCrafts()
     {
         bool startCoroutine = true;
+        if (!(openedSlottable is CraftingTable)) { return; }
+
+        CraftingTable openedCraftingTable = (CraftingTable) openedSlottable;
+
         if (coroutines.ContainsKey(openedCraftingTable))
         {
             if (coroutines[openedCraftingTable] != null)
             {
-                if (!CompareIngredients(initialIngredientsByTable[openedCraftingTable]))
+                if (initialIngredientsByTable.TryGetValue(openedCraftingTable, out var list) && !CompareIngredients(list))
                 {
                     StopCoroutine(coroutines[openedCraftingTable]);
                     initialIngredientsByTable.Remove(openedCraftingTable);
                     coroutines.Remove(openedCraftingTable);
                 } else
                 {
-                    print("Not restarting coroutine ! ");
                     // They are the same ingredients. No need to restart the craft.
                     startCoroutine = false;
                 }
@@ -225,7 +273,8 @@ public class CraftingController : MonoBehaviour
 
         if (startCoroutine && slots != null)
         {
-            coroutines.Add(openedCraftingTable, StartCoroutine(CraftCoroutine(slots)));
+
+            coroutines.Add(openedCraftingTable, StartCoroutine(CraftCoroutine(slots, openedCraftingTable)));
         }
     }
 
@@ -269,9 +318,9 @@ public class CraftingController : MonoBehaviour
 
     public static bool OpenMenu(string name, GameObject[] slots = null)
     {
-        foreach (CraftingTable table in CraftingTable.craftingTables)
+        foreach (SlottableAbstract s in SlottableAbstract.slottables)
         {
-            table.Close();
+            s.Close();
         }
 
         if (instance.menus.TryGetValue(name, out MenuUI menu))

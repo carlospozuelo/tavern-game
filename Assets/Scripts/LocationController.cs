@@ -27,7 +27,6 @@ public class LocationController : MonoBehaviour
             instance.pathfindingAgents = new Dictionary<string, PathfindingAgent>();
         }
 
-        print("Adding: " + location);
 
         if (instance.pathfindingAgents.ContainsKey(location)) { 
             // Replace current agent
@@ -38,6 +37,11 @@ public class LocationController : MonoBehaviour
 
     public static PathfindingAgent GetPathfindingAgent(string location)
     {
+        if (location == null)
+        {
+            Debug.LogWarning("Location is null");
+            return null;
+        }
         if (instance.pathfindingAgents != null && instance.pathfindingAgents.ContainsKey(location))
         {
             return instance.pathfindingAgents[location];
@@ -77,6 +81,10 @@ public class LocationController : MonoBehaviour
 
     public static void ChangeLocation(string name)
     {
+        if (!instance.initialized)
+        {
+            instance.Initialize();
+        }
         if (!instance.dictionary.ContainsKey(name))
         {
             Debug.LogWarning("The location " + name + " does not exist.");
@@ -101,12 +109,25 @@ public class LocationController : MonoBehaviour
 
         // Select the current item
         PlayerInventory.instance.SelectItem(PlayerInventory.instance.currentItem);
+
+        // Modify npc status
+
+        NPCController.AlertLocationChange(name);
         
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+
+    bool initialized = false;
+    void Initialize()
+    {
+        if (initialized) { return; }
+        initialized = true;
+
         dictionary = new Dictionary<string, GameObject>();
 
         foreach (var item in locations)
@@ -119,7 +140,7 @@ public class LocationController : MonoBehaviour
         foreach (Transform t in allDroppableParents)
         {
             droppableDictionary[t.parent.name] = t;
-        } 
+        }
 
         ChangeLocation(currentLocation);
     }

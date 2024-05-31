@@ -78,7 +78,7 @@ public class InventoryData
     private InventoryString[] inventory, hotbar;
 
     [JsonProperty]
-    private int gold;
+    private float gold;
 
     public InventoryData()
     {
@@ -86,6 +86,26 @@ public class InventoryData
         hotbar = new InventoryString[10];
 
         this.gold = 0;
+    }
+
+    public static InventoryString Handle(GameObject g)
+    {
+        if (g == null) { return null; }
+
+        if (g.TryGetComponent(out Clothing c))
+        {
+            return new ClothingString(c.GetName(), c.GetThreeColors());
+        }
+        else if (g.TryGetComponent(out StackableItem s))
+        {
+            return new StackableString(s.GetStacks(), s.GetName(), s.GetIngredients());
+        }
+        else if (g.TryGetComponent(out Item item))
+        {
+            return new InventoryString(item.GetName());
+        }
+
+        return null;
     }
 
     private void HandleCollection(InventoryString[] collection, GameObject[] source)
@@ -96,27 +116,13 @@ public class InventoryData
             {
                 GameObject g = source[i];
 
-                if (g.TryGetComponent(out Clothing c))
-                {
-                    collection[i] = new ClothingString(c.GetName(), c.GetThreeColors());
-                } else if (g.TryGetComponent(out StackableItem s))
-                {
-                    collection[i] = new StackableString(s.GetStacks(), s.GetName(), s.GetIngredients(), s.GetValue());
-                } 
-                else if (g.TryGetComponent(out Item item))
-                {
-                    collection[i] = new InventoryString(item.GetName());
-                }
-                else
-                {
-                    Debug.LogError("Trying to read an item out of " + g + ", but it was not found. Inventory should only contain Items.");
-                }
+                collection[i] = Handle(g);
             }
         }
 
     }
 
-    public InventoryData(GameObject[] inventory, GameObject[] hotbar, int gold)
+    public InventoryData(GameObject[] inventory, GameObject[] hotbar, float gold)
     {
         this.inventory = new InventoryString[inventory.Length];
         this.hotbar = new InventoryString[hotbar.Length];
@@ -124,6 +130,38 @@ public class InventoryData
 
         HandleCollection(this.inventory, inventory);
         HandleCollection(this.hotbar, hotbar);
+    }
+
+    public static GameObject HandleReverse (InventoryString invString)
+    {
+        if (invString == null) { return null; }
+
+        if (invString.GetId().Equals("ClothingItem"))
+        {
+            ClothingString str = (ClothingString)invString;
+
+            ClothingItem item = ClothingController.GetClothingItem(str.GetClothingItemId());
+            return ClothingController.GenerateClothingObject(item, str.GetThreeColors());
+        }
+        else if (invString.GetId().Equals("StackableItem"))
+        {
+
+            StackableString stackable = (StackableString)invString;
+            int stacks = stackable.GetCurrentStacks();
+
+            List<Ingredient> list = new List<Ingredient>();
+
+            foreach (string name in stackable.GetIngredientsUsed())
+            {
+                list.Add(CraftingController.GetIngredient(name));
+            }
+
+            return GameController.GenerateStackableItem(stackable.GetStackableId(), list, stacks);
+        }
+        else
+        {
+            return PlayerInventory.instance.GetItem(invString.GetId());
+        }
     }
 
     private GameObject[] GetCollection(InventoryString[] collection)
@@ -134,36 +172,7 @@ public class InventoryData
         {
             if (collection[i] != null && !string.IsNullOrEmpty(collection[i].GetId()))
             {
-
-                if (collection[i].GetId().Equals("ClothingItem"))
-                {
-                    ClothingString str = (ClothingString) collection[i];
-
-                    ClothingItem item = ClothingController.GetClothingItem(str.GetClothingItemId());
-                    inventory[i] = ClothingController.GenerateClothingObject(item, str.GetThreeColors());
-                } else if (collection[i].GetId().Equals("StackableItem"))
-                {
-
-                    StackableString stackable = (StackableString) collection[i];
-                    int stacks = stackable.GetCurrentStacks();
-
-                    List<Ingredient> list = new List<Ingredient>();
-
-                    foreach (string name in stackable.GetIngredientsUsed())
-                    {
-                        list.Add(CraftingController.GetIngredient(name));
-                    }
-
-                    GameObject item = GameController.GenerateStackableItem(stackable.GetStackableId(), stackable.GetValue(), list, stacks);
-
-                    inventory[i] = item;
-                }
-                else
-                {
-                    GameObject item = PlayerInventory.instance.GetItem(collection[i].GetId());
-
-                    inventory[i] = item;
-                }
+                inventory[i] = HandleReverse(collection[i]);
             }
         }
 
@@ -180,6 +189,6 @@ public class InventoryData
         return GetCollection(this.hotbar);
     }
 
-    public int GetGold() { return gold; }
+    public float GetGold() { return gold; }
 }
 

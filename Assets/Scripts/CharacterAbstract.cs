@@ -49,7 +49,7 @@ public abstract class CharacterAbstract : MonoBehaviour
         return sitting;
     }
 
-    private bool initialized = false;
+    protected bool initialized = false;
     protected void Initialize()
     {
         if (initialized) return;
@@ -87,7 +87,10 @@ public abstract class CharacterAbstract : MonoBehaviour
     {
         foreach (Collider2D c in colliders)
         {
-            c.enabled = value;
+            if (!c.isTrigger)
+            {
+                c.enabled = value;
+            }
         }
     }
 
@@ -95,6 +98,7 @@ public abstract class CharacterAbstract : MonoBehaviour
     {
         if (bench.GetUp(gameObject, h, v))
         {
+            // TODO: Fix bug
             SpriteMask[] masks = bench.GetFurniture().gameObject.GetComponentsInChildren<SpriteMask>();
             foreach (var mask in masks) { mask.enabled = false; }
 

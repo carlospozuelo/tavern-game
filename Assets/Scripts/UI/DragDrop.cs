@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Rendering.UI;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
+using UnityEngine.UIElements;
 
-public class DragDrop : MonoBehaviour, IPointerDownHandler
+public class DragDrop : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IPointerMoveHandler
 {
     private RectTransform rectTransform;
 
@@ -17,11 +17,11 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
 
     // Slot
     [SerializeField]
-    private bool isInventory, isHotbar, isSlottable;
+    private bool isInventory, isHotbar, isSlottable, requiresIngredient = false;
     [SerializeField]
     private int index;
     [SerializeField]
-    private Image targetImage;
+    private UnityEngine.UI.Image targetImage;
     [SerializeField]
     private bool draggable, isForClothing;
 
@@ -39,7 +39,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
     {
         canvas = BookMenuUI.GetCanvas();
         if (target == null) { target = gameObject; }
-        if (targetImage == null) { targetImage = target.GetComponent<Image>(); }
+        if (targetImage == null) { targetImage = target.GetComponent<UnityEngine.UI.Image>(); }
         rectTransform = target.GetComponent<RectTransform>();
 
         SetDraggable();
@@ -90,20 +90,30 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
         return null;
     }
 
-    public void UpdateStacks(Item i)
+    public bool UpdateStacks(Item i)
     {
         if (stackText != null)
         {
             if (i is StackableItem)
             {
                 // Is stackable. Set stacks
-                stackText.text = ((StackableItem) i).GetStacks() + "";
+                int stacks = ((StackableItem)i).GetStacks();
+                if (stacks > 0)
+                {
+                    stackText.text = stacks + "";
+                }
+                else {
+                    stackText.text = "";
+                    return false;
+                }
             }
             else
             {
                 stackText.text = "";
             }
         }
+
+        return true;
     }
 
     public void UpdateImage()
@@ -113,10 +123,14 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
         if (g != null)
         {
             Item i = g.GetComponent<Item>();
-            UpdateStacks(i);
-
-            targetImage.sprite = i.GetSprite();
-            targetImage.enabled = true;
+            if (UpdateStacks(i))
+            {
+                targetImage.sprite = i.GetSprite();
+                targetImage.enabled = true;
+            } else
+            {
+                targetImage.enabled=false;
+            }
         } else
         {
             targetImage.enabled = false;
@@ -176,13 +190,13 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         SetDraggable();
+        DraggableIcon.HideSecondTooltip();
 
         if (!CraftingController.anyOpen) { return; }
 
         if (GetItem() != null && DraggableIcon.GetItemHeld() != null)
         {
             // Swap
-
             if (isForClothing)
             {
                 // Can only be swapped by a clothing item of the same type
@@ -282,7 +296,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
                             int stacks1 =  aux ? stackable.GetStacks() / 2 : (stackable.GetStacks() + 1) / 2;
                             int stacks2 =  aux ? stacks1 : stacks1 - 1;
 
-                            DraggableIcon.DisplayImage(targetImage.sprite, this, GameController.GenerateStackableItem(stackable.GetName(), stackable.GetValue(), stackable.GetIngredients(), stacks1));
+                            DraggableIcon.DisplayImage(targetImage.sprite, this, GameController.GenerateStackableItem(stackable.GetName(), stackable.GetIngredients(), stacks1));
 
                             stackable.SetStacks(stacks2);
                             if (stackable.GetStacks() <= 0)
@@ -361,7 +375,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
 
     private bool TypeMatches(GameObject itemHeld)
     {
-        if (isSlottable)
+        if (isSlottable && requiresIngredient)
         {
             // Can only be slotted if the ingredient matches the required type
             if (itemHeld.TryGetComponent(out StackableItem stackable))
@@ -375,5 +389,54 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler
         }
 
         return true;
+    }
+
+    private static Coroutine hover;
+
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        StartHover();   
+    }
+
+    private void StartHover()
+    {
+        StopHover();
+        hover = StartCoroutine(Hover());
+    }
+
+    private void StopHover()
+    {
+        if (hover != null)
+        {
+            DraggableIcon.HideSecondTooltip();
+            StopCoroutine(hover);
+            hover = null;
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+
+        StopHover();
+    }
+
+    private IEnumerator Hover()
+    {
+
+        yield return new WaitForSecondsRealtime(.5f);
+        var item = GetItem();
+        if (item != null)
+        {
+
+            DraggableIcon.ShowSecondTooltip(item);
+        }
+    }
+
+    public void OnPointerMove(PointerEventData eventData)
+    {
+        DraggableIcon.HideSecondTooltip();
+
+        StartHover();
     }
 }

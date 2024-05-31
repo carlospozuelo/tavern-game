@@ -103,4 +103,9 @@ public class Axe : MonoBehaviour, Item
         return true;
 
     }
+
+    public string GetDescription()
+    {
+        return "";
+    }
 }

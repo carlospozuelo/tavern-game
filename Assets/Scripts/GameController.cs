@@ -6,6 +6,8 @@ public class GameController : MonoBehaviour
 {
     public static GameController instance;
 
+    public Transform stackableParent;
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -22,16 +24,16 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private GameObject stackableItemGameObjectPrefab;
 
-    public static GameObject GenerateStackableItem(string stackableId, float value, List<Ingredient> ingredients, int stacks = 1)
+    public static GameObject GenerateStackableItem(string stackableId, List<Ingredient> ingredients, int stacks = 1)
     {
-        GameObject gameObject = Instantiate(instance.stackableItemGameObjectPrefab, Vector3.zero, Quaternion.identity, instance.transform);
+        GameObject gameObject = Instantiate(instance.stackableItemGameObjectPrefab, Vector3.zero, Quaternion.identity, instance.stackableParent);
 
         StackableItem stackableItem = gameObject.GetComponent<StackableItem>();
 
         Ingredient ingredient = CraftingController.GetIngredient(stackableId);
 
         stackableItem.SetIngredients(ingredients);
-        stackableItem.SetValue(value);
+        stackableItem.SetValue(ingredient.CalculateValue(ingredients));
 
         stackableItem.SetIngredient(ingredient);
 
@@ -39,12 +41,14 @@ public class GameController : MonoBehaviour
 
         gameObject.name = stackableItem.GetName();
 
+        TavernStockController.RegenerateStock();
+
         return gameObject;
     }
 
     public static GameObject GenerateStackableItem(string stackableId, int stacks = 1)
     {
-        return GenerateStackableItem(stackableId, 0, new List<Ingredient>(), stacks);
+        return GenerateStackableItem(stackableId, new List<Ingredient>(), stacks);
     }
 
 
