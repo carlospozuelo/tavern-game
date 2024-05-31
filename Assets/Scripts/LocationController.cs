@@ -109,6 +109,10 @@ public class LocationController : MonoBehaviour
 
         // Select the current item
         PlayerInventory.instance.SelectItem(PlayerInventory.instance.currentItem);
+
+        // Modify npc status
+
+        NPCController.AlertLocationChange(name);
         
     }
 

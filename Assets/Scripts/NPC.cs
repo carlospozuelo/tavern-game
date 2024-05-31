@@ -69,14 +69,16 @@ public class NPC : CharacterAbstract, TimeSubscriber
         }
     }
     private Coroutine coroutine;
+    /*
     private void OnEnable()
     {
         if (base.initialized && coroutine == null)
         {
+            print("Coo...");
             StartCoroutine(Exist());
-
         } 
     }
+    */
 
     private void OnDisable()
     {
@@ -91,26 +93,33 @@ public class NPC : CharacterAbstract, TimeSubscriber
         }
     }
 
-    private void OnDestroy()
+    private void Destroy()
     {
         TimeController.Unsubscribe(this);
         NPCController.DestroyNPC(this);
+
+        StopCoroutine(coroutine);
+        coroutine = null;
+
+        gameObject.SetActive(false);
+        NPCController.AddPooledNPC(gameObject);
     }
 
     private IEnumerator Exist()
     {
-        bool loggedInactivity = false;
+
+        existingSitted = false;
+        decidedToOrder = false;
+
         while (true)
         {
             // Select a task randomly (for now just go to a bench)
             if (this.bench != null)
             {
-                loggedInactivity = false;
 
                 yield return WalkTowardsBench(this.bench);
             } else {
                 bench = NPCController.PopRandomBench();
-                loggedInactivity = false;
                 yield return WalkTowardsBench(bench);
                 if (!sitting)
                 {
@@ -121,14 +130,9 @@ public class NPC : CharacterAbstract, TimeSubscriber
             
             if (bench == null)
             {
-                // Nothing else to do
+                // Nothing else to do -> Leave
                 Stop();
-                if (!loggedInactivity)
-                {
-                    Debug.LogWarning("There's nothing for the npc to do! Wander around?");
-                    loggedInactivity = true;
-                }
-                yield return new WaitForSeconds(1f);
+                yield return Leave();
             }
         }
     }
@@ -196,33 +200,58 @@ public class NPC : CharacterAbstract, TimeSubscriber
         }
     }
 
+    private IEnumerator Leave()
+    {
+        yield return SimpleWalkTowards(Portal.GetPortal("Tavern entrance").GetPosition());
+
+        TimeController.Unsubscribe(this);
+        // Despawn (Placeholder. They should "cross" the portal")
+        Destroy();
+    }
+
+    private string EXIST_SITTING = "ExistSitting";
     private IEnumerator ExistSitting()
     {
-        while (true)
+        TimeController.Subscribe(this, EXIST_SITTING, 1, 1, true);
+        existingSitted = true;
+        yield return new WaitUntil(() => !existingSitted);
+
+        loadBar.fillAmount = 1;
+        loadBar.color = waitingGradient.Evaluate(loadBar.fillAmount);
+
+        if (decidedToOrder)
         {
-            // A chance to do:
-            // 50% Nothing
-            // 50% Order something
-            float n = Random.Range(0f, 1f);
-
-            if (n < .5f)
-            {
-                // Order something
-                yield return Order();
-                // At this point in the code, the order has been satisfied / time exceeded. Get up and leave.
-                yield return new WaitForSecondsRealtime(2f);
-                bench.GetUp(gameObject, 0, -1);
-                animator.SetBool("Sitting", false);
-                sitting = false;
-                yield return SimpleWalkTowards(Portal.GetPortal("Tavern entrance").GetPosition());
-                
-                // Despawn (Placeholder. They should "cross" the portal")
-
-                Destroy(gameObject);
-            }
-            yield return new WaitForSeconds(1f);
+            yield return Order();
         }
-    } 
+
+        decidedToOrder = false;
+
+        // Get up and leave.
+        yield return new WaitForSecondsRealtime(2f);
+
+        bench.GetUp(gameObject, 0, -1);
+        animator.SetBool("Sitting", false);
+        sitting = false;
+
+        yield return Leave();
+    }
+
+    private bool existingSitted = false;
+    private bool decidedToOrder = false;
+
+    private void ExistSittingNotify()
+    {
+        // A chance to do:
+        // 20% Nothing
+        // 80% Order something
+        float n = Random.Range(0f, 1f);
+
+        if (n < .8f)
+        {
+            decidedToOrder = true;
+            existingSitted = false;
+        }
+    }
 
     private IEnumerator Sit(Bench bench)
     {
@@ -241,7 +270,6 @@ public class NPC : CharacterAbstract, TimeSubscriber
 
     private Ingredient desire;
 
-    public int maxTicksWaiting = 20;
     private IEnumerator Order()
     {
         desire = TavernStockController.GetRandomIngredient();
@@ -377,6 +405,9 @@ public class NPC : CharacterAbstract, TimeSubscriber
                 loadBar.fillAmount -= (1f / waitTicksForOrders);
                 loadBar.color = waitingGradient.Evaluate(loadBar.fillAmount);
             }
+        } else if (text.Equals(EXIST_SITTING))
+        {
+            ExistSittingNotify();
         }
     }
 }

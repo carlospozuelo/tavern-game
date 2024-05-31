@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class NPCController : MonoBehaviour, TimeSubscriber
@@ -12,6 +13,9 @@ public class NPCController : MonoBehaviour, TimeSubscriber
     private HashSet<Bench> benchesForNPCS;
 
     private List<NPC> npcs;
+
+    [SerializeField]
+    private List<GameObject> pooledNPCS;
 
     [SerializeField]
     private int maxNPCS = 5;
@@ -28,6 +32,10 @@ public class NPCController : MonoBehaviour, TimeSubscriber
         "The higher the number, the lesser the decay (Attractive = default attractive * decay^currentnpcs)")]
     private float attractiveDecay = .9f;
 
+    [SerializeField]
+    [Tooltip("Curve that represents a multiplier with the attractiveness of the tavern based on the current time.")]
+    private AnimationCurve attractivenessByTime;
+
     public static void DestroyNPC(NPC npc)
     {
         instance.npcs.Remove(npc);
@@ -38,6 +46,11 @@ public class NPCController : MonoBehaviour, TimeSubscriber
     private bool initialized = false;
 
     private const string TICK_TEXT = "Tick";
+
+    public static void AddPooledNPC(GameObject npc)
+    {
+        instance.pooledNPCS.Add(npc);
+    }
 
     private void Start()
     {
@@ -105,7 +118,7 @@ public class NPCController : MonoBehaviour, TimeSubscriber
         return bench;
     }
 
-    private static void Debug()
+    private static void Print()
     {
         string str = "";
         foreach (var bench in instance.benchesForNPCS)
@@ -140,13 +153,27 @@ public class NPCController : MonoBehaviour, TimeSubscriber
     public static void SpawnNPC()
     {
         // The first approach just spawns npcs in the tavern. This is provisional.
-        
-        GameObject go = Instantiate(instance.npcPrefab, Portal.GetPortal("Tavern entrance").GetPosition() + new Vector3(Random.Range(0f,1f), Random.Range(0f,1f), 2.5f), Quaternion.identity, LocationController.GetLocation("Tavern").transform);
+        // ONLY spawns npcs if the player is currently in the tavern. This is provisional.
 
-        NPC npc = go.GetComponent<NPC>();
+        if (!LocationController.GetCurrentLocation().Equals("Tavern")) { return; }
+
+        if (instance.pooledNPCS.Count <= 0) {
+            Debug.LogError("Tried to instantiate an npc, but there's none available on the pool.");
+            return;
+        }
+        GameObject npcGO = instance.pooledNPCS[0];
+        instance.pooledNPCS.RemoveAt(0);
+
+        npcGO.transform.position = Portal.GetPortal("Tavern entrance").GetPosition() + new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f), 2.5f);
+        npcGO.SetActive(true);
+
+        //GameObject go = Instantiate(instance.npcPrefab, Portal.GetPortal("Tavern entrance").GetPosition() + new Vector3(Random.Range(0f,1f), Random.Range(0f,1f), 2.5f), Quaternion.identity, LocationController.GetLocation("Tavern").transform);
+
+        NPC npc = npcGO.GetComponent<NPC>();
         npc.SetLocation("Tavern");
 
         npc.Initialize(GenerateRandomClothes());
+
 
         instance.npcs.Add(npc);
     }
@@ -169,26 +196,20 @@ public class NPCController : MonoBehaviour, TimeSubscriber
     private void HandleNPCS()
     {
         float attractiveness = CalculateAttractiveness();
-        int maxNPCS = Mathf.Min(benchesForNPCS.Count, this.maxNPCS);
-
-        if (npcs.Count < maxNPCS)
+        if (npcs.Count < maxNPCS && benchesForNPCS.Count > 0)
         {
             if (Random.Range(0f, 1f) < attractiveness)
             {
                 // Spawn npc
-                print("Spawn " + attractiveness);
                 SpawnNPC();
             }
-            else
-            {
-                print("Unlucky " + attractiveness);
-            }
-        }
+           
+        } 
     }
 
     private float CalculateAttractiveness()
     {
-        return defaultAttractive * (Mathf.Pow(attractiveDecay, npcs.Count));
+        return defaultAttractive * (Mathf.Pow(attractiveDecay, npcs.Count)) * attractivenessByTime.Evaluate(TimeController.GetCurrentTick());
     }
 
     public void Notify(string text)
@@ -196,6 +217,25 @@ public class NPCController : MonoBehaviour, TimeSubscriber
         if (text.Equals(TICK_TEXT))
         {
             HandleNPCS();
+        }
+    }
+
+    public static void AlertLocationChange(string location)
+    {
+        foreach (var npcGO in instance.npcs)
+        {
+            if (npcGO != null && npcGO.TryGetComponent(out NPC npc)) { 
+                if (!npc.GetLocation().Equals(location))
+                {
+                    // Disable npc
+                    npc.gameObject.SetActive(false);
+                } else
+                {
+                    // Enable npc
+                    npc.gameObject.SetActive(true);
+
+                }
+            }
         }
     }
 }

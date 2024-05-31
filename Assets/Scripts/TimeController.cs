@@ -35,6 +35,8 @@ public class TimeController : MonoBehaviour
 
     private List<TimeSubscriberWrapper> subscribers;
 
+
+    public static int GetCurrentTick() { return instance.currentTick; }
     public static void Subscribe(TimeSubscriber subscriber, string uniqueName, int notifiesEveryXTicks = 1, int notifyXTimes = 1, bool notifiesForever = false)
     {
         TimeSubscriberWrapper wrapper = new TimeSubscriberWrapper();
@@ -79,14 +81,25 @@ public class TimeController : MonoBehaviour
             Destroy(gameObject);
         } else
         {
-            instance = this;
+            Initialize();
         }
+    }
+
+    private bool initialized = false;
+    private void Initialize()
+    {
+        if (initialized) return;
+
+        instance = this;
+        subscribers = new List<TimeSubscriberWrapper>();
+        StartCoroutine(TimeCoroutine());
+
+        initialized = true;
+
     }
 
     private void Start()
     {
-        subscribers = new List<TimeSubscriberWrapper>();
-        StartCoroutine(TimeCoroutine());
     }
 
     private IEnumerator TimeCoroutine()
