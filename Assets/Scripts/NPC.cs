@@ -13,6 +13,18 @@ public class NPC : CharacterAbstract, TimeSubscriber
     private Dictionary<ClothingItem.ClothingType, ClothingItem> current;
     private string location;
 
+    public enum NPC_Status {
+        JUST_SPAWNED,
+        WALKING_TOWARDS_SEAT,
+        SITTING,
+        WAITING_FOR_ORDER,
+        LEAVING
+    }
+
+    [SerializeField]
+    private NPC_Status status;
+
+
     public void SetLocation(string location) { this.location = location; }
     public string GetLocation() { return location; }
 
@@ -62,21 +74,57 @@ public class NPC : CharacterAbstract, TimeSubscriber
 
         GenerateAOC();
         Initialize();
-        // Default: Spwan in tavern- so assign a tavern task.
+
+        status = NPC_Status.JUST_SPAWNED;
+        loadBar.fillAmount = 1;
+
         if (isActiveAndEnabled)
         {
             coroutine = StartCoroutine(Exist());
         }
+
+        initialized = true;
     }
     private Coroutine coroutine;
+
     private void OnEnable()
     {
+        /*
         if (base.initialized && coroutine == null)
         {
+            print("Coo...");
             StartCoroutine(Exist());
+        }
+        */
+        if (initialized)
+        {
+            switch (status)
+            {
+                case NPC_Status.JUST_SPAWNED:
+                    bench?.SoftGetUp();
+                    coroutine = StartCoroutine(Exist());
+                    break;
+                case NPC_Status.WALKING_TOWARDS_SEAT:
+                    bench?.SoftGetUp();
+                    coroutine = StartCoroutine(Exist());
+                    break;
+                case NPC_Status.SITTING:
+                    bench?.SoftGetUp();
+                    coroutine = StartCoroutine(Sit(bench));
+                    break;
+                case NPC_Status.WAITING_FOR_ORDER:
+                    base.Sit(transform.position, bench);
+                    coroutine = StartCoroutine(ExistSittingAfterDecission());
+                    break;
+                case NPC_Status.LEAVING:
+                    coroutine = StartCoroutine(Leave());
+                    break;
 
-        } 
+            }
+        }
     }
+
+    
 
     private void OnDisable()
     {
@@ -85,31 +133,42 @@ public class NPC : CharacterAbstract, TimeSubscriber
             StopCoroutine(coroutine);
         }
         coroutine = null;
-        if (sitting && bench != null)
-        {
-            bench.SoftGetUp();
-        }
+
+       
     }
 
-    private void OnDestroy()
+
+    private void Destroy()
     {
+        print("Destroy");
         TimeController.Unsubscribe(this);
+        NPCController.DestroyNPC(this);
+
+        StopCoroutine(coroutine);
+        coroutine = null;
+
+        gameObject.SetActive(false);
+        NPCController.AddPooledNPC(gameObject);
+        initialized = false;
     }
 
     private IEnumerator Exist()
     {
-        bool loggedInactivity = false;
+
+        existingSitted = false;
+        decidedToOrder = false;
+
+
+        status = NPC_Status.JUST_SPAWNED;
         while (true)
         {
-            // Select a task randomly (for now just go to a bench)
             if (this.bench != null)
             {
-                loggedInactivity = false;
-
                 yield return WalkTowardsBench(this.bench);
-            } else {
+            }
+            else
+            {
                 bench = NPCController.PopRandomBench();
-                loggedInactivity = false;
                 yield return WalkTowardsBench(bench);
                 if (!sitting)
                 {
@@ -117,23 +176,20 @@ public class NPC : CharacterAbstract, TimeSubscriber
                     Stop();
                 }
             }
-            
-            if (bench == null)
+
+            if (NPCController.BenchesAvailable() <= 0)
             {
-                // Nothing else to do
+                // Nothing else to do -> Leave
                 Stop();
-                if (!loggedInactivity)
-                {
-                    Debug.LogWarning("There's nothing for the npc to do! Wander around?");
-                    loggedInactivity = true;
-                }
-                yield return new WaitForSeconds(1f);
+                yield return Leave();
             }
         }
+       
     }
 
     private IEnumerator WalkTowardsBench(Bench bench)
     {
+        status = NPC_Status.WALKING_TOWARDS_SEAT;
         if (bench == null)
         {
             yield break;
@@ -195,36 +251,72 @@ public class NPC : CharacterAbstract, TimeSubscriber
         }
     }
 
+    private IEnumerator Leave()
+    {
+        print("leaving...");
+        if (bench != null)
+        {
+            bench.GetUp(gameObject, 0, -1);
+            base.GetUp(0, -1);
+        }
+        animator.SetBool("Sitting", false);
+        sitting = false;
+
+        status = NPC_Status.LEAVING;
+        yield return SimpleWalkTowards(Portal.GetPortal("Tavern entrance").GetPosition());
+
+        TimeController.Unsubscribe(this);
+        // Despawn (Placeholder. They should "cross" the portal")
+        Destroy();
+    }
+
+    private string EXIST_SITTING = "ExistSitting";
     private IEnumerator ExistSitting()
     {
-        while (true)
+        TimeController.Subscribe(this, EXIST_SITTING, 1, 1, true);
+        existingSitted = true;
+        yield return new WaitUntil(() => !existingSitted);
+
+        loadBar.fillAmount = 1;
+        loadBar.color = waitingGradient.Evaluate(loadBar.fillAmount);
+
+        yield return ExistSittingAfterDecission();
+        
+    }
+
+    private IEnumerator ExistSittingAfterDecission()
+    {
+        if (decidedToOrder)
         {
-            // A chance to do:
-            // 50% Nothing
-            // 50% Order something
-            float n = Random.Range(0f, 1f);
-
-            if (n < .5f)
-            {
-                // Order something
-                yield return Order();
-                // At this point in the code, the order has been satisfied / time exceeded. Get up and leave.
-                yield return new WaitForSecondsRealtime(2f);
-                bench.GetUp(gameObject, 0, -1);
-                animator.SetBool("Sitting", false);
-                sitting = false;
-                yield return SimpleWalkTowards(Portal.GetPortal("Tavern entrance").GetPosition());
-                
-                // Despawn (Placeholder. They should "cross" the portal")
-
-                Destroy(gameObject);
-            }
-            yield return new WaitForSeconds(1f);
+            yield return Order();
         }
-    } 
+
+        status = NPC_Status.LEAVING;
+        // Get up and leave.
+        yield return new WaitForSecondsRealtime(2f);
+        yield return Leave();
+    }
+
+    private bool existingSitted = false;
+    private bool decidedToOrder = false;
+
+    private void ExistSittingNotify()
+    {
+        // A chance to do:
+        // 20% Nothing
+        // 80% Order something
+        float n = Random.Range(0f, 1f);
+
+        if (n < .8f)
+        {
+            decidedToOrder = true;
+            existingSitted = false;
+        }
+    }
 
     private IEnumerator Sit(Bench bench)
     {
+        status = NPC_Status.SITTING;
         Stop();
         if (bench == null) { yield break; }
         sitting = false;
@@ -240,9 +332,9 @@ public class NPC : CharacterAbstract, TimeSubscriber
 
     private Ingredient desire;
 
-    public int maxTicksWaiting = 20;
     private IEnumerator Order()
     {
+        status = NPC_Status.WAITING_FOR_ORDER;
         desire = TavernStockController.GetRandomIngredient();
 
         if (desire == null )
@@ -256,11 +348,11 @@ public class NPC : CharacterAbstract, TimeSubscriber
         bubbleAnimator.SetTrigger("Open");
         bubbleAnimator.SetTrigger("Open Load");
 
-        TimeController.Subscribe(this, "Cancel order", waitTicksForOrders, 1, false);
-        TimeController.Subscribe(this, "Update waiting time", 1, waitTicksForOrders, false);
+        TimeController.SubscribeIfNotAlready(this, CANCEL_ORDER, waitTicksForOrders, 1, false);
+        TimeController.SubscribeIfNotAlready(this, UPDATE_WAITING_TIME, 1, waitTicksForOrders, false);
 
 
-        loadBar.fillAmount = 1;
+        // loadBar.fillAmount = 1;
         yield return new WaitUntil(() => desire == null);
         bubbleAnimator.SetTrigger("Close Load");
     }
@@ -310,7 +402,6 @@ public class NPC : CharacterAbstract, TimeSubscriber
             m.SetColor("_Color1", c.primary * ClothingController.GetTint());
         }
 
-        // CONTINUE THIS: It is not as simple as setting c1 = primary and so on. For example, the primary hair color becomes the teritary facial color.
     }
 
     public void GenerateAOC()
@@ -353,29 +444,38 @@ public class NPC : CharacterAbstract, TimeSubscriber
         // Reduce stacks
         item.Consume();
         InventoryUI.instance.UpdateUI();
-        TimeController.Unsubscribe(this, "Cancel order");
-        TimeController.Unsubscribe(this, "Update waiting time");
+        TimeController.Unsubscribe(this, CANCEL_ORDER);
+        TimeController.Unsubscribe(this, UPDATE_WAITING_TIME);
         // Set happy animation
         bubbleAnimator.SetTrigger("Bounce");
         desireImage.sprite = happySprite;
     }
-
+    private string CANCEL_ORDER = "Cancel order", UPDATE_WAITING_TIME = "Update waiting time";
     public void Notify(string text)
     {
-        if (text.Equals("Cancel order"))
+        if (text.Equals(CANCEL_ORDER))
         {
-            desire = null;
-            bubbleAnimator.SetTrigger("Close");
-            // Set sad animation
-            bubbleAnimator.SetTrigger("Bounce");
-            desireImage.sprite = sadSprite;
-        } else if (text.Equals("Update waiting time"))
+            if (gameObject.activeSelf)
+            {
+                desire = null;
+                bubbleAnimator.SetTrigger("Close");
+                // Set sad animation
+                bubbleAnimator.SetTrigger("Bounce");
+                desireImage.sprite = sadSprite;
+            } else
+            {
+                status = NPC_Status.LEAVING;
+            }
+        } else if (text.Equals(UPDATE_WAITING_TIME))
         {
             if (loadBar != null)
             {
                 loadBar.fillAmount -= (1f / waitTicksForOrders);
                 loadBar.color = waitingGradient.Evaluate(loadBar.fillAmount);
             }
+        } else if (text.Equals(EXIST_SITTING))
+        {
+            ExistSittingNotify();
         }
     }
 }

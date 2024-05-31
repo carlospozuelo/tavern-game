@@ -35,6 +35,8 @@ public class TimeController : MonoBehaviour
 
     private List<TimeSubscriberWrapper> subscribers;
 
+
+    public static int GetCurrentTick() { return instance.currentTick; }
     public static void Subscribe(TimeSubscriber subscriber, string uniqueName, int notifiesEveryXTicks = 1, int notifyXTimes = 1, bool notifiesForever = false)
     {
         TimeSubscriberWrapper wrapper = new TimeSubscriberWrapper();
@@ -48,26 +50,42 @@ public class TimeController : MonoBehaviour
         instance.subscribers.Add(wrapper);
     }
 
+    public static void SubscribeIfNotAlready(TimeSubscriber subscriber, string uniqueName, int notifiesEveryXTicks = 1, int notifyXTimes = 1, bool notifiesForever = false)
+    {
+        foreach (var wrapper in instance.subscribers)
+        {
+            if (wrapper.timeSubscriber.Equals(subscriber) && wrapper.id.Equals(uniqueName))
+            {
+                return;
+            }
+        }
+
+        Subscribe(subscriber, uniqueName, notifiesEveryXTicks, notifyXTimes, notifiesForever);
+    }
+
     public static void Unsubscribe(TimeSubscriber subscriber, string uniqueName)
     {
-        foreach (TimeSubscriberWrapper wrapper in instance.subscribers)
+        for (int i = instance.subscribers.Count - 1; i >= 0; i--)
         {
+            var wrapper = instance.subscribers[i];
+
             if (wrapper != null && wrapper.timeSubscriber.Equals(subscriber) && wrapper.id.Equals(uniqueName))
             {
                 instance.subscribers.Remove(wrapper);
-                return;
+                // return;
             }
         }
     }
 
     public static void Unsubscribe(TimeSubscriber subscriber)
     {
-        foreach (TimeSubscriberWrapper wrapper in instance.subscribers)
+        for (int i = instance.subscribers.Count - 1; i >= 0; i--) 
         {
+            var wrapper = instance.subscribers[i];
+
             if (wrapper != null && wrapper.timeSubscriber.Equals(subscriber))
             {
                 instance.subscribers.Remove(wrapper);
-                return;
             }
         }
     }
@@ -79,14 +97,25 @@ public class TimeController : MonoBehaviour
             Destroy(gameObject);
         } else
         {
-            instance = this;
+            Initialize();
         }
+    }
+
+    private bool initialized = false;
+    private void Initialize()
+    {
+        if (initialized) return;
+
+        instance = this;
+        subscribers = new List<TimeSubscriberWrapper>();
+        StartCoroutine(TimeCoroutine());
+
+        initialized = true;
+
     }
 
     private void Start()
     {
-        subscribers = new List<TimeSubscriberWrapper>();
-        StartCoroutine(TimeCoroutine());
     }
 
     private IEnumerator TimeCoroutine()
@@ -147,7 +176,7 @@ public class TimeController : MonoBehaviour
                 weatherImage.sprite = nightSunny;
             }
 
-            yield return new WaitForSecondsRealtime(secondsPerTick);
+            yield return new WaitForSeconds(secondsPerTick);
             // Advance tick
             currentTick++;
 
