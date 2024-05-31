@@ -98,6 +98,7 @@ public abstract class CharacterAbstract : MonoBehaviour
     {
         if (bench.GetUp(gameObject, h, v))
         {
+            // TODO: Fix bug
             SpriteMask[] masks = bench.GetFurniture().gameObject.GetComponentsInChildren<SpriteMask>();
             foreach (var mask in masks) { mask.enabled = false; }
 

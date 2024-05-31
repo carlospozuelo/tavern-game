@@ -118,6 +118,11 @@ public class NPCController : MonoBehaviour, TimeSubscriber
         return bench;
     }
 
+    public static int BenchesAvailable()
+    {
+        return instance.benchesForNPCS.Count;
+    }
+
     private static void Print()
     {
         string str = "";
