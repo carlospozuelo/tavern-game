@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
-  m_Name: Grass (Override)
+  m_Name: Rule tile base (Override)
   m_EditorClassIdentifier: 
   m_DefaultSprite: {fileID: -1022869782, guid: 25169a5a1f334994fa9266ed20825e6c, type: 3}
   m_DefaultGameObject: {fileID: 0}
@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c779848d9dd029409ca676b49e10a18, type: 3}
   m_Name: Path
   m_EditorClassIdentifier: 
-  m_Tile: {fileID: 11400000, guid: e5a0c6f32c63b431c9f9db6b0d888618, type: 2}
+  m_Tile: {fileID: 11400000, guid: f55f5381ef32c4941b10a073ab4db813, type: 2}
   m_Sprites:
   - m_OriginalSprite: {fileID: -725050778, guid: 3b68e0b975f9e47b9b87eb686f4ef676, type: 3}
     m_OverrideSprite: {fileID: -1022869782, guid: 25169a5a1f334994fa9266ed20825e6c, type: 3}
