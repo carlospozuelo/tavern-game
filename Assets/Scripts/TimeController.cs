@@ -35,6 +35,8 @@ public class TimeController : MonoBehaviour
 
     private List<TimeSubscriberWrapper> subscribers;
 
+    private Dictionary<int, List<TickSubscriber>> tickSubscribers;
+
 
     public static int GetCurrentTick() { return instance.currentTick; }
     public static void Subscribe(TimeSubscriber subscriber, string uniqueName, int notifiesEveryXTicks = 1, int notifyXTimes = 1, bool notifiesForever = false)
@@ -63,7 +65,24 @@ public class TimeController : MonoBehaviour
         Subscribe(subscriber, uniqueName, notifiesEveryXTicks, notifyXTimes, notifiesForever);
     }
 
-    public static void Unsubscribe(TimeSubscriber subscriber, string uniqueName)
+    public static void SubscribeToTick(TimeSubscriber subscriber, int tick, string uniqueName, bool forever = false)
+    {
+        TickSubscriber wrapper = new TickSubscriber();
+
+        wrapper.timeSubscriber = subscriber;
+        wrapper.id = uniqueName;
+        wrapper.notifyOnTickX = tick;
+        wrapper.forever = forever;
+
+        if (!instance.tickSubscribers.ContainsKey(tick))
+        {
+            instance.tickSubscribers.Add(tick, new List<TickSubscriber>());
+        }
+
+        instance.tickSubscribers[tick].Add(wrapper);
+    }
+
+    public static void Unsubscribe(TimeSubscriber subscriber, string uniqueName, bool notifiesForever = false)
     {
         for (int i = instance.subscribers.Count - 1; i >= 0; i--)
         {
@@ -108,6 +127,7 @@ public class TimeController : MonoBehaviour
 
         instance = this;
         subscribers = new List<TimeSubscriberWrapper>();
+        tickSubscribers = new Dictionary<int, List<TickSubscriber>>();
         StartCoroutine(TimeCoroutine());
 
         initialized = true;
@@ -143,13 +163,13 @@ public class TimeController : MonoBehaviour
                 }
             }
 
-
-            if (currentTick >= ticksPerDay)
+            // Notify all listeners of the tick
+            if (tickSubscribers.ContainsKey(currentTick))
             {
-                // Next day
-                currentTick = 0;
-                currentDay++;
-                SetCurrentDay();
+                foreach (TickSubscriber sub in tickSubscribers[currentTick])
+                {
+                    sub.timeSubscriber.Notify(sub.id);
+                }
             }
 
             // Update light color and intensity
@@ -179,6 +199,14 @@ public class TimeController : MonoBehaviour
             yield return new WaitForSeconds(secondsPerTick);
             // Advance tick
             currentTick++;
+
+            if (currentTick >= ticksPerDay)
+            {
+                // Next day
+                currentTick = 0;
+                currentDay++;
+                SetCurrentDay();
+            }
 
         }
     }
