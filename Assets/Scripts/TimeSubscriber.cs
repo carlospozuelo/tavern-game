@@ -17,3 +17,14 @@ public class TimeSubscriberWrapper
 
     public bool notifiesForever;
 }
+
+public class TickSubscriber
+{
+    public string id;
+
+    public TimeSubscriber timeSubscriber;
+
+    public int notifyOnTickX;
+
+    public bool forever;
+}
