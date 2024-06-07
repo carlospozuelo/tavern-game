@@ -94,6 +94,21 @@ public class TimeController : MonoBehaviour
                 // return;
             }
         }
+
+
+        foreach (var key in instance.tickSubscribers)
+        {
+            for (int i = key.Value.Count - 1; i >= 0; i--)
+            {
+                var wrapper = key.Value[i];
+
+                if (wrapper != null && key.Value[i].Equals(subscriber) && key.Value[i].id.Equals(uniqueName))
+                {
+                    key.Value.Remove(wrapper);
+                }
+            }
+        }
+
     }
 
     public static void Unsubscribe(TimeSubscriber subscriber)
@@ -107,6 +122,20 @@ public class TimeController : MonoBehaviour
                 instance.subscribers.Remove(wrapper);
             }
         }
+
+        foreach (var key in instance.tickSubscribers)
+        {
+            for (int i = key.Value.Count - 1; i >= 0; i--)
+            {
+                var wrapper = key.Value[i];
+
+                if (wrapper != null && key.Value[i].Equals(subscriber))
+                {
+                    key.Value.Remove(wrapper);
+                }
+            }
+        }
+
     }
 
     private void Awake()
@@ -134,9 +163,6 @@ public class TimeController : MonoBehaviour
 
     }
 
-    private void Start()
-    {
-    }
 
     private IEnumerator TimeCoroutine()
     {

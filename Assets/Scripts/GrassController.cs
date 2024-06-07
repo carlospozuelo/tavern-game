@@ -6,10 +6,31 @@ using UnityEngine;
 
 public class GrassController : MonoBehaviour, TimeSubscriber
 {
+
+    private static GrassController instance;
+
+    [SerializeField]
+    private int maxGrass = 400, currentGrass = 0;
+
+    private void Awake()
+    {
+        if (instance != null && instance != this) { Destroy(gameObject); }
+        else
+        {
+            instance = this;
+        }
+    }
+
+    public static void CountGrass() { instance.currentGrass++; }
+
     public void Notify(string text)
     {
         if (text.Equals("New day"))
         {
+            SpawnGrass();
+            SpawnGrass();
+            SpawnGrass();
+            SpawnGrass();
             SpawnGrass();
         }
     }
@@ -43,7 +64,25 @@ public class GrassController : MonoBehaviour, TimeSubscriber
 
     private void SpawnGrass()
     {
-        GameObject g = Instantiate(spawnPrefab, spawnPoints[Random.Range(0, spawnPoints.Count)], Quaternion.identity, parent);
+        Vector2 v = spawnPoints[Random.Range(0, spawnPoints.Count)];
+        SpawnGrass(v);
+    }
+
+    public static void SpawnGrass(Vector2 pos)
+    {
+        if (instance.currentGrass >= instance.maxGrass)
+        {
+            Debug.LogWarning("Maximum grass on the map reached");
+            return;
+        }
+
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(pos, new Vector2(1, 1), 0f);
+        if (colliders.Length > 0)
+        {
+            return;
+        }
+
+        GameObject g = Instantiate(instance.spawnPrefab, new Vector3(pos.x, pos.y, instance.spawnPrefab.transform.position.z), Quaternion.identity, instance.parent);
 
         g.GetComponent<GrassSpawn>().GeneratePlucks(4, true);
     }

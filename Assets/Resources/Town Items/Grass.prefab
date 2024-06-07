@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8660312869618069299}
   - component: {fileID: 8660312869618069298}
+  - component: {fileID: 1550703641485676408}
   m_Layer: 0
   m_Name: Grass
   m_TagString: Untagged
@@ -50,7 +51,42 @@ MonoBehaviour:
   - {fileID: 224181779, guid: bdad76ef8dc2c744292dcefd43d0fd2b, type: 3}
   - {fileID: 234649860, guid: bdad76ef8dc2c744292dcefd43d0fd2b, type: 3}
   - {fileID: 1631615218, guid: bdad76ef8dc2c744292dcefd43d0fd2b, type: 3}
-  windMaterial: {fileID: 2100000, guid: b5c328eb251b17942912427593d35a53, type: 2}
+  windMaterial:
+  - {fileID: 2100000, guid: b5c328eb251b17942912427593d35a53, type: 2}
+  - {fileID: 2100000, guid: 571d4d708f908f646a280afacaf9e571, type: 2}
+  - {fileID: 2100000, guid: 3b63b496bb03f92429e9dac627f2816a, type: 2}
+  - {fileID: 2100000, guid: e84408553b091f74eb2ba98002fb8020, type: 2}
+  - {fileID: 2100000, guid: fbabd383ed230dc44a472510eaee06b7, type: 2}
+  - {fileID: 2100000, guid: 46ff9efefdc70f847bc34cf8acb65f2f, type: 2}
+  - {fileID: 2100000, guid: 72670181d1cd49c4295e0fdb6e19fcd4, type: 2}
+  - {fileID: 2100000, guid: ae655f5dd056e3449b407639c72246fe, type: 2}
+  - {fileID: 2100000, guid: 7ba77b0f280209040b0858ec85baca6f, type: 2}
   numberOfPlucks: 16
   pluckPrefab: {fileID: 1888600896150126780, guid: 9d1bae39bf36ea941b49e8e1cb97645c, type: 3}
   spread: 0.5
+--- !u!61 &1550703641485676408
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8660312869618069296}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.9, y: 0.9}
+  m_EdgeRadius: 0
