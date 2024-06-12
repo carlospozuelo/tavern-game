@@ -27,11 +27,10 @@ public class GrassController : MonoBehaviour, TimeSubscriber
     {
         if (text.Equals("New day"))
         {
-            SpawnGrass();
-            SpawnGrass();
-            SpawnGrass();
-            SpawnGrass();
-            SpawnGrass();
+            for (int i = 0; i < 10; i++)
+            {
+                SpawnGrass();
+            }
         }
     }
 

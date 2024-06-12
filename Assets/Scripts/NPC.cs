@@ -4,13 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NPC : CharacterAbstract, TimeSubscriber
+public class NPC : StaticNPC, TimeSubscriber
 {
-    [SerializeField]
-    private SpriteRenderer body, arms, face, torso, hair, legs, shoes;
-    private Material torsoMaterial, hairMaterial, legsMaterial, faceMaterial, shoeMaterial;
 
-    private Dictionary<ClothingItem.ClothingType, ClothingItem> current;
     private string location;
 
     public enum NPC_Status {
@@ -55,24 +51,9 @@ public class NPC : CharacterAbstract, TimeSubscriber
     [SerializeField]
     private Sprite happySprite, sadSprite;
 
-    public void Initialize(Dictionary<ClothingItem.ClothingType, ClothingItem> clothes) {
-
-        torsoMaterial = torso.material;
-        hairMaterial = hair.material;
-        legsMaterial = legs.material;
-        faceMaterial = face.material;
-        shoeMaterial = shoes.material;
-
-        current = clothes;
-
-        UpdateColors(torsoMaterial, clothes[ClothingItem.ClothingType.Torso]);
-        UpdateColors(hairMaterial, clothes[ClothingItem.ClothingType.Hair]);
-        UpdateColors(legsMaterial, clothes[ClothingItem.ClothingType.Legs]);
-        UpdateColors(faceMaterial, clothes[ClothingItem.ClothingType.Faces]);
-        UpdateColors(shoeMaterial, clothes[ClothingItem.ClothingType.Shoes]);
-
-
-        GenerateAOC();
+    public override void Initialize(Dictionary<ClothingItem.ClothingType, ClothingItem> clothes) {
+        if (initialized) return;
+        base.Initialize(clothes);
         Initialize();
 
         status = NPC_Status.JUST_SPAWNED;
@@ -89,13 +70,6 @@ public class NPC : CharacterAbstract, TimeSubscriber
 
     private void OnEnable()
     {
-        /*
-        if (base.initialized && coroutine == null)
-        {
-            print("Coo...");
-            StartCoroutine(Exist());
-        }
-        */
         if (initialized)
         {
             switch (status)
@@ -140,7 +114,6 @@ public class NPC : CharacterAbstract, TimeSubscriber
 
     private void Destroy()
     {
-        print("Destroy");
         TimeController.Unsubscribe(this);
         NPCController.DestroyNPC(this);
 
@@ -154,7 +127,6 @@ public class NPC : CharacterAbstract, TimeSubscriber
 
     private IEnumerator Exist()
     {
-
         existingSitted = false;
         decidedToOrder = false;
 
@@ -253,7 +225,6 @@ public class NPC : CharacterAbstract, TimeSubscriber
 
     private IEnumerator Leave()
     {
-        print("leaving...");
         if (bench != null)
         {
             bench.GetUp(gameObject, 0, -1);
@@ -380,42 +351,6 @@ public class NPC : CharacterAbstract, TimeSubscriber
             //transform.position = new Vector3(worldPos.x, worldPos.y, transform.position.z);
             yield return MoveRoutine(worldPos);
         }
-    }
-
-    private void UpdateColors(Material m, ClothingItem i)
-    {
-        ClothingItem.ThreeColors c = i.GetRandomColor();
-
-        m.SetColor("_Color1", c.primary);
-        m.SetColor("_Color2", c.secondary);
-
-        if (i.type.Equals(ClothingItem.ClothingType.Hair))
-        {
-            faceMaterial.SetColor("_Color3", c.primary);
-        }
-
-        if (i.type.Equals(ClothingItem.ClothingType.Faces))
-        {
-            body.color = c.primary;
-            arms.color = c.primary;
-
-            m.SetColor("_Color1", c.primary * ClothingController.GetTint());
-        }
-
-    }
-
-    public void GenerateAOC()
-    {
-        AnimatorOverrideController aoc = new AnimatorOverrideController(animator.runtimeAnimatorController);
-        List<KeyValuePair<AnimationClip, AnimationClip>> overrides = new List<KeyValuePair<AnimationClip, AnimationClip>>();
-
-        foreach (var kv in current)//instance.current)
-        {
-            overrides = kv.Value.GetAnimations(overrides);
-        }
-
-        aoc.ApplyOverrides(overrides);
-        animator.runtimeAnimatorController = aoc;
     }
 
     public void Interact(GameObject itemHeld)
